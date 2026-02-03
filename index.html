@@ -1,95 +1,324 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>الزهى | الاستثمار العقاري</title>
-  <meta name="description" content="شركة الزهى للاستثمار العقاري: تطوير، إدارة أصول، وفرص استثمارية." />
-  <link rel="stylesheet" href="assets/css/style.css" />
+<!doctype html> <!-- يحدد أن الوثيقة HTML5 -->
+<html lang="ar" dir="rtl"> <!-- تحديد اللغة عربي + اتجاه RTL -->
+<head> <!-- بداية معلومات الرأس (لا تظهر كمحتوى مباشر) -->
+  <meta charset="utf-8" /> <!-- يدعم العربية وكل الرموز بشكل صحيح -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- يجعل التصميم متجاوب على الجوال -->
+  <title>ZUHA | الاستثمار العقاري</title> <!-- عنوان التبويب -->
+  <meta name="description" content="موقع تعريفي سريع لشركة استثمار عقاري: مشاريع، وحدات، أخبار، وتسجيل اهتمام." /> <!-- وصف لمحركات البحث -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- تسريع الاتصال بخدمة الخطوط -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- تسريع تحميل الخط -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet"> <!-- خط عربي احترافي -->
+
+  <link rel="stylesheet" href="assets/css/style.css" /> <!-- ربط ملف CSS -->
+  <script defer src="assets/js/main.js"></script> <!-- ربط ملف JS مع defer حتى لا يوقف تحميل الصفحة -->
 </head>
-<body>
-  <header class="hero">
-    <div class="wrap">
-      <div class="brand">الزُهى</div>
-      <h1>الاستثمار العقاري، بمنطق الأصول لا بمنطق المزاج.</h1>
-      <p class="sub">نطوّر ونُدير فرصًا عقارية بتركيز على الجودة، الاستدامة، وإدارة المخاطر.</p>
-      <div class="cta">
-        <a class="btn" href="#contact">تواصل معنا</a>
-        <a class="btn ghost" href="#projects">استعراض المشاريع</a>
-      </div>
+
+<body> <!-- بداية المحتوى المرئي -->
+
+  <!-- ====== شريط علوي (Navbar) ====== -->
+  <header class="site-header"> <!-- هيدر الموقع -->
+    <div class="container header-inner"> <!-- حاوية لتوسيط المحتوى -->
+      <a class="brand" href="#top" aria-label="الانتقال للأعلى"> <!-- شعار/اسم الشركة -->
+        <span class="brand-mark">ZUHA</span> <!-- الاسم الإنجليزي -->
+        <span class="brand-sub">استثمار عقاري</span> <!-- توصيف مختصر -->
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="فتح القائمة" aria-expanded="false"> <!-- زر موبايل -->
+        ☰ <!-- أيقونة قائمة -->
+      </button>
+
+      <nav class="nav" aria-label="القائمة الرئيسية"> <!-- قائمة تنقل -->
+        <a href="#about">عن الشركة</a> <!-- رابط لقسم عن الشركة -->
+        <a href="#projects">مشاريعنا</a> <!-- رابط لقسم المشاريع -->
+        <a href="#units">الوحدات</a> <!-- رابط لقسم الوحدات -->
+        <a href="#news">المركز الإعلامي</a> <!-- رابط لقسم الأخبار -->
+        <a class="nav-cta" href="#interest">سجل اهتمامك</a> <!-- زر CTA -->
+      </nav>
     </div>
   </header>
 
-  <main>
-    <section class="section" id="about">
-      <div class="wrap">
-        <h2>من نحن</h2>
-        <p>
-          شركة استثمار عقاري تركّز على بناء قيمة طويلة الأجل عبر تطوير المشاريع وإدارة الأصول
-          وتقييم الفرص بقرارات مبنية على بيانات.
-        </p>
-        <div class="grid">
-          <div class="card"><h3>رؤية</h3><p>محفظة عقارية مستقرة النمو ومعيار جودة واضح.</p></div>
-          <div class="card"><h3>منهج</h3><p>اختيار موقع + دراسة جدوى + تنفيذ منضبط + إدارة تشغيل.</p></div>
-          <div class="card"><h3>قيمة</h3><p>وضوح، التزام، وتجربة عميل راقية بدون مبالغة.</p></div>
+  <!-- ====== قسم البطل (Hero) ====== -->
+  <main id="top"> <!-- بداية المحتوى الرئيسي -->
+    <section class="hero" style="--hero-img:url('assets/img/hero.jpg');"> <!-- صورة خلفية عبر CSS variable -->
+      <div class="hero-overlay"></div> <!-- طبقة شفافة لرفع قراءة النص -->
+
+      <div class="container hero-content"> <!-- محتوى البطل -->
+        <p class="hero-kicker">نبني الحياة — بمنطق الأصول لا بمنطق المزاج</p> <!-- سطر افتتاحي -->
+        <h1 class="hero-title">استثمار عقاري يوازن بين الجودة، العائد، وإدارة المخاطر</h1> <!-- العنوان الرئيسي -->
+        <p class="hero-subtitle">
+          نطوّر مجتمعات سكنية ومشاريع نوعية، ونقدّم تجربة راقية تُترجم إلى قيمة طويلة الأجل.
+        </p> <!-- وصف مختصر -->
+
+        <div class="hero-actions"> <!-- أزرار -->
+          <a class="btn btn-primary" href="#interest">احجز/سجل اهتمامك</a> <!-- زر أساسي -->
+          <a class="btn btn-ghost" href="#projects">تعرف على مشاريعنا</a> <!-- زر ثانوي -->
         </div>
       </div>
     </section>
 
-    <section class="section alt" id="services">
-      <div class="wrap">
-        <h2>الخدمات</h2>
-        <div class="grid">
-          <div class="card"><h3>تطوير عقاري</h3><p>تصميم وتنفيذ مشاريع سكنية وتجارية وفق خطة واضحة.</p></div>
-          <div class="card"><h3>إدارة أصول</h3><p>رفع الأداء التشغيلي، تحسين العائد، وتقليل المخاطر.</p></div>
-          <div class="card"><h3>دراسات وفرص</h3><p>تحليل فرص استثمارية وتقييم جدوى وملاءمة السوق.</p></div>
-        </div>
-      </div>
-    </section>
+    <!-- ====== قسم عن الشركة ====== -->
+    <section id="about" class="section"> <!-- قسم -->
+      <div class="container split"> <!-- تقسيم عمودين -->
+        <div class="split-text"> <!-- عمود نص -->
+          <h2 class="section-title">نبني الحياة في أرجاء المنطقة</h2> <!-- عنوان -->
+          <p class="section-lead">
+            نعمل وفق منهج واضح: اختيار موقع + دراسة جدوى + تنفيذ منضبط + إدارة تشغيل.
+            الهدف: منتج عقاري “يعيش” ويحقق استقرارًا، لا مجرد شكل جميل.
+          </p> <!-- فقرة -->
 
-    <section class="section" id="projects">
-      <div class="wrap">
-        <h2>المشاريع</h2>
-        <p class="muted">ضع هنا 3–6 مشاريع (عنوان + وصف قصير). الصور لاحقًا.</p>
-        <div class="grid">
-          <div class="card"><h3>مشروع 01</h3><p>وصف مختصر…</p></div>
-          <div class="card"><h3>مشروع 02</h3><p>وصف مختصر…</p></div>
-          <div class="card"><h3>مشروع 03</h3><p>وصف مختصر…</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section alt" id="contact">
-      <div class="wrap">
-        <h2>التواصل</h2>
-        <div class="contact">
-          <div class="card">
-            <h3>بيانات الاتصال</h3>
-            <p class="muted">حدّثها لاحقًا بعد ما تجهز رقمك وبريدك الرسمي.</p>
-            <ul>
-              <li>البريد: info@yourdomain.com</li>
-              <li>الهاتف: +964 …</li>
-              <li>الموقع: العراق / الخليج</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3>رسالة سريعة</h3>
-            <p class="muted">نضيف نموذج لاحقًا. حاليًا خلي التواصل عبر واتساب/بريد.</p>
-            <a class="btn" href="mailto:info@yourdomain.com">أرسل بريد</a>
+          <div class="features"> <!-- بطاقات مزايا -->
+            <div class="feature"> <!-- بطاقة -->
+              <h3>تطوير</h3> <!-- عنوان -->
+              <p>مشاريع سكنية وتجارية بخطط تنفيذ واقعية ومراحل واضحة.</p> <!-- وصف -->
+            </div>
+            <div class="feature">
+              <h3>إدارة أصول</h3>
+              <p>رفع الكفاءة التشغيلية وتحسين العائد وتقليل المخاطر.</p>
+            </div>
+            <div class="feature">
+              <h3>فرص استثمارية</h3>
+              <p>تقييم فرص السوق وفق بيانات، لا انطباعات.</p>
+            </div>
           </div>
         </div>
+
+        <div class="split-cards"> <!-- عمود صور المدن -->
+          <a class="image-card" href="#projects" style="--img:url('assets/img/city-madina.jpg')"> <!-- بطاقة مدينة -->
+            <span class="tag">المدينة</span> <!-- وسم -->
+            <span class="label">المدينة المنورة</span> <!-- اسم -->
+          </a>
+          <a class="image-card" href="#projects" style="--img:url('assets/img/city-makkah.jpg')">
+            <span class="tag">مكة</span>
+            <span class="label">مكة المكرمة</span>
+          </a>
+          <a class="image-card wide" href="#projects" style="--img:url('assets/img/city-jeddah.jpg')">
+            <span class="tag">جدة</span>
+            <span class="label">جدة</span>
+          </a>
+        </div>
       </div>
     </section>
+
+    <!-- ====== قسم المشاريع (Cards Grid) ====== -->
+    <section id="projects" class="section section-alt"> <!-- قسم بمظهر مختلف -->
+      <div class="container"> <!-- حاوية -->
+        <h2 class="section-title center">مجتمعات متكاملة تحقق الاستقرار</h2> <!-- عنوان -->
+        <p class="section-lead center">نماذج عرض — استبدل الصور والعناوين بمشاريعك الحقيقية.</p> <!-- وصف -->
+
+        <div class="grid"> <!-- شبكة بطاقات -->
+          <article class="project-card" style="--img:url('assets/img/project-1.jpg')"> <!-- بطاقة مشروع -->
+            <div class="project-overlay"></div> <!-- طبقة تظليل -->
+            <div class="project-meta"> <!-- نصوص -->
+              <h3>مشروع نور</h3> <!-- عنوان المشروع -->
+              <p>مجتمع سكني بتخطيط عملي ومساحات ذكية.</p> <!-- وصف -->
+              <a class="link" href="#interest">سجل اهتمامك</a> <!-- رابط -->
+            </div>
+          </article>
+
+          <article class="project-card" style="--img:url('assets/img/project-2.jpg')">
+            <div class="project-overlay"></div>
+            <div class="project-meta">
+              <h3>زاهية</h3>
+              <p>تصاميم عصرية وخدمات تدعم جودة الحياة.</p>
+              <a class="link" href="#interest">سجل اهتمامك</a>
+            </div>
+          </article>
+
+          <article class="project-card" style="--img:url('assets/img/project-3.jpg')">
+            <div class="project-overlay"></div>
+            <div class="project-meta">
+              <h3>جادة السكن</h3>
+              <p>وحدات مدروسة ومرافق تلائم العائلة.</p>
+              <a class="link" href="#interest">سجل اهتمامك</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== قسم الإحصائيات ====== -->
+    <section class="section stats"> <!-- قسم أرقام -->
+      <div class="container"> <!-- حاوية -->
+        <h2 class="section-title center">مؤشرات تعكس حجم العمل</h2> <!-- عنوان -->
+        <p class="section-lead center">الأرقام هنا تجريبية — عدّلها حسب واقع شركتك.</p> <!-- شرح -->
+
+        <div class="stats-row"> <!-- صف إحصائيات -->
+          <div class="stat"> <!-- عنصر -->
+            <div class="stat-num" data-count="7">+0</div> <!-- رقم متحرك عبر JS -->
+            <div class="stat-label">عدد المشاريع</div> <!-- تسمية -->
+          </div>
+          <div class="stat">
+            <div class="stat-num" data-count="986000">+0</div>
+            <div class="stat-label">مساحة الأراضي المطوّرة (م²)</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" data-count="2593">+0</div>
+            <div class="stat-label">عدد الوحدات</div>
+          </div>
+        </div>
+
+        <div class="center actions"> <!-- أزرار -->
+          <a class="btn btn-primary" href="#projects">تعرف على المزيد</a> <!-- زر -->
+          <a class="btn btn-ghost" href="#interest">سجل اهتمامك</a> <!-- زر -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== قسم الوحدات (Apartment / Villa) ====== -->
+    <section id="units" class="section section-alt"> <!-- قسم -->
+      <div class="container"> <!-- حاوية -->
+        <h2 class="section-title center">أنواع الوحدات</h2> <!-- عنوان -->
+        <p class="section-lead center">اختر ما يناسب احتياجك — شقة أو فيلا.</p> <!-- وصف -->
+
+        <div class="units"> <!-- شبكة وحدات -->
+          <a class="unit-tile" href="#interest" style="--img:url('assets/img/unit-apartment.jpg'); --tint:rgba(10,140,140,.55);"> <!-- بلاطة -->
+            <div class="unit-text"> <!-- نص -->
+              <div class="unit-en">APARTMENT</div> <!-- إنجليزي -->
+              <div class="unit-ar">شقة</div> <!-- عربي -->
+            </div>
+          </a>
+
+          <a class="unit-tile" href="#interest" style="--img:url('assets/img/unit-villa.jpg'); --tint:rgba(200,40,70,.55);">
+            <div class="unit-text">
+              <div class="unit-ar">فيلا</div>
+              <div class="unit-en">VILLA</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== قسم الأخبار/المركز الإعلامي ====== -->
+    <section id="news" class="section"> <!-- قسم -->
+      <div class="container"> <!-- حاوية -->
+        <div class="news-head"> <!-- رأس القسم -->
+          <div> <!-- عمود -->
+            <h2 class="section-title">أهم مقالاتنا وأخبارنا في الاستثمار العقاري</h2> <!-- عنوان -->
+            <p class="section-lead">محتوى تعريفي، يرفع ثقة الزائر ويعطي انطباع شركة “حقيقية”.</p> <!-- وصف -->
+          </div>
+          <a class="btn btn-ghost" href="#interest">سجل اهتمامك</a> <!-- زر -->
+        </div>
+
+        <div class="news-grid"> <!-- شبكة أخبار -->
+          <article class="news-card"> <!-- بطاقة -->
+            <img src="assets/img/project-1.jpg" alt="خبر 1" loading="lazy"> <!-- صورة -->
+            <div class="news-body"> <!-- نص -->
+              <h3>تحديثات المشروع الأول</h3> <!-- عنوان -->
+              <p>ملخص قصير عن إنجازات المرحلة الحالية…</p> <!-- وصف -->
+              <a class="link" href="#interest">Read more</a> <!-- رابط -->
+            </div>
+          </article>
+
+          <article class="news-card">
+            <img src="assets/img/project-2.jpg" alt="خبر 2" loading="lazy">
+            <div class="news-body">
+              <h3>كيف تختار استثمارًا عقاريًا ذكيًا؟</h3>
+              <p>نقاط عملية مختصرة تقود قرارًا أفضل…</p>
+              <a class="link" href="#interest">Read more</a>
+            </div>
+          </article>
+
+          <article class="news-card">
+            <img src="assets/img/project-3.jpg" alt="خبر 3" loading="lazy">
+            <div class="news-body">
+              <h3>مؤشرات السوق وأثرها على الأسعار</h3>
+              <p>قراءة مبسطة للمشهد وتأثيره على العميل…</p>
+              <a class="link" href="#interest">Read more</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== نموذج سجل اهتمامك ====== -->
+    <section id="interest" class="section section-alt"> <!-- قسم -->
+      <div class="container form-split"> <!-- تقسيم -->
+        <form class="interest-form" id="interestForm"> <!-- نموذج -->
+          <h2 class="section-title">سجل اهتمامك معنا</h2> <!-- عنوان -->
+          <p class="section-lead">املأ البيانات، وستصلك رسالة تأكيد (محليًا) — ويمكن ربطه لاحقًا بخدمة استقبال.</p> <!-- وصف -->
+
+          <div class="field-row"> <!-- صف حقول -->
+            <label class="field"> <!-- حقل -->
+              <span>الاسم الأول</span> <!-- عنوان الحقل -->
+              <input name="firstName" type="text" placeholder="اسمك" required> <!-- إدخال -->
+            </label>
+
+            <label class="field">
+              <span>رقم الهاتف</span>
+              <input name="phone" type="tel" placeholder="+974 ..." required>
+            </label>
+          </div>
+
+          <div class="field-row">
+            <label class="field">
+              <span>البريد الإلكتروني <em>(مطلوب)</em></span>
+              <input name="email" type="email" placeholder="name@email.com" required>
+            </label>
+
+            <label class="field">
+              <span>القطاع</span>
+              <select name="sector">
+                <option value="private">قطاع خاص</option>
+                <option value="government">قطاع حكومي</option>
+                <option value="business">أعمال</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="field-row">
+            <label class="field">
+              <span>المشروع</span>
+              <select name="project">
+                <option value="noor">نور</option>
+                <option value="zahya">زاهية</option>
+                <option value="jada">جادة السكن</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>نوع الوحدة</span>
+              <select name="unit">
+                <option value="apartment">شقة</option>
+                <option value="villa">فيلا</option>
+              </select>
+            </label>
+          </div>
+
+          <button class="btn btn-primary" type="submit">إرسال</button> <!-- زر إرسال -->
+          <p class="form-hint" id="formHint"></p> <!-- مكان عرض رسالة نجاح/خطأ -->
+        </form>
+
+        <aside class="form-aside" style="--img:url('assets/img/form-side.jpg')"> <!-- جانب صورة -->
+          <div class="form-aside-overlay"></div> <!-- طبقة -->
+          <div class="form-aside-text"> <!-- نص -->
+            <h3>DOR / ZUHA</h3> <!-- عنوان -->
+            <p>اجعل قرارك استثمارًا محسوبًا — سنرتّب لك الخيارات بسرعة ووضوح.</p> <!-- وصف -->
+          </div>
+        </aside>
+      </div>
+    </section>
+
   </main>
 
-  <footer class="footer">
-    <div class="wrap">
-      <span>© <span id="y"></span> الزهى. جميع الحقوق محفوظة.</span>
+  <!-- ====== فوتر ====== -->
+  <footer class="footer"> <!-- تذييل -->
+    <div class="container footer-inner"> <!-- حاوية -->
+      <div class="footer-left"> <!-- عمود -->
+        <div class="brand-mark">ZUHA</div> <!-- علامة -->
+        <p>© <span id="year"></span> جميع الحقوق محفوظة.</p> <!-- سنة ديناميكية -->
+      </div>
+
+      <div class="footer-right"> <!-- عمود -->
+        <a href="#about">عن الشركة</a> <!-- روابط -->
+        <a href="#projects">المشاريع</a>
+        <a href="#interest">سجل اهتمامك</a>
+      </div>
     </div>
   </footer>
 
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
+  <!-- زر واتساب (اختياري) -->
+  <a class="whatsapp" href="https://wa.me/0000000000" target="_blank" rel="noopener" aria-label="WhatsApp">واتساب</a> <!-- غيّر الرقم -->
+
 </body>
 </html>
