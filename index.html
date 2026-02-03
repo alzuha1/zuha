@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Alzuha Real Estate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body>
+  <!-- Top Nav -->
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <div class="brand">
+        <div class="brand__mark" id="brandMark">✦</div>
+        <div class="brand__name" id="brandName">Alzuha Real Estate</div>
+      </div>
+
+      <nav class="nav" id="nav"></nav>
+
+      <a class="btn btn--primary btn--sm" id="topCta" href="#contact">سجل اهتمامك</a>
+    </div>
+  </header>
+
+  <!-- HERO (الصورة الأولى) -->
+  <section class="hero" id="home">
+    <div class="container hero__grid">
+      <div class="hero__media">
+        <div class="hero__imgwrap">
+          <img id="heroImg" alt="" />
+          <div class="hero__shade"></div>
+        </div>
+      </div>
+
+      <div class="hero__content">
+        <h1 class="hero__title" id="heroTitle">استثمر بثقة<br>في العقار</h1>
+        <p class="hero__subtitle" id="heroSubtitle"></p>
+
+        <div class="hero__actions">
+          <a class="btn btn--primary" id="heroPrimary" href="#contact">سجل اهتمامك</a>
+          <a class="btn btn--ghost" id="heroSecondary" href="#projects">عرض المشاريع</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners Logos (الشريط الأبيض) -->
+  <section class="partners" aria-label="Partners">
+    <div class="container">
+      <div class="partners__row" id="partnersRow"></div>
+    </div>
+  </section>
+
+  <!-- Features (٤ كروت) -->
+  <section class="section section--light" id="services">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="h2" id="featuresHeading"></h2>
+        <p class="muted" id="featuresSubheading"></p>
+      </div>
+
+      <div class="cards cards--2x2" id="featuresGrid"></div>
+    </div>
+  </section>
+
+  <!-- Stats (٣ كروت أرقام) -->
+  <section class="section section--light">
+    <div class="container">
+      <div class="stats" id="statsGrid"></div>
+    </div>
+  </section>
+
+  <!-- Projects (شبكة صور) -->
+  <section class="section section--light" id="projects">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="h2" id="projectsHeading"></h2>
+        <p class="muted" id="projectsSubheading"></p>
+      </div>
+
+      <div class="gallery" id="projectsGallery"></div>
+    </div>
+  </section>
+
+  <!-- Trust (صورة يسار + بطاقة يمين + أفاتار) -->
+  <section class="section section--light" id="about">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="h2" id="trustHeading"></h2>
+        <p class="muted" id="trustSubheading"></p>
+      </div>
+
+      <div class="trust">
+        <div class="trust__img">
+          <img id="trustImg" alt="" />
+        </div>
+
+        <div class="trust__card">
+          <div class="trust__logo" id="trustLogo">IDEA</div>
+          <p class="trust__text" id="trustText"></p>
+          <a class="link" href="#about" id="trustMore">المزيد</a>
+        </div>
+      </div>
+
+      <div class="team" id="teamRow"></div>
+    </div>
+  </section>
+
+  <!-- News (مقال مميز + شبكة 3) -->
+  <section class="section section--light" id="news">
+    <div class="container">
+      <div class="section__head section__head--left">
+        <span class="kicker">آخر الأخبار</span>
+        <h2 class="h2" id="newsHeading"></h2>
+      </div>
+
+      <div class="news">
+        <article class="news__featured">
+          <div class="news__featuredMedia">
+            <img id="newsFeaturedImg" alt="" />
+          </div>
+          <div class="news__featuredBody">
+            <span class="tag" id="newsFeaturedTag"></span>
+            <h3 class="h3" id="newsFeaturedTitle"></h3>
+            <p class="muted" id="newsFeaturedText"></p>
+
+            <div class="author">
+              <div class="author__avatar" aria-hidden="true"></div>
+              <div class="author__meta">
+                <div class="author__name" id="newsFeaturedAuthor"></div>
+                <div class="author__date" id="newsFeaturedDate"></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="news__grid" id="newsGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--light" id="faq">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="h2" id="faqHeading"></h2>
+        <p class="muted" id="faqSubheading"></p>
+      </div>
+
+      <div class="faq" id="faqGrid"></div>
+
+      <div class="faq__cta">
+        <p class="muted" id="faqCtaText"></p>
+        <a class="btn btn--ghost" id="faqCtaBtn" href="#contact">اتصل الآن</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section section--light" id="contact">
+    <div class="container">
+      <div class="section__head">
+        <span class="kicker">تواصل معنا</span>
+        <h2 class="h2" id="contactHeading"></h2>
+        <p class="muted" id="contactSubheading"></p>
+      </div>
+
+      <div class="contact" id="contactGrid"></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div id="footerCopy">© جميع الحقوق محفوظة</div>
+      <a class="link" href="/admin/" target="_blank" rel="noopener">لوحة التحكم</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
