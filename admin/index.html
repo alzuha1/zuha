@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>لوحة التحكم</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:"Noto Naskh Arabic",system-ui;margin:0;background:#0f0f12;color:#fff}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .btn{background:#1f56ff;color:#fff;border:0;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:800}
+    .btn.secondary{background:#26262c}
+    .grid{display:grid;grid-template-columns: 1fr 1fr;gap:14px;margin-top:16px}
+    .card{background:#17171c;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px}
+    label{display:block;color:#cbd5e1;margin:10px 0 6px}
+    input,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.10);background:#0f0f12;color:#fff}
+    textarea{min-height:92px;resize:vertical}
+    .hint{color:#94a3b8;font-size:13px;line-height:1.8}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    @media(max-width:920px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1 style="margin:0 0 4px">لوحة التحكم</h1>
+        <div class="hint">التعديل هنا يحفظ محليًا. لتطبيقه على GitHub Pages: صدّر JSON واستبدل ملف <span class="mono">config.json</span> في الريبو.</div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn secondary" id="loadRepo">تحميل من الريبو</button>
+        <button class="btn secondary" id="resetLocal">مسح الإعدادات المحلية</button>
+        <button class="btn" id="saveLocal">حفظ محلي</button>
+        <button class="btn" id="exportJson">تصدير JSON</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3 style="margin:0 0 8px">الهوية و الهيرو</h3>
+
+        <label>اسم الموقع</label>
+        <input id="siteName" />
+
+        <label>نص الشعار (رمز)</label>
+        <input id="logoText" />
+
+        <label>زر الشريط العلوي</label>
+        <input id="ctaTop" />
+
+        <label>عنوان الهيرو (يسمح بسطر جديد)</label>
+        <textarea id="heroTitle"></textarea>
+
+        <label>وصف الهيرو</label>
+        <textarea id="heroSubtitle"></textarea>
+
+        <label>مسار صورة الهيرو</label>
+        <input id="heroImage" class="mono" />
+        <div class="hint">مثال: assets/img/hero-01.jpg</div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 8px">الأرقام + المشاريع + التواصل</h3>
+
+        <label>Stats 1 (القيمة)</label>
+        <input id="s1v" />
+        <label>Stats 1 (الوصف)</label>
+        <input id="s1l" />
+
+        <label>Stats 2 (القيمة)</label>
+        <input id="s2v" />
+        <label>Stats 2 (الوصف)</label>
+        <input id="s2l" />
+
+        <label>Stats 3 (القيمة)</label>
+        <input id="s3v" />
+        <label>Stats 3 (الوصف)</label>
+        <input id="s3l" />
+
+        <hr style="border-color:rgba(255,255,255,.08);margin:14px 0">
+
+        <label>صور المشاريع (6 مسارات، كل سطر صورة)</label>
+        <textarea id="projectsImages" class="mono"></textarea>
+        <div class="hint">حافظ على 6 صور. أسماء ثابتة تمنع الخربطة.</div>
+
+        <hr style="border-color:rgba(255,255,255,.08);margin:14px 0">
+
+        <label>البريد</label>
+        <input id="email" class="mono" />
+        <label>الهاتف</label>
+        <input id="phone" class="mono" />
+        <label>العنوان</label>
+        <input id="address" />
+      </div>
+    </div>
+
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
