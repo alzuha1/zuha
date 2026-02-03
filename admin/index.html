@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a class="brand" href="../index.html#home">
+        <span class="brand__logo">DOR</span>
+      </a>
+      <div class="tools">
+        <a class="btn btn--ghost" href="../index.html#home">Preview</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <h1 class="section__title">لوحة التحكم (JSON Export)</h1>
+      <p class="section__desc">
+        عدّل المحتوى هنا، ثم اضغط <b>Export</b> لتحميل ملفات JSON، وبعدها ارفعها للريبو (Commit) ليتم تحديث الموقع.
+      </p>
+
+      <div class="adminGrid">
+        <section class="card adminCard">
+          <h2 class="adminTitle">إعدادات عامة</h2>
+
+          <label class="field">
+            <span class="field__label">Email</span>
+            <input class="field__input" id="email" type="text" />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Hero Background Image URL</span>
+            <input class="field__input" id="heroBg" type="text" />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Hero Title (AR)</span>
+            <input class="field__input" id="heroTitleAr" type="text" />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Hero Title (EN)</span>
+            <input class="field__input" id="heroTitleEn" type="text" />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Hero Subtitle (AR)</span>
+            <textarea class="field__input" id="heroSubAr" rows="3"></textarea>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Hero Subtitle (EN)</span>
+            <textarea class="field__input" id="heroSubEn" rows="3"></textarea>
+          </label>
+        </section>
+
+        <section class="card adminCard">
+          <h2 class="adminTitle">السياسات (غير نهائية)</h2>
+          <div id="policiesEditor"></div>
+          <button class="btn btn--ghost" id="addPolicy" type="button">+ إضافة سياسة</button>
+        </section>
+
+        <section class="card adminCard">
+          <h2 class="adminTitle">تصدير</h2>
+          <p class="adminHint">سيتم تنزيل ملفين: <b>site.json</b> و <b>policies.json</b>.</p>
+          <button class="btn btn--primary btn--block" id="exportBtn" type="button">Export JSON</button>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="admin.js"></script>
+
+  <style>
+    .adminGrid{
+      display:grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .adminGrid > *{ min-width:0; }
+    .adminCard{ padding: 16px; }
+    .adminTitle{ margin:0 0 10px; font-weight:950; }
+    .adminHint{ color: var(--text2); font-weight:700; margin: 0 0 12px; }
+    .policyRow{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: var(--muted);
+      display:grid;
+      gap:10px;
+    }
+    @media (max-width: 900px){
+      .adminGrid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</body>
+</html>
