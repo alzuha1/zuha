@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "units": "Units",
+    "articles": "Articles",
+    "contact": "Contact"
+  },
+  "cta": {
+    "bookNow": "Book Now",
+    "learnMore": "Learn More",
+    "joinUs": "Join Us"
+  },
+  "sections": {
+    "projects": "Communities that deliver stability",
+    "projectsDesc": "Curated developments with modern design and integrated living.",
+    "units": "Unit Types",
+    "unitsDesc": "A flexible set of options tailored to your needs.",
+    "articles": "Insights & news in real estate investment",
+    "articlesDesc": "Browse highlights and stay updated.",
+    "contact": "Register your interest",
+    "contactDesc": "Leave your details and our team will reach out."
+  },
+  "form": {
+    "firstName": "First Name",
+    "phone": "Phone Number",
+    "email": "Email",
+    "project": "Project",
+    "submit": "Submit",
+    "note": "By submitting, you agree to be contacted under our Privacy Policy."
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "contactLinks": "Contact Links",
+    "policies": "Privacy & Terms",
+    "location": "Our Location",
+    "joinUs": "Join Us",
+    "sales": "For inquiries and purchase requests:"
+  },
+  "policy": {
+    "back": "Back"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "night": "Night"
+  }
+}
