@@ -1,13 +1,307 @@
-assets/
-  img/
-    about/
-      about-hero.webp
-      about-portrait.webp
-      about-gallery-01.webp
-      about-gallery-02.webp
-      about-gallery-03.webp
-      about-gallery-04.webp
-      about-gallery-05.webp
-      about-gallery-06.webp
-  css/
-    style.css
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>من نحن | Zuha Real Estate</title>
+
+  <!-- استخدم نفس CSS العام لموقعك -->
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+
+  <style>
+    /* لو عندك نظام حاوية جاهز في style.css احذف هذا */
+    .container{max-width:1200px;margin:0 auto;padding:0 22px;}
+    .topbar{position:sticky;top:0;z-index:50;background:#0f1116;color:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+    .topbar__inner{display:flex;align-items:center;justify-content:space-between;height:70px;gap:16px;}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px;}
+    .brand__mark{width:34px;height:34px;border-radius:10px;background:#fff;color:#0f1116;display:grid;place-items:center;font-weight:900;}
+    .nav{display:flex;gap:18px;align-items:center;}
+    .nav a{color:#d7d7de;text-decoration:none;font-weight:700;font-size:14px;}
+    .nav a:hover{color:#fff;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.14);text-decoration:none;font-weight:800;font-size:13px;color:#fff;}
+    .btn--primary{background:#1d4ed8;border-color:#1d4ed8;}
+    .btn--ghost{background:transparent;}
+    .hero{background:#0f1116;color:#fff;padding:46px 0 34px;}
+    .crumb{color:#cfd0d8;font-weight:700;font-size:14px}
+    .crumb a{color:#cfd0d8;text-decoration:none}
+    .crumb span{opacity:.7;margin:0 8px}
+    .hero h1{margin:10px 0 0;font-size:64px;line-height:1.05}
+    .meta{display:flex;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap;}
+    .avatar{width:44px;height:44px;border-radius:999px;object-fit:cover;border:1px solid rgba(255,255,255,.2)}
+    .meta small{display:block;color:#cfd0d8;font-weight:700}
+    .meta strong{display:block;font-weight:900}
+    .section{padding:54px 0;background:#fff;}
+    .section--muted{background:#f6f7fb;}
+    .h2{font-size:52px;margin:0 0 18px;line-height:1.1;color:#111827}
+    .sub{color:#6b7280;line-height:1.9;max-width:780px}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch;margin-top:22px}
+    .panel{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(15, 23, 42, .06);}
+    .panel__img{width:100%;height:320px;object-fit:cover}
+    .panel__body{padding:16px 18px}
+    .logos{display:flex;flex-wrap:wrap;gap:24px;align-items:center;opacity:.9}
+    .logos img{height:26px;opacity:.9}
+    .footer{border-top:1px solid rgba(0,0,0,.08);padding:22px 0;background:#fff;}
+    .footer__inner{display:flex;align-items:center;justify-content:space-between;gap:14px;color:#6b7280;font-weight:700}
+    @media (max-width:980px){
+      .hero h1{font-size:44px}
+      .two{grid-template-columns:1fr}
+      .panel__img{height:260px}
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="container topbar__inner">
+    <div class="brand">
+      <div class="brand__mark">✦</div>
+      <div>ALZUHA REAL ESTATE</div>
+    </div>
+
+    <nav class="nav">
+      <a href="/#services" data-i18n="nav_services">الخدمات</a>
+      <a href="/about/" data-i18n="nav_about">من نحن</a>
+      <a href="/#projects" data-i18n="nav_projects">المشاريع</a>
+      <a href="/#news" data-i18n="nav_news">الأخبار</a>
+      <a href="/#contact" data-i18n="nav_support">الدعم</a>
+    </nav>
+
+    <div style="display:flex;gap:10px;align-items:center">
+      <a class="btn btn--primary" href="/#contact" data-i18n="cta_top">سجل اهتمامك</a>
+      <a class="btn btn--ghost" id="langBtn" href="?lang=en">EN</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="crumb">
+      <a href="/" data-i18n="crumb_home">الرئيسية</a>
+      <span>›</span>
+      <span data-i18n="crumb_about">من نحن</span>
+    </div>
+
+    <h1 data-i18n="hero_title">خبرة عقارية موثوقة</h1>
+
+    <div class="meta">
+      <img class="avatar" src="../assets/img/about/about-portrait.webp" alt="">
+      <div>
+        <strong data-i18n="meta_name">رامي جابر</strong>
+        <small data-i18n="meta_line">٣ مشاريع · ١٠ سنوات</small>
+      </div>
+
+      <div style="margin-inline-start:auto;display:flex;gap:14px;align-items:center;opacity:.95">
+        <!-- أيقونات بسيطة بدون مكتبات -->
+        <a href="#" style="color:#fff;text-decoration:none;font-weight:900">f</a>
+        <a href="#" style="color:#fff;text-decoration:none;font-weight:900">in</a>
+        <a href="#" style="color:#fff;text-decoration:none;font-weight:900">M</a>
+        <a href="#" style="color:#fff;text-decoration:none;font-weight:900">X</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--muted">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:26px">
+      <div style="color:#6b7280;font-weight:800" data-i18n="kicker">مزایا استثمارية حصرية</div>
+      <h2 class="h2" data-i18n="value_title">قيمة عقارية. ثقة مستدامة</h2>
+      <p class="sub" style="margin:0 auto" data-i18n="value_sub">
+        نركز على الشفافية والانضباط التشغيلي وجودة التنفيذ لتقديم تجربة استثمارية موثوقة للمستثمرين والشركاء.
+      </p>
+    </div>
+
+    <div class="two">
+      <div class="panel">
+        <img class="panel__img" src="../assets/img/about/about-hero.webp" alt="">
+        <div class="panel__body">
+          <h3 class="about-title" data-i18n="card1_title">عائد استثماري قوي</h3>
+          <p class="about-text" data-i18n="card1_text">فرص مدروسة، إدارة مخاطر، ومؤشرات أداء واضحة.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <img class="panel__img" src="../assets/img/about/about-hero.webp" alt="">
+        <div class="panel__body">
+          <h3 class="about-title" data-i18n="card2_title">مواقع استراتيجية</h3>
+          <p class="about-text" data-i18n="card2_text">اختيار مواقع يرفع القيمة ويزيد فرص النمو على المدى المتوسط.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== معرض الأعمال داخل صفحة من نحن ========== -->
+<section class="section">
+  <div class="container">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px">
+      <div>
+        <div style="color:#6b7280;font-weight:800" data-i18n="gallery_kicker">معرض الأعمال</div>
+        <h2 class="h2" style="font-size:44px;margin:10px 0 0" data-i18n="gallery_title">أعمال مختارة بجودة صور غنية</h2>
+      </div>
+      <a class="btn btn--primary" href="/#projects" data-i18n="gallery_cta">عرض المشاريع</a>
+    </div>
+
+    <!-- Grid Premium بدون قص للطولي -->
+    <div class="about-gallery">
+      <!-- كل عنصر: خلفية Blur + صورة كاملة بدون قص -->
+      <article class="about-card">
+        <div class="about-media">
+          <img class="bg" src="../assets/img/about/about-gallery-01.webp" alt="">
+          <img class="fg" src="../assets/img/about/about-gallery-01.webp" alt="">
+        </div>
+        <div class="about-body">
+          <h3 class="about-title" data-i18n="g1_title">مشروع 01</h3>
+          <p class="about-text" data-i18n="g1_text">وصف مختصر للمشهد أو العقار.</p>
+        </div>
+      </article>
+
+      <article class="about-card">
+        <div class="about-media">
+          <img class="bg" src="../assets/img/about/about-gallery-02.webp" alt="">
+          <img class="fg" src="../assets/img/about/about-gallery-02.webp" alt="">
+        </div>
+        <div class="about-body">
+          <h3 class="about-title" data-i18n="g2_title">مشروع 02</h3>
+          <p class="about-text" data-i18n="g2_text">وصف مختصر للمشهد أو العقار.</p>
+        </div>
+      </article>
+
+      <article class="about-card">
+        <div class="about-media">
+          <img class="bg" src="../assets/img/about/about-gallery-03.webp" alt="">
+          <img class="fg" src="../assets/img/about/about-gallery-03.webp" alt="">
+        </div>
+        <div class="about-body">
+          <h3 class="about-title" data-i18n="g3_title">مشروع 03</h3>
+          <p class="about-text" data-i18n="g3_text">وصف مختصر للمشهد أو العقار.</p>
+        </div>
+      </article>
+
+      <article class="about-card">
+        <div class="about-media">
+          <img class="bg" src="../assets/img/about/about-gallery-04.webp" alt="">
+          <img class="fg" src="../assets/img/about/about-gallery-04.webp" alt="">
+        </div>
+        <div class="about-body">
+          <h3 class="about-title" data-i18n="g4_title">مشروع 04</h3>
+          <p class="about-text" data-i18n="g4_text">وصف مختصر للمشهد أو العقار.</p>
+        </div>
+      </article>
+
+      <article class="about-card">
+        <div class="about-media">
+          <img class="bg" src="../assets/img/about/about-gallery-05.webp" alt="">
+          <img class="fg" src="../assets/img/about/about-gallery-05.webp" alt="">
+        </div>
+        <div class="about-body">
+          <h3 class="about-title" data-i18n="g5_title">مشروع 05</h3>
+          <p class="about-text" data-i18n="g5_text">وصف مختصر للمشهد أو العقار.</p>
+        </div>
+      </article>
+
+      <article class="about-card">
+        <div class="about-media">
+          <img class="bg" src="../assets/img/about/about-gallery-06.webp" alt="">
+          <img class="fg" src="../assets/img/about/about-gallery-06.webp" alt="">
+        </div>
+        <div class="about-body">
+          <h3 class="about-title" data-i18n="g6_title">مشروع 06</h3>
+          <p class="about-text" data-i18n="g6_text">وصف مختصر للمشهد أو العقار.</p>
+        </div>
+      </article>
+    </div>
+
+    <!-- لوجوهات شركاء -->
+    <div style="margin-top:28px">
+      <div class="logos">
+        <img src="../assets/img/about/about-hero.webp" alt="LOGO">
+        <img src="../assets/img/about/about-hero.webp" alt="EGGS">
+        <img src="../assets/img/about/about-hero.webp" alt="THE PAAK">
+        <img src="../assets/img/about/about-hero.webp" alt="IDEA">
+        <img src="../assets/img/about/about-hero.webp" alt="360LAB">
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div>© <span id="y"></span> Zuha Real Estate</div>
+    <div style="display:flex;gap:14px;align-items:center">
+      <a href="/about/" style="color:#6b7280;text-decoration:none" data-i18n="foot_about">من نحن</a>
+      <a href="/#contact" style="color:#6b7280;text-decoration:none" data-i18n="foot_contact">اتصل</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // سنة تلقائية
+  document.getElementById("y").textContent = new Date().getFullYear();
+
+  // تبديل لغة بسيط: ?lang=en
+  const lang = new URLSearchParams(location.search).get("lang") || "ar";
+  const dict = {
+    ar: {
+      nav_services:"الخدمات", nav_about:"من نحن", nav_projects:"المشاريع", nav_news:"الأخبار", nav_support:"الدعم",
+      cta_top:"سجل اهتمامك",
+      crumb_home:"الرئيسية", crumb_about:"من نحن",
+      hero_title:"خبرة عقارية موثوقة",
+      meta_name:"رامي جابر", meta_line:"٣ مشاريع · ١٠ سنوات",
+      kicker:"مزایا استثمارية حصرية",
+      value_title:"قيمة عقارية. ثقة مستدامة",
+      value_sub:"نركز على الشفافية والانضباط التشغيلي وجودة التنفيذ لتقديم تجربة استثمارية موثوقة للمستثمرين والشركاء.",
+      card1_title:"عائد استثماري قوي", card1_text:"فرص مدروسة، إدارة مخاطر، ومؤشرات أداء واضحة.",
+      card2_title:"مواقع استراتيجية", card2_text:"اختيار مواقع يرفع القيمة ويزيد فرص النمو على المدى المتوسط.",
+      gallery_kicker:"معرض الأعمال",
+      gallery_title:"أعمال مختارة بجودة صور غنية",
+      gallery_cta:"عرض المشاريع",
+      g1_title:"مشروع 01", g1_text:"وصف مختصر للمشهد أو العقار.",
+      g2_title:"مشروع 02", g2_text:"وصف مختصر للمشهد أو العقار.",
+      g3_title:"مشروع 03", g3_text:"وصف مختصر للمشهد أو العقار.",
+      g4_title:"مشروع 04", g4_text:"وصف مختصر للمشهد أو العقار.",
+      g5_title:"مشروع 05", g5_text:"وصف مختصر للمشهد أو العقار.",
+      g6_title:"مشروع 06", g6_text:"وصف مختصر للمشهد أو العقار.",
+      foot_about:"من نحن", foot_contact:"اتصل"
+    },
+    en: {
+      nav_services:"Services", nav_about:"About", nav_projects:"Projects", nav_news:"News", nav_support:"Support",
+      cta_top:"Register interest",
+      crumb_home:"Home", crumb_about:"About",
+      hero_title:"Trusted Real Estate Expertise",
+      meta_name:"Rami Jaber", meta_line:"3 projects · 10 years",
+      kicker:"Exclusive investment edge",
+      value_title:"Real value. Sustainable trust",
+      value_sub:"We focus on transparency, operational discipline, and execution quality to deliver a dependable experience for investors and partners.",
+      card1_title:"Strong ROI", card1_text:"Well-studied opportunities, risk management, and clear KPIs.",
+      card2_title:"Strategic locations", card2_text:"Location selection that increases value and medium-term growth potential.",
+      gallery_kicker:"Portfolio",
+      gallery_title:"Selected work with rich visuals",
+      gallery_cta:"View projects",
+      g1_title:"Work 01", g1_text:"Short description of the asset or scene.",
+      g2_title:"Work 02", g2_text:"Short description of the asset or scene.",
+      g3_title:"Work 03", g3_text:"Short description of the asset or scene.",
+      g4_title:"Work 04", g4_text:"Short description of the asset or scene.",
+      g5_title:"Work 05", g5_text:"Short description of the asset or scene.",
+      g6_title:"Work 06", g6_text:"Short description of the asset or scene.",
+      foot_about:"About", foot_contact:"Contact"
+    }
+  };
+
+  const t = dict[lang] || dict.ar;
+
+  document.documentElement.lang = (lang === "en") ? "en" : "ar";
+  document.documentElement.dir  = (lang === "en") ? "ltr" : "rtl";
+
+  document.getElementById("langBtn").textContent = (lang === "en") ? "AR" : "EN";
+  document.getElementById("langBtn").href = (lang === "en") ? "?lang=ar" : "?lang=en";
+
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    if (t[k]) el.textContent = t[k];
+  });
+</script>
+
+</body>
+</html>
