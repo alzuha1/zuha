@@ -445,3 +445,76 @@ img{max-width:100%;display:block}
   .team{gap:14px;flex-wrap:wrap}
   .team::before{display:none}
 }
+
+
+
+
+
+
+
+
+
+/* ========== ABOUT: Gallery (Portrait-safe, Premium) ========== */
+.about-gallery{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap:18px;
+}
+
+.about-card{
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:18px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+}
+
+.about-media{
+  position:relative;
+  height: 360px;            /* ثابتة وتعطي شكل مرتب */
+  background:#f4f6fb;
+}
+
+.about-media .bg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit: cover;        /* للخلفية فقط */
+  filter: blur(22px);
+  transform: scale(1.12);
+  opacity:.55;
+}
+
+.about-media .fg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit: contain;      /* هذا يمنع القص للطولي */
+  object-position:center;
+}
+
+.about-body{
+  padding:14px 16px 16px;
+}
+
+.about-title{
+  margin:0 0 6px;
+  font-size:18px;
+  font-weight:800;
+}
+
+.about-text{
+  margin:0;
+  color:#6b7280;
+  line-height:1.85;
+  font-size:14px;
+}
+
+@media (max-width: 980px){
+  .about-gallery{ grid-template-columns: 1fr; }
+  .about-media{ height: 320px; }
+}
+
+
