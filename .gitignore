@@ -1,0 +1,13 @@
+node_modules
+.next
+.env.local
+.env
+dist
+out
+coverage
+*.log
+*.bak
+*.bak2
+git
+npx
+dict[key]

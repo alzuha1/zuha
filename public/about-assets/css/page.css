@@ -1,0 +1,1142 @@
+/* =========================================================
+   المتغيرات الأساسية
+   ========================================================= */
+
+/* تعريف ألوان وخطوط المشروع في مكان واحد ليسهل تعديلها لاحقًا */
+:root {
+    --blue: #326bf6; /* الأزرق الرئيسي للهوية */
+    --blue-light: #5a8aff; /* أزرق أفتح للتأثيرات والهوفر */
+    --black: #050505; /* الأسود الأساسي */
+    --white: #ffffff; /* الأبيض الأساسي */
+    --gray-bg: #f8f9fa; /* خلفية رمادية فاتحة للأقسام */
+    --gray-text: #666666; /* لون النصوص الثانوية */
+    --font-main: 'Tajawal', sans-serif; /* الخط الرئيسي */
+}
+
+/* =========================================================
+   Reset / Base
+   ========================================================= */
+
+/* تصفير الهوامش والحشوات الافتراضية لكل العناصر */
+* {
+    margin: 0; /* حذف المارجن الافتراضي */
+    padding: 0; /* حذف البادينغ الافتراضي */
+    box-sizing: border-box; /* جعل حساب العرض والارتفاع أكثر منطقية */
+}
+
+/* تحسين سلوك التمرير السلس بين الروابط الداخلية */
+html {
+    scroll-behavior: smooth; /* تفعيل سكرول سلس */
+}
+
+/* تنسيق عام للصفحة */
+body {
+    font-family: var(--font-main); /* تطبيق خط الموقع */
+    background-color: var(--blue); /* خلفية الصفحة الأساسية زرقاء */
+    color: var(--black); /* اللون الافتراضي للنص */
+    overflow-x: hidden; /* منع ظهور تمرير أفقي مزعج */
+}
+
+/* الروابط تأخذ لون النص المحيط افتراضيًا */
+a {
+    color: inherit; /* أخذ اللون من العنصر الأب */
+    text-decoration: none; /* إزالة الخط السفلي */
+}
+
+/* جميع الصور تبقى داخل حدود الحاوية */
+img {
+    max-width: 100%; /* منع تجاوز الصورة للعرض */
+    display: block; /* إزالة الفراغ السفلي الافتراضي للصورة */
+}
+
+/* =========================================================
+   Header / Topbar
+   ========================================================= */
+
+/* الشريط العلوي الثابت */
+.topbar {
+    position: fixed; /* تثبيت الهيدر أعلى الصفحة */
+    top: 0; /* محاذاة من الأعلى */
+    left: 0; /* محاذاة من اليسار */
+    width: 100%; /* جعل العرض كاملاً */
+    display: flex; /* توزيع العناصر أفقياً */
+    justify-content: space-between; /* فصل الجهتين */
+    align-items: center; /* محاذاة عمودية في المنتصف */
+    padding: 15px 5%; /* مسافة داخلية مناسبة */
+    background-color: transparent; /* بداية شفافة */
+    z-index: 100; /* إبقاء الهيدر فوق باقي العناصر */
+    color: var(--white); /* النصوص بيضاء فوق الخلفية الزرقاء */
+    transition: background 0.3s ease; /* حركة ناعمة إذا تغيرت الخلفية لاحقًا */
+}
+
+/* الجزء الأيمن من الهيدر */
+.topbar__right {
+    display: flex; /* ترتيب أفقي */
+    align-items: center; /* محاذاة في المنتصف */
+    gap: 10px; /* مسافة بين الأيقونة والنص */
+}
+
+/* أيقونة الشعار */
+.topbar__logo-icon {
+    background: var(--white); /* خلفية بيضاء */
+    color: var(--blue); /* الأيقونة باللون الأزرق */
+    width: 40px; /* عرض ثابت */
+    height: 40px; /* ارتفاع ثابت */
+    border-radius: 8px; /* زوايا دائرية */
+    display: flex; /* محاذاة الأيقونة داخليًا */
+    justify-content: center; /* توسيط أفقي */
+    align-items: center; /* توسيط عمودي */
+    font-size: 24px; /* حجم الأيقونة */
+}
+
+/* نصوص الشعار */
+.topbar__logo-text {
+    display: flex; /* ترتيب عمودي */
+    flex-direction: column; /* جعل النص فوق بعض */
+    font-size: 14px; /* حجم نص عام */
+    line-height: 1.2; /* تقليل التباعد العمودي */
+}
+
+/* الجزء الأيسر من الهيدر */
+.topbar__left {
+    display: flex; /* ترتيب أفقي */
+    align-items: center; /* توسيط عمودي */
+    gap: 15px; /* مسافة بين الأزرار */
+}
+
+/* زر الهيدر الرئيسي */
+.topbar__btn {
+    background: var(--white); /* خلفية بيضاء */
+    color: var(--blue); /* النص أزرق */
+    border: none; /* بدون إطار */
+    padding: 8px 16px; /* حشوة داخلية */
+    border-radius: 20px; /* زوايا دائرية */
+    font-family: inherit; /* استخدام نفس الخط */
+    font-weight: 600; /* وزن أوضح قليلاً */
+    cursor: pointer; /* شكل مؤشر اليد */
+    display: inline-flex; /* ضبط محاذاة النص كزر */
+    align-items: center; /* توسيط عمودي */
+    justify-content: center; /* توسيط أفقي */
+    transition: transform 0.2s ease, opacity 0.2s ease; /* حركة بسيطة عند التفاعل */
+}
+
+/* تأثير hover على زر الهيدر */
+.topbar__btn:hover {
+    transform: translateY(-1px); /* رفع بسيط */
+    opacity: 0.96; /* تخفيف بسيط */
+}
+
+/* زر تبديل اللغة */
+.topbar__lang {
+    background: transparent; /* بدون خلفية */
+    color: var(--white); /* النص أبيض */
+    border: 1px solid var(--white); /* إطار أبيض */
+    padding: 4px 12px; /* حشوة داخلية */
+    border-radius: 20px; /* زوايا دائرية */
+    font-family: inherit; /* نفس الخط */
+    cursor: pointer; /* مؤشر يد */
+    transition: background 0.2s ease, color 0.2s ease; /* حركة ناعمة */
+}
+
+/* تأثير hover على زر اللغة */
+.topbar__lang:hover {
+    background: rgba(255, 255, 255, 0.08); /* خلفية شفافة خفيفة */
+}
+
+/* زر القائمة */
+.topbar__menu-btn {
+    background: transparent; /* بدون خلفية */
+    border: none; /* بدون إطار */
+    cursor: pointer; /* مؤشر يد */
+    display: flex; /* ترتيب الخطوط */
+    flex-direction: column; /* جعل الخطوط فوق بعض */
+    gap: 5px; /* مسافة بين الخطوط */
+}
+
+/* خطوط زر القائمة */
+.topbar__menu-btn span {
+    display: block; /* كل خط عنصر مستقل */
+    width: 25px; /* عرض الخط */
+    height: 2px; /* سماكة الخط */
+    background: var(--white); /* لون الخط أبيض */
+}
+
+/* =========================================================
+   Side Menu
+   ========================================================= */
+
+/* القائمة الجانبية */
+.side-menu {
+    position: fixed; /* تثبيت القائمة */
+    top: 0; /* تبدأ من الأعلى */
+    right: -100%; /* مخفية خارج الشاشة يمينًا */
+    width: 300px; /* عرض ثابت */
+    height: 100vh; /* بطول كامل الشاشة */
+    background: var(--white); /* خلفية بيضاء */
+    z-index: 999; /* فوق كل العناصر تقريبًا */
+    padding: 30px; /* حشوة داخلية */
+    transition: right 0.4s ease; /* حركة دخول وخروج */
+    display: flex; /* ترتيب داخلي مرن */
+    flex-direction: column; /* عناصر القائمة عمودية */
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1); /* ظل جانبي */
+}
+
+/* حالة الفتح */
+.side-menu.is-open {
+    right: 0; /* دخول القائمة إلى الشاشة */
+}
+
+/* رأس القائمة */
+.side-menu__header {
+    display: flex; /* ترتيب أفقي */
+    justify-content: space-between; /* فصل العنوان عن زر الإغلاق */
+    align-items: center; /* محاذاة عمودية */
+    margin-bottom: 40px; /* مسافة تحت الرأس */
+}
+
+/* زر إغلاق القائمة */
+.side-menu__close {
+    background: transparent; /* بدون خلفية */
+    border: none; /* بدون إطار */
+    font-size: 30px; /* حجم × */
+    cursor: pointer; /* مؤشر يد */
+}
+
+/* روابط القائمة */
+.side-menu__nav {
+    display: flex; /* ترتيب مرن */
+    flex-direction: column; /* الروابط فوق بعض */
+    gap: 20px; /* مسافة بين الروابط */
+    margin-bottom: auto; /* دفع زر CTA لأسفل */
+}
+
+/* كل رابط داخل القائمة */
+.side-menu__nav a {
+    text-decoration: none; /* بدون خط سفلي */
+    color: var(--black); /* نص أسود */
+    font-size: 18px; /* حجم مناسب */
+    font-weight: 500; /* وزن متوسط */
+}
+
+/* الرابط النشط */
+.side-menu__nav a.active {
+    color: var(--blue); /* تمييز الرابط الحالي بالأزرق */
+}
+
+/* زر أسفل القائمة */
+.side-menu__btn {
+    background: var(--blue); /* خلفية زرقاء */
+    color: var(--white); /* نص أبيض */
+    border: none; /* بدون إطار */
+    padding: 15px; /* حشوة داخلية */
+    border-radius: 8px; /* زوايا دائرية */
+    font-family: inherit; /* نفس الخط */
+    font-size: 16px; /* حجم النص */
+    cursor: pointer; /* مؤشر يد */
+    display: inline-flex; /* سلوك زر */
+    justify-content: center; /* توسيط أفقي */
+    align-items: center; /* توسيط عمودي */
+}
+
+/* =========================================================
+   Stacked Hero / Slider
+   ========================================================= */
+
+/* سكشن الستاك */
+.about-stack {
+    height: 220vh; /* تقليل الارتفاع حتى لا يظهر فراغ مبالغ فيه */
+    position: relative; /* مرجع للعناصر الداخلية */
+    background-color: var(--blue); /* نفس الخلفية الزرقاء */
+}
+
+/* الجزء الثابت أثناء التمرير */
+.about-stack__sticky {
+    position: sticky; /* يثبت أثناء السكرول */
+    top: 0; /* يبدأ من أعلى الشاشة */
+    height: 100vh; /* بطول الشاشة */
+    display: flex; /* توسيط المحتوى */
+    justify-content: center; /* توسيط أفقي */
+    align-items: center; /* توسيط عمودي */
+    overflow: hidden; /* منع خروج العناصر */
+}
+
+/* الإطار العام للستاك */
+.about-stack__frame {
+    width: 90%; /* عرض مرن */
+    height: 72vh; /* تقليل الارتفاع قليلًا لتخفيف الفراغ */
+    background: rgba(255, 255, 255, 0.1); /* إطار شفاف */
+    border-radius: 24px; /* زوايا دائرية */
+    position: relative; /* مرجع للعناصر المطلقة */
+    display: flex; /* توسيط داخلي */
+    justify-content: center; /* توسيط أفقي */
+    align-items: center; /* توسيط عمودي */
+}
+
+/* حاوية الشرائح */
+.about-stack__slides {
+    position: relative; /* مرجع للشرائح المطلقة */
+    width: 90%; /* عرض داخلي */
+    height: 85%; /* ارتفاع داخلي */
+}
+
+/* الشريحة الأساسية */
+.about-slide {
+    position: absolute; /* كل الشرائح فوق بعضها */
+    top: 0; /* من الأعلى */
+    left: 0; /* من اليسار */
+    width: 100%; /* عرض كامل */
+    height: 100%; /* ارتفاع كامل */
+    background: var(--white); /* خلفية بيضاء */
+    border-radius: 20px; /* زوايا دائرية */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* ظل */
+    display: flex; /* توسيط داخلي */
+    justify-content: center; /* توسيط أفقي */
+    align-items: center; /* توسيط عمودي */
+    overflow: hidden; /* قص الزوائد */
+    opacity: 0; /* مخفية مبدئيًا */
+    transform: translateY(50px) scale(0.9); /* وضعية ابتدائية */
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* حركة ناعمة */
+    z-index: 1; /* ترتيب طبقي */
+}
+
+/* الشريحة النشطة */
+.about-slide.is-active {
+    opacity: 1; /* إظهار كامل */
+    transform: translateY(0) scale(1); /* وضعية طبيعية */
+    z-index: 3; /* فوق الجميع */
+}
+
+/* الشريحة السابقة */
+.about-slide.is-prev {
+    opacity: 1; /* مرئية */
+    transform: translateY(-20px) scale(0.95); /* أصغر قليلًا ومرفوعة */
+    z-index: 2; /* خلف النشطة مباشرة */
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05); /* ظل أخف */
+}
+
+/* الشرائح الأقدم */
+.about-slide.is-hidden-top {
+    opacity: 0; /* إخفاء */
+    transform: translateY(-40px) scale(0.9); /* رفع للأعلى */
+    z-index: 1; /* في الخلف */
+}
+
+/* صور الستاك */
+.about-slide__img {
+    width: 100%; /* عرض كامل */
+    height: 100%; /* ارتفاع كامل */
+    object-fit: cover; /* ملء الإطار بدون تشويه */
+    background-color: #eee; /* خلفية احتياطية */
+}
+
+/* التلميح أسفل الستاك */
+.about-stack__hint {
+    display: none; /* إخفاؤه نهائيًا لأنه غير مطلوب بصريًا */
+}
+
+/* =========================================================
+   Vision Section
+   ========================================================= */
+
+/* قسم الرؤية */
+.about-vision {
+    background-color: var(--blue); /* خلفية زرقاء */
+    color: var(--white); /* نص أبيض */
+    min-height: auto; /* إزالة الارتفاع الأدنى المبالغ فيه */
+    display: flex; /* توسيط داخلي */
+    justify-content: center; /* توسيط أفقي */
+    align-items: center; /* توسيط عمودي */
+    text-align: center; /* النص في المنتصف */
+    padding: 56px 5% 70px; /* تقليل الفراغ أعلى القسم */
+}
+
+/* حاوية الرؤية */
+.about-vision__content {
+    max-width: 800px; /* عرض مريح للقراءة */
+}
+
+/* السطر الصغير */
+.about-vision__kicker {
+    display: block; /* سطر مستقل */
+    font-size: 14px; /* حجم صغير */
+    text-transform: uppercase; /* حروف كبيرة في الإنجليزي */
+    letter-spacing: 2px; /* تباعد بين الحروف */
+    margin-bottom: 20px; /* مسافة تحتية */
+    opacity: 0.8; /* شفافية بسيطة */
+}
+
+/* عنوان الرؤية */
+.about-vision__title {
+    font-size: clamp(28px, 5vw, 48px); /* حجم مرن */
+    font-weight: 700; /* وزن قوي */
+    margin-bottom: 30px; /* مسافة تحت العنوان */
+    line-height: 1.4; /* راحة قراءة */
+}
+
+/* وصف الرؤية */
+.about-vision__desc {
+    font-size: 18px; /* حجم النص */
+    line-height: 1.6; /* تباعد أسطر */
+    opacity: 0.9; /* شفافية بسيطة */
+}
+
+/* =========================================================
+   Services Section
+   ========================================================= */
+
+/* قسم الخدمات */
+.about-services {
+    background-color: var(--white); /* خلفية بيضاء */
+    border-radius: 40px 40px 0 0; /* تدوير أعلى القسم */
+    padding: 80px 5%; /* مسافة داخلية */
+    margin-top: -40px; /* تداخل مع القسم الأزرق السابق */
+    position: relative; /* مرجع داخلي */
+    z-index: 10; /* فوق الخلفية السابقة */
+}
+
+/* رأس قسم الخدمات */
+.about-services__header {
+    text-align: center; /* توسيط النصوص */
+    max-width: 600px; /* تحديد عرض مناسب */
+    margin: 0 auto 60px; /* توسيط مع مسافة سفلية */
+}
+
+/* عنوان الخدمات */
+.about-services__title {
+    font-size: clamp(24px, 4vw, 36px); /* حجم مرن */
+    color: var(--black); /* لون أسود */
+    margin-bottom: 20px; /* مسافة أسفل */
+}
+
+/* وصف الخدمات */
+.about-services__desc {
+    font-size: 16px; /* حجم مناسب */
+    color: var(--gray-text); /* لون ثانوي */
+    line-height: 1.6; /* راحة قراءة */
+}
+
+/* حاوية بطاقات الخدمات */
+.about-services__cards {
+    display: flex; /* ترتيب مرن */
+    flex-direction: column; /* عمودي مبدئيًا */
+    gap: 60px; /* مسافة بين البطاقات */
+    max-width: 1000px; /* عرض أقصى */
+    margin: 0 auto; /* توسيط */
+}
+
+/* بطاقة خدمة */
+.service-card {
+    display: flex; /* ترتيب مرن */
+    flex-direction: column; /* عمودي على الجوال */
+    gap: 30px; /* مسافة بين الصورة والنص */
+}
+
+/* قواعد الشاشات الأكبر */
+@media (min-width: 768px) {
+    .service-card {
+        flex-direction: row; /* أفقي على الديسكتوب */
+        align-items: center; /* محاذاة عمودية */
+    }
+
+    .service-card:nth-child(even) {
+        flex-direction: row-reverse; /* قلب البطاقة الثانية والرابعة... */
+    }
+
+    .service-card__image-wrapper,
+    .service-card__content {
+        flex: 1; /* تقاسم المساحة بين الصورة والنص */
+    }
+}
+
+/* غلاف صورة الخدمة */
+.service-card__image-wrapper {
+    width: 100%; /* عرض كامل */
+    border-radius: 20px; /* زوايا دائرية */
+    overflow: hidden; /* قص الزوائد */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* ظل خفيف */
+}
+
+/* صورة الخدمة */
+.service-card__img {
+    width: 100%; /* عرض كامل */
+    display: block; /* إزالة الفراغ السفلي */
+    background-color: #eee; /* خلفية احتياطية */
+}
+
+/* رقم البطاقة */
+.service-card__label {
+    display: none; /* إخفاء Service 01 / 02 / 03 */
+}
+
+/* عنوان الخدمة */
+.service-card__title {
+    font-size: 24px; /* حجم مناسب */
+    color: var(--black); /* لون أسود */
+    margin-bottom: 15px; /* مسافة تحت العنوان */
+}
+
+/* وصف الخدمة */
+.service-card__text {
+    font-size: 16px; /* حجم النص */
+    color: var(--gray-text); /* لون ثانوي */
+    line-height: 1.6; /* تباعد أسطر */
+    margin-bottom: 25px; /* مسافة تحتية */
+}
+
+/* زر الخدمة */
+.service-card__btn {
+    background-color: var(--blue); /* خلفية زرقاء */
+    color: var(--white); /* نص أبيض */
+    border: none; /* بدون إطار */
+    padding: 12px 24px; /* حشوة داخلية */
+    border-radius: 8px; /* زوايا دائرية */
+    font-family: inherit; /* نفس الخط */
+    font-size: 16px; /* حجم النص */
+    cursor: pointer; /* مؤشر يد */
+    transition: background 0.3s ease; /* حركة ناعمة */
+    display: inline-flex; /* سلوك زر */
+    align-items: center; /* توسيط عمودي */
+    justify-content: center; /* توسيط أفقي */
+}
+
+/* تأثير hover على زر الخدمة */
+.service-card__btn:hover {
+    background-color: var(--blue-light); /* أزرق أفتح */
+}
+
+/* =========================================================
+   Stats Section
+   ========================================================= */
+
+/* قسم الإحصائيات */
+.about-stats {
+    background-color: var(--gray-bg); /* خلفية رمادية فاتحة */
+    padding: 80px 5%; /* مسافة داخلية */
+    text-align: center; /* توسيط النص */
+}
+
+/* عنوان قسم الإحصائيات */
+.about-stats__main-title {
+    font-size: clamp(24px, 4vw, 36px); /* حجم مرن */
+    color: var(--black); /* لون أسود */
+    margin-bottom: 50px; /* مسافة أسفل */
+}
+
+/* شبكة الإحصائيات */
+.about-stats__grid {
+    display: flex; /* ترتيب مرن */
+    flex-direction: column; /* عمودي على الجوال */
+    gap: 20px; /* مسافة بين البطاقات */
+    max-width: 1000px; /* عرض أقصى */
+    margin: 0 auto; /* توسيط */
+}
+
+/* على الشاشات الأكبر تصبح أفقية */
+@media (min-width: 768px) {
+    .about-stats__grid {
+        flex-direction: row; /* أفقي */
+    }
+}
+
+/* بطاقة إحصائية */
+.stat-card {
+    background: var(--white); /* خلفية بيضاء */
+    padding: 40px 20px; /* حشوة داخلية */
+    border-radius: 16px; /* زوايا دائرية */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03); /* ظل خفيف */
+    flex: 1; /* تقاسم المساحة */
+}
+
+/* الرقم الكبير */
+.stat-card__number {
+    font-size: 36px; /* حجم كبير */
+    font-weight: 700; /* وزن قوي */
+    color: var(--black); /* لون أسود */
+    margin-bottom: 10px; /* مسافة أسفل */
+    direction: ltr; /* إبقاء +100 بشكل صحيح */
+    display: inline-block; /* احترام الاتجاه */
+}
+
+/* عنوان الإحصائية */
+.stat-card__title {
+    font-size: 18px; /* حجم مناسب */
+    color: var(--black); /* لون أسود */
+    margin-bottom: 10px; /* مسافة أسفل */
+}
+
+/* وصف الإحصائية */
+.stat-card__desc {
+    font-size: 14px; /* حجم أصغر */
+    color: var(--gray-text); /* لون ثانوي */
+}
+
+/* =========================================================
+   Team Section
+   ========================================================= */
+
+/* قسم الفريق */
+.about-team {
+    background-color: var(--black); /* خلفية سوداء */
+    color: var(--white); /* نص أبيض */
+    padding: 80px 5%; /* مسافة داخلية */
+}
+
+/* رأس قسم الفريق */
+.about-team__header {
+    text-align: center; /* توسيط النصوص */
+    max-width: 600px; /* عرض أقصى */
+    margin: 0 auto 60px; /* توسيط ومسافة أسفل */
+}
+
+/* السطر الصغير في الفريق */
+.about-team__kicker {
+    display: block; /* سطر مستقل */
+    font-size: 14px; /* حجم صغير */
+    color: var(--gray-text); /* لون ثانوي */
+    margin-bottom: 15px; /* مسافة أسفل */
+}
+
+/* عنوان الفريق */
+.about-team__title {
+    font-size: clamp(24px, 4vw, 36px); /* حجم مرن */
+    margin-bottom: 20px; /* مسافة أسفل */
+}
+
+/* وصف الفريق */
+.about-team__desc {
+    font-size: 16px; /* حجم مناسب */
+    color: #999; /* رمادي متوسط */
+    line-height: 1.6; /* تباعد أسطر */
+    margin-bottom: 30px; /* مسافة أسفل */
+}
+
+/* زر الفريق */
+.about-team__btn {
+    background-color: var(--blue); /* خلفية زرقاء */
+    color: var(--white); /* نص أبيض */
+    border: none; /* بدون إطار */
+    padding: 12px 30px; /* حشوة داخلية */
+    border-radius: 8px; /* زوايا دائرية */
+    font-family: inherit; /* نفس الخط */
+    font-size: 16px; /* حجم النص */
+    cursor: pointer; /* مؤشر يد */
+    display: inline-flex; /* سلوك زر */
+    align-items: center; /* توسيط عمودي */
+    justify-content: center; /* توسيط أفقي */
+}
+
+/* شبكة الفريق */
+.about-team__grid {
+    display: flex; /* ترتيب مرن */
+    flex-direction: column; /* عمودي على الجوال */
+    gap: 20px; /* مسافة بين البطاقات */
+    max-width: 1000px; /* عرض أقصى */
+    margin: 0 auto; /* توسيط */
+}
+
+/* على الشاشات الأكبر تصبح أفقية */
+@media (min-width: 768px) {
+    .about-team__grid {
+        flex-direction: row; /* أفقي */
+    }
+}
+
+/* بطاقة عضو الفريق */
+.team-card {
+    background: var(--white); /* خلفية بيضاء */
+    color: var(--black); /* نص أسود */
+    border-radius: 16px; /* زوايا دائرية */
+    padding: 40px 20px; /* حشوة داخلية */
+    text-align: center; /* توسيط */
+    flex: 1; /* تقاسم المساحة */
+}
+
+/* صورة عضو الفريق */
+.team-card__img {
+    width: 80px; /* عرض ثابت */
+    height: 80px; /* ارتفاع ثابت */
+    border-radius: 50%; /* صورة دائرية */
+    object-fit: cover; /* قص مناسب */
+    margin: 0 auto 20px; /* توسيط مع مسافة أسفل */
+    background-color: #eee; /* خلفية احتياطية */
+}
+
+/* اسم العضو */
+.team-card__name {
+    font-size: 18px; /* حجم مناسب */
+    font-weight: 700; /* وزن قوي */
+    margin-bottom: 10px; /* مسافة أسفل */
+}
+
+/* منصب العضو */
+.team-card__role {
+    font-size: 14px; /* حجم أصغر */
+    color: var(--gray-text); /* لون ثانوي */
+}
+
+/* =========================================================
+   Logo Card Section
+   ========================================================= */
+
+/* قسم بطاقة الشعار */
+.about-logoCard {
+    background-color: var(--white); /* خلفية بيضاء */
+    padding: 100px 5%; /* مسافة داخلية */
+    display: flex; /* توسيط */
+    justify-content: center; /* توسيط أفقي */
+    align-items: center; /* توسيط عمودي */
+}
+
+/* البطاقة الداخلية */
+.about-logoCard__inner {
+    width: 100%; /* عرض كامل */
+    max-width: 800px; /* حد أقصى */
+    background: var(--white); /* خلفية بيضاء */
+    border-radius: 20px; /* زوايا دائرية */
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08); /* ظل ناعم */
+    padding: 100px 20px; /* حشوة داخلية */
+    text-align: center; /* توسيط النص */
+    display: flex; /* توسيط داخلي */
+    justify-content: center; /* توسيط أفقي */
+    align-items: center; /* توسيط عمودي */
+}
+
+/* الشعار النصي */
+.about-logoCard__logo {
+    font-size: 32px; /* حجم كبير */
+    font-weight: 800; /* وزن قوي */
+    color: var(--black); /* لون أسود */
+    letter-spacing: 2px; /* تباعد حروف */
+    display: flex; /* ترتيب أفقي */
+    align-items: center; /* محاذاة عمودية */
+    gap: 10px; /* مسافة بين النصين */
+}
+
+/* النص الفرعي في بطاقة الشعار */
+.about-logoCard__logo span {
+    font-size: 24px; /* حجم أصغر */
+    font-weight: 400; /* وزن أخف */
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+
+/* الفوتر */
+.about-footer {
+    background-color: var(--black); /* خلفية سوداء */
+    color: var(--white); /* نص أبيض */
+    padding: 60px 5% 30px; /* مسافات داخلية */
+    text-align: center; /* توسيط */
+    display: flex; /* ترتيب مرن */
+    flex-direction: column; /* عمودي */
+    align-items: center; /* توسيط أفقي */
+    gap: 40px; /* مسافة بين العناصر */
+}
+
+/* روابط بيانات التواصل داخل الفوتر */
+.about-footer__contact a {
+    color: var(--white); /* لون أبيض */
+    text-decoration: none; /* بدون خط سفلي */
+    font-size: 16px; /* حجم مناسب */
+}
+
+/* روابط التواصل الاجتماعي */
+.about-footer__social {
+    display: flex; /* ترتيب أفقي */
+    gap: 20px; /* مسافة بين الروابط */
+}
+
+/* كل رابط اجتماعي */
+.about-footer__social a {
+    color: var(--white); /* لون أبيض */
+    text-decoration: none; /* بدون خط سفلي */
+    font-size: 14px; /* حجم أصغر */
+    opacity: 0.8; /* شفافية بسيطة */
+}
+
+/* بلوك الشعار في الفوتر */
+.about-footer__brand {
+    display: flex; /* ترتيب أفقي */
+    align-items: center; /* محاذاة عمودية */
+    gap: 15px; /* مسافة بين الأيقونة والنص */
+    background: #111; /* خلفية أغمق قليلًا */
+    padding: 20px 40px; /* حشوة داخلية */
+    border-radius: 20px; /* زوايا دائرية */
+}
+
+/* أيقونة الفوتر */
+.about-footer__icon {
+    font-size: 40px; /* حجم كبير */
+}
+
+/* نص الشعار في الفوتر */
+.about-footer__brand-text {
+    font-size: 48px; /* حجم كبير جدًا */
+    font-weight: 700; /* وزن قوي */
+    color: #999; /* رمادي واضح */
+    letter-spacing: 2px; /* تباعد حروف */
+}
+
+/* الجزء السفلي من الفوتر */
+.about-footer__bottom {
+    display: flex; /* ترتيب مرن */
+    flex-direction: column; /* عمودي */
+    gap: 10px; /* مسافة بين السطور */
+    opacity: 0.6; /* شفافية عامة */
+    font-size: 12px; /* حجم صغير */
+}
+
+/* رابط سياسة الخصوصية */
+.about-footer__policy {
+    color: var(--white); /* لون أبيض */
+    text-decoration: none; /* بدون خط سفلي */
+}
+/* =========================================
+   Hero Slider
+   سلايدر أفقي بدل الستاك المتداخل
+   ========================================= */
+
+/* الحاوية العامة للسلايدر */
+.about-hero-slider {
+  background-color: var(--blue);
+  padding: 110px 5% 36px;
+  position: relative;
+}
+
+/* الإطار الخارجي */
+.about-hero-slider__frame {
+  width: min(92%, 1240px);
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 14px;
+}
+
+/* مسار الشرائح */
+.about-hero-slider__track {
+  display: flex;
+  transition: transform 0.55s ease;
+  will-change: transform;
+}
+
+/* كل شريحة */
+.about-hero-slide {
+  min-width: 100%;
+  flex: 0 0 100%;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #fff;
+}
+
+/* صورة الشريحة */
+.about-hero-slide__img {
+  width: 100%;
+  height: clamp(320px, 62vh, 700px);
+  object-fit: cover;
+  display: block;
+}
+
+/* أزرار التنقل */
+.about-hero-slider__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* زر السابق */
+.about-hero-slider__nav--prev {
+  left: 26px;
+}
+
+/* زر التالي */
+.about-hero-slider__nav--next {
+  right: 26px;
+}
+
+/* الدوتس */
+.about-hero-slider__dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 0 4px;
+}
+
+/* كل نقطة */
+.about-hero-slider__dot {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+}
+
+/* النقطة النشطة */
+.about-hero-slider__dot.is-active {
+  background: #fff;
+}
+
+/* التلميح */
+.about-hero-slider__hint {
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.85;
+  margin-top: 8px;
+}
+
+/* تقليل الفراغ بعد السلايدر وقبل الرؤية */
+.about-vision {
+  min-height: auto;
+  padding: 42px 5% 70px;
+}
+
+/* إخفاء أرقام Service 01 / 02 / 03 */
+.service-card__label {
+  display: none !important;
+}
+
+/* تحسين الاستجابة على الجوال */
+@media (max-width: 768px) {
+  .about-hero-slider {
+    padding: 96px 16px 28px;
+  }
+
+  .about-hero-slider__frame {
+    width: 100%;
+    padding: 10px;
+    border-radius: 18px;
+  }
+
+  .about-hero-slide {
+    border-radius: 16px;
+  }
+
+  .about-hero-slider__nav {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
+
+  .about-hero-slider__nav--prev {
+    left: 14px;
+  }
+
+  .about-hero-slider__nav--next {
+    right: 14px;
+  }
+}
+/* =========================================================
+   Hero Slider Elegant Layout
+   ========================================================= */
+
+/* الحاوية العامة للسلايدر */
+.about-hero-slider {
+  background: var(--blue);
+  padding: 110px 5% 42px;
+}
+
+/* الغلاف العام */
+.about-hero-slider__shell {
+  width: min(100%, 1240px);
+  margin: 0 auto;
+}
+
+/* إطار الصورة */
+.about-hero-slider__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 14px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+}
+
+/* مسار الشرائح أفقي */
+.about-hero-slider__track {
+  display: flex;
+  transition: transform 0.55s ease;
+  will-change: transform;
+}
+
+/* كل شريحة */
+.about-hero-slide {
+  min-width: 100%;
+  flex: 0 0 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* صورة الشريحة */
+.about-hero-slide__img {
+  width: 100%;
+  height: clamp(340px, 68vh, 760px);
+  object-fit: cover;
+  display: block;
+}
+
+/* أزرار التنقل */
+.about-hero-slider__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.42);
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+/* السابق */
+.about-hero-slider__nav--prev {
+  left: 26px;
+}
+
+/* التالي */
+.about-hero-slider__nav--next {
+  right: 26px;
+}
+
+/* بلوك الوصف أسفل الصورة */
+.about-hero-slider__meta {
+  background: #fff;
+  margin-top: 16px;
+  border-radius: 22px;
+  padding: 22px 24px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* رأس الوصف */
+.about-hero-slider__meta-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+/* التلميح */
+.about-hero-slider__hint {
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* العنوان أسفل الصورة */
+.about-hero-slider__title {
+  font-size: clamp(22px, 3vw, 34px);
+  color: var(--black);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+/* الوصف أسفل الصورة */
+.about-hero-slider__desc {
+  font-size: 16px;
+  color: var(--gray-text);
+  line-height: 1.8;
+  max-width: 900px;
+}
+
+/* النقاط */
+.about-hero-slider__dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* كل نقطة */
+.about-hero-slider__dot {
+  width: 11px;
+  height: 11px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(50, 107, 246, 0.25);
+  cursor: pointer;
+}
+
+/* النقطة النشطة */
+.about-hero-slider__dot.is-active {
+  background: var(--blue);
+}
+
+/* تقليل الفراغ تحت السلايدر */
+.about-vision {
+  min-height: auto;
+  padding: 38px 5% 70px;
+}
+
+/* إخفاء أرقام Service 01 / 02 / 03 */
+.service-card__label {
+  display: none !important;
+}
+
+/* تحسين الجوال */
+@media (max-width: 768px) {
+  .about-hero-slider {
+    padding: 96px 16px 28px;
+  }
+
+  .about-hero-slider__frame {
+    padding: 10px;
+    border-radius: 18px;
+  }
+
+  .about-hero-slide {
+    border-radius: 16px;
+  }
+
+  .about-hero-slider__img {
+    height: 320px;
+  }
+
+  .about-hero-slider__meta {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .about-hero-slider__meta-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .about-hero-slider__nav {
+    width: 42px;
+    height: 42px;
+    font-size: 24px;
+  }
+
+  .about-hero-slider__nav--prev {
+    left: 14px;
+  }
+
+  .about-hero-slider__nav--next {
+    right: 14px;
+  }
+}

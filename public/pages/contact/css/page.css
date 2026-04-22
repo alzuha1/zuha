@@ -1,0 +1,107 @@
+
+:root {
+    --color-blue: #326bf6;
+    --color-black: #050505;
+    --color-white: #ffffff;
+    --color-gray-bg: #f9f9f9; 
+    --color-gray-text: #666666;
+    --color-gray-light: #e0e0e0;
+    --color-placeholder: #e4e8eb;
+    --font-main: 'Tajawal', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-main); background-color: var(--color-gray-bg); color: var(--color-black); overflow-x: hidden; line-height: 1.6; }
+.container { width: 90%; max-width: 1200px; margin: 0 auto; }
+a { text-decoration: none; color: inherit; }
+.text-center { text-align: center; }
+.flex-col-center { display: flex; flex-direction: column; align-items: center; }
+.w-full { width: 100%; }
+
+.fade-in { opacity: 0; animation: fadeIn 0.6s ease forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* الأرقام وإخفائها */
+.img-placeholder { position: relative; background-color: var(--color-placeholder); display: flex; justify-content: center; align-items: center; overflow: hidden; width: 100%; }
+.img-placeholder::before { content: attr(data-num); position: absolute; font-size: 3rem; color: rgba(0,0,0,0.15); font-weight: 800; z-index: 1; }
+.dynamic-img { position: relative; z-index: 2; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s ease; }
+.dynamic-img.is-loaded { opacity: 1; }
+
+.btn { padding: 15px 28px; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 800; cursor: pointer; border: none; transition: all 0.3s ease; text-align: center; }
+.btn--white-small { background: var(--color-white); color: var(--color-blue); border-radius: 20px; padding: 8px 16px; font-size: 14px;}
+.btn--blue { background: var(--color-blue); color: var(--color-white); }
+.btn--blue:hover { opacity: 0.9; box-shadow: 0 10px 20px rgba(50, 107, 246, 0.2); }
+
+.topbar { position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background-color: var(--color-blue); z-index: 100; color: var(--color-white); }
+.topbar__right { display: flex; align-items: center; gap: 10px; }
+.topbar__logo-icon { background: var(--color-white); color: var(--color-blue); width: 40px; height: 40px; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 24px; }
+/* تم إصلاح محاذاة الشعار ليكون منسقاً بشكل صحيح في الإنجليزية والعربية */
+.topbar__logo-text { display: flex; flex-direction: column; font-size: 14px; line-height: 1.2; font-weight: 700; align-items: flex-start; direction: ltr; }
+.topbar__left { display: flex; align-items: center; gap: 12px; }
+.lang-toggle { background: transparent; color: var(--color-white); border: 1px solid var(--color-white); padding: 4px 12px; border-radius: 20px; cursor: pointer; font-family: inherit; font-size: 14px;}
+.burger-menu { background: transparent; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; }
+.burger-menu span { display: block; width: 25px; height: 2px; background: var(--color-white); }
+
+.side-panel { position: fixed; top: 0; right: -100%; width: 300px; height: 100vh; background: var(--color-white); z-index: 999; padding: 30px; transition: right 0.4s ease; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
+.side-panel.is-open { right: 0; }
+.side-panel__header { display: flex; justify-content: space-between; margin-bottom: 40px; color: var(--color-black); }
+.side-panel__close { background: none; border: none; font-size: 30px; cursor: pointer; color: var(--color-black); }
+.side-panel__nav { display: flex; flex-direction: column; gap: 20px; color: var(--color-black); }
+.side-panel__nav a { font-size: 18px; font-weight: 700; }
+.side-panel__nav a.active { color: var(--color-blue); }
+
+.booking-hero { background-color: var(--color-black); color: var(--color-white); padding: 160px 0 120px; border-radius: 0 0 40px 40px; }
+.kicker--light { display: inline-block; background: rgba(255,255,255,0.1); padding: 6px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 20px; color: #ccc;}
+.hero-title { font-size: clamp(32px, 5vw, 56px); font-weight: 800; margin-bottom: 20px; line-height: 1.3;}
+.hero-desc { font-size: 18px; max-width: 600px; margin: 0 auto; opacity: 0.8; }
+
+.booking-main { margin-top: -60px; position: relative; z-index: 10; padding-bottom: 80px; }
+.booking-split { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
+@media(min-width: 992px) { .booking-split { grid-template-columns: 1fr 1.2fr; gap: 60px; } }
+
+.booking-info { padding: 40px 0; }
+.benefits-title { font-size: 28px; font-weight: 800; margin-bottom: 30px; }
+.benefits-list { list-style: none; display: flex; flex-direction: column; gap: 30px; margin-bottom: 40px; }
+.benefits-list li { display: flex; gap: 20px; align-items: flex-start; }
+.b-icon { font-size: 32px; background: var(--color-white); width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border-radius: 16px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); flex-shrink: 0;}
+.benefits-list h3 { font-size: 20px; font-weight: 800; margin-bottom: 5px; }
+.benefits-list p { font-size: 15px; color: var(--color-gray-text); line-height: 1.6; }
+.advisor-img { height: 250px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
+/* نموذج الحجز (تم إصلاح المحاذاة) */
+.booking-form-wrapper { background: var(--color-white); padding: 40px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.08); border: 1px solid var(--color-gray-light); }
+.form-title { font-size: 24px; font-weight: 800; margin-bottom: 25px; border-bottom: 2px solid var(--color-gray-bg); padding-bottom: 15px; }
+.booking-form { display: flex; flex-direction: column; gap: 15px; }
+.form-row { display: grid; grid-template-columns: 1fr; gap: 15px; }
+@media(min-width: 600px) { .form-row { grid-template-columns: 1fr 1fr; } }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group label { font-size: 14px; font-weight: 700; color: var(--color-black); }
+
+/* تم التعديل هنا: محاذاة ديناميكية وتوحيد الخط */
+.form-group input, .form-group select { 
+    padding: 14px 16px; 
+    border: 1px solid var(--color-gray-light); 
+    border-radius: 10px; 
+    font-family: inherit; 
+    font-size: 15px; 
+    outline: none; 
+    background: var(--color-gray-bg); 
+    transition: 0.3s;
+    text-align: start; /* محاذاة ذكية لليمين في العربي ولليسار في الإنجليزي */
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--color-blue); background: var(--color-white); box-shadow: 0 0 0 3px rgba(50, 107, 246, 0.1); }
+.form-group input::placeholder { color: #aaa; text-align: start; }
+
+.custom-radios { display: flex; gap: 10px; flex-wrap: wrap; }
+.radio-card { flex: 1; min-width: 110px; cursor: pointer; }
+.radio-card input { display: none; }
+.radio-content { display: block; text-align: center; padding: 12px 10px; border: 1px solid var(--color-gray-light); border-radius: 10px; background: var(--color-gray-bg); font-size: 14px; font-weight: 700; transition: all 0.3s; color: var(--color-gray-text); }
+.radio-card input:checked + .radio-content { background: var(--color-blue); border-color: var(--color-blue); color: var(--color-white); box-shadow: 0 5px 15px rgba(50, 107, 246, 0.2); }
+
+.footer { background: var(--color-black); color: var(--color-white); padding: 60px 0 30px; text-align: center; }
+.footer__email { font-size: 16px; font-weight: 500; margin-bottom: 30px; display: block; }
+.footer__socials { display: flex; gap: 20px; margin-bottom: 40px; opacity: 0.8; font-size: 14px; }
+.footer__brand-box { background: #111; padding: 20px 40px; border-radius: 20px; display: flex; align-items: center; gap: 15px; margin-bottom: 40px; }
+.footer__brand-icon { font-size: 40px; }
+.footer__brand-text { font-size: 48px; font-weight: 700; color: #999; letter-spacing: 2px; }
+.footer__bottom { opacity: 0.6; font-size: 12px; display: flex; flex-direction: column; gap: 10px; }

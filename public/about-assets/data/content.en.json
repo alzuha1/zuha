@@ -1,0 +1,116 @@
+{
+  "brandSub": "Real Estate",
+  "ctaHeader": "Request Consultation",
+  "menu": {
+    "title": "Menu",
+    "home": "Home",
+    "about": "About",
+    "team": "Team",
+    "contact": "Contact",
+    "cta": "Request Consultation"
+  },
+  "heroHint": "Approach",
+  "vision": {
+    "kicker": "ALZUHA Vision",
+    "title": "Clear vision. Trusted investment. Bright future.",
+    "desc": "We deliver a real-estate approach built on clarity, disciplined asset management, and investment decisions backed by data. Once the stacked images finish above, the page content starts here exactly like the reference design."
+  },
+
+  "heroSlides": [
+  {
+    "title": "Premium project presence",
+    "desc": "We present residential and commercial projects with a polished identity, strong locations, and a confident visual presence."
+  },
+  {
+    "title": "Real development on the ground",
+    "desc": "We turn vision into structured execution through disciplined project development, quality control, and timing."
+  },
+  {
+    "title": "Strategic investment visibility",
+    "desc": "We connect asset value, location, and future growth to present real-estate opportunities with clear investment logic."
+  }
+],
+
+
+
+
+
+
+  "services": {
+    "title": "Reliable & easy real-estate solutions",
+    "desc": "Explore our services in development, investment, and asset management with professionalism and full transparency.",
+    "items": [
+      {
+        "label": "01",
+        "title": "Real Estate Development",
+        "text": "We develop carefully planned real-estate projects that combine operational value with strong investment appeal.",
+        "btn": "Start Now",
+        "img": "pages/about/img/service-01_labeled.png"
+      },
+      {
+        "label": "02",
+        "title": "Real Estate Investment",
+        "text": "We help you read the market and select higher-value opportunities with a disciplined investment mindset.",
+        "btn": "Request Consultation",
+        "img": "pages/about/img/service-02_labeled.png"
+      },
+      {
+        "label": "03",
+        "title": "Asset Management",
+        "text": "We manage real-estate assets through an operational and investment approach focused on sustainability, efficiency, and returns.",
+        "btn": "Contact Now",
+        "img": "pages/about/img/service-03_labeled.png"
+      }
+    ]
+  },
+  "stats": {
+    "title": "Numbers that reflect our expertise",
+    "items": [
+      {
+        "num": "+100",
+        "title": "Successful Projects",
+        "desc": "Delivered diverse real-estate projects"
+      },
+      {
+        "num": "+250",
+        "title": "Trusted Clients",
+        "desc": "Long-term partnerships with clients"
+      },
+      {
+        "num": "+30",
+        "title": "Years of Experience",
+        "desc": "A solid track record in the market"
+      }
+    ]
+  },
+  "team": {
+    "kicker": "Our Team",
+    "title": "Experts in real estate & investment",
+    "desc": "Meet a selected team specialized in development, asset management, and investment advisory. We combine experience and vision to support your growth.",
+    "cta": "Contact Now",
+    "members": [
+      {
+        "name": "Adam Nassar",
+        "role": "Projects Development Lead",
+        "avatar": "pages/about/img/team-01_labeled.png"
+      },
+      {
+        "name": "Sarah Jaber",
+        "role": "Real Estate Investment Advisor",
+        "avatar": "pages/about/img/team-02_labeled.png"
+      },
+      {
+        "name": "Lian Murad",
+        "role": "Asset Management Specialist",
+        "avatar": "pages/about/img/team-03_labeled.png"
+      }
+    ]
+  },
+  "footer": {
+    "email": "info@alzharealestate.com",
+    "location": "Iraq, Najaf",
+    "brand": "ALZUHA",
+    "copy": "All rights reserved © ALZUHA 2025",
+    "policy": "Privacy Policy"
+  }
+}

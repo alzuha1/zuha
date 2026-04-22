@@ -1,0 +1,435 @@
+<!doctype html>
+<!-- تعريف المستند كصفحة HTML5 -->
+
+<html lang="ar" dir="rtl">
+<!-- بداية مستند HTML مع تحديد اللغة العربية واتجاه النص من اليمين إلى اليسار -->
+
+<head>
+  <!-- بداية رأس الصفحة الذي يحتوي على بيانات التعريف والروابط الخارجية -->
+
+  <meta charset="utf-8">
+  <!-- تحديد ترميز الأحرف لدعم العربية والإنجليزية بشكل صحيح -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- جعل الصفحة متجاوبة مع الجوال والأجهزة المختلفة -->
+
+  <title>ALZUHA | About</title>
+  <!-- عنوان الصفحة الظاهر في تبويب المتصفح -->
+
+  <meta name="description" content="About ALZUHA Real Estate">
+  <!-- وصف مختصر للصفحة لمحركات البحث -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- تهيئة اتصال مبكر مع خادم خطوط Google لتحسين سرعة التحميل -->
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- تهيئة اتصال مبكر مع خادم ملفات الخطوط مع دعم crossorigin -->
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <!-- استدعاء خط Tajawal المستخدم في الصفحة -->
+
+  <link rel="stylesheet" href="/about-assets/css/page.css">
+  <!-- ربط ملف CSS الصحيح من مجلد public/about-assets بعد تصحيح المسار -->
+</head>
+
+<body>
+  <!-- بداية جسم الصفحة -->
+
+  <!-- =========================================
+       Topbar
+       الشريط العلوي
+       ========================================= -->
+  <header class="topbar">
+    <!-- الشريط العلوي الرئيسي -->
+
+    <div class="topbar__right">
+      <!-- الجهة اليمنى من الهيدر: الشعار والنص -->
+
+      <a href="#aboutHeroSlider" class="topbar__logo-link" aria-label="Go to hero section">
+        <!-- رابط الشعار: ينقل المستخدم إلى بداية السلايدر داخل نفس الصفحة -->
+        <div class="topbar__logo-icon">⌂</div>
+        <!-- أيقونة الشعار -->
+      </a>
+
+      <div class="topbar__logo-text">
+        <!-- النصوص المرافقة للشعار -->
+        <strong>ALZUHA</strong>
+        <!-- اسم العلامة التجارية -->
+        <span id="brandSub">Real Estate</span>
+        <!-- النص الفرعي الذي قد يتم تغييره ديناميكيًا عبر JavaScript -->
+      </div>
+    </div>
+
+    <div class="topbar__left">
+      <!-- الجهة اليسرى من الهيدر: أزرار التفاعل -->
+
+      <a href="#contactBlock" class="topbar__btn" id="ctaHeader">Request Consultation</a>
+      <!-- زر طلب الاستشارة: ينزل إلى قسم التواصل داخل نفس الصفحة -->
+
+      <button type="button" class="topbar__lang" id="langToggle">EN</button>
+      <!-- زر تبديل اللغة -->
+
+      <button
+        type="button"
+        class="topbar__menu-btn"
+        id="menuToggle"
+        aria-label="Open menu"
+      >
+        <!-- زر فتح القائمة الجانبية في الجوال -->
+
+        <span></span>
+        <!-- الخط الأول في أيقونة القائمة -->
+
+        <span></span>
+        <!-- الخط الثاني في أيقونة القائمة -->
+
+        <span></span>
+        <!-- الخط الثالث في أيقونة القائمة -->
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================
+       Side Menu
+       القائمة الجانبية
+       ========================================= -->
+  <aside class="side-menu" id="sideMenu" aria-hidden="true">
+    <!-- القائمة الجانبية المخفية افتراضيًا -->
+
+    <div class="side-menu__header">
+      <!-- رأس القائمة الجانبية -->
+
+      <strong id="menuTitle">Menu</strong>
+      <!-- عنوان القائمة -->
+
+      <button
+        type="button"
+        class="side-menu__close"
+        id="menuClose"
+        aria-label="Close menu"
+      >
+        ×
+      </button>
+      <!-- زر إغلاق القائمة الجانبية -->
+    </div>
+
+    <nav class="side-menu__nav">
+      <!-- روابط التنقل داخل القائمة -->
+
+      <a href="#aboutHeroSlider" id="menuHome">Home</a>
+      <!-- رابط Home: ينزل إلى أعلى الصفحة -->
+
+      <a href="#aboutHeroSlider" class="active" id="menuAbout">About</a>
+      <!-- رابط About: الصفحة الحالية نفسها لذلك بقي كرابط داخلي -->
+
+      <a href="#team" id="menuTeam">Team</a>
+      <!-- رابط Team: ينزل إلى قسم الفريق -->
+
+      <a href="#contactBlock" id="menuContact">Contact</a>
+      <!-- رابط Contact: ينزل إلى قسم التواصل في الفوتر -->
+    </nav>
+
+    <a href="#contactBlock" class="side-menu__btn" id="menuCta">Request Consultation</a>
+    <!-- زر CTA داخل القائمة الجانبية -->
+  </aside>
+
+  <!-- =========================================
+       Hero Slider
+       السلايدر الرئيسي
+       ========================================= -->
+  <section class="about-hero-slider" id="aboutHeroSlider">
+    <!-- قسم السلايدر الرئيسي مع معرف يستخدم للانتقال الداخلي -->
+
+    <div class="about-hero-slider__shell">
+      <!-- الغلاف الخارجي للسلايدر -->
+
+      <div class="about-hero-slider__frame">
+        <!-- الإطار الذي يحتوي على الشرائح -->
+
+        <div class="about-hero-slider__track" id="heroSliderTrack">
+          <!-- المسار الذي تتحرك داخله الشرائح -->
+
+          <article class="about-hero-slide">
+            <!-- الشريحة الأولى -->
+            <img
+              class="about-hero-slide__img"
+              alt="ALZUHA slide 1"
+              src="/about-assets/img/stack-01_labeled.png"
+            >
+            <!-- صورة الشريحة الأولى بعد تصحيح المسار -->
+          </article>
+
+          <article class="about-hero-slide">
+            <!-- الشريحة الثانية -->
+            <img
+              class="about-hero-slide__img"
+              alt="ALZUHA slide 2"
+              src="/about-assets/img/stack-02_labeled.png"
+            >
+            <!-- صورة الشريحة الثانية بعد تصحيح المسار -->
+          </article>
+
+          <article class="about-hero-slide">
+            <!-- الشريحة الثالثة -->
+            <img
+              class="about-hero-slide__img"
+              alt="ALZUHA slide 3"
+              src="/about-assets/img/stack-03_labeled.png"
+            >
+            <!-- صورة الشريحة الثالثة بعد تصحيح المسار -->
+          </article>
+        </div>
+
+        <button
+          type="button"
+          class="about-hero-slider__nav about-hero-slider__nav--prev"
+          id="heroPrevBtn"
+          aria-label="Previous slide"
+        >
+          ‹
+        </button>
+        <!-- زر الانتقال إلى الشريحة السابقة -->
+
+        <button
+          type="button"
+          class="about-hero-slider__nav about-hero-slider__nav--next"
+          id="heroNextBtn"
+          aria-label="Next slide"
+        >
+          ›
+        </button>
+        <!-- زر الانتقال إلى الشريحة التالية -->
+      </div>
+
+      <div class="about-hero-slider__meta">
+        <!-- المنطقة النصية أسفل السلايدر -->
+
+        <div class="about-hero-slider__meta-head">
+          <!-- الصف العلوي في وصف السلايدر -->
+
+          <span class="about-hero-slider__hint" id="heroHint">Approach</span>
+          <!-- تلميح صغير يتغير حسب الشريحة -->
+
+          <div class="about-hero-slider__dots" id="heroSliderDots">
+            <!-- نقاط التنقل بين الشرائح -->
+
+            <button
+              type="button"
+              class="about-hero-slider__dot is-active"
+              data-slide="0"
+              aria-label="Slide 1"
+            ></button>
+            <!-- نقطة الشريحة الأولى -->
+
+            <button
+              type="button"
+              class="about-hero-slider__dot"
+              data-slide="1"
+              aria-label="Slide 2"
+            ></button>
+            <!-- نقطة الشريحة الثانية -->
+
+            <button
+              type="button"
+              class="about-hero-slider__dot"
+              data-slide="2"
+              aria-label="Slide 3"
+            ></button>
+            <!-- نقطة الشريحة الثالثة -->
+          </div>
+        </div>
+
+        <h2 class="about-hero-slider__title" id="heroSlideTitle">
+          واجهة مشاريع راقية
+        </h2>
+        <!-- عنوان الشريحة الحالية -->
+
+        <p class="about-hero-slider__desc" id="heroSlideDesc">
+          مشاريع عقارية بهوية بصرية احترافية وموقع استراتيجي وقيمة طويلة المدى.
+        </p>
+        <!-- وصف الشريحة الحالية -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================
+       Vision
+       قسم الرؤية
+       ========================================= -->
+  <section class="about-vision">
+    <!-- قسم الرؤية -->
+
+    <div class="about-vision__content">
+      <!-- المحتوى الداخلي لقسم الرؤية -->
+
+      <span class="about-vision__kicker" id="visionKicker">ALZUHA Vision</span>
+      <!-- السطر الصغير أعلى العنوان -->
+
+      <h1 class="about-vision__title" id="visionTitle">
+        Clear vision. Trusted investment. Bright future.
+      </h1>
+      <!-- العنوان الرئيسي لقسم الرؤية -->
+
+      <p class="about-vision__desc" id="visionDesc">
+        We deliver a real-estate approach built on clarity, disciplined asset management,
+        and investment decisions backed by data.
+      </p>
+      <!-- الوصف التفصيلي لقسم الرؤية -->
+    </div>
+  </section>
+
+  <!-- =========================================
+       Services
+       قسم الخدمات
+       ========================================= -->
+  <section class="about-services">
+    <!-- قسم الخدمات -->
+
+    <div class="about-services__header">
+      <!-- رأس قسم الخدمات -->
+
+      <h2 class="about-services__title" id="servicesTitle">
+        Reliable & easy real-estate solutions
+      </h2>
+      <!-- عنوان قسم الخدمات -->
+
+      <p class="about-services__desc" id="servicesDesc">
+        Explore our services in development, investment, and asset management
+        with professionalism and full transparency.
+      </p>
+      <!-- وصف قسم الخدمات -->
+    </div>
+
+    <div class="about-services__cards" id="servicesCards"></div>
+    <!-- حاوية بطاقات الخدمات التي سيبنيها JavaScript -->
+  </section>
+
+  <!-- =========================================
+       Stats
+       قسم الإحصائيات
+       ========================================= -->
+  <section class="about-stats">
+    <!-- قسم الإحصائيات -->
+
+    <h2 class="about-stats__main-title" id="statsMainTitle">
+      Numbers that reflect our expertise
+    </h2>
+    <!-- عنوان القسم -->
+
+    <div class="about-stats__grid" id="statsGrid"></div>
+    <!-- حاوية بطاقات الإحصائيات التي سيبنيها JavaScript -->
+  </section>
+
+  <!-- =========================================
+       Team
+       قسم الفريق
+       ========================================= -->
+  <section class="about-team" id="team">
+    <!-- قسم الفريق مع معرف للانتقال المباشر -->
+
+    <div class="about-team__header">
+      <!-- رأس القسم -->
+
+      <span class="about-team__kicker" id="teamKicker">Our Team</span>
+      <!-- السطر الصغير -->
+
+      <h2 class="about-team__title" id="teamTitle">
+        Experts in real estate & investment
+      </h2>
+      <!-- عنوان القسم -->
+
+      <p class="about-team__desc" id="teamDesc">
+        Meet a selected team specialized in development, asset management,
+        and investment advisory.
+      </p>
+      <!-- وصف القسم -->
+
+      <a href="#contactBlock" class="about-team__btn" id="teamContactBtn">Contact Now</a>
+      <!-- زر تواصل داخل قسم الفريق -->
+    </div>
+
+    <div class="about-team__grid" id="teamGrid"></div>
+    <!-- حاوية بطاقات أعضاء الفريق التي سيبنيها JavaScript -->
+  </section>
+
+  <!-- =========================================
+       Logo Card
+       بطاقة الشعار
+       ========================================= -->
+  <section class="about-logoCard">
+    <!-- قسم الشعار السفلي -->
+
+    <div class="about-logoCard__inner">
+      <!-- الغلاف الداخلي -->
+
+      <div class="about-logoCard__logo">
+        ALZUHA
+        <span>Real Estate</span>
+      </div>
+      <!-- الشعار النصي -->
+    </div>
+  </section>
+
+  <!-- =========================================
+       Footer
+       الفوتر
+       ========================================= -->
+  <footer class="about-footer" id="contactBlock">
+    <!-- الفوتر النهائي مع معرف يستخدم كوجهة لروابط Contact وRequest Consultation -->
+
+    <div class="about-footer__contact">
+      <!-- بيانات التواصل -->
+
+      <a href="mailto:info@alzharealestate.com" id="footerEmail">
+        info@alzharealestate.com
+      </a>
+      <!-- البريد الإلكتروني -->
+
+      <br>
+      <!-- كسر سطر -->
+
+      <a href="#" id="footerLocation">Iraq, Najaf</a>
+      <!-- الموقع الجغرافي -->
+    </div>
+
+    <div class="about-footer__social">
+      <!-- روابط التواصل الاجتماعي -->
+
+      <a href="#">Instagram</a>
+      <!-- رابط إنستغرام -->
+
+      <a href="#">LinkedIn</a>
+      <!-- رابط لينكدإن -->
+
+      <a href="#">Facebook</a>
+      <!-- رابط فيسبوك -->
+    </div>
+
+    <div class="about-footer__brand">
+      <!-- جزء الشعار داخل الفوتر -->
+
+      <div class="about-footer__icon">⌂</div>
+      <!-- أيقونة الشعار -->
+
+      <div class="about-footer__brand-text" id="footerBrand">ALZUHA</div>
+      <!-- اسم العلامة التجارية -->
+    </div>
+
+    <div class="about-footer__bottom">
+      <!-- الجزء السفلي من الفوتر -->
+
+      <span id="footerCopy">All rights reserved © ALZUHA 2025</span>
+      <!-- نص الحقوق -->
+
+      <a href="#" class="about-footer__policy" id="footerPolicy">Privacy Policy</a>
+      <!-- رابط سياسة الخصوصية -->
+    </div>
+  </footer>
+
+  <script src="/about-assets/js/page.js"></script>
+  <!-- ربط ملف JavaScript الصحيح بعد تصحيح المسار من public/about-assets -->
+</body>
+</html>

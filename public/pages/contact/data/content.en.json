@@ -1,0 +1,50 @@
+{
+  "nav": {
+    "menuTitle": "Menu",
+    "home": "Home",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "services": "Services",
+    "contact": "Book Consultation",
+    "cta": "Request Consultation"
+  },
+  "hero": {
+    "kicker": "VIP Client Service",
+    "title": "Set Your Time, Let's Plan Your Real Estate Future",
+    "desc": "Book your private consultation session with top real estate and investment experts at ALZUHA."
+  },
+  "benefits": {
+    "title": "Why Book a Consultation With Us?",
+    "b1Title": "Accurate Market Analysis",
+    "b1Desc": "We provide realistic, data-driven readings of real estate market movements.",
+    "b2Title": "Budget & ROI Study",
+    "b2Desc": "We analyze your budget and match it with opportunities for maximum returns.",
+    "b3Title": "Exclusive Project Proposals",
+    "b3Desc": "Early access to exceptional projects that suit your residential or investment goals."
+  },
+  "form": {
+    "title": "Booking Details",
+    "name": "Full Name",
+    "phName": "John Doe",
+    "phone": "Phone Number (WhatsApp)",
+    "phPhone": "+964 XXX XXX XXXX",
+    "email": "Email Address",
+    "phEmail": "email@example.com",
+    "typeLabel": "Preferred Meeting Method",
+    "typeBranch": "🏢 Company Branch",
+    "typeZoom": "💻 Zoom Meeting",
+    "typePhone": "📞 Phone Call",
+    "date": "Meeting Date",
+    "dateError": "Working days are Sun to Thu only. Please select another day.",
+    "time": "Meeting Time",
+    "optTimeSelect": "Select Time...",
+    "submit": "Confirm Booking"
+  },
+  "footer": {
+    "social1": "LinkedIn",
+    "social2": "Instagram",
+    "social3": "Dribbble",
+    "copy": "All rights reserved © ALZUHA 2026",
+    "privacy": "Privacy Policy"
+  }
+}

@@ -1,0 +1,818 @@
+/* =========================================================
+   Contact Page Styles
+   الملف النهائي المنقّح لصفحة Contact
+   ========================================================= */
+
+/* =========================================================
+   متغيرات عامة للألوان والظلال
+   ========================================================= */
+:root {
+  --contact-blue: #2f57c8;
+  --contact-blue-dark: #2648a8;
+  --contact-black: #050505;
+  --contact-white: #ffffff;
+
+  --contact-gray-bg: #f6f7fb;
+  --contact-gray-text: #667085;
+  --contact-gray-dark: #344054;
+  --contact-gray-light: #e4e7ec;
+  --contact-placeholder: #dfe5ea;
+
+  --contact-shadow-soft: 0 12px 30px rgba(16, 24, 40, 0.07);
+  --contact-shadow-hero: 0 18px 45px rgba(0, 0, 0, 0.20);
+  --contact-shadow-arrow: 0 12px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* =========================================================
+   الغلاف العام للصفحة
+   ========================================================= */
+.contact-page {
+  min-height: 100vh;
+  background: var(--contact-gray-bg);
+  color: var(--contact-black);
+}
+
+.contact-container {
+  width: min(1220px, 92%);
+  margin-inline: auto;
+}
+
+/* =========================================================
+   الهيدر العلوي
+   ========================================================= */
+.contact-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 78px;
+  padding: 14px 5%;
+  background: var(--contact-blue);
+  color: var(--contact-white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.contact-topbar__brand {
+  flex: 0 0 auto;
+}
+
+.contact-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.contact-brand__mark {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--contact-blue);
+  font-size: 22px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.contact-brand__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+}
+
+.contact-brand__text strong {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.contact-brand__text span {
+  font-size: 14px;
+  opacity: 0.86;
+}
+
+.contact-topbar__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+  flex: 1 1 auto;
+}
+
+.contact-topbar__nav a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  opacity: 0.92;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.contact-topbar__nav a:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.contact-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+
+.contact-burger {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.contact-burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin: 5px 0;
+  border-radius: 999px;
+  background: var(--contact-white);
+}
+
+/* =========================================================
+   القائمة الجانبية للموبايل
+   ========================================================= */
+.contact-sidepanel {
+  position: fixed;
+  top: 0;
+  inset-inline-end: -100%;
+  z-index: 150;
+  width: min(320px, 88vw);
+  height: 100vh;
+  padding: 28px;
+  background: var(--contact-white);
+  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.16);
+  transition: inset-inline-end 0.35s ease;
+}
+
+.contact-sidepanel.is-open {
+  inset-inline-end: 0;
+}
+
+.contact-sidepanel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.contact-sidepanel__header strong {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.contact-sidepanel__close {
+  border: none;
+  background: none;
+  color: var(--contact-black);
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.contact-sidepanel__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.contact-sidepanel__nav a {
+  color: var(--contact-black);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* =========================================================
+   Hero Section
+   ========================================================= */
+.contact-hero {
+  padding: 36px 0 64px;
+  background: var(--contact-blue);
+  color: var(--contact-white);
+  border-bottom-left-radius: 36px;
+  border-bottom-right-radius: 36px;
+}
+
+/* هذا مهم جدًا:
+   جعل العناصر تصطف من الأعلى بدل المنتصف حتى لا يظهر فراغ علوي مشوّه */
+.contact-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(320px, 620px);
+  gap: 40px;
+  align-items: start;
+}
+
+.contact-hero__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-kicker {
+  display: inline-flex;
+  width: fit-content;
+  padding: 10px 18px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.contact-hero__title {
+  margin: 0 0 18px;
+  color: var(--contact-white);
+  font-size: clamp(42px, 6vw, 76px);
+  line-height: 1.03;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.contact-hero__desc {
+  margin: 0;
+  max-width: 680px;
+  color: rgba(255, 255, 255, 0.80);
+  font-size: 20px;
+  line-height: 1.82;
+}
+
+.contact-hero__media {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* =========================================================
+   غلاف السلايدر
+   هذا الغلاف هو سبب الإحساس بالشكل العلوي سابقًا
+   تم تقليل الـ padding وضبط الأبعاد بدقة
+   ========================================================= */
+.contact-sliderShell {
+  position: relative;
+  width: min(100%, 1660px);
+  margin: 0 auto;
+  padding: 16px;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* نافذة عرض السلايدر */
+.contact-sliderViewport,
+.contact-imagePlaceholder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 26px;
+  background: linear-gradient(135deg, #dde3ea 0%, #ccd5df 100%);
+  box-shadow: var(--contact-shadow-hero);
+  isolation: isolate;
+  margin: 0;
+}
+
+/* إذا كانت الصورة داخل figure */
+.contact-sliderViewport figure,
+.contact-imagePlaceholder figure {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* تتبّع السلايدر */
+.contact-sliderTrack {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* الشريحة الواحدة */
+.contact-slide {
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================================================
+   الصورة نفسها
+   ========================================================= */
+.contact-dynamicImage,
+.contact-slide img,
+.contact-sliderViewport img,
+.contact-imagePlaceholder img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  border: 0;
+  opacity: 1;
+  transform: none;
+}
+
+/* =========================================================
+   حالة الفال باك عندما لا توجد صورة
+   ========================================================= */
+.contact-heroFallback {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #d7dbe3 0%, #c4cad5 100%);
+  color: rgba(0, 0, 0, 0.18);
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+/* =========================================================
+   أسهم السلايدر
+   تم نقلها إلى جانبي الصورة بدل أسفلها
+   ========================================================= */
+
+/* إذا عندك div يحتوي أزرار السلايدر */
+.contact-sliderControls {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* الأزرار نفسها */
+.contact-sliderArrow,
+.contact-sliderControls button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--contact-blue);
+  font-size: 24px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: var(--contact-shadow-arrow);
+  transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+  pointer-events: auto;
+}
+
+/* السهم الأيسر */
+.contact-sliderArrow--prev,
+.contact-sliderControls button:first-child {
+  left: 18px;
+}
+
+/* السهم الأيمن */
+.contact-sliderArrow--next,
+.contact-sliderControls button:last-child {
+  right: 18px;
+}
+
+/* تحسين التفاعل */
+.contact-sliderArrow:hover,
+.contact-sliderControls button:hover {
+  background: var(--contact-white);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.contact-sliderArrow:disabled,
+.contact-sliderControls button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* إذا عندك نقاط أو أزرار أسفل السلايدر وأنت لا تريدها */
+.contact-sliderDots,
+.contact-sliderIndicators,
+.contact-sliderNav {
+  display: none !important;
+}
+
+/* =========================================================
+   المحتوى الرئيسي
+   ========================================================= */
+.contact-main {
+  position: relative;
+  z-index: 10;
+  margin-top: -24px;
+  padding-bottom: 90px;
+}
+
+.contact-sectionTitle {
+  margin: 0 0 24px;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.contact-cardsSection,
+.contact-officesSection,
+.contact-formSection,
+.contact-socialSection {
+  margin-bottom: 42px;
+}
+
+/* =========================================================
+   بطاقات التواصل
+   ========================================================= */
+.contact-cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.contact-card {
+  display: flex;
+  gap: 16px;
+  padding: 22px;
+  border-radius: 22px;
+  background: var(--contact-white);
+  border: 1px solid var(--contact-gray-light);
+  box-shadow: var(--contact-shadow-soft);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(16, 24, 40, 0.10);
+  border-color: rgba(50, 107, 246, 0.20);
+}
+
+.contact-card__icon {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  background: #f3f6ff;
+  font-size: 27px;
+}
+
+.contact-card__body h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.contact-card__body p {
+  margin: 0;
+  color: var(--contact-gray-dark);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   المكاتب والفروع
+   ========================================================= */
+.contact-officesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.contact-officeCard {
+  padding: 24px;
+  border-radius: 22px;
+  background: var(--contact-white);
+  border: 1px solid var(--contact-gray-light);
+  box-shadow: var(--contact-shadow-soft);
+}
+
+.contact-officeCard h3 {
+  margin: 0 0 10px;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.contact-officeCard p {
+  margin: 0 0 14px;
+  color: var(--contact-gray-text);
+  line-height: 1.85;
+}
+
+.contact-officeCard__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.contact-officeCard__meta a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* =========================================================
+   نموذج التواصل
+   ========================================================= */
+.contact-formCard {
+  padding: 40px;
+  border-radius: 26px;
+  background: var(--contact-white);
+  border: 1px solid var(--contact-gray-light);
+  box-shadow: 0 20px 50px rgba(16, 24, 40, 0.08);
+}
+
+.contact-formCard__title {
+  margin: 0 0 10px;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.contact-formCard__desc {
+  margin: 0 0 24px;
+  color: var(--contact-gray-text);
+  line-height: 1.8;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.contact-formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact-formGroup label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.contact-formGroup input,
+.contact-textarea {
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--contact-gray-light);
+  background: var(--contact-gray-bg);
+  font: inherit;
+  outline: none;
+  text-align: start;
+  transition: 0.25s ease;
+}
+
+.contact-textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+
+.contact-formGroup input::placeholder,
+.contact-textarea::placeholder {
+  color: #98a2b3;
+  text-align: start;
+}
+
+.contact-formGroup input:focus,
+.contact-textarea:focus {
+  background: var(--contact-white);
+  border-color: var(--contact-blue);
+  box-shadow: 0 0 0 3px rgba(50, 107, 246, 0.12);
+}
+
+/* =========================================================
+   إشعارات النجاح والخطأ
+   ========================================================= */
+.contact-notice {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.contact-notice.is-success,
+.contact-notice--success {
+  background: #ecfdf3;
+  color: #157347;
+  border: 1px solid #c7f0d8;
+}
+
+.contact-notice.is-error,
+.contact-notice--error {
+  background: #fff1f1;
+  color: #b42318;
+  border: 1px solid #f5c2c7;
+}
+
+.contact-submitBtn {
+  padding: 15px 22px;
+  border: none;
+  border-radius: 12px;
+  background: var(--contact-blue);
+  color: var(--contact-white);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.contact-submitBtn:hover {
+  background: var(--contact-blue-dark);
+}
+
+.contact-submitBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   الشبكات الاجتماعية
+   ========================================================= */
+.contact-socialGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.contact-socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--contact-white);
+  color: var(--contact-black);
+  border: 1px solid var(--contact-gray-light);
+  box-shadow: var(--contact-shadow-soft);
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform 0.22s ease, border-color 0.22s ease;
+}
+
+.contact-socialLink:hover {
+  transform: translateY(-2px);
+  border-color: rgba(50, 107, 246, 0.28);
+}
+
+/* =========================================================
+   الفوتر
+   ========================================================= */
+.contact-pageFooter {
+  padding: 44px 0 34px;
+  background: var(--contact-black);
+  color: var(--contact-white);
+}
+
+.contact-pageFooter__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.contact-pageFooter__copy {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.contact-pageFooter__copy p {
+  margin: 0;
+  opacity: 0.82;
+}
+
+.contact-pageFooter__copy a,
+.contact-pageFooter__inner > a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width: 1100px) {
+  .contact-hero__grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .contact-hero__media {
+    order: -1;
+  }
+
+  .contact-hero__content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-hero__desc {
+    max-width: 100%;
+  }
+
+  .contact-sliderShell {
+    width: 100%;
+  }
+}
+
+@media (max-width: 991px) {
+  .contact-topbar__nav {
+    display: none;
+  }
+
+  .contact-burger {
+    display: inline-block;
+  }
+
+  .contact-cardsGrid,
+  .contact-officesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-sliderArrow,
+  .contact-sliderControls button {
+    width: 46px;
+    height: 46px;
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-formCard {
+    padding: 24px;
+  }
+
+  .contact-hero {
+    padding: 26px 0 52px;
+  }
+
+  .contact-hero__title {
+    font-size: clamp(36px, 11vw, 52px);
+  }
+
+  .contact-hero__desc {
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  .contact-sliderShell {
+    padding: 10px;
+    border-radius: 22px;
+  }
+
+  .contact-sliderViewport,
+  .contact-imagePlaceholder {
+    border-radius: 18px;
+    aspect-ratio: 4 / 3;
+  }
+
+  .contact-sliderArrow--prev,
+  .contact-sliderControls button:first-child {
+    left: 10px;
+  }
+
+  .contact-sliderArrow--next,
+  .contact-sliderControls button:last-child {
+    right: 10px;
+  }
+
+  .contact-pageFooter__inner,
+  .contact-pageFooter__copy {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
