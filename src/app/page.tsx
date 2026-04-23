@@ -869,73 +869,82 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="contact">
-          <div className="container">
-            <p className="kicker kicker--dark">{t("contact.eyebrow")}</p>
-            <h2 className="contact__title">{t("contact.title")}</h2>
-            <p className="contact__desc">{t("contact.desc")}</p>
+<section className="contact">
+  <div className="container">
+    <p className="kicker kicker--dark">{t("contact.eyebrow")}</p>
+    <h2 className="contact__title">{t("contact.title")}</h2>
+    <p className="contact__desc">{t("contact.desc")}</p>
 
-            <div className="contactCards">
-              <article className="cCard">
-                <div className="cCard__icon">✉</div>
-                <h3>{t("contact.card1.title")}</h3>
-                <p className="cCard__text">{t("contact.card1.desc")}</p>
-                <a
-                  className="cCard__link"
-                  href={`mailto:${normalizeText(safeData.email, "info@zuha.us")}`}
-                >
-                  {normalizeText(safeData.email, "info@zuha.us")}
-                </a>
-              </article>
+    <div className="contactCards">
+      {/* كرت الهاتف أولًا */}
+      <article className="cCard">
+        <div className="cCard__icon">☎</div>
+        <h3>{t("contact.card2.title")}</h3>
+        <p className="cCard__text">{t("contact.card2.desc")}</p>
+        <a
+          className="cCard__link"
+          href={`tel:${normalizePhoneForTel(
+            safeData.phone,
+            "+9647802335555"
+          )}`}
+        >
+          {normalizeText(safeData.phone, "+964 7802335555")}
+        </a>
+      </article>
 
-              <article className="cCard">
-                <div className="cCard__icon">☎</div>
-                <h3>{t("contact.card2.title")}</h3>
-                <p className="cCard__text">{t("contact.card2.desc")}</p>
-                <a
-                  className="cCard__link"
-                  href={`tel:${normalizePhoneForTel(
-                    safeData.phone,
-                    "+9647802335555"
-                  )}`}
-                >
-                  {normalizeText(safeData.phone, "+964 7802335555")}
-                </a>
-              </article>
+      {/* كرت الموقع الجغرافي */}
+      <article className="cCard">
+        <div className="cCard__icon">⌂</div>
+        <h3>{t("contact.card3.title")}</h3>
+        <p className="cCard__text">{t("contact.card3.desc")}</p>
+        <Link className="cCard__link" href="/contact">
+          {normalizeText(safeData.location, "Iraq / Najaf")}
+        </Link>
+      </article>
 
-              <article className="cCard">
-                <div className="cCard__icon">⌂</div>
-                <h3>{t("contact.card3.title")}</h3>
-                <p className="cCard__text">{t("contact.card3.desc")}</p>
-                <Link className="cCard__link" href="/contact">
-                  {normalizeText(safeData.location, "Iraq / Najaf")}
-                </Link>
-              </article>
-            </div>
+      {/* كرت الموقع الإلكتروني، وليس البريد */}
+      <article className="cCard">
+        <div className="cCard__icon">⌘</div>
+        <h3>{lang === "ar" ? "الموقع الإلكتروني" : "Website"}</h3>
+        <p className="cCard__text">
+          {lang === "ar"
+            ? "الموقع الرسمي لشركة الزهى."
+            : "Official ALZUHA website."}
+        </p>
+        <a
+          className="cCard__link"
+          href="https://zuha.us"
+          target="_blank"
+          rel="noreferrer"
+        >
+          zuha.us
+        </a>
+      </article>
+    </div>
 
-            <div className="brandWall">
-              <figure className="brandHuge">
-                <div className="shot__ph--inline">13</div>
-                <img src={brandImage} alt="Brand wall" style={mediaImgStyle} />
-                <div className="brandHuge__cap">{t("brand.title")}</div>
-              </figure>
+    <div className="brandWall">
+      <figure className="brandHuge">
+        <div className="shot__ph--inline">13</div>
+        <img src={brandImage} alt="Brand wall" style={mediaImgStyle} />
+        <div className="brandHuge__cap">{t("brand.title")}</div>
+      </figure>
 
-              <div className="footerMini">
-                <span>
-                  {normalizeText(safeData.location, "Iraq / Najaf")}{" "}
-                  <span className="sep">•</span>{" "}
-                  {normalizeText(safeData.phone, "+964 7802335555")}{" "}
-                  <span className="sep">•</span>{" "}
-                  {normalizeText(safeData.email, "info@zuha.us")}
-                </span>
+      <div className="footerMini">
+        <span>
+          {normalizeText(safeData.location, "Iraq / Najaf")}{" "}
+          <span className="sep">•</span>{" "}
+          {normalizeText(safeData.phone, "+964 7802335555")}{" "}
+          <span className="sep">•</span>{" "}
+          zuha.us
+        </span>
 
-                <Link className="footerMini__link" href="/request-consultation">
-                  {t("contact.cta")}
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
+        <Link className="footerMini__link" href="/request-consultation">
+          {t("contact.cta")}
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
       </main>
 
       <Script src="/pages/home/js/page.js" strategy="afterInteractive" />
