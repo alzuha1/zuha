@@ -875,36 +875,80 @@ export default async function HomePage() {
     <h2 className="contact__title">{t("contact.title")}</h2>
     <p className="contact__desc">{t("contact.desc")}</p>
 
-    <div className="contactCards">
-      {/* كرت الهاتف أولًا */}
-      <article className="cCard">
-        <div className="cCard__icon">☎</div>
-        <h3>{t("contact.card2.title")}</h3>
-        <p className="cCard__text">{t("contact.card2.desc")}</p>
+    <div
+      className="contactCards"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+        gap: "24px",
+      }}
+    >
+      {/* الهاتف */}
+      <article className="cCard" style={{ borderColor: "rgba(22,163,74,.35)" }}>
+        <div
+          className="cCard__icon"
+          style={{
+            background: "rgba(22,163,74,.18)",
+            color: "#22c55e",
+            boxShadow: "0 10px 28px rgba(22,163,74,.22)",
+          }}
+        >
+          ☎
+        </div>
+        <h3>{lang === "ar" ? "الهاتف" : "Phone"}</h3>
+        <p className="cCard__text">
+          {lang === "ar"
+            ? "خط مباشر للاستشارة والمتابعة."
+            : "Direct line for consultation and follow-up."}
+        </p>
         <a
           className="cCard__link"
-          href={`tel:${normalizePhoneForTel(
-            safeData.phone,
-            "+9647802335555"
-          )}`}
+          href={`tel:${normalizePhoneForTel(safeData.phone, "+9647802335555")}`}
         >
           {normalizeText(safeData.phone, "+964 7802335555")}
         </a>
       </article>
 
-      {/* كرت الموقع الجغرافي */}
-      <article className="cCard">
-        <div className="cCard__icon">⌂</div>
-        <h3>{t("contact.card3.title")}</h3>
-        <p className="cCard__text">{t("contact.card3.desc")}</p>
-        <Link className="cCard__link" href="/contact">
-          {normalizeText(safeData.location, "Iraq / Najaf")}
-        </Link>
+      {/* الموقع الجغرافي */}
+      <article className="cCard" style={{ borderColor: "rgba(234,88,12,.35)" }}>
+        <div
+          className="cCard__icon"
+          style={{
+            background: "rgba(234,88,12,.18)",
+            color: "#fb923c",
+            boxShadow: "0 10px 28px rgba(234,88,12,.22)",
+          }}
+        >
+          ⌂
+        </div>
+        <h3>{lang === "ar" ? "الموقع" : "Location"}</h3>
+        <p className="cCard__text">
+          {lang === "ar"
+            ? "مركز عملياتنا ودعم المستثمرين."
+            : "Our operations and investor-support center."}
+        </p>
+        <a
+          className="cCard__link"
+          href="https://maps.google.com/?q=Najaf,Iraq"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {normalizeText(safeData.location, lang === "ar" ? "العراق / النجف" : "Iraq / Najaf")}
+        </a>
       </article>
 
-      {/* كرت الموقع الإلكتروني، وليس البريد */}
-      <article className="cCard">
-        <div className="cCard__icon">⌘</div>
+      {/* الموقع الإلكتروني */}
+      <article className="cCard" style={{ borderColor: "rgba(124,58,237,.35)" }}>
+        <div
+          className="cCard__icon"
+          style={{
+            background: "rgba(124,58,237,.18)",
+            color: "#a78bfa",
+            boxShadow: "0 10px 28px rgba(124,58,237,.22)",
+          }}
+        >
+          🌐
+        </div>
         <h3>{lang === "ar" ? "الموقع الإلكتروني" : "Website"}</h3>
         <p className="cCard__text">
           {lang === "ar"
