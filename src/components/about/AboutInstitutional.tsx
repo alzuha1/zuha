@@ -38,9 +38,7 @@ export type AboutPageRecord = {
   // هل الصفحة منشورة أم لا
 
   page_type?: string | null;
-  // مهم جدًا:
-  // هنا دعمنا null صراحةً حتى يتطابق النوع مع about/page.tsx
-  // وحتى لا يظهر خطأ build الخاص بعدم التوافق
+  // نوع الصفحة
 
   meta_json?: Record<string, unknown> | null;
   // بيانات إضافية اختيارية
@@ -91,10 +89,24 @@ type TeamMember = {
 // عضو فريق
 
 type SocialItem = {
+  name?: string;
   label?: string;
   href?: string;
 };
 // عنصر اجتماعي
+
+type FooterContactItem = {
+  type?: string;
+  label_ar?: string;
+  label_en?: string;
+  value?: string;
+  value_ar?: string;
+  value_en?: string;
+  href?: string;
+  icon?: string;
+  color?: string;
+};
+// عنصر تواصل ديناميكي داخل الفوتر
 
 function textByLang(
   lang: Lang,
@@ -171,6 +183,54 @@ function normalizeAboutAssetPath(src?: string | null): string {
   return `/pages/about/img/${clean}`;
 }
 
+function normalizeWebsiteLabel(url?: string) {
+  // عرض رابط الموقع بدون https:// بشكل أنظف
+  if (!url) return "zuha.us";
+  return url.replace(/^https?:\/\//i, "").replace(/\/$/, "");
+}
+
+function normalizePhoneHref(phone?: string) {
+  // تجهيز رقم الهاتف لرابط الاتصال
+  return (phone || "+964 7802335555").replace(/[^\d+]/g, "");
+}
+
+function normalizeWhatsAppHref(value?: string) {
+  // تجهيز رقم الواتساب لرابط wa.me
+  return (value || "9647802335555").replace(/\D+/g, "");
+}
+
+function iconSymbol(icon?: string, type?: string) {
+  // اختيار رمز بصري مناسب حسب نوع وسيلة التواصل
+  const key = String(icon || type || "").toLowerCase();
+
+  if (key.includes("mail") || key.includes("email")) return "✉";
+  if (key.includes("phone") || key.includes("tel")) return "☎";
+  if (key.includes("whatsapp") || key.includes("whats")) return "✆";
+  if (key.includes("globe") || key.includes("web") || key.includes("site")) return "⌘";
+  if (key.includes("home") || key.includes("address") || key.includes("location")) return "⌂";
+
+  return "•";
+}
+
+function defaultContactColor(type?: string) {
+  // ألوان افتراضية أنيقة لكل نوع تواصل
+  const key = String(type || "").toLowerCase();
+
+  if (key.includes("email")) return "#2563eb";
+  if (key.includes("phone")) return "#16a34a";
+  if (key.includes("whatsapp")) return "#10b981";
+  if (key.includes("website")) return "#7c3aed";
+  if (key.includes("address") || key.includes("location")) return "#ea580c";
+
+  return "#475569";
+}
+
+function alphaHex(hex: string, alpha = "20") {
+  // توليد لون شفاف بسيط من hex مثل #2563eb + 20
+  const clean = hex.replace("#", "");
+  return `#${clean}${alpha}`;
+}
+
 function ImageOrPlaceholder({
   src,
   alt,
@@ -237,6 +297,7 @@ export default function AboutInstitutional({
   const statItems = asArray<StatItem>(stats.items);
   const teamMembers = asArray<TeamMember>(team.members);
   const socialItems = asArray<SocialItem>(footer.social);
+  const contactItems = asArray<FooterContactItem>(footer.contact_items);
   // استخراج عناصر كل قسم بشكل آمن
 
   const [activeSlide, setActiveSlide] = useState(0);
@@ -384,12 +445,26 @@ export default function AboutInstitutional({
   );
 
   const footerEmail = (footer.email as string) || "info@zuha.us";
+  // البريد الأساسي
+
+  const footerPhone = (footer.phone as string) || "+964 7802335555";
+  // الهاتف الأساسي
+
+  const footerWebsite = (footer.website as string) || "https://zuha.us";
+  // رابط الموقع الرسمي
+
+  const footerWhatsapp = (footer.whatsapp as string) || "9647802335555";
+  // رقم الواتساب بدون رموز زائدة
+
+  const footerMapHref =
+    (footer.mapHref as string) || "https://maps.google.com/?q=Najaf,Iraq";
+  // رابط خرائط افتراضي في حال لم يُخزّن في قاعدة البيانات
 
   const footerLocation = textByLang(
     lang,
     footer.location_ar as string,
     footer.location_en as string,
-    lang === "ar" ? "العراق، النجف" : "Iraq, Najaf"
+    lang === "ar" ? "العراق / النجف" : "Iraq / Najaf"
   );
 
   const footerBrand = (footer.brand as string) || "ALZUHA";
@@ -407,6 +482,117 @@ export default function AboutInstitutional({
     footer.policy_en as string,
     lang === "ar" ? "سياسة الخصوصية" : "Privacy Policy"
   );
+
+  const footerContacts = useMemo(() => {
+    // بناء مصفوفة وسائل التواصل النهائية
+    // إذا كانت contact_items موجودة في قاعدة البيانات نستخدمها
+    // وإذا لم تكن موجودة ننشئ وسائل افتراضية أنيقة
+
+    if (contactItems.length > 0) {
+      return contactItems.map((item) => {
+        const type = item.type || "custom";
+        const color = item.color || defaultContactColor(type);
+
+        const value =
+          lang === "ar"
+            ? item.value_ar || item.value || item.value_en || ""
+            : item.value_en || item.value || item.value_ar || "";
+
+        const label = textByLang(
+          lang,
+          item.label_ar,
+          item.label_en,
+          String(item.type || "Contact")
+        );
+
+        let href = item.href || "#";
+
+        if (!item.href && type === "email") {
+          href = `mailto:${value || footerEmail}`;
+        } else if (!item.href && type === "phone") {
+          href = `tel:${normalizePhoneHref(value || footerPhone)}`;
+        } else if (!item.href && type === "website") {
+          href = footerWebsite;
+        } else if (!item.href && (type === "address" || type === "location")) {
+          href = footerMapHref;
+        } else if (!item.href && type === "whatsapp") {
+          href = `https://wa.me/${normalizeWhatsAppHref(value || footerWhatsapp)}`;
+        }
+
+        return {
+          type,
+          label,
+          value,
+          href,
+          color,
+          icon: iconSymbol(item.icon, type),
+          external:
+            href.startsWith("http://") ||
+            href.startsWith("https://") ||
+            href.startsWith("mailto:") ||
+            href.startsWith("tel:"),
+        };
+      });
+    }
+
+    // fallback احترافي جاهز إذا لم توجد contact_items داخل JSON
+    return [
+      {
+        type: "email",
+        label: lang === "ar" ? "البريد الإلكتروني" : "Email",
+        value: footerEmail,
+        href: `mailto:${footerEmail}`,
+        color: "#2563eb",
+        icon: "✉",
+        external: true,
+      },
+      {
+        type: "phone",
+        label: lang === "ar" ? "الهاتف" : "Phone",
+        value: footerPhone,
+        href: `tel:${normalizePhoneHref(footerPhone)}`,
+        color: "#16a34a",
+        icon: "☎",
+        external: true,
+      },
+      {
+        type: "website",
+        label: lang === "ar" ? "الموقع الإلكتروني" : "Website",
+        value: normalizeWebsiteLabel(footerWebsite),
+        href: footerWebsite,
+        color: "#7c3aed",
+        icon: "⌘",
+        external: true,
+      },
+      {
+        type: "address",
+        label: lang === "ar" ? "العنوان" : "Address",
+        value: footerLocation,
+        href: footerMapHref,
+        color: "#ea580c",
+        icon: "⌂",
+        external: true,
+      },
+      {
+        type: "whatsapp",
+        label: "WhatsApp",
+        value: footerWhatsapp,
+        href: `https://wa.me/${normalizeWhatsAppHref(footerWhatsapp)}`,
+        color: "#10b981",
+        icon: "✆",
+        external: true,
+      },
+    ];
+  }, [
+    contactItems,
+    footerEmail,
+    footerPhone,
+    footerWebsite,
+    footerWhatsapp,
+    footerMapHref,
+    footerLocation,
+    lang,
+  ]);
 
   function goPrevSlide() {
     // الانتقال إلى الشريحة السابقة
@@ -632,10 +818,7 @@ export default function AboutInstitutional({
                   {textByLang(lang, item.text_ar, item.text_en, "")}
                 </p>
 
-                <Link
-                  href={item.href || contactHref}
-                  className="service-card__btn"
-                >
+                <Link href={item.href || contactHref} className="service-card__btn">
                   {textByLang(
                     lang,
                     item.btn_ar,
@@ -717,30 +900,182 @@ export default function AboutInstitutional({
       </section>
 
       <footer className="about-footer">
-        <div className="about-footer__contact">
-          <a href={`mailto:${footerEmail}`}>{footerEmail}</a>
-          <br />
-          <a href="#">{footerLocation}</a>
-        </div>
+        {/* فوتر احترافي أنيق مع بطاقات تواصل ملونة بدل عرض نصوص جامدة */}
 
-        <div className="about-footer__social">
-          {socialItems.map((item, index) => (
-            <a key={index} href={item.href || "#"}>
-              {item.label || ""}
-            </a>
-          ))}
-        </div>
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "1180px",
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: "22px",
+          }}
+        >
+          {/* أعلى الفوتر: بطاقات التواصل الملونة */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "14px",
+            }}
+          >
+            {footerContacts.map((item, index) => {
+              const borderColor = alphaHex(item.color, "45");
+              const bgColor = alphaHex(item.color, "15");
 
-        <div className="about-footer__brand">
-          <div className="about-footer__icon">⌂</div>
-          <div className="about-footer__brand-text">{footerBrand}</div>
-        </div>
+              return (
+                <a
+                  key={`${item.type}-${index}`}
+                  href={item.href}
+                  target={item.external ? "_blank" : undefined}
+                  rel={item.external ? "noreferrer" : undefined}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    minWidth: "220px",
+                    padding: "12px 16px",
+                    borderRadius: "18px",
+                    border: `1px solid ${borderColor}`,
+                    background: bgColor,
+                    color: "#ffffff",
+                    textDecoration: "none",
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
+                    backdropFilter: "blur(8px)",
+                  }}
+                >
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      width: "42px",
+                      height: "42px",
+                      borderRadius: "999px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: item.color,
+                      color: "#ffffff",
+                      fontWeight: 800,
+                      fontSize: "20px",
+                      boxShadow: `0 8px 24px ${alphaHex(item.color, "55")}`,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {item.icon}
+                  </span>
 
-        <div className="about-footer__bottom">
-          <span>{footerCopy}</span>
-          <a href="#" className="about-footer__policy">
-            {footerPolicy}
-          </a>
+                  <span
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                      minWidth: 0,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        opacity: 0.72,
+                        letterSpacing: "0.03em",
+                      }}
+                    >
+                      {item.label}
+                    </span>
+
+                    <span
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        lineHeight: 1.4,
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {item.value}
+                    </span>
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+
+          {/* الوسط: السوشيال مع تصميم أنظف */}
+          {socialItems.length > 0 ? (
+            <div
+              className="about-footer__social"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                gap: "10px",
+              }}
+            >
+              {socialItems.map((item, index) => {
+                const label = item.label || item.name || "";
+
+                return (
+                  <a
+                    key={index}
+                    href={item.href || "#"}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      minWidth: "98px",
+                      padding: "10px 14px",
+                      borderRadius: "999px",
+                      textDecoration: "none",
+                      color: "#ffffff",
+                      background: "rgba(255,255,255,0.08)",
+                      border: "1px solid rgba(255,255,255,0.10)",
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    {label}
+                  </a>
+                );
+              })}
+            </div>
+          ) : null}
+
+          {/* الأسفل: الشعار + النص القانوني */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr",
+              gap: "18px",
+              alignItems: "center",
+              justifyItems: "center",
+              textAlign: "center",
+            }}
+          >
+            <div className="about-footer__brand">
+              <div className="about-footer__icon">⌂</div>
+              <div className="about-footer__brand-text">{footerBrand}</div>
+            </div>
+
+            <div
+              className="about-footer__bottom"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
+              <span>{footerCopy}</span>
+
+              <span style={{ opacity: 0.45 }}>•</span>
+
+              <a href="#" className="about-footer__policy">
+                {footerPolicy}
+              </a>
+            </div>
+          </div>
         </div>
       </footer>
     </main>
