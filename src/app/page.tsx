@@ -381,6 +381,8 @@ const topbarNavStyle: React.CSSProperties = {
 };
 
 const topbarLeftStyle: React.CSSProperties = {
+  // منطقة يسار الشريط العلوي.
+  // تحتوي الآن على مبدّل اللغة فقط بعد حذف زر "تواصل الآن" من الهيدر.
   display: "flex",
   alignItems: "center",
   gap: "14px",
@@ -431,20 +433,6 @@ const navLinkStyle: React.CSSProperties = {
   fontWeight: 700,
   fontSize: "16px",
   whiteSpace: "nowrap",
-};
-
-const topActionBtnStyle: React.CSSProperties = {
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  minHeight: "42px",
-  padding: "0 18px",
-  borderRadius: "999px",
-  background: "#fff",
-  color: "#101828",
-  textDecoration: "none",
-  fontWeight: 800,
-  border: "1px solid rgba(255,255,255,0.12)",
 };
 
 const mediaImgStyle: React.CSSProperties = {
@@ -568,10 +556,9 @@ export default async function HomePage() {
           </nav>
 
           <div className="topbar__left" style={topbarLeftStyle}>
-            <Link href="/request-consultation" style={topActionBtnStyle}>
-              {t("hero.btn1")}
-            </Link>
-
+            {/* تم حذف زر "تواصل الآن / Contact Now" من الشريط العلوي نهائيًا.
+                الهدف: إبقاء الهيدر نظيفًا ومتوازنًا على اللابتوب والتابلت والموبايل والآيباد.
+                ملاحظة: زر التواصل ما زال موجودًا داخل قسم hero الرئيسي فقط لأنه CTA مناسب هناك. */}
             <LanguageSwitch />
           </div>
         </header>
@@ -869,126 +856,73 @@ export default async function HomePage() {
           </div>
         </section>
 
-<section className="contact">
-  <div className="container">
-    <p className="kicker kicker--dark">{t("contact.eyebrow")}</p>
-    <h2 className="contact__title">{t("contact.title")}</h2>
-    <p className="contact__desc">{t("contact.desc")}</p>
+        <section className="contact">
+          <div className="container">
+            <p className="kicker kicker--dark">{t("contact.eyebrow")}</p>
+            <h2 className="contact__title">{t("contact.title")}</h2>
+            <p className="contact__desc">{t("contact.desc")}</p>
 
-    <div
-      className="contactCards"
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-        gap: "24px",
-      }}
-    >
-      {/* الهاتف */}
-      <article className="cCard" style={{ borderColor: "rgba(22,163,74,.35)" }}>
-        <div
-          className="cCard__icon"
-          style={{
-            background: "rgba(22,163,74,.18)",
-            color: "#22c55e",
-            boxShadow: "0 10px 28px rgba(22,163,74,.22)",
-          }}
-        >
-          ☎
-        </div>
-        <h3>{lang === "ar" ? "الهاتف" : "Phone"}</h3>
-        <p className="cCard__text">
-          {lang === "ar"
-            ? "خط مباشر للاستشارة والمتابعة."
-            : "Direct line for consultation and follow-up."}
-        </p>
-        <a
-          className="cCard__link"
-          href={`tel:${normalizePhoneForTel(safeData.phone, "+9647802335555")}`}
-        >
-          {normalizeText(safeData.phone, "+964 7802335555")}
-        </a>
-      </article>
+            <div className="contactCards">
+              <article className="cCard">
+                <div className="cCard__icon">✉</div>
+                <h3>{t("contact.card1.title")}</h3>
+                <p className="cCard__text">{t("contact.card1.desc")}</p>
+                <a
+                  className="cCard__link"
+                  href={`mailto:${normalizeText(safeData.email, "info@zuha.us")}`}
+                >
+                  {normalizeText(safeData.email, "info@zuha.us")}
+                </a>
+              </article>
 
-      {/* الموقع الجغرافي */}
-      <article className="cCard" style={{ borderColor: "rgba(234,88,12,.35)" }}>
-        <div
-          className="cCard__icon"
-          style={{
-            background: "rgba(234,88,12,.18)",
-            color: "#fb923c",
-            boxShadow: "0 10px 28px rgba(234,88,12,.22)",
-          }}
-        >
-          ⌂
-        </div>
-        <h3>{lang === "ar" ? "الموقع" : "Location"}</h3>
-        <p className="cCard__text">
-          {lang === "ar"
-            ? "مركز عملياتنا ودعم المستثمرين."
-            : "Our operations and investor-support center."}
-        </p>
-        <a
-          className="cCard__link"
-          href="https://maps.google.com/?q=Najaf,Iraq"
-          target="_blank"
-          rel="noreferrer"
-        >
-          {normalizeText(safeData.location, lang === "ar" ? "العراق / النجف" : "Iraq / Najaf")}
-        </a>
-      </article>
+              <article className="cCard">
+                <div className="cCard__icon">☎</div>
+                <h3>{t("contact.card2.title")}</h3>
+                <p className="cCard__text">{t("contact.card2.desc")}</p>
+                <a
+                  className="cCard__link"
+                  href={`tel:${normalizePhoneForTel(
+                    safeData.phone,
+                    "+9647802335555"
+                  )}`}
+                >
+                  {normalizeText(safeData.phone, "+964 7802335555")}
+                </a>
+              </article>
 
-      {/* الموقع الإلكتروني */}
-      <article className="cCard" style={{ borderColor: "rgba(124,58,237,.35)" }}>
-        <div
-          className="cCard__icon"
-          style={{
-            background: "rgba(124,58,237,.18)",
-            color: "#a78bfa",
-            boxShadow: "0 10px 28px rgba(124,58,237,.22)",
-          }}
-        >
-          🌐
-        </div>
-        <h3>{lang === "ar" ? "الموقع الإلكتروني" : "Website"}</h3>
-        <p className="cCard__text">
-          {lang === "ar"
-            ? "الموقع الرسمي لشركة الزهى."
-            : "Official ALZUHA website."}
-        </p>
-        <a
-          className="cCard__link"
-          href="https://zuha.us"
-          target="_blank"
-          rel="noreferrer"
-        >
-          zuha.us
-        </a>
-      </article>
-    </div>
+              <article className="cCard">
+                <div className="cCard__icon">⌂</div>
+                <h3>{t("contact.card3.title")}</h3>
+                <p className="cCard__text">{t("contact.card3.desc")}</p>
+                <Link className="cCard__link" href="/contact">
+                  {normalizeText(safeData.location, "Iraq / Najaf")}
+                </Link>
+              </article>
+            </div>
 
-    <div className="brandWall">
-      <figure className="brandHuge">
-        <div className="shot__ph--inline">13</div>
-        <img src={brandImage} alt="Brand wall" style={mediaImgStyle} />
-        <div className="brandHuge__cap">{t("brand.title")}</div>
-      </figure>
+            <div className="brandWall">
+              <figure className="brandHuge">
+                <div className="shot__ph--inline">13</div>
+                <img src={brandImage} alt="Brand wall" style={mediaImgStyle} />
+                <div className="brandHuge__cap">{t("brand.title")}</div>
+              </figure>
 
-      <div className="footerMini">
-        <span>
-          {normalizeText(safeData.location, "Iraq / Najaf")}{" "}
-          <span className="sep">•</span>{" "}
-          {normalizeText(safeData.phone, "+964 7802335555")}{" "}
-          <span className="sep">•</span>{" "}
-          zuha.us
-        </span>
+              <div className="footerMini">
+                <span>
+                  {normalizeText(safeData.location, "Iraq / Najaf")}{" "}
+                  <span className="sep">•</span>{" "}
+                  {normalizeText(safeData.phone, "+964 7802335555")}{" "}
+                  <span className="sep">•</span>{" "}
+                  {normalizeText(safeData.email, "info@zuha.us")}
+                </span>
 
-        <Link className="footerMini__link" href="/request-consultation">
-          {t("contact.cta")}
-        </Link>
-      </div>
-    </div>
-  </div>
-</section>
+                <Link className="footerMini__link" href="/request-consultation">
+                  {t("contact.cta")}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <Script src="/pages/home/js/page.js" strategy="afterInteractive" />
