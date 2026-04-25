@@ -602,3 +602,176 @@ a {
     scroll-behavior: auto !important;
   }
 }
+/* =========================================================
+   Home Responsive Mobile Menu
+   يظهر زر الثلاث خطوط في الموبايل والتابلت فقط
+   ========================================================= */
+
+.home-mobile-burger {
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.home-mobile-burger span {
+  width: 20px;
+  height: 2px;
+  display: block;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+.home-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  border: 0;
+  background: rgba(0, 0, 0, 0.48);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.home-mobile-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.home-mobile-panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  width: min(360px, 88vw);
+  padding: 22px;
+  background: #07111f;
+  color: #ffffff;
+  transform: translateX(105%);
+  transition: transform 0.28s ease;
+  box-shadow: -20px 0 70px rgba(0, 0, 0, 0.4);
+}
+
+html[dir="ltr"] .home-mobile-panel,
+main[dir="ltr"] .home-mobile-panel {
+  right: auto;
+  left: 0;
+  transform: translateX(-105%);
+  box-shadow: 20px 0 70px rgba(0, 0, 0, 0.4);
+}
+
+.home-mobile-panel.is-open {
+  transform: translateX(0);
+}
+
+.home-mobile-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+.home-mobile-panel__header div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.home-mobile-panel__header strong {
+  font-size: 20px;
+  letter-spacing: 0.06em;
+}
+
+.home-mobile-panel__header span {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.home-mobile-panel__close {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.home-mobile-panel__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.home-mobile-panel__nav a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 15px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 800;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.home-mobile-panel__nav a:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateX(-3px);
+}
+
+/* التابلت والآيباد والموبايل */
+@media (max-width: 1024px) {
+  .topbar__nav {
+    display: none !important;
+  }
+
+  .home-mobile-burger {
+    display: flex;
+  }
+}
+
+/* شاشات صغيرة جدًا */
+@media (max-width: 520px) {
+  .home-mobile-burger {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .home-mobile-panel {
+    width: 88vw;
+    padding: 20px;
+  }
+}
+/* إصلاح تموضع زر منيو الصفحة الرئيسية داخل الهيدر */
+.topbar__left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+/* إخفاء زر الموبايل على الديسكتوب */
+.home-mobile-burger {
+  flex-shrink: 0;
+}
+
+/* إظهار Burger من التابلت فما دون */
+@media (max-width: 1024px) {
+  .topbar__nav {
+    display: none !important;
+  }
+
+  .home-mobile-burger {
+    display: flex !important;
+  }
+}

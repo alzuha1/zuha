@@ -1,3 +1,4 @@
+import HomeMobileMenu from "@/components/site/HomeMobileMenu";
 /* eslint-disable @next/next/no-img-element */
 // تعطيل تحذير Next.js الخاص باستخدام <img>
 // لأن الصفحة تعتمد على صور ديناميكية من القاعدة ومن fallback
@@ -556,11 +557,15 @@ export default async function HomePage() {
           </nav>
 
           <div className="topbar__left" style={topbarLeftStyle}>
-            {/* تم حذف زر "تواصل الآن / Contact Now" من الشريط العلوي نهائيًا.
-                الهدف: إبقاء الهيدر نظيفًا ومتوازنًا على اللابتوب والتابلت والموبايل والآيباد.
-                ملاحظة: زر التواصل ما زال موجودًا داخل قسم hero الرئيسي فقط لأنه CTA مناسب هناك. */}
-            <LanguageSwitch />
+              {/* مبدّل اللغة يبقى كما هو */}
+              <LanguageSwitch />
+
+              {/* منيو الموبايل/التابلت.
+               وضعناه كمكوّن منفصل لأنه يستخدم useState.
+      هذا يمنع تحويل الصفحة الرئيسية كلها إل       ى Client Component. */}
+             <HomeMobileMenu lang={lang} />
           </div>
+        
         </header>
 
         <section className="hero">
