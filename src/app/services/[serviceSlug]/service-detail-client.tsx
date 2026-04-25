@@ -1,18 +1,18 @@
 "use client";
-// هذا الملف عميل لأنه يحتوي على state والتفاعل مع القائمة والصور
+// هذا الملف يعمل على جهة العميل لأنه يستخدم state للتفاعل مع القائمة الجانبية والصور.
 
 import Link from "next/link";
-// روابط التنقل الداخلية
+// روابط Next.js الداخلية.
 
 import { useMemo, useState } from "react";
-// useState للحالات المحلية
-// useMemo لحساب المسارات المرتبطة دون إعادة حساب غير لازمة
+// useState لإدارة فتح/إغلاق القائمة والصورة.
+// useMemo لتجهيز عناصر التنقل المرتبطة بكفاءة.
 
 import LanguageSwitch from "@/components/site/LanguageSwitch";
-// استخدام مبدّل اللغة الحالي في المشروع
+// مبدّل اللغة المستخدم في المشروع.
 
 export type Lang = "ar" | "en";
-// اللغات المدعومة
+// اللغات المدعومة في الصفحة.
 
 export type ServiceNavItem = {
   slug: string;
@@ -21,7 +21,7 @@ export type ServiceNavItem = {
   href: string;
   is_active: boolean;
 };
-// نوع عناصر التنقل بين المسارات الخدمية
+// عنصر تنقل بين مسارات الخدمات.
 
 export type FooterBlock = {
   email: string;
@@ -40,7 +40,7 @@ export type FooterBlock = {
   privacy_en: string;
   privacy_href: string;
 };
-// نوع بيانات الفوتر
+// بيانات الفوتر.
 
 export type ServiceDetailItem = {
   id: string;
@@ -88,19 +88,18 @@ export type ServiceDetailItem = {
     btn_href: string;
   };
 };
-// نوع بيانات صفحة الخدمة الفرعية
+// بيانات صفحة الخدمة الفرعية.
 
 function textByLang(lang: Lang, ar: string, en: string) {
-  // اختيار النص المناسب حسب اللغة الحالية
+  // اختيار النص المناسب حسب اللغة الحالية.
   return lang === "ar" ? ar : en;
 }
 
 function normalizeAssetPath(src?: string | null): string {
-  // توحيد مسار الصور سواء كانت محلية من Next أو روابط عامة
+  // توحيد مسارات الصور: رابط خارجي، مسار يبدأ بـ /، أو مسار نسبي.
   if (!src) return "";
 
   const clean = src.trim();
-
   if (!clean) return "";
 
   if (/^https?:\/\//i.test(clean)) {
@@ -114,15 +113,16 @@ function normalizeAssetPath(src?: string | null): string {
   return `/${clean}`;
 }
 
-function normalizeInternalServiceHref(value: string | undefined, fallback: string) {
-  // السماح فقط بالرئيسية "/" أو مسارات /services/...
-  // لمنع ربط صفحات الخدمات الداخلية بصفحات أخرى لا نريدها هنا
+function normalizeInternalServiceHref(
+  value: string | undefined,
+  fallback: string,
+) {
+  // حماية الروابط: نسمح فقط بالرئيسية، أو /services، أو anchors داخلية.
   if (!value || typeof value !== "string") {
     return fallback;
   }
 
   const clean = value.trim();
-
   if (!clean) {
     return fallback;
   }
@@ -153,13 +153,17 @@ function ServiceImage({
   className: string;
   fallback: string;
 }) {
-  // مكوّن صورة يدعم fade-in وfallback بصري
+  // مكوّن صورة مع fallback بصري في حال غياب الصورة.
   const [loaded, setLoaded] = useState(false);
 
   const finalSrc = normalizeAssetPath(src);
 
   if (!finalSrc) {
-    return <div className={`${className} service-detail-imageFallback`}>{fallback}</div>;
+    return (
+      <div className={`${className} service-detail-imageFallback`}>
+        {fallback}
+      </div>
+    );
   }
 
   return (
@@ -187,28 +191,37 @@ export default function ServiceDetailClient({
   footer: FooterBlock;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  // حالة فتح وإغلاق القائمة الجانبية
+  // حالة فتح وإغلاق القائمة الجانبية في الموبايل والتابلت.
 
   const currentHref = `/services/${currentItem.slug}`;
-  // الرابط الحالي للصفحة المفتوحة
-
-  const deskHref = "/services/service-desk";
-  // رابط مكتب الخدمات
+  // الرابط الحالي للصفحة المفتوحة.
 
   const exploreHref = "/services/explore";
-  // رابط استكشاف الخدمات
+  // رابط بوابة/استكشاف الخدمات.
+
+  const serviceDeskFallbackHref = "/services/service-desk";
+  // يبقى كـ fallback للـ CTA فقط، وليس كزر مستقل في الشريط العلوي أو قائمة الموبايل.
 
   const sanitizedCtaHref = normalizeInternalServiceHref(
     currentItem.cta.btn_href,
-    deskHref
+    serviceDeskFallbackHref,
   );
-  // حماية زر CTA النهائي من أي روابط خارج منظومة الخدمات
+  // حماية زر CTA النهائي من أي روابط غير مسموحة.
 
   const desktopNavItems = useMemo(
     () => navItems.filter((item) => item.slug !== "service-desk"),
-    [navItems]
+    [navItems],
   );
-  // نُبقي service-desk كزر مستقل لا كعنصر ضمن شريط الروابط الرئيسي
+  // إخفاء service-desk من شريط الروابط العلوي في صفحات الخدمات الفرعية.
+
+  const mobileNavItems = useMemo(
+    () =>
+      navItems.filter(
+        (item) => item.slug !== "explore" && item.slug !== "service-desk",
+      ),
+    [navItems],
+  );
+  // هذا هو الإصلاح المهم: إخفاء service-desk من قائمة الموبايل والتابلت أيضًا.
 
   const relatedItems = useMemo(
     () =>
@@ -217,23 +230,26 @@ export default function ServiceDetailClient({
           (item) =>
             item.slug !== currentItem.slug &&
             item.slug !== "explore" &&
-            item.slug !== "service-desk"
+            item.slug !== "service-desk",
         )
         .slice(0, 3),
-    [navItems, currentItem.slug]
+    [navItems, currentItem.slug],
   );
-  // مسارات مرتبطة نقترحها أسفل الصفحة لزيادة الترابط الداخلي
+  // مسارات مرتبطة أسفل الصفحة، مع استبعاد مكتب الخدمات حتى لا يظهر كمسار مقترح.
 
   return (
     <main dir={dir} className="service-detail-page">
       {/* الغلاف العام للصفحة */}
 
       <header className="service-detail-topbar">
-        {/* الشريط العلوي */}
-        {/* لا يوجد هنا زر Admin كما طلبت */}
+        {/* الشريط العلوي للصفحات الفرعية */}
 
         <div className="service-detail-topbar__right">
-          <Link href="/" className="service-detail-brand" aria-label="Go to home page">
+          <Link
+            href="/"
+            className="service-detail-brand"
+            aria-label="Go to home page"
+          >
             <div className="service-detail-brand__mark">⌂</div>
 
             <div className="service-detail-brand__text">
@@ -243,7 +259,10 @@ export default function ServiceDetailClient({
           </Link>
         </div>
 
-        <nav className="service-detail-topbar__nav" aria-label="Services navigation">
+        <nav
+          className="service-detail-topbar__nav"
+          aria-label="Services navigation"
+        >
           <Link href="/">{lang === "ar" ? "الرئيسية" : "Home"}</Link>
 
           {desktopNavItems.map((item) => (
@@ -258,12 +277,14 @@ export default function ServiceDetailClient({
         </nav>
 
         <div className="service-detail-topbar__left">
-          <Link href={deskHref} className="service-detail-btn service-detail-btn--white-small">
-            {lang === "ar" ? "مكتب الخدمات" : "Service Desk"}
-          </Link>
+          {/*
+            تم حذف زر "مكتب الخدمات / Service Desk" من هنا نهائيًا.
+            السبب: كان يظهر في الشريط العلوي خصوصًا على الشاشات الصغيرة والمتوسطة.
+            المطلوب الحالي: عدم إظهاره كزر مستقل في التوب بار على أي جهاز عرض.
+          */}
 
           <LanguageSwitch />
-          {/* استخدام مبدّل اللغة الحالي بالمشروع */}
+          {/* مبدّل اللغة يبقى كما هو. */}
 
           <button
             type="button"
@@ -278,8 +299,10 @@ export default function ServiceDetailClient({
         </div>
       </header>
 
-      <aside className={`service-detail-sidepanel ${menuOpen ? "is-open" : ""}`}>
-        {/* القائمة الجانبية للموبايل */}
+      <aside
+        className={`service-detail-sidepanel ${menuOpen ? "is-open" : ""}`}
+      >
+        {/* القائمة الجانبية للموبايل والتابلت */}
 
         <div className="service-detail-sidepanel__header">
           <strong>{lang === "ar" ? "القائمة" : "Menu"}</strong>
@@ -307,18 +330,16 @@ export default function ServiceDetailClient({
             {lang === "ar" ? "استكشف الخدمات" : "Explore"}
           </Link>
 
-          {navItems
-            .filter((item) => item.slug !== "explore")
-            .map((item) => (
-              <Link
-                key={item.slug}
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className={item.href === currentHref ? "is-active" : ""}
-              >
-                {textByLang(lang, item.label_ar, item.label_en)}
-              </Link>
-            ))}
+          {mobileNavItems.map((item) => (
+            <Link
+              key={item.slug}
+              href={item.href}
+              onClick={() => setMenuOpen(false)}
+              className={item.href === currentHref ? "is-active" : ""}
+            >
+              {textByLang(lang, item.label_ar, item.label_en)}
+            </Link>
+          ))}
         </nav>
       </aside>
 
@@ -334,22 +355,38 @@ export default function ServiceDetailClient({
             </Link>
             <span>/</span>
             <span>
-              {textByLang(lang, currentItem.hero.title_ar, currentItem.hero.title_en)}
+              {textByLang(
+                lang,
+                currentItem.hero.title_ar,
+                currentItem.hero.title_en,
+              )}
             </span>
           </div>
 
           <div className="service-detail-hero__grid">
             <div className="service-detail-hero__content">
               <span className="service-detail-kicker">
-                {textByLang(lang, currentItem.hero.kicker_ar, currentItem.hero.kicker_en)}
+                {textByLang(
+                  lang,
+                  currentItem.hero.kicker_ar,
+                  currentItem.hero.kicker_en,
+                )}
               </span>
 
               <h1 className="service-detail-hero__title">
-                {textByLang(lang, currentItem.hero.title_ar, currentItem.hero.title_en)}
+                {textByLang(
+                  lang,
+                  currentItem.hero.title_ar,
+                  currentItem.hero.title_en,
+                )}
               </h1>
 
               <p className="service-detail-hero__desc">
-                {textByLang(lang, currentItem.hero.desc_ar, currentItem.hero.desc_en)}
+                {textByLang(
+                  lang,
+                  currentItem.hero.desc_ar,
+                  currentItem.hero.desc_en,
+                )}
               </p>
 
               <div className="service-detail-hero__actions">
@@ -357,7 +394,11 @@ export default function ServiceDetailClient({
                   href={sanitizedCtaHref}
                   className="service-detail-btn service-detail-btn--white"
                 >
-                  {textByLang(lang, currentItem.cta.btn_ar, currentItem.cta.btn_en)}
+                  {textByLang(
+                    lang,
+                    currentItem.cta.btn_ar,
+                    currentItem.cta.btn_en,
+                  )}
                 </Link>
 
                 <Link
@@ -373,7 +414,11 @@ export default function ServiceDetailClient({
               <div className="service-detail-imageFrame service-detail-imageFrame--hero">
                 <ServiceImage
                   src={currentItem.hero.image_url}
-                  alt={textByLang(lang, currentItem.hero.title_ar, currentItem.hero.title_en)}
+                  alt={textByLang(
+                    lang,
+                    currentItem.hero.title_ar,
+                    currentItem.hero.title_en,
+                  )}
                   className="service-detail-hero__image"
                   fallback="ALZUHA"
                 />
@@ -393,13 +438,21 @@ export default function ServiceDetailClient({
             </span>
 
             <h2 className="service-detail-sectionTitle">
-              {textByLang(lang, currentItem.overview.title_ar, currentItem.overview.title_en)}
+              {textByLang(
+                lang,
+                currentItem.overview.title_ar,
+                currentItem.overview.title_en,
+              )}
             </h2>
           </div>
 
           <div className="service-detail-overview__right">
             <p className="service-detail-sectionDesc">
-              {textByLang(lang, currentItem.overview.desc_ar, currentItem.overview.desc_en)}
+              {textByLang(
+                lang,
+                currentItem.overview.desc_ar,
+                currentItem.overview.desc_en,
+              )}
             </p>
           </div>
         </div>
@@ -411,11 +464,15 @@ export default function ServiceDetailClient({
         <div className="service-detail-container">
           <div className="service-detail-sectionHeader">
             <span className="service-detail-sectionLabel">
-              {lang === "ar" ? "ما الذي تتضمنه الخدمة" : "What This Service Includes"}
+              {lang === "ar"
+                ? "ما الذي تتضمنه الخدمة"
+                : "What This Service Includes"}
             </span>
 
             <h2 className="service-detail-sectionTitle">
-              {lang === "ar" ? "قدرات ومسارات تنفيذية" : "Capabilities & Delivery Tracks"}
+              {lang === "ar"
+                ? "قدرات ومسارات تنفيذية"
+                : "Capabilities & Delivery Tracks"}
             </h2>
           </div>
 
@@ -449,7 +506,9 @@ export default function ServiceDetailClient({
             </span>
 
             <h2 className="service-detail-sectionTitle service-detail-sectionTitle--light">
-              {lang === "ar" ? "بيئات ومخرجات مرتبطة بالخدمة" : "Environments & Outputs Related to the Service"}
+              {lang === "ar"
+                ? "بيئات ومخرجات مرتبطة بالخدمة"
+                : "Environments & Outputs Related to the Service"}
             </h2>
           </div>
 
@@ -479,13 +538,19 @@ export default function ServiceDetailClient({
               </span>
 
               <h2 className="service-detail-sectionTitle">
-                {lang === "ar" ? "قد ترغب أيضًا في استكشاف" : "You May Also Want to Explore"}
+                {lang === "ar"
+                  ? "قد ترغب أيضًا في استكشاف"
+                  : "You May Also Want to Explore"}
               </h2>
             </div>
 
             <div className="service-detail-relatedGrid">
               {relatedItems.map((item) => (
-                <Link key={item.slug} href={item.href} className="service-detail-relatedCard">
+                <Link
+                  key={item.slug}
+                  href={item.href}
+                  className="service-detail-relatedCard"
+                >
                   <h3>{textByLang(lang, item.label_ar, item.label_en)}</h3>
                   <span>{lang === "ar" ? "افتح المسار" : "Open Path"}</span>
                 </Link>
@@ -505,11 +570,19 @@ export default function ServiceDetailClient({
             </span>
 
             <h2 className="service-detail-sectionTitle">
-              {textByLang(lang, currentItem.cta.title_ar, currentItem.cta.title_en)}
+              {textByLang(
+                lang,
+                currentItem.cta.title_ar,
+                currentItem.cta.title_en,
+              )}
             </h2>
 
             <p className="service-detail-sectionDesc">
-              {textByLang(lang, currentItem.cta.desc_ar, currentItem.cta.desc_en)}
+              {textByLang(
+                lang,
+                currentItem.cta.desc_ar,
+                currentItem.cta.desc_en,
+              )}
             </p>
 
             <div className="service-detail-ctaCard__actions">
@@ -517,7 +590,11 @@ export default function ServiceDetailClient({
                 href={sanitizedCtaHref}
                 className="service-detail-btn service-detail-btn--blue"
               >
-                {textByLang(lang, currentItem.cta.btn_ar, currentItem.cta.btn_en)}
+                {textByLang(
+                  lang,
+                  currentItem.cta.btn_ar,
+                  currentItem.cta.btn_en,
+                )}
               </Link>
 
               <Link
@@ -535,7 +612,10 @@ export default function ServiceDetailClient({
         {/* الفوتر */}
 
         <div className="service-detail-container service-detail-footer__inner">
-          <a className="service-detail-footer__email" href={`mailto:${footer.email}`}>
+          <a
+            className="service-detail-footer__email"
+            href={`mailto:${footer.email}`}
+          >
             {footer.email}
           </a>
 
