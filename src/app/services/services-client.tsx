@@ -328,9 +328,7 @@ export default function ServicesClient({
         </nav>
 
         <div className="services-topbar__left">
-          <Link href="/services/service-desk" className="services-btn services-btn--white-small">
-            {lang === "ar" ? "مكتب الخدمات" : "Service Desk"}
-          </Link>
+          
 
           <LanguageSwitch />
           {/* استخدام LanguageSwitch الحالي وعدم إضافة زر لغة يدوي */}
@@ -393,9 +391,7 @@ export default function ServicesClient({
             {lang === "ar" ? "التموضع السوقي" : "Positioning"}
           </Link>
 
-          <Link href="/services/service-desk" onClick={() => setMenuOpen(false)}>
-            {lang === "ar" ? "مكتب الخدمات" : "Service Desk"}
-          </Link>
+          
         </nav>
       </aside>
 
