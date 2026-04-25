@@ -860,4 +860,53 @@ main[dir="ltr"] .home-mobile-panel__nav a:hover {
     padding: 20px;
   }
 }
+/* Final fix: force homepage mobile menu to be vertical */
+.home-mobile-panel__nav {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
 
+.home-mobile-panel__nav > a,
+.home-mobile-panel__subnav > a {
+  display: flex !important;
+  width: 100% !important;
+  min-height: 48px;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 14px 16px !important;
+  border-radius: 16px !important;
+  background: #f3f4f6 !important;
+  color: #111318 !important;
+  border: 1px solid #eceef2 !important;
+  font-weight: 850 !important;
+  text-decoration: none !important;
+}
+
+.home-mobile-panel__subnav {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  width: 100% !important;
+  padding: 10px !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  border: 1px solid #e6e7eb !important;
+}
+
+.home-mobile-panel__subnav > a {
+  background: #ffffff !important;
+  border-color: #e6e7eb !important;
+  font-size: 14px !important;
+  font-weight: 750 !important;
+}
+
+.home-mobile-panel__header strong {
+  color: #111318 !important;
+}
+
+.home-mobile-panel__header span {
+  color: #6b7280 !important;
+}
