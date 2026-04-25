@@ -697,23 +697,59 @@ a {
   بما أن زر المنيو داخل topbar__left، فإنه يظهر بصريًا في اليسار غالبًا.
   لذلك نفتح القائمة من اليسار حتى تطابق جهة الزر.
 */
-main[dir="rtl"] .home-mobile-panel {
-  left: 0;
-  right: auto;
+m.home-mobile-panel {
+  position: fixed !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  z-index: 9999 !important;
+  width: min(360px, 88vw);
+  padding: 22px;
+  background: #ffffff !important;
+  color: #111318;
+  border: 1px solid #e6e7eb;
+  transition: transform 0.28s ease;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.home-mobile-panel--rtl {
+  left: 0 !important;
+  right: auto !important;
   transform: translateX(-105%);
   box-shadow: 20px 0 70px rgba(0, 0, 0, 0.22);
 }
 
-/*
-  الإنجليزية LTR:
-  عند تغيير اللغة واتجاه الصفحة، الجهة تنعكس.
-  هنا تفتح القائمة من اليمين لتبقى مع جهة زر الثلاث خطوط.
-*/
-main[dir="ltr"] .home-mobile-panel {
-  right: 0;
-  left: auto;
+.home-mobile-panel--ltr {
+  right: 0 !important;
+  left: auto !important;
   transform: translateX(105%);
   box-shadow: -20px 0 70px rgba(0, 0, 0, 0.22);
+}
+
+.home-mobile-panel.is-open {
+  transform: translateX(0) !important;
+}
+
+.home-mobile-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9998 !important;
+  border: 0;
+  background: rgba(0, 0, 0, 0.42);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.home-mobile-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.home-mobile-burger {
+  position: relative;
+  z-index: 10000;
+  pointer-events: auto;
 }
 
 /* عند الفتح نعيد القائمة إلى مكانها الطبيعي */

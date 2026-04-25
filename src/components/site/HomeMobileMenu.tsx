@@ -1,6 +1,6 @@
 "use client";
-// هذا المكوّن Client Component فقط لأنه يستخدم useState لفتح وإغلاق القائمة.
-// لا نضع use client داخل src/app/page.tsx حتى لا نكسر Server Component.
+// قائمة الصفحة الرئيسية للموبايل والتابلت.
+// لا نلمس src/app/page.tsx كـ Client Component.
 
 import Link from "next/link";
 import { useState } from "react";
@@ -10,30 +10,25 @@ type HomeMobileMenuProps = {
 };
 
 export default function HomeMobileMenu({ lang }: HomeMobileMenuProps) {
-  // حالة فتح وإغلاق القائمة الجانبية
   const [isOpen, setIsOpen] = useState(false);
+  const isArabic = lang === "ar";
 
-  // النصوص حسب اللغة الحالية
   const labels = {
-    menu: lang === "ar" ? "القائمة" : "Menu",
-    openMenu: lang === "ar" ? "فتح القائمة" : "Open menu",
-    closeMenu: lang === "ar" ? "إغلاق القائمة" : "Close menu",
-    home: lang === "ar" ? "الرئيسية" : "Home",
-    about: lang === "ar" ? "من نحن" : "About",
-    services: lang === "ar" ? "الخدمات" : "Services",
-    portfolio: lang === "ar" ? "المشاريع" : "Portfolio",
-    faq: lang === "ar" ? "الأسئلة الشائعة" : "FAQ",
-    contact: lang === "ar" ? "تواصل معنا" : "Contact",
+    openMenu: isArabic ? "فتح القائمة" : "Open menu",
+    closeMenu: isArabic ? "إغلاق القائمة" : "Close menu",
+    menu: isArabic ? "القائمة" : "Menu",
+    home: isArabic ? "الرئيسية" : "Home",
+    about: isArabic ? "من نحن" : "About",
+    services: isArabic ? "الخدمات" : "Services",
+    portfolio: isArabic ? "المشاريع" : "Portfolio",
+    faq: isArabic ? "الأسئلة الشائعة" : "FAQ",
+    contact: isArabic ? "تواصل معنا" : "Contact",
   };
 
-  // إغلاق القائمة عند النقر على أي رابط
-  function closeMenu() {
-    setIsOpen(false);
-  }
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <>
-      {/* زر الثلاث خطوط: يظهر فقط في الموبايل والتابلت عبر CSS */}
       <button
         type="button"
         className="home-mobile-burger"
@@ -46,7 +41,6 @@ export default function HomeMobileMenu({ lang }: HomeMobileMenuProps) {
         <span />
       </button>
 
-      {/* طبقة خلفية لإغلاق القائمة عند الضغط خارجها */}
       <button
         type="button"
         className={`home-mobile-overlay ${isOpen ? "is-open" : ""}`}
@@ -54,15 +48,18 @@ export default function HomeMobileMenu({ lang }: HomeMobileMenuProps) {
         onClick={closeMenu}
       />
 
-      {/* القائمة الجانبية */}
       <aside
-        className={`home-mobile-panel ${isOpen ? "is-open" : ""}`}
+        className={[
+          "home-mobile-panel",
+          isArabic ? "home-mobile-panel--rtl" : "home-mobile-panel--ltr",
+          isOpen ? "is-open" : "",
+        ].join(" ")}
         aria-hidden={!isOpen}
       >
         <div className="home-mobile-panel__header">
           <div>
             <strong>ALZUHA</strong>
-            <span>{lang === "ar" ? "العقارات" : "Real Estate"}</span>
+            <span>{isArabic ? "العقارات" : "Real Estate"}</span>
           </div>
 
           <button
@@ -76,29 +73,12 @@ export default function HomeMobileMenu({ lang }: HomeMobileMenuProps) {
         </div>
 
         <nav className="home-mobile-panel__nav" aria-label={labels.menu}>
-          <Link href="/" onClick={closeMenu}>
-            {labels.home}
-          </Link>
-
-          <Link href="/about" onClick={closeMenu}>
-            {labels.about}
-          </Link>
-
-          <Link href="/services" onClick={closeMenu}>
-            {labels.services}
-          </Link>
-
-          <Link href="/portfolio" onClick={closeMenu}>
-            {labels.portfolio}
-          </Link>
-
-          <Link href="/faq" onClick={closeMenu}>
-            {labels.faq}
-          </Link>
-
-          <Link href="/contact" onClick={closeMenu}>
-            {labels.contact}
-          </Link>
+          <Link href="/" onClick={closeMenu}>{labels.home}</Link>
+          <Link href="/about" onClick={closeMenu}>{labels.about}</Link>
+          <Link href="/services" onClick={closeMenu}>{labels.services}</Link>
+          <Link href="/portfolio" onClick={closeMenu}>{labels.portfolio}</Link>
+          <Link href="/faq" onClick={closeMenu}>{labels.faq}</Link>
+          <Link href="/contact" onClick={closeMenu}>{labels.contact}</Link>
         </nav>
       </aside>
     </>
