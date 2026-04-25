@@ -1,71 +1,74 @@
 import "./services.css";
-// استيراد ملف CSS الخاص بصفحة Services فقط
+// استيراد ملف CSS الخاص بصفحة Services فقط.
+// هذا الملف يبقى مسؤولًا عن شكل صفحة الخدمات، الهيدر، القائمة الجانبية، الصور، والكروت.
 
 import { cookies } from "next/headers";
-// قراءة اللغة الحالية من الكوكيز على جهة السيرفر
+// قراءة اللغة الحالية من الكوكيز على جهة السيرفر.
+// إذا كانت قيمة الكوكي lang = en نعرض الإنجليزية، وإلا العربية افتراضيًا.
 
 import { supabaseServer } from "@/lib/supabase-server";
-// استيراد عميل Supabase الخاص بالسيرفر
+// استيراد عميل Supabase الخاص بالسيرفر لجلب محتوى صفحة الخدمات من جدول pages.
 
 import ServicesClient, {
   type Lang,
   type ServicesSections,
 } from "./services-client";
-// استيراد مكوّن العميل والأنواع الخاصة بصفحة الخدمات
+// استيراد مكوّن العميل الذي يعرض صفحة الخدمات فعليًا.
+// page.tsx هنا يجهّز البيانات فقط ثم يرسلها إلى ServicesClient.
 
 // ============================================================================
-// استيراد الصور المحلية مباشرة من مجلد الصفحة نفسه
-// هذه الطريقة مناسبة لأن الصور موجودة داخل:
+// استيراد الصور المحلية مباشرة من مجلد الصفحة نفسه.
+// هذه الطريقة آمنة لأن الصور موجودة داخل:
 // src/app/services/img
 // ============================================================================
 
 import heroMainImage from "./img/img (1).jpg";
-// صورة الهيرو الرئيسية
+// صورة الهيرو الرئيسية.
 
 import serviceDevelopmentImage from "./img/img (2).jpg";
-// صورة خدمة تطوير المشاريع
+// صورة خدمة تطوير المشاريع.
 
 import serviceAssetImage from "./img/img (3).jpg";
-// صورة خدمة تقييم الأصل
+// صورة خدمة تقييم الأصل.
 
 import serviceAdvisoryImage from "./img/img (4).jpg";
-// صورة خدمة الاستشارات الاستراتيجية
+// صورة خدمة الاستشارات الاستراتيجية.
 
 import serviceMarketingImage from "./img/img (5).jpg";
-// صورة خدمة التموضع والتسويق العقاري
+// صورة خدمة التموضع والتسويق العقاري.
 
 import reviewOneImage from "./img/img (6).jpg";
-// صورة التقييم الأول
+// صورة التقييم الأول.
 
 import reviewTwoImage from "./img/img (7).jpg";
-// صورة التقييم الثاني
+// صورة التقييم الثاني.
 
 import galleryOneImage from "./img/img (8).jpg";
-// صورة المعرض الأولى
+// صورة المعرض الأولى.
 
 import galleryTwoImage from "./img/img (9).jpg";
-// صورة المعرض الثانية
+// صورة المعرض الثانية.
 
 import galleryThreeImage from "./img/img (10).jpg";
-// صورة المعرض الثالثة
+// صورة المعرض الثالثة.
 
 import galleryFourImage from "./img/img (11).jpg";
-// صورة المعرض الرابعة
+// صورة المعرض الرابعة.
 
 import galleryFiveImage from "./img/img (12).jpg";
-// صورة المعرض الخامسة
+// صورة المعرض الخامسة.
 
 export const dynamic = "force-dynamic";
-// جعل الصفحة ديناميكية حتى تقرأ الكوكيز وتُجلب البيانات مباشرة
+// جعل الصفحة ديناميكية حتى تقرأ الكوكيز وتُجلب البيانات مباشرة من Supabase.
 
 // ============================================================================
-// نسخة احتياطية احترافية لصفحة Services
-// هذه النسخة تُستخدم إذا لم توجد بيانات منشورة أو صالحة في قاعدة البيانات
+// نسخة احتياطية احترافية لصفحة Services.
+// تُستخدم هذه النسخة إذا لم توجد بيانات منشورة أو صالحة في قاعدة البيانات.
 //
-// الهدف من هذه النسخة:
-// - جعل صفحة Services مستقلة عن About
-// - إبقاء الروابط داخل منظومة /services نفسها
-// - تقديم محتوى عالمي أكثر قوة ومتانة
+// التعديل المطلوب:
+// - تم تعطيل زر "مكتب الخدمات / Service Desk" من بيانات الهيرو.
+// - الهدف إخفاؤه من الشريط العلوي أو أي منطقة تقرأ hero.btn2_*.
+// - القائمة الجانبية لا يتم حذفها من هنا؛ لأنها غالبًا داخل services-client.tsx.
 // ============================================================================
 
 const FALLBACK_SECTIONS: ServicesSections = {
@@ -85,9 +88,12 @@ const FALLBACK_SECTIONS: ServicesSections = {
     btn1_en: "Explore Our Services",
     btn1_href: "/services/explore",
 
-    btn2_ar: "مكتب الخدمات",
-    btn2_en: "Service Desk",
-    btn2_href: "/services/service-desk",
+    // مهم:
+    // ترك هذه القيم فارغة يمنع ظهور زر "مكتب الخدمات / Service Desk"
+    // في أي موضع يعتمد على hero.btn2_ar أو hero.btn2_en.
+    btn2_ar: "",
+    btn2_en: "",
+    btn2_href: "",
 
     image_url: heroMainImage.src,
   },
@@ -193,6 +199,8 @@ const FALLBACK_SECTIONS: ServicesSections = {
     desc_en:
       "When service operates within a clear framework, it becomes a visible force in decision quality, structure, and final outcomes.",
 
+    // هذا الزر ليس زر الشريط العلوي.
+    // أبقيناه كما هو لأنه قد يكون CTA داخل قسم التقييمات.
     btn_ar: "مكتب الخدمات",
     btn_en: "Service Desk",
     btn_href: "/services/service-desk",
@@ -308,7 +316,7 @@ const FALLBACK_SECTIONS: ServicesSections = {
   },
 
   footer: {
-    email: "info@alzuharealestate.com",
+    email: "info@zuha.us",
 
     social1_ar: "لينكدإن",
     social1_en: "LinkedIn",
@@ -332,26 +340,54 @@ const FALLBACK_SECTIONS: ServicesSections = {
 };
 
 function asObject(value: unknown): Record<string, unknown> {
-  // تحويل أي قيمة إلى object آمن
+  // تحويل أي قيمة إلى object آمن.
+  // إذا كانت القيمة null أو string أو number، نرجع object فارغ بدل كسر الصفحة.
   return typeof value === "object" && value !== null
     ? (value as Record<string, unknown>)
     : {};
 }
 
 function pickString(value: unknown, fallback: string) {
-  // إرجاع النص إذا كان صالحًا وغير فارغ
+  // إرجاع النص إذا كان صالحًا وغير فارغ.
+  // إذا كان النص فارغًا أو غير موجود نرجع fallback.
   return typeof value === "string" && value.trim() ? value : fallback;
 }
 
 function pickArray<T>(value: unknown, fallback: T[]) {
-  // إرجاع المصفوفة إذا كانت صحيحة
+  // إرجاع المصفوفة إذا كانت صحيحة.
+  // إذا لم تكن Array نرجع fallback.
   return Array.isArray(value) ? (value as T[]) : fallback;
 }
 
+function hideHeroServiceDeskButton<T extends ServicesSections>(sections: T): T {
+  // هذه الدالة هي نقطة التحكم المطلوبة.
+  // وظيفتها تعطيل الزر الثاني في الهيرو، وهو الزر الذي يظهر باسم:
+  // "مكتب الخدمات" أو "Service Desk".
+  //
+  // السبب:
+  // - قاعدة البيانات قد ترجع هذا الزر حتى لو عدلنا fallback.
+  // - لذلك نطبّق التعطيل بعد دمج بيانات Supabase.
+  //
+  // النتيجة:
+  // - زر مكتب الخدمات يختفي من الشريط العلوي أو أي مكان يعتمد على hero.btn2_*.
+  // - القائمة الجانبية تبقى كما هي لأنها ليست جزءًا من hero.btn2_*.
+
+  return {
+    ...sections,
+    hero: {
+      ...sections.hero,
+      btn2_ar: "",
+      btn2_en: "",
+      btn2_href: "",
+    },
+  };
+}
+
 async function getServicesSections(): Promise<ServicesSections> {
-  // محاولة جلب محتوى صفحة services من قاعدة البيانات
+  // محاولة جلب محتوى صفحة services من قاعدة البيانات.
   try {
     const supabase = supabaseServer();
+    // إنشاء عميل Supabase من جهة السيرفر.
 
     const { data, error } = await supabase
       .from("pages")
@@ -359,12 +395,15 @@ async function getServicesSections(): Promise<ServicesSections> {
       .eq("slug", "services")
       .eq("is_published", true)
       .maybeSingle();
+    // جلب sections_json الخاصة بصفحة services المنشورة فقط.
 
     if (error || !data) {
-      return FALLBACK_SECTIONS;
+      // إذا حصل خطأ أو لا توجد بيانات، نرجع fallback بعد تعطيل زر مكتب الخدمات في الهيرو.
+      return hideHeroServiceDeskButton(FALLBACK_SECTIONS);
     }
 
     const sections = asObject(data.sections_json);
+    // تحويل sections_json إلى object آمن.
 
     const hero = asObject(sections.hero);
     const servicesSection = asObject(sections.servicesSection);
@@ -372,8 +411,9 @@ async function getServicesSections(): Promise<ServicesSections> {
     const gallery = asObject(sections.gallery);
     const cta = asObject(sections.cta);
     const footer = asObject(sections.footer);
+    // استخراج الأقسام الفرعية بشكل آمن.
 
-    return {
+    const mergedSections: ServicesSections = {
       hero: {
         kicker_ar: pickString(hero.kicker_ar, FALLBACK_SECTIONS.hero.kicker_ar),
         kicker_en: pickString(hero.kicker_en, FALLBACK_SECTIONS.hero.kicker_en),
@@ -388,6 +428,8 @@ async function getServicesSections(): Promise<ServicesSections> {
         btn1_en: pickString(hero.btn1_en, FALLBACK_SECTIONS.hero.btn1_en),
         btn1_href: pickString(hero.btn1_href, FALLBACK_SECTIONS.hero.btn1_href),
 
+        // هذه القيم ستُلغى نهائيًا في hideHeroServiceDeskButton بعد الدمج.
+        // تركناها هنا للحفاظ على شكل النوع ServicesSections وعدم كسر TypeScript.
         btn2_ar: pickString(hero.btn2_ar, FALLBACK_SECTIONS.hero.btn2_ar),
         btn2_en: pickString(hero.btn2_en, FALLBACK_SECTIONS.hero.btn2_en),
         btn2_href: pickString(hero.btn2_href, FALLBACK_SECTIONS.hero.btn2_href),
@@ -443,8 +485,14 @@ async function getServicesSections(): Promise<ServicesSections> {
           testimonials.desc_en,
           FALLBACK_SECTIONS.testimonials.desc_en
         ),
-        btn_ar: pickString(testimonials.btn_ar, FALLBACK_SECTIONS.testimonials.btn_ar),
-        btn_en: pickString(testimonials.btn_en, FALLBACK_SECTIONS.testimonials.btn_en),
+        btn_ar: pickString(
+          testimonials.btn_ar,
+          FALLBACK_SECTIONS.testimonials.btn_ar
+        ),
+        btn_en: pickString(
+          testimonials.btn_en,
+          FALLBACK_SECTIONS.testimonials.btn_en
+        ),
         btn_href: pickString(
           testimonials.btn_href,
           FALLBACK_SECTIONS.testimonials.btn_href
@@ -534,27 +582,31 @@ async function getServicesSections(): Promise<ServicesSections> {
         ),
       },
     };
+
+    return hideHeroServiceDeskButton(mergedSections);
+    // إرجاع البيانات بعد تعطيل زر مكتب الخدمات في الهيرو.
   } catch (error) {
+    // في حال حدوث استثناء غير متوقع، نطبع الخطأ في السيرفر ونرجع fallback آمن.
     console.error("Services page fetch error:", error);
-    return FALLBACK_SECTIONS;
+    return hideHeroServiceDeskButton(FALLBACK_SECTIONS);
   }
 }
 
 export default async function ServicesPage() {
-  // الدالة الرئيسية لصفحة الخدمات
+  // الدالة الرئيسية لصفحة الخدمات.
 
   const cookieStore: any = await Promise.resolve(cookies() as any);
-  // قراءة الكوكيز الحالية
+  // قراءة الكوكيز الحالية.
 
   const lang: Lang = cookieStore?.get?.("lang")?.value === "en" ? "en" : "ar";
-  // تحديد اللغة الحالية من الكوكيز
+  // تحديد اللغة الحالية من الكوكيز.
 
   const dir: "rtl" | "ltr" = lang === "ar" ? "rtl" : "ltr";
-  // تحديد اتجاه الصفحة بناءً على اللغة
+  // تحديد اتجاه الصفحة بناءً على اللغة.
 
   const sections = await getServicesSections();
-  // جلب بيانات الصفحة من القاعدة أو fallback
+  // جلب بيانات الصفحة من القاعدة أو fallback، مع تعطيل زر مكتب الخدمات في الهيرو.
 
   return <ServicesClient lang={lang} dir={dir} sections={sections} />;
-  // تمرير البيانات إلى مكوّن العميل
+  // تمرير البيانات إلى مكوّن العميل.
 }
