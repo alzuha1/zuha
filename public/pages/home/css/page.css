@@ -602,24 +602,53 @@ a {
     scroll-behavior: auto !important;
   }
 }
+
 /* =========================================================
    Home Responsive Mobile Menu
-   يظهر زر الثلاث خطوط في الموبايل والتابلت فقط
-   ========================================================= */
+   القائمة الرئيسية الجانبية للموبايل والتابلت
+   =========================================================
+   الفكرة:
+   - القائمة بيضاء بالكامل وغير شفافة.
+   - زر الثلاث خطوط يظهر فقط من 1024px فما دون.
+   - القائمة تفتح من نفس جهة زر الثلاث خطوط حسب اتجاه الصفحة:
+     * main[dir="rtl"]  => تفتح من اليسار.
+     * main[dir="ltr"]  => تفتح من اليمين.
+   - لا نستخدم right/left بشكل ثابت حتى لا تنعكس الجهة خطأ عند تغيير اللغة.
+========================================================= */
 
+/* ترتيب عناصر الجهة اليسرى من الهيدر حتى يظهر LanguageSwitch والبرغر بشكل منظم */
+.topbar__left {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+}
+
+/* زر الثلاث خطوط */
 .home-mobile-burger {
   width: 46px;
   height: 46px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.38);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.14);
   display: none;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
+  flex-shrink: 0;
   backdrop-filter: blur(10px);
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.home-mobile-burger:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.home-mobile-burger:active {
+  transform: scale(0.98);
 }
 
 .home-mobile-burger span {
@@ -630,12 +659,13 @@ a {
   background: #ffffff;
 }
 
+/* طبقة التعتيم خلف القائمة */
 .home-mobile-overlay {
   position: fixed;
   inset: 0;
   z-index: 998;
   border: 0;
-  background: rgba(0, 0, 0, 0.48);
+  background: rgba(0, 0, 0, 0.42);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
@@ -646,29 +676,47 @@ a {
   pointer-events: auto;
 }
 
+/* القاعدة العامة للقائمة */
 .home-mobile-panel {
   position: fixed;
   top: 0;
   bottom: 0;
-  right: 0;
   z-index: 999;
   width: min(360px, 88vw);
   padding: 22px;
-  background: #07111f;
-  color: #ffffff;
-  transform: translateX(105%);
+  background: #ffffff;
+  color: #111318;
+  border: 1px solid rgba(230, 231, 235, 0.95);
   transition: transform 0.28s ease;
-  box-shadow: -20px 0 70px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
-html[dir="ltr"] .home-mobile-panel,
-main[dir="ltr"] .home-mobile-panel {
-  right: auto;
+/*
+  العربية RTL:
+  بما أن زر المنيو داخل topbar__left، فإنه يظهر بصريًا في اليسار غالبًا.
+  لذلك نفتح القائمة من اليسار حتى تطابق جهة الزر.
+*/
+main[dir="rtl"] .home-mobile-panel {
   left: 0;
+  right: auto;
   transform: translateX(-105%);
-  box-shadow: 20px 0 70px rgba(0, 0, 0, 0.4);
+  box-shadow: 20px 0 70px rgba(0, 0, 0, 0.22);
 }
 
+/*
+  الإنجليزية LTR:
+  عند تغيير اللغة واتجاه الصفحة، الجهة تنعكس.
+  هنا تفتح القائمة من اليمين لتبقى مع جهة زر الثلاث خطوط.
+*/
+main[dir="ltr"] .home-mobile-panel {
+  right: 0;
+  left: auto;
+  transform: translateX(105%);
+  box-shadow: -20px 0 70px rgba(0, 0, 0, 0.22);
+}
+
+/* عند الفتح نعيد القائمة إلى مكانها الطبيعي */
 .home-mobile-panel.is-open {
   transform: translateX(0);
 }
@@ -677,7 +725,10 @@ main[dir="ltr"] .home-mobile-panel {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14px;
   margin-bottom: 26px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e6e7eb;
 }
 
 .home-mobile-panel__header div {
@@ -687,13 +738,14 @@ main[dir="ltr"] .home-mobile-panel {
 }
 
 .home-mobile-panel__header strong {
+  color: #111318;
   font-size: 20px;
   letter-spacing: 0.06em;
 }
 
 .home-mobile-panel__header span {
+  color: #6b7280;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.68);
 }
 
 .home-mobile-panel__close {
@@ -701,11 +753,20 @@ main[dir="ltr"] .home-mobile-panel {
   height: 42px;
   border: 0;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
+  background: #f3f4f6;
+  color: #111318;
   font-size: 28px;
   line-height: 1;
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.home-mobile-panel__close:hover {
+  background: #e6e7eb;
+}
+
+.home-mobile-panel__close:active {
+  transform: scale(0.98);
 }
 
 .home-mobile-panel__nav {
@@ -715,17 +776,27 @@ main[dir="ltr"] .home-mobile-panel {
 }
 
 .home-mobile-panel__nav a {
-  color: #ffffff;
+  color: #111318;
   text-decoration: none;
   padding: 15px 14px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.08);
+  background: #f3f4f6;
+  border: 1px solid #eceef2;
   font-weight: 800;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 
 .home-mobile-panel__nav a:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: #e9ebef;
+  border-color: #dde1e7;
+}
+
+/* حركة الهوفر حسب اتجاه اللغة حتى لا تبدو معكوسة */
+main[dir="rtl"] .home-mobile-panel__nav a:hover {
+  transform: translateX(3px);
+}
+
+main[dir="ltr"] .home-mobile-panel__nav a:hover {
   transform: translateX(-3px);
 }
 
@@ -736,7 +807,7 @@ main[dir="ltr"] .home-mobile-panel {
   }
 
   .home-mobile-burger {
-    display: flex;
+    display: flex !important;
   }
 }
 
@@ -753,25 +824,4 @@ main[dir="ltr"] .home-mobile-panel {
     padding: 20px;
   }
 }
-/* إصلاح تموضع زر منيو الصفحة الرئيسية داخل الهيدر */
-.topbar__left {
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-}
 
-/* إخفاء زر الموبايل على الديسكتوب */
-.home-mobile-burger {
-  flex-shrink: 0;
-}
-
-/* إظهار Burger من التابلت فما دون */
-@media (max-width: 1024px) {
-  .topbar__nav {
-    display: none !important;
-  }
-
-  .home-mobile-burger {
-    display: flex !important;
-  }
-}
