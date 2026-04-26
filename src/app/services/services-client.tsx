@@ -297,12 +297,16 @@ export default function ServicesClient({
         {/* ملاحظة: لا يوجد هنا زر Admin كما طلبت */}
 
         <div className="services-topbar__right">
+          {/* جهة الشعار داخل الشريط العلوي. */}
           <Link href="/" className="services-brand" aria-label="Go to home page">
-            <div className="services-brand__mark">⌂</div>
-
-            <div className="services-brand__text">
-              <strong>ALZUHA</strong>
-              <span>{lang === "ar" ? "العقارات" : "Real Estate"}</span>
+            {/* حاوية الشعار: تتحكم بحجم الدائرة فقط، ولا تسمح لصورة الشعار بتمديد الهيدر. */}
+            <div className="services-brand-logo-shell">
+              {/* صورة الشعار: تُكبّر من CSS داخل الحاوية، لذلك لا نستخدم أيقونة البيت القديمة ولا نصًا بجانب الشعار. */}
+              <img
+                src="/images/alzuha-logo.png"
+                alt={lang === "ar" ? "شعار الزُهى" : "ALZUHA Logo"}
+                className="services-brand-logo-img"
+              />
             </div>
           </Link>
         </div>
@@ -328,8 +332,7 @@ export default function ServicesClient({
         </nav>
 
         <div className="services-topbar__left">
-          
-
+          {/* تم حذف زر مكتب الخدمات من التوب بار حتى لا يظهر في الموبايل والتابلت والديسكتوب. */}
           <LanguageSwitch />
           {/* استخدام LanguageSwitch الحالي وعدم إضافة زر لغة يدوي */}
 
@@ -350,7 +353,15 @@ export default function ServicesClient({
         {/* القائمة الجانبية للموبايل */}
 
         <div className="services-sidepanel__header">
-          <strong>{lang === "ar" ? "القائمة" : "Menu"}</strong>
+          {/* شعار أعلى القائمة الجانبية بدل كلمة Menu حتى تكون الهوية البصرية موحدة مع الهيدر. */}
+          <div className="services-sidepanel-logo-shell">
+            {/* صورة الشعار داخل القائمة الجانبية، وتتحكم بها CSS حتى لا تتسبب بتشويه أو تمديد. */}
+            <img
+              src="/images/alzuha-logo.png"
+              alt={lang === "ar" ? "شعار الزُهى" : "ALZUHA Logo"}
+              className="services-sidepanel-logo-img"
+            />
+          </div>
 
           <button
             type="button"
@@ -391,7 +402,6 @@ export default function ServicesClient({
             {lang === "ar" ? "التموضع السوقي" : "Positioning"}
           </Link>
 
-          
         </nav>
       </aside>
 
@@ -420,12 +430,15 @@ export default function ServicesClient({
                 {textByLang(lang, sections.hero.btn1_ar, sections.hero.btn1_en)}
               </Link>
 
-              <Link
-                href={heroSecondaryHref}
-                className="services-btn services-btn--outline-white"
-              >
-                {textByLang(lang, sections.hero.btn2_ar, sections.hero.btn2_en)}
-              </Link>
+              {/* لا نرسم الزر الثاني إذا كان النص فارغًا؛ هذا يمنع ظهور زر فارغ عند تعطيل مكتب الخدمات من البيانات. */}
+              {textByLang(lang, sections.hero.btn2_ar, sections.hero.btn2_en).trim() ? (
+                <Link
+                  href={heroSecondaryHref}
+                  className="services-btn services-btn--outline-white"
+                >
+                  {textByLang(lang, sections.hero.btn2_ar, sections.hero.btn2_en)}
+                </Link>
+              ) : null}
             </div>
           </div>
 
