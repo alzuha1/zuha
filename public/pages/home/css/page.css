@@ -910,3 +910,32 @@ main[dir="ltr"] .home-mobile-panel__nav a:hover {
 .home-mobile-panel__header span {
   color: #6b7280 !important;
 }
+
+/* Logo in homepage topbar */
+.home-brand-logo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+/* Logo inside homepage mobile side menu */
+.home-mobile-panel__brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.home-mobile-panel__logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #e6e7eb;
+  padding: 4px;
+  flex-shrink: 0;
+}

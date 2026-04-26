@@ -521,7 +521,11 @@ export default async function HomePage() {
         <header className="topbar" style={topbarStyle}>
           <div className="topbar__right" style={topbarRightStyle}>
             <Link href="/" style={brandStyle} aria-label="Go to home page">
-              <div style={brandIconStyle}>⌂</div>
+              <img
+                src="/images/alzuha-logo.png"
+                alt={lang === "ar" ? "شعار الزُهى" : "ALZUHA Logo"}
+                className="home-brand-logo"
+                />
 
               <div style={brandTextWrapStyle}>
                 <strong style={brandTitleStyle}>{t("brand.title")}</strong>

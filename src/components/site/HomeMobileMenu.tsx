@@ -62,10 +62,18 @@ export default function HomeMobileMenu({ lang }: HomeMobileMenuProps) {
         aria-hidden={!isOpen}
       >
         <div className="home-mobile-panel__header">
-          <div>
+         <div className="home-mobile-panel__brand">
+           <img
+             src="/images/alzuha-logo.png"
+             alt={isArabic ? "شعار الزُهى" : "ALZUHA Logo"}
+             className="home-mobile-panel__logo"
+             />
+
+           <div>
             <strong>{labels.company}</strong>
             <span>{labels.subtitle}</span>
-          </div>
+           </div>
+       </div>
 
           <button
             type="button"
