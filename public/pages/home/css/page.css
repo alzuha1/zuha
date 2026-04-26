@@ -590,290 +590,544 @@ a {
   .cCard, .feature, .qa { padding: 18px !important; }
 }
 
+
 /* =========================================================
-   20) ACCESSIBILITY
+   21) HOME MOBILE MENU + TOPBAR LOGO - FINAL CLEAN VERSION
+   الهدف:
+   - فصل حاوية الشعار عن صورة الشعار.
+   - جعل ارتفاع الشريط العلوي مساويًا تمامًا لارتفاع حاوية الشعار.
+   - تكبير صورة الشعار داخل الحاوية دون تكبير الهيدر.
+   - إبقاء القائمة الجانبية بيضاء وعمودية.
+   - العربي RTL يفتح من اليسار، والإنجليزي LTR يفتح من اليمين.
 ========================================================= */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition: none !important;
-    animation: none !important;
-    scroll-behavior: auto !important;
-  }
+
+:root {
+  --home-logo-size: 92px; /* المتغير الوحيد الذي يحدد ارتفاع الهيدر وحجم دائرة الشعار */
 }
 
-/* =========================================================
-   Home Responsive Mobile Menu
-   القائمة الرئيسية الجانبية للموبايل والتابلت
-   =========================================================
-   الفكرة:
-   - القائمة بيضاء بالكامل وغير شفافة.
-   - زر الثلاث خطوط يظهر فقط من 1024px فما دون.
-   - القائمة تفتح من نفس جهة زر الثلاث خطوط حسب اتجاه الصفحة:
-     * main[dir="rtl"]  => تفتح من اليسار.
-     * main[dir="ltr"]  => تفتح من اليمين.
-   - لا نستخدم right/left بشكل ثابت حتى لا تنعكس الجهة خطأ عند تغيير اللغة.
-========================================================= */
+/* الشريط العلوي: ارتفاعه يساوي حجم دائرة الشعار */
+.topbar {
+  height: var(--home-logo-size) !important; /* يربط ارتفاع الهيدر بحجم الشعار */
+  min-height: var(--home-logo-size) !important; /* يمنع أي CSS قديم من تكبير الهيدر */
+  padding-top: 0 !important; /* يمنع الفراغ العلوي */
+  padding-bottom: 0 !important; /* يمنع الفراغ السفلي */
+  padding-left: 34px !important; /* مسافة جانبية للديسكتوب */
+  padding-right: 34px !important; /* مسافة جانبية للديسكتوب */
+  display: flex !important; /* يضمن انتظام عناصر الهيدر */
+  align-items: center !important; /* يوسّط العناصر عموديًا */
+}
 
-/* ترتيب عناصر الجهة اليسرى من الهيدر حتى يظهر LanguageSwitch والبرغر بشكل منظم */
+/* كل أجزاء الهيدر تأخذ نفس ارتفاع الشريط حتى لا يتمدد عنصر داخلي */
+.topbar__right,
+.topbar__right a,
+.topbar__nav,
 .topbar__left {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  gap: 10px !important;
+  height: var(--home-logo-size) !important; /* نفس ارتفاع الشريط */
+  min-height: var(--home-logo-size) !important; /* منع التمدد */
+  display: flex !important; /* ترتيب داخلي مرن */
+  align-items: center !important; /* توسيط عمودي */
+}
+
+/* جهة اللغة وزر البرغر */
+.topbar__left {
+  justify-content: flex-end !important; /* دفع العناصر للطرف */
+  gap: 10px !important; /* مسافة بين اللغة والبرغر */
+  position: relative !important; /* يسمح بالتحكم في الطبقات */
+  z-index: 10001 !important; /* فوق محتوى الصفحة */
+}
+
+/* الحاوية الدائرية للشعار فقط */
+.home-brand-logo-shell {
+  width: var(--home-logo-size) !important; /* عرض الدائرة */
+  height: var(--home-logo-size) !important; /* ارتفاع الدائرة، يساوي الهيدر */
+  border-radius: 50% !important; /* دائرة كاملة */
+  overflow: hidden !important; /* يقص أي جزء زائد من الصورة داخل الدائرة */
+  flex-shrink: 0 !important; /* يمنع ضغط الشعار */
+  position: relative !important; /* يحافظ على الصورة داخل الحاوية */
+
+  background: radial-gradient(
+    circle at 35% 25%,
+    #ffffff 0%,
+    #fff8e8 45%,
+    #ead18e 100%
+  ) !important; /* خلفية بيضاء ذهبية ناعمة */
+
+  border: 3px solid rgba(212, 175, 55, 0.95) !important; /* إطار ذهبي واضح */
+  box-shadow:
+    0 5px 14px rgba(0, 0, 0, 0.16),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.85) !important; /* عمق خفيف */
+}
+
+/* صورة الشعار داخل الدائرة */
+.home-brand-logo-img {
+  width: 100% !important; /* تملأ الحاوية عرضًا */
+  height: 100% !important; /* تملأ الحاوية ارتفاعًا */
+  object-fit: contain  !important; /* يملأ اللوغو الدائرة */
+  object-position: center !important; /* يثبت الصورة في الوسط */
+
+  transform: scale(1.85) !important; /* يكبر صورة اللوغو فقط وليس الهيدر */
+  transform-origin: center center !important; /* التكبير من المركز */
+
+  filter: contrast(1.25) saturate(1.35) brightness(1.08) !important; /* إبراز الذهبي */
+  mix-blend-mode: normal !important; /* يمنع بهتان الذهب */
+}
+
+/* إلغاء تأثير كلاس الشعار القديم إن بقي في الصفحة */
+.home-brand-logo {
+  all: unset !important; /* يمنع تضارب الكلاس القديم مع النظام الجديد */
 }
 
 /* زر الثلاث خطوط */
 .home-mobile-burger {
-  width: 46px;
-  height: 46px;
-  border: 1px solid rgba(255, 255, 255, 0.38);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.14);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  flex-shrink: 0;
-  backdrop-filter: blur(10px);
-  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  width: 48px !important; /* عرض الزر */
+  height: 48px !important; /* ارتفاع الزر */
+  display: none !important; /* مخفي على الديسكتوب */
+  align-items: center !important; /* توسيط الخطوط */
+  justify-content: center !important; /* توسيط الخطوط */
+  flex-direction: column !important; /* جعل الخطوط فوق بعض */
+  gap: 6px !important; /* المسافة بين الخطوط */
+  border-radius: 16px !important; /* زوايا ناعمة */
+  border: 1px solid rgba(255, 255, 255, 0.45) !important; /* إطار شفاف */
+  background: rgba(255, 255, 255, 0.14) !important; /* خلفية خفيفة */
+  cursor: pointer !important; /* مؤشر النقر */
+  position: relative !important; /* للتحكم بالطبقات */
+  z-index: 10002 !important; /* فوق الهيدر */
+  flex-shrink: 0 !important; /* منع الضغط */
 }
 
-.home-mobile-burger:hover {
-  background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 255, 255, 0.55);
-}
-
-.home-mobile-burger:active {
-  transform: scale(0.98);
-}
-
+/* خطوط البرغر */
 .home-mobile-burger span {
-  width: 20px;
-  height: 2px;
-  display: block;
-  border-radius: 999px;
-  background: #ffffff;
+  width: 22px !important; /* طول الخط */
+  height: 2px !important; /* سماكة الخط */
+  display: block !important; /* يظهر كخط مستقل */
+  border-radius: 99px !important; /* نهايات ناعمة */
+  background: #ffffff !important; /* لون أبيض */
 }
 
 /* طبقة التعتيم خلف القائمة */
 .home-mobile-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 998;
-  border: 0;
-  background: rgba(0, 0, 0, 0.42);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
+  position: fixed !important; /* يغطي الشاشة */
+  inset: 0 !important; /* من كل الجهات */
+  z-index: 99998 !important; /* خلف القائمة وفوق الصفحة */
+  border: 0 !important; /* بدون إطار */
+  background: rgba(0, 0, 0, 0.45) !important; /* تعتيم */
+  opacity: 0 !important; /* مخفي افتراضيًا */
+  pointer-events: none !important; /* لا يلتقط النقر وهو مغلق */
+  transition: opacity 0.25s ease !important; /* حركة ناعمة */
 }
 
+/* حالة فتح طبقة التعتيم */
 .home-mobile-overlay.is-open {
-  opacity: 1;
-  pointer-events: auto;
+  opacity: 1 !important; /* إظهار التعتيم */
+  pointer-events: auto !important; /* يسمح بالنقر للإغلاق */
 }
 
-/* القاعدة العامة للقائمة */
+/* جسم القائمة الجانبية */
 .home-mobile-panel {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  z-index: 999;
-  width: min(360px, 88vw);
-  padding: 22px;
-  background: #ffffff;
-  color: #111318;
-  border: 1px solid rgba(230, 231, 235, 0.95);
-  transition: transform 0.28s ease;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  position: fixed !important; /* قائمة ثابتة فوق الصفحة */
+  top: 0 !important; /* تبدأ من الأعلى */
+  bottom: 0 !important; /* تمتد للأسفل */
+  z-index: 99999 !important; /* فوق طبقة التعتيم */
+  width: min(380px, 90vw) !important; /* عرض مناسب للموبايل */
+  height: 100vh !important; /* كامل ارتفاع الشاشة */
+  padding: 24px 20px !important; /* فراغ داخلي */
+  background: #ffffff !important; /* أبيض واضح */
+  color: #111318 !important; /* لون النص */
+  overflow-y: auto !important; /* تمرير عند كثرة الروابط */
+  overscroll-behavior: contain !important; /* منع سحب الصفحة خلفها */
+  border: 0 !important; /* بدون حدود */
+  transition: transform 0.28s ease !important; /* حركة فتح ناعمة */
 }
 
-/*
-  العربية RTL:
-  بما أن زر المنيو داخل topbar__left، فإنه يظهر بصريًا في اليسار غالبًا.
-  لذلك نفتح القائمة من اليسار حتى تطابق جهة الزر.
-*/
-m.home-mobile-panel {
-  position: fixed !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  z-index: 9999 !important;
-  width: min(360px, 88vw);
-  padding: 22px;
-  background: #ffffff !important;
-  color: #111318;
-  border: 1px solid #e6e7eb;
-  transition: transform 0.28s ease;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
+/* العربي: تفتح من اليسار */
 .home-mobile-panel--rtl {
-  left: 0 !important;
-  right: auto !important;
-  transform: translateX(-105%);
-  box-shadow: 20px 0 70px rgba(0, 0, 0, 0.22);
+  left: 0 !important; /* تثبيت يسار */
+  right: auto !important; /* إلغاء اليمين */
+  transform: translateX(-105%) !important; /* مخفية خارج الشاشة يسارًا */
+  box-shadow: 20px 0 70px rgba(0, 0, 0, 0.24) !important; /* ظل من جهة الدخول */
 }
 
+/* الإنجليزي: تفتح من اليمين */
 .home-mobile-panel--ltr {
-  right: 0 !important;
-  left: auto !important;
-  transform: translateX(105%);
-  box-shadow: -20px 0 70px rgba(0, 0, 0, 0.22);
+  right: 0 !important; /* تثبيت يمين */
+  left: auto !important; /* إلغاء اليسار */
+  transform: translateX(105%) !important; /* مخفية خارج الشاشة يمينًا */
+  box-shadow: -20px 0 70px rgba(0, 0, 0, 0.24) !important; /* ظل من جهة الدخول */
 }
 
+/* حالة الفتح */
 .home-mobile-panel.is-open {
-  transform: translateX(0) !important;
+  transform: translateX(0) !important; /* إدخال القائمة داخل الشاشة */
 }
 
-.home-mobile-overlay {
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 9998 !important;
-  border: 0;
-  background: rgba(0, 0, 0, 0.42);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-
-.home-mobile-overlay.is-open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.home-mobile-burger {
-  position: relative;
-  z-index: 10000;
-  pointer-events: auto;
-}
-
-/* عند الفتح نعيد القائمة إلى مكانها الطبيعي */
-.home-mobile-panel.is-open {
-  transform: translateX(0);
-}
-
+/* رأس القائمة */
 .home-mobile-panel__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  margin-bottom: 26px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid #e6e7eb;
+  display: flex !important; /* ترتيب الشعار وزر الإغلاق */
+  align-items: center !important; /* توسيط عمودي */
+  justify-content: space-between !important; /* الشعار بطرف والإغلاق بطرف */
+  gap: 14px !important; /* مسافة داخلية */
+  padding-bottom: 18px !important; /* فراغ أسفل الرأس */
+  margin-bottom: 20px !important; /* فصل عن الروابط */
+  border-bottom: 1px solid #e6e7eb !important; /* خط فاصل */
 }
 
-.home-mobile-panel__header div {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+/* حاوية شعار القائمة */
+.home-mobile-panel__brand {
+  display: flex !important; /* عرض مرن */
+  align-items: center !important; /* توسيط */
+  justify-content: center !important; /* توسيط */
 }
 
-.home-mobile-panel__header strong {
-  color: #111318;
-  font-size: 20px;
-  letter-spacing: 0.06em;
+/* شعار القائمة الجانبية */
+.home-mobile-panel__logo {
+  width: 110px !important; /* عرض الشعار داخل القائمة */
+  height: 76px !important; /* ارتفاع الشعار داخل القائمة */
+  max-height: none !important; /* إلغاء أي حد سابق */
+  object-fit: contain !important; /* عرض كامل بدون قص */
+  padding: 0 !important; /* بدون فراغ داخلي */
+  transform: scale(1.45) !important; /* تكبير الشعار داخل المساحة */
+  transform-origin: center !important; /* التكبير من المنتصف */
+  background: transparent !important; /* بدون خلفية */
+  border: 0 !important; /* بدون إطار */
+  border-radius: 0 !important; /* بدون تدوير */
+  box-shadow: none !important; /* بدون ظل */
+  mix-blend-mode: normal !important; /* لا يبهت الشعار */
+  filter: contrast(1.22) saturate(1.25) brightness(1.08) !important; /* إبراز الذهب */
+  flex-shrink: 0 !important; /* منع الضغط */
 }
 
-.home-mobile-panel__header span {
-  color: #6b7280;
-  font-size: 13px;
-}
-
+/* زر إغلاق القائمة */
 .home-mobile-panel__close {
-  width: 42px;
-  height: 42px;
-  border: 0;
-  border-radius: 14px;
-  background: #f3f4f6;
-  color: #111318;
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  width: 44px !important; /* عرض الزر */
+  height: 44px !important; /* ارتفاع الزر */
+  border: 0 !important; /* بدون إطار */
+  border-radius: 14px !important; /* زوايا ناعمة */
+  background: #f3f4f6 !important; /* خلفية رمادية فاتحة */
+  color: #111318 !important; /* لون الرمز */
+  font-size: 30px !important; /* حجم X */
+  line-height: 1 !important; /* ضبط عمودي */
+  cursor: pointer !important; /* مؤشر النقر */
 }
 
-.home-mobile-panel__close:hover {
-  background: #e6e7eb;
-}
-
-.home-mobile-panel__close:active {
-  transform: scale(0.98);
-}
-
+/* القائمة عمودية */
 .home-mobile-panel__nav {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: flex !important; /* Flex */
+  flex-direction: column !important; /* عمودي */
+  align-items: stretch !important; /* الروابط بعرض كامل */
+  justify-content: flex-start !important; /* تبدأ من الأعلى */
+  gap: 10px !important; /* مسافة بين الروابط */
+  width: 100% !important; /* عرض كامل */
 }
 
-.home-mobile-panel__nav a {
-  color: #111318;
-  text-decoration: none;
-  padding: 15px 14px;
-  border-radius: 16px;
-  background: #f3f4f6;
-  border: 1px solid #eceef2;
-  font-weight: 800;
-  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+/* روابط القائمة الرئيسية والفرعية */
+.home-mobile-panel__nav > a,
+.home-mobile-panel__subnav > a {
+  display: flex !important; /* رابط كصف */
+  width: 100% !important; /* عرض كامل */
+  min-height: 50px !important; /* ارتفاع مريح */
+  align-items: center !important; /* توسيط النص */
+  justify-content: space-between !important; /* توزيع داخلي */
+  padding: 14px 16px !important; /* فراغ داخلي */
+  border-radius: 16px !important; /* زوايا ناعمة */
+  background: #f3f4f6 !important; /* خلفية خفيفة */
+  color: #111318 !important; /* نص داكن */
+  border: 1px solid #eceef2 !important; /* إطار خفيف */
+  font-weight: 850 !important; /* وزن واضح */
+  text-decoration: none !important; /* بدون خط */
+  white-space: normal !important; /* يسمح بالتفاف النص */
+  line-height: 1.45 !important; /* قراءة أفضل */
 }
 
-.home-mobile-panel__nav a:hover {
-  background: #e9ebef;
-  border-color: #dde1e7;
+/* صندوق الصفحات التابعة */
+.home-mobile-panel__subnav {
+  display: flex !important; /* Flex */
+  flex-direction: column !important; /* عمودي */
+  align-items: stretch !important; /* بعرض كامل */
+  gap: 8px !important; /* مسافات داخلية */
+  width: 100% !important; /* عرض كامل */
+  margin: 0 !important; /* بدون هامش */
+  padding: 10px !important; /* فراغ داخلي */
+  border-radius: 18px !important; /* زوايا ناعمة */
+  background: #ffffff !important; /* أبيض */
+  border: 1px solid #e6e7eb !important; /* إطار */
 }
 
-/* حركة الهوفر حسب اتجاه اللغة حتى لا تبدو معكوسة */
-main[dir="rtl"] .home-mobile-panel__nav a:hover {
-  transform: translateX(3px);
+/* روابط الصفحات التابعة */
+.home-mobile-panel__subnav > a {
+  background: #ffffff !important; /* روابط فرعية بيضاء */
+  border-color: #e6e7eb !important; /* إطار أخف */
+  font-size: 14px !important; /* أصغر قليلًا */
+  font-weight: 750 !important; /* وزن متوسط */
 }
 
-main[dir="ltr"] .home-mobile-panel__nav a:hover {
-  transform: translateX(-3px);
-}
-
-/* التابلت والآيباد والموبايل */
+/* إظهار البرغر وإخفاء روابط الديسكتوب */
 @media (max-width: 1024px) {
   .topbar__nav {
-    display: none !important;
+    display: none !important; /* إخفاء روابط الديسكتوب */
   }
 
   .home-mobile-burger {
-    display: flex !important;
+    display: flex !important; /* إظهار البرغر */
+  }
+}
+
+/* الموبايل */
+@media (max-width: 768px) {
+  :root {
+    --home-logo-size: 76px; /* ارتفاع الهيدر وحجم الشعار في الموبايل */
+  }
+
+  .topbar {
+    padding-left: 14px !important; /* تقليل الفراغ الجانبي */
+    padding-right: 14px !important; /* تقليل الفراغ الجانبي */
+  }
+
+  .home-brand-logo-img {
+    transform: scale(2.75) !important; /* تكبير مناسب للموبايل */
   }
 }
 
 /* شاشات صغيرة جدًا */
 @media (max-width: 520px) {
   .home-mobile-burger {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
+    width: 42px !important; /* زر أصغر */
+    height: 42px !important; /* زر أصغر */
+    border-radius: 12px !important; /* زوايا أقل */
   }
 
   .home-mobile-panel {
-    width: 88vw;
-    padding: 20px;
+    width: 90vw !important; /* عرض مناسب جدًا للموبايل الصغير */
+    padding: 20px !important; /* فراغ أقل */
+  }
+
+  .home-mobile-panel__logo {
+    width: 104px !important; /* شعار أصغر في القائمة */
+    height: 72px !important; /* ارتفاع أصغر */
+    transform: scale(1.4) !important; /* تكبير آمن */
   }
 }
-/* Final fix: force homepage mobile menu to be vertical */
+/* =========================================================
+   FINAL ALZUHA RESPONSIVE TOPBAR + LOGO + MOBILE MENU
+   هذا البلوك هو المرجع النهائي للهيدر في كل الشاشات.
+========================================================= */
+
+:root {
+  --home-logo-size: 96px; /* ارتفاع وعرض دائرة الشعار في الديسكتوب */
+  --home-logo-scale: 1.85; /* تكبير صورة الشعار داخل الدائرة */
+}
+
+/* الشريط العلوي يساوي ارتفاع حاوية الشعار */
+.topbar {
+  height: var(--home-logo-size) !important;
+  min-height: var(--home-logo-size) !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* جميع عناصر الهيدر تأخذ نفس ارتفاع الشريط */
+.topbar__right,
+.topbar__right a,
+.topbar__nav,
+.topbar__left {
+  height: var(--home-logo-size) !important;
+  min-height: var(--home-logo-size) !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* حاوية الشعار الدائرية */
+.home-brand-logo-shell {
+  width: var(--home-logo-size) !important;
+  height: var(--home-logo-size) !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+
+  background: radial-gradient(
+    circle at 35% 25%,
+    #ffffff 0%,
+    #fff8e8 45%,
+    #ead18e 100%
+  ) !important;
+
+  border: 3px solid rgba(212, 175, 55, 0.95) !important;
+
+  box-shadow:
+    0 5px 14px rgba(0, 0, 0, 0.16),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.85) !important;
+}
+
+/* صورة الشعار داخل الدائرة */
+.home-brand-logo-img {
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: contain !important;
+  object-position: center !important;
+
+  transform: scale(var(--home-logo-scale)) !important;
+  transform-origin: center center !important;
+
+  filter: contrast(1.25) saturate(1.35) brightness(1.08) !important;
+  mix-blend-mode: normal !important;
+}
+
+/* منع الكلاس القديم من التأثير إذا بقي في أي مكان */
+.home-brand-logo {
+  all: unset !important;
+}
+
+/* ترتيب طرف اللغة والبرغر */
+.topbar__left {
+  gap: 10px !important;
+  justify-content: flex-end !important;
+  position: relative !important;
+  z-index: 10001 !important;
+}
+
+/* زر الثلاث خطوط */
+.home-mobile-burger {
+  width: 48px !important;
+  height: 48px !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  z-index: 10002 !important;
+  flex-shrink: 0 !important;
+}
+
+.home-mobile-burger span {
+  width: 22px !important;
+  height: 2px !important;
+  display: block !important;
+  border-radius: 99px !important;
+  background: #ffffff !important;
+}
+
+/* طبقة التعتيم خلف القائمة */
+.home-mobile-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99998 !important;
+  border: 0 !important;
+  background: rgba(0, 0, 0, 0.45) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.25s ease !important;
+}
+
+.home-mobile-overlay.is-open {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* القائمة الجانبية */
+.home-mobile-panel {
+  position: fixed !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  z-index: 99999 !important;
+  width: min(380px, 90vw) !important;
+  height: 100vh !important;
+  padding: 24px 20px !important;
+  background: #ffffff !important;
+  color: #111318 !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  border: 0 !important;
+  transition: transform 0.28s ease !important;
+}
+
+/* العربي يفتح من اليسار */
+.home-mobile-panel--rtl {
+  left: 0 !important;
+  right: auto !important;
+  transform: translateX(-105%) !important;
+  box-shadow: 20px 0 70px rgba(0, 0, 0, 0.24) !important;
+}
+
+/* الإنجليزي يفتح من اليمين */
+.home-mobile-panel--ltr {
+  right: 0 !important;
+  left: auto !important;
+  transform: translateX(105%) !important;
+  box-shadow: -20px 0 70px rgba(0, 0, 0, 0.24) !important;
+}
+
+.home-mobile-panel.is-open {
+  transform: translateX(0) !important;
+}
+
+/* رأس القائمة الجانبية */
+.home-mobile-panel__header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  padding-bottom: 18px !important;
+  margin-bottom: 20px !important;
+  border-bottom: 1px solid #e6e7eb !important;
+}
+
+/* شعار القائمة الجانبية */
+.home-mobile-panel__brand {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.home-mobile-panel__logo {
+  width: 120px !important;
+  height: 90px !important;
+  object-fit: contain !important;
+  transform: scale(1.55) !important;
+  transform-origin: center !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  mix-blend-mode: normal !important;
+  filter: contrast(1.22) saturate(1.25) brightness(1.08) !important;
+}
+
+/* زر الإغلاق */
+.home-mobile-panel__close {
+  width: 44px !important;
+  height: 44px !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: #f3f4f6 !important;
+  color: #111318 !important;
+  font-size: 30px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+}
+
+/* روابط القائمة عمودية */
 .home-mobile-panel__nav {
   display: flex !important;
   flex-direction: column !important;
   align-items: stretch !important;
+  justify-content: flex-start !important;
   gap: 10px !important;
   width: 100% !important;
 }
 
+/* الروابط الرئيسية والفرعية */
 .home-mobile-panel__nav > a,
 .home-mobile-panel__subnav > a {
   display: flex !important;
   width: 100% !important;
-  min-height: 48px;
+  min-height: 50px !important;
   align-items: center !important;
   justify-content: space-between !important;
   padding: 14px 16px !important;
@@ -883,13 +1137,18 @@ main[dir="ltr"] .home-mobile-panel__nav a:hover {
   border: 1px solid #eceef2 !important;
   font-weight: 850 !important;
   text-decoration: none !important;
+  white-space: normal !important;
+  line-height: 1.45 !important;
 }
 
+/* الصفحات التابعة */
 .home-mobile-panel__subnav {
   display: flex !important;
   flex-direction: column !important;
+  align-items: stretch !important;
   gap: 8px !important;
   width: 100% !important;
+  margin: 0 !important;
   padding: 10px !important;
   border-radius: 18px !important;
   background: #ffffff !important;
@@ -903,39 +1162,50 @@ main[dir="ltr"] .home-mobile-panel__nav a:hover {
   font-weight: 750 !important;
 }
 
-.home-mobile-panel__header strong {
-  color: #111318 !important;
+/* التابلت والآيباد */
+@media (max-width: 1024px) {
+  :root {
+    --home-logo-size: 84px;
+    --home-logo-scale: 1.82;
+  }
+
+  .topbar__nav {
+    display: none !important;
+  }
+
+  .home-mobile-burger {
+    display: flex !important;
+  }
 }
 
-.home-mobile-panel__header span {
-  color: #6b7280 !important;
+/* الموبايل */
+@media (max-width: 768px) {
+  :root {
+    --home-logo-size: 76px;
+    --home-logo-scale: 1.78;
+  }
+
+  .topbar {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
 }
 
-/* Logo in homepage topbar */
-.home-brand-logo {
-  width: 46px;
-  height: 46px;
-  object-fit: contain;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.92);
-  padding: 4px;
-  flex-shrink: 0;
-}
+/* الشاشات الصغيرة جدًا */
+@media (max-width: 520px) {
+  :root {
+    --home-logo-size: 70px;
+    --home-logo-scale: 1.72;
+  }
 
-/* Logo inside homepage mobile side menu */
-.home-mobile-panel__brand {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-}
+  .home-mobile-burger {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 12px !important;
+  }
 
-.home-mobile-panel__logo {
-  width: 64px;
-  height: 64px;
-  object-fit: contain;
-  border-radius: 16px;
-  background: #ffffff;
-  border: 1px solid #e6e7eb;
-  padding: 4px;
-  flex-shrink: 0;
+  .home-mobile-panel {
+    width: 90vw !important;
+    padding: 20px !important;
+  }
 }

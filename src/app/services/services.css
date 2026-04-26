@@ -590,3 +590,104 @@
     flex-direction: column;
   }
 }
+/* =========================================================
+   SERVICES TOPBAR LOGO SYSTEM
+   الهدف:
+   - توحيد شكل شعار الزُهى داخل صفحة الخدمات.
+   - جعل ارتفاع الشريط العلوي مساويًا لحاوية الشعار.
+   - تكبير صورة الشعار داخل الحاوية بدون تمديد الهيدر.
+   ========================================================= */
+
+:root {
+  --services-logo-size: 96px; /* حجم دائرة الشعار في الديسكتوب */
+  --services-logo-scale: 1.85; /* تكبير صورة اللوكو داخل الدائرة */
+}
+
+.services-topbar {
+  height: var(--services-logo-size) !important;
+  min-height: var(--services-logo-size) !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.services-topbar__right,
+.services-topbar__right a,
+.services-topbar__nav,
+.services-topbar__left {
+  height: var(--services-logo-size) !important;
+  min-height: var(--services-logo-size) !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.services-brand-logo-shell,
+.services-sidepanel-logo-shell {
+  width: var(--services-logo-size) !important;
+  height: var(--services-logo-size) !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+  background: radial-gradient(
+    circle at 35% 25%,
+    #ffffff 0%,
+    #fff8e8 45%,
+    #ead18e 100%
+  ) !important;
+  border: 3px solid rgba(212, 175, 55, 0.95) !important;
+  box-shadow:
+    0 5px 14px rgba(0, 0, 0, 0.16),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.85) !important;
+}
+
+.services-brand-logo-img,
+.services-sidepanel-logo-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  transform: scale(var(--services-logo-scale)) !important;
+  transform-origin: center center !important;
+  filter: contrast(1.25) saturate(1.35) brightness(1.08) !important;
+  mix-blend-mode: normal !important;
+}
+
+.services-sidepanel__header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+/* التابلت والآيباد */
+@media (max-width: 1024px) {
+  :root {
+    --services-logo-size: 84px;
+    --services-logo-scale: 1.82;
+  }
+
+  .services-topbar__nav {
+    display: none !important;
+  }
+
+  .services-burger {
+    display: flex !important;
+  }
+}
+
+/* الموبايل */
+@media (max-width: 768px) {
+  :root {
+    --services-logo-size: 76px;
+    --services-logo-scale: 1.78;
+  }
+}
+
+/* الشاشات الصغيرة جدًا */
+@media (max-width: 520px) {
+  :root {
+    --services-logo-size: 70px;
+    --services-logo-scale: 1.72;
+  }
+}

@@ -521,16 +521,18 @@ export default async function HomePage() {
         <header className="topbar" style={topbarStyle}>
           <div className="topbar__right" style={topbarRightStyle}>
             <Link href="/" style={brandStyle} aria-label="Go to home page">
-              <img
+              {/* شعار الزُهى فقط بدون كتابة جانبية.
+              الهدف: تقليل ازدحام الهيدر في الموبايل والتابلت وإظهار الهوية بصريًا فقط. */}
+              {/* حاوية الشعار تتحكم بحجم الدائرة وارتفاع الهيدر */}
+
+            <div className="home-brand-logo-shell">
+             {/* صورة الشعار تكبر داخل الدائرة فقط ولا تكبر الشريط العلوي */}
+               <img
                 src="/images/alzuha-logo.png"
                 alt={lang === "ar" ? "شعار الزُهى" : "ALZUHA Logo"}
-                className="home-brand-logo"
-                />
-
-              <div style={brandTextWrapStyle}>
-                <strong style={brandTitleStyle}>{t("brand.title")}</strong>
-                <span style={brandSubStyle}>{t("brand.subtitle")}</span>
-              </div>
+                className="home-brand-logo-img"
+               />
+            </div>
             </Link>
           </div>
 
