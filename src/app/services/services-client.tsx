@@ -11,6 +11,9 @@ import { useMemo, useState } from "react";
 import LanguageSwitch from "@/components/site/LanguageSwitch";
 // استخدام مبدّل اللغة المعتمد في المشروع بدل الزر اليدوي القديم
 
+import AlzuhaLogo from "@/components/site/AlzuhaLogo";
+// استيراد شعار الزُهى الموحد حتى يكون شكل اللوكو مطابقًا للهوم وباقي الصفحات.
+
 export type Lang = "ar" | "en";
 // نوع اللغة المدعومة
 
@@ -297,17 +300,10 @@ export default function ServicesClient({
         {/* ملاحظة: لا يوجد هنا زر Admin كما طلبت */}
 
         <div className="services-topbar__right">
-          {/* جهة الشعار داخل الشريط العلوي. */}
           <Link href="/" className="services-brand" aria-label="Go to home page">
-            {/* حاوية الشعار: تتحكم بحجم الدائرة فقط، ولا تسمح لصورة الشعار بتمديد الهيدر. */}
-            <div className="services-brand-logo-shell">
-              {/* صورة الشعار: تُكبّر من CSS داخل الحاوية، لذلك لا نستخدم أيقونة البيت القديمة ولا نصًا بجانب الشعار. */}
-              <img
-                src="/images/alzuha-logo.png"
-                alt={lang === "ar" ? "شعار الزُهى" : "ALZUHA Logo"}
-                className="services-brand-logo-img"
-              />
-            </div>
+            {/* شعار الزُهى الموحد:
+                نستخدم المكوّن المشترك حتى يكون نفس شكل اللوكو الموجود في الصفحة الرئيسية. */}
+            <AlzuhaLogo lang={lang} />
           </Link>
         </div>
 
@@ -332,7 +328,6 @@ export default function ServicesClient({
         </nav>
 
         <div className="services-topbar__left">
-          {/* تم حذف زر مكتب الخدمات من التوب بار حتى لا يظهر في الموبايل والتابلت والديسكتوب. */}
           <LanguageSwitch />
           {/* استخدام LanguageSwitch الحالي وعدم إضافة زر لغة يدوي */}
 
@@ -353,15 +348,9 @@ export default function ServicesClient({
         {/* القائمة الجانبية للموبايل */}
 
         <div className="services-sidepanel__header">
-          {/* شعار أعلى القائمة الجانبية بدل كلمة Menu حتى تكون الهوية البصرية موحدة مع الهيدر. */}
-          <div className="services-sidepanel-logo-shell">
-            {/* صورة الشعار داخل القائمة الجانبية، وتتحكم بها CSS حتى لا تتسبب بتشويه أو تمديد. */}
-            <img
-              src="/images/alzuha-logo.png"
-              alt={lang === "ar" ? "شعار الزُهى" : "ALZUHA Logo"}
-              className="services-sidepanel-logo-img"
-            />
-          </div>
+          {/* شعار أعلى القائمة الجانبية:
+              نعرض نفس الشعار الموحد بدل كلمة Menu حتى تكون الهوية واحدة في كل الأجهزة. */}
+          <AlzuhaLogo lang={lang} />
 
           <button
             type="button"
@@ -401,7 +390,6 @@ export default function ServicesClient({
           <Link href="/services/market-positioning" onClick={() => setMenuOpen(false)}>
             {lang === "ar" ? "التموضع السوقي" : "Positioning"}
           </Link>
-
         </nav>
       </aside>
 
@@ -430,7 +418,8 @@ export default function ServicesClient({
                 {textByLang(lang, sections.hero.btn1_ar, sections.hero.btn1_en)}
               </Link>
 
-              {/* لا نرسم الزر الثاني إذا كان النص فارغًا؛ هذا يمنع ظهور زر فارغ عند تعطيل مكتب الخدمات من البيانات. */}
+              {/* الزر الثاني لا يُرسم إذا كان نصه فارغًا.
+                  هذا يمنع ظهور زر فارغ عندما تكون بيانات btn2 معطلة من قاعدة البيانات. */}
               {textByLang(lang, sections.hero.btn2_ar, sections.hero.btn2_en).trim() ? (
                 <Link
                   href={heroSecondaryHref}
