@@ -730,27 +730,50 @@ a {
 
 
 /* =========================================================
-   21.04) FINAL LOGO IMAGE
-   صورة الشعار داخل الحاوية بدون all: unset وبدون scale صفر
+   21.04) FINAL TOPBAR LOGO IMAGE - SCOPED FIX
+   التعديل الحاسم:
+   - كان الكود السابق يستهدف .home-brand-logo عالميًا.
+   - هذا جعل أي شعار بنفس الكلاس خارج الهيدر يتمدد حسب مساحة الأب.
+   - الآن تم قصر التكبير على الصورة الموجودة داخل .home-brand-logo-shell فقط.
 ========================================================= */
 
-.home-brand-logo, /* كلاس الشعار القديم إن كان مستخدمًا */
-.home-brand-logo-img, /* كلاس الشعار الجديد إن كان مستخدمًا */
-.home-brand-logo-shell img { /* أي صورة داخل حاوية الشعار */
-  width: 100% !important; /* جعل الصورة تملأ عرض الحاوية */
-  height: 100% !important; /* جعل الصورة تملأ ارتفاع الحاوية */
-  max-width: 100% !important; /* منع تجاوز العرض */
-  max-height: 100% !important; /* منع تجاوز الارتفاع */
-  display: block !important; /* إزالة الفراغ الافتراضي أسفل الصور */
-  object-fit: contain !important; /* عرض الشعار كاملًا بدون قص أساسي */
-  object-position: center center !important; /* توسيط الشعار داخل الحاوية */
-  padding: var(--home-logo-pad-y) var(--home-logo-pad-x) !important; /* فراغ داخلي محسوب حول الشعار */
-  transform: scale(var(--home-logo-scale)) !important; /* تكبير الصورة داخل الحاوية */
-  transform-origin: center center !important; /* جعل التكبير من المركز */
-  box-sizing: border-box !important; /* جعل البادنك داخل أبعاد الصورة */
-  mix-blend-mode: normal !important; /* منع بهتان الشعار */
-  filter: contrast(1.16) saturate(1.18) brightness(1.04) !important; /* تحسين وضوح الشعار والذهب */
-} /* نهاية صورة الشعار */
+.home-brand-logo-shell > img, /* يستهدف الصورة المباشرة داخل حاوية شعار الهيدر فقط */
+.home-brand-logo-shell .home-brand-logo, /* يستهدف الشعار القديم فقط إذا كان داخل حاوية الهيدر */
+.home-brand-logo-shell .home-brand-logo-img { /* يستهدف الشعار الجديد فقط إذا كان داخل حاوية الهيدر */
+  width: 100% !important; /* يجعل صورة شعار الهيدر تملأ عرض الحاوية المحددة فقط */
+  height: 100% !important; /* يجعل صورة شعار الهيدر تملأ ارتفاع الحاوية المحددة فقط */
+  max-width: 100% !important; /* يمنع خروج الصورة أفقيًا خارج حاوية الهيدر */
+  max-height: 100% !important; /* يمنع خروج الصورة عموديًا خارج حاوية الهيدر */
+  display: block !important; /* يزيل الفراغ الافتراضي أسفل الصور */
+  object-fit: contain !important; /* يعرض الشعار كاملًا بدون قص */
+  object-position: center center !important; /* يوسّط الشعار داخل الحاوية */
+  padding: var(--home-logo-pad-y) var(--home-logo-pad-x) !important; /* يضيف فراغًا داخليًا محسوبًا داخل الحاوية */
+  transform: scale(var(--home-logo-scale)) !important; /* يكبر الشعار داخل الحاوية فقط لا خارجها */
+  transform-origin: center center !important; /* يجعل التكبير من مركز الشعار */
+  box-sizing: border-box !important; /* يحتسب البادنك ضمن أبعاد الصورة */
+  mix-blend-mode: normal !important; /* يمنع تغيّر ألوان الشعار بسبب الخلفيات */
+  filter: contrast(1.16) saturate(1.18) brightness(1.04) !important; /* يحسن وضوح اللون الذهبي */
+} /* نهاية ضبط صورة شعار الهيدر */
+
+
+/* =========================================================
+   21.04B) LOOSE LOGO SAFETY GUARD
+   حماية إضافية لأي صورة شعار خارج الهيدر حتى لا تتحول إلى بانر عملاق.
+========================================================= */
+
+main img.home-brand-logo, /* أي صورة شعار داخل محتوى الصفحة وليست داخل الهيدر */
+main img.home-brand-logo-img { /* أي نسخة بديلة من صورة الشعار داخل محتوى الصفحة */
+  width: auto !important; /* يمنع تمدد الشعار بعرض الصفحة بالكامل */
+  height: auto !important; /* يحافظ على النسبة الطبيعية للشعار */
+  max-width: min(520px, 82vw) !important; /* يضع سقفًا احترافيًا لعرض الشعار داخل الصفحة */
+  max-height: 320px !important; /* يمنع الشعار من التحول إلى كتلة عمودية ضخمة */
+  object-fit: contain !important; /* يعرض الشعار كاملًا دون قص */
+  object-position: center center !important; /* يوسّط الشعار داخل مساحته */
+  padding: 0 !important; /* يزيل أي بادنك موروث من شعار الهيدر */
+  margin-inline: auto !important; /* يوسّط الشعار أفقيًا */
+  transform: none !important; /* يلغي تكبير الهيدر عن الشعار الموجود داخل الصفحة */
+  box-shadow: none !important; /* يمنع انتقال ظل الهيدر للشعار الداخلي */
+} /* نهاية حماية الشعارات خارج الهيدر */
 
 
 /* =========================================================
@@ -1082,3 +1105,64 @@ main[dir="ltr"] .home-mobile-panel { /* دعم كلاس الاتجاه ودعم 
     transform: scale(1.35) !important; /* تكبير آمن */
   } /* نهاية شعار القائمة على الشاشات الصغيرة */
 } /* نهاية قواعد الشاشات الصغيرة */
+
+/* =========================================================
+   21.13) FINAL DESKTOP BRAND-WALL LOGO CONTROL
+   هذا البلوك يوضع في آخر الملف عمدًا لأنه يحسم تعارضات الحجم في الشاشات الكبيرة.
+========================================================= */
+
+.brandWall { /* حاوية قسم الشعار الكبير داخل الصفحة */
+  display: flex !important; /* يجعل التحكم في تموضع الشعار أسهل */
+  justify-content: center !important; /* يوسّط بطاقة الشعار أفقيًا */
+  align-items: center !important; /* يوسّط بطاقة الشعار عموديًا داخل القسم */
+  width: 100% !important; /* يحافظ على عرض القسم كاملًا بدون كسر */
+} /* نهاية حاوية قسم الشعار */
+
+.brandHuge { /* بطاقة الشعار الكبيرة داخل الصفحة وليست شعار الهيدر */
+  width: min(760px, calc(100% - 48px)) !important; /* يمنع البطاقة من ملء الشاشة على الديسكتوب */
+  max-width: 760px !important; /* يضع سقفًا ثابتًا للعرض على الشاشات الكبيرة جدًا */
+  min-height: 0 !important; /* يلغي min-height القديم الذي كان يضخم مساحة البطاقة */
+  height: clamp(240px, 30vw, 380px) !important; /* ارتفاع مرن ومسيطر عليه */
+  margin-inline: auto !important; /* توسيط البطاقة داخل الصفحة */
+  border-radius: 28px !important; /* حواف ناعمة قريبة من هوية الهيدر */
+  background: #cfcfcf !important; /* خلفية رمادية ثابتة خلف الشعار */
+  display: flex !important; /* يسمح بتوسيط الصورة داخليًا */
+  align-items: center !important; /* توسيط عمودي للصورة */
+  justify-content: center !important; /* توسيط أفقي للصورة */
+  overflow: hidden !important; /* يمنع أي تمدد أو خروج للصورة */
+} /* نهاية بطاقة الشعار الكبيرة */
+
+.brandHuge img { /* صورة الشعار داخل بطاقة brandHuge */
+  width: 100% !important; /* يجعل الصورة تلتزم بعرض البطاقة لا بعرض الشاشة */
+  height: 100% !important; /* يجعل الصورة تلتزم بارتفاع البطاقة المسيطر عليه */
+  max-width: 100% !important; /* يمنع تجاوز عرض البطاقة */
+  max-height: 100% !important; /* يمنع تجاوز ارتفاع البطاقة */
+  object-fit: contain !important; /* يعرض الشعار كاملًا بدل القص أو التمدد */
+  object-position: center center !important; /* يوسّط الشعار داخل البطاقة */
+  padding: clamp(18px, 3vw, 46px) !important; /* يضيف تنفسًا بصريًا حول الشعار */
+  transform: none !important; /* يلغي أي تكبير موروث من قواعد الهيدر */
+  opacity: 1 !important; /* يضمن ظهور الشعار حتى لو لم تعمل is-loaded */
+  box-sizing: border-box !important; /* يحتسب البادنك ضمن مساحة الصورة */
+} /* نهاية صورة بطاقة الشعار الكبيرة */
+
+@media (max-width: 1024px) { /* ضبط بطاقة الشعار على التابلت والموبايل */
+  .brandHuge { /* بطاقة الشعار على الشاشات المتوسطة والصغيرة */
+    width: min(620px, calc(100% - 32px)) !important; /* عرض مناسب لا يلامس حواف الشاشة */
+    max-width: 620px !important; /* سقف عرض آمن للتابلت */
+    height: clamp(220px, 46vw, 340px) !important; /* ارتفاع مرن أصغر من الديسكتوب */
+    min-height: 0 !important; /* منع استدعاء min-height القديم */
+  } /* نهاية بطاقة الشعار على التابلت والموبايل */
+
+  .brandHuge img { /* صورة الشعار داخل البطاقة على التابلت والموبايل */
+    padding: clamp(14px, 4vw, 34px) !important; /* بادنك متجاوب يمنع ازدحام الشعار */
+  } /* نهاية صورة الشعار المتجاوبة */
+} /* نهاية قواعد التابلت والموبايل */
+
+@media (max-width: 520px) { /* ضبط أدق للشاشات الصغيرة جدًا */
+  .brandHuge { /* بطاقة الشعار في الموبايلات الضيقة */
+    width: calc(100% - 24px) !important; /* يترك هامشًا صغيرًا من الجانبين */
+    height: clamp(190px, 58vw, 280px) !important; /* يقلل الارتفاع حتى لا يغطي الشاشة */
+    border-radius: 22px !important; /* تدوير مناسب للموبايل */
+  } /* نهاية بطاقة الشعار في الموبايلات الضيقة */
+} /* نهاية قواعد الشاشات الصغيرة جدًا */
+
