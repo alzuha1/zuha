@@ -24,3 +24,65 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* =========================================================
+   ALZUHA SHARED LOGO SYSTEM
+   شعار موحد لكل الصفحات
+========================================================= */
+
+.site-logo-shell {
+  width: 96px !important;
+  height: 96px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+  background: radial-gradient(circle at 35% 25%, #ffffff 0%, #fff8e8 45%, #ead18e 100%) !important;
+  border: 3px solid rgba(212, 175, 55, 0.95) !important;
+  box-shadow:
+    0 5px 14px rgba(0, 0, 0, 0.16),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.85) !important;
+}
+
+.site-logo-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  transform: scale(1.85) !important;
+  transform-origin: center center !important;
+  filter: contrast(1.25) saturate(1.35) brightness(1.08) !important;
+  mix-blend-mode: normal !important;
+}
+
+@media (max-width: 1024px) {
+  .site-logo-shell {
+    width: 84px !important;
+    height: 84px !important;
+  }
+
+  .site-logo-img {
+    transform: scale(1.82) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-logo-shell {
+    width: 76px !important;
+    height: 76px !important;
+  }
+
+  .site-logo-img {
+    transform: scale(1.78) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-logo-shell {
+    width: 70px !important;
+    height: 70px !important;
+  }
+
+  .site-logo-img {
+    transform: scale(1.72) !important;
+  }
+}
