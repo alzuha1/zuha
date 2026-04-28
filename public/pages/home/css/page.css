@@ -601,611 +601,484 @@ a {
    - العربي RTL يفتح من اليسار، والإنجليزي LTR يفتح من اليمين.
 ========================================================= */
 
-:root {
-  --home-logo-size: 92px; /* المتغير الوحيد الذي يحدد ارتفاع الهيدر وحجم دائرة الشعار */
-}
+/* =========================================================
+   21) FINAL ALZUHA HOME TOPBAR + LOGO + MOBILE MENU
+   هذا هو البلوك النهائي الوحيد للهيدر واللوكو والقائمة الجانبية.
+   لا تضع بعده أي كود آخر للهيدر أو اللوكو حتى لا يحدث تضارب.
+========================================================= */
 
-/* الشريط العلوي: ارتفاعه يساوي حجم دائرة الشعار */
-.topbar {
-  height: var(--home-logo-size) !important; /* يربط ارتفاع الهيدر بحجم الشعار */
-  min-height: var(--home-logo-size) !important; /* يمنع أي CSS قديم من تكبير الهيدر */
-  padding-top: 0 !important; /* يمنع الفراغ العلوي */
-  padding-bottom: 0 !important; /* يمنع الفراغ السفلي */
-  padding-left: 34px !important; /* مسافة جانبية للديسكتوب */
-  padding-right: 34px !important; /* مسافة جانبية للديسكتوب */
-  display: flex !important; /* يضمن انتظام عناصر الهيدر */
-  align-items: center !important; /* يوسّط العناصر عموديًا */
-}
 
-/* كل أجزاء الهيدر تأخذ نفس ارتفاع الشريط حتى لا يتمدد عنصر داخلي */
-.topbar__right,
-.topbar__right a,
-.topbar__nav,
-.topbar__left {
-  height: var(--home-logo-size) !important; /* نفس ارتفاع الشريط */
-  min-height: var(--home-logo-size) !important; /* منع التمدد */
+/* =========================================================
+   21.01) FINAL RESPONSIVE VARIABLES
+   متغيرات التحكم النهائية للّوكو والهيدر والقائمة الجانبية
+========================================================= */
+
+:root { /* بداية متغيرات التصميم النهائية */
+  --home-logo-width: 210px !important; /* عرض حاوية الشعار في الديسكتوب حسب الاعتماد الأخير */
+  --home-logo-height: 115px !important; /* ارتفاع حاوية الشعار في الديسكتوب حسب الاعتماد الأخير */
+  --home-logo-radius: 32px !important; /* تدوير حواف حاوية الشعار بشكل مستطيل راقٍ */
+  --home-logo-border: 3px !important; /* سماكة الإطار الذهبي المتدرج */
+  --home-logo-pad-y: 6px !important; /* فراغ داخلي أعلى وأسفل صورة الشعار */
+  --home-logo-pad-x: 0px !important; /* فراغ داخلي يمين ويسار صورة الشعار */
+  --home-logo-scale: 1.3 !important; /* تكبير صورة الشعار داخل الحاوية بدون تكبير الحاوية */
+  --home-topbar-gap-y: 3px !important; /* فراغ أعلى وأسفل بين الحاوية والشريط العلوي */
+  --home-topbar-height: calc(var(--home-logo-height) + (var(--home-topbar-gap-y) * 2)) !important; /* ارتفاع الشريط = ارتفاع الشعار + 3px فوق + 3px تحت */
+  --home-panel-width: min(390px, 90vw) !important; /* عرض القائمة الجانبية للموبايل والتابلت */
+} /* نهاية متغيرات التصميم النهائية */
+
+
+/* =========================================================
+   21.02) FINAL TOPBAR STRUCTURE
+   ضبط الشريط العلوي حتى لا يقص اللوكو أو يضغطه
+========================================================= */
+
+.topbar { /* الشريط العلوي الرئيسي */
+  height: var(--home-topbar-height) !important; /* ارتفاع الشريط محسوب منطقيًا من ارتفاع الشعار */
+  min-height: var(--home-topbar-height) !important; /* منع أي قاعدة قديمة من تقليل الارتفاع */
+  padding-top: var(--home-topbar-gap-y) !important; /* فراغ علوي لإظهار الحافة العليا للحاوية */
+  padding-bottom: var(--home-topbar-gap-y) !important; /* فراغ سفلي متوازن */
+  padding-left: clamp(14px, 3vw, 34px) !important; /* مسافة يسار مرنة حسب الشاشة */
+  padding-right: clamp(14px, 3vw, 34px) !important; /* مسافة يمين مرنة حسب الشاشة */
+  display: flex !important; /* ترتيب عناصر الهيدر أفقياً */
+  align-items: center !important; /* توسيط العناصر عمودياً */
+  justify-content: space-between !important; /* توزيع الشعار والروابط وأزرار التحكم */
+  gap: clamp(10px, 2vw, 26px) !important; /* مسافة مرنة بين أجزاء الهيدر */
+  overflow: visible !important; /* منع قص ظل الشعار أو الحواف */
+  box-sizing: border-box !important; /* إدخال البادنك ضمن حساب الارتفاع */
+  position: sticky !important; /* إبقاء الشريط ثابتًا عند التمرير */
+  top: 0 !important; /* تثبيت الشريط أعلى الصفحة */
+  z-index: 6000 !important; /* وضع الشريط فوق محتوى الصفحة */
+} /* نهاية الشريط العلوي */
+
+
+.topbar__right { /* جهة الشعار */
+  height: var(--home-logo-height) !important; /* جعل جهة الشعار مساوية لارتفاع الحاوية */
+  min-height: var(--home-logo-height) !important; /* منع الضغط العمودي */
   display: flex !important; /* ترتيب داخلي مرن */
+  align-items: center !important; /* توسيط الشعار عمودياً */
+  flex-shrink: 0 !important; /* منع ضغط الشعار عند ضيق الشاشة */
+  overflow: visible !important; /* منع قص الحاوية أو الظل */
+} /* نهاية جهة الشعار */
+
+
+.topbar__right a { /* رابط الشعار */
+  height: var(--home-logo-height) !important; /* جعل رابط الشعار بنفس ارتفاع الحاوية */
+  min-height: var(--home-logo-height) !important; /* منع تقليل الارتفاع */
+  display: flex !important; /* ترتيب الشعار داخل الرابط */
+  align-items: center !important; /* توسيط الشعار داخل الرابط */
+  overflow: visible !important; /* منع قص الشعار */
+} /* نهاية رابط الشعار */
+
+
+.topbar__nav { /* روابط الديسكتوب */
+  height: var(--home-logo-height) !important; /* جعل الناف متوازنًا مع الشعار */
+  min-height: var(--home-logo-height) !important; /* منع اختلاف الارتفاع */
+  display: flex !important; /* عرض الروابط أفقياً */
+  align-items: center !important; /* توسيط الروابط عمودياً */
+  justify-content: center !important; /* توسيط الروابط أفقياً */
+  gap: clamp(12px, 2vw, 28px) !important; /* مسافات مرنة بين الروابط */
+  flex: 1 1 auto !important; /* السماح للناف بأخذ المساحة الوسطى */
+  overflow: visible !important; /* منع قص القوائم المنسدلة */
+} /* نهاية روابط الديسكتوب */
+
+
+.topbar__left { /* جهة اللغة وزر القائمة */
+  height: var(--home-logo-height) !important; /* جعل الطرف الأيسر متوازنًا مع الشعار */
+  min-height: var(--home-logo-height) !important; /* منع تقليل الارتفاع */
+  display: flex !important; /* ترتيب اللغة والبرغر */
   align-items: center !important; /* توسيط عمودي */
-}
-
-/* جهة اللغة وزر البرغر */
-.topbar__left {
   justify-content: flex-end !important; /* دفع العناصر للطرف */
-  gap: 10px !important; /* مسافة بين اللغة والبرغر */
-  position: relative !important; /* يسمح بالتحكم في الطبقات */
-  z-index: 10001 !important; /* فوق محتوى الصفحة */
-}
+  gap: 10px !important; /* مسافة بين مبدّل اللغة وزر القائمة */
+  flex-shrink: 0 !important; /* منع ضغط عناصر التحكم */
+  overflow: visible !important; /* منع قص الزر */
+  position: relative !important; /* تجهيز طبقات داخلية */
+  z-index: 6002 !important; /* جعل التحكم فوق الهيدر */
+} /* نهاية جهة اللغة وزر القائمة */
 
-/* الحاوية الدائرية للشعار فقط */
-.home-brand-logo-shell {
-  width: var(--home-logo-size) !important; /* عرض الدائرة */
-  height: var(--home-logo-size) !important; /* ارتفاع الدائرة، يساوي الهيدر */
-  border-radius: 50% !important; /* دائرة كاملة */
-  overflow: hidden !important; /* يقص أي جزء زائد من الصورة داخل الدائرة */
-  flex-shrink: 0 !important; /* يمنع ضغط الشعار */
-  position: relative !important; /* يحافظ على الصورة داخل الحاوية */
 
-  background: radial-gradient(
-    circle at 35% 25%,
-    #ffffff 0%,
-    #fff8e8 45%,
-    #ead18e 100%
-  ) !important; /* خلفية بيضاء ذهبية ناعمة */
+/* =========================================================
+   21.03) FINAL LOGO SHELL
+   حاوية الشعار المستطيلة بحواف مستديرة وشادو ذهبي
+========================================================= */
 
-  border: 3px solid rgba(212, 175, 55, 0.95) !important; /* إطار ذهبي واضح */
+.home-brand-logo-shell { /* حاوية الشعار النهائية */
+  width: var(--home-logo-width) !important; /* عرض الحاوية النهائي */
+  height: var(--home-logo-height) !important; /* ارتفاع الحاوية النهائي */
+  border-radius: var(--home-logo-radius) !important; /* حواف مستديرة */
+  overflow: hidden !important; /* قص أي جزء زائد من الصورة داخل الحاوية */
+  flex-shrink: 0 !important; /* منع ضغط الحاوية */
+  position: relative !important; /* تثبيت الصورة والظل داخل الحاوية */
+  display: flex !important; /* توسيط الصورة داخل الحاوية */
+  align-items: center !important; /* توسيط عمودي */
+  justify-content: center !important; /* توسيط أفقي */
+  box-sizing: border-box !important; /* احتساب الإطار ضمن أبعاد الحاوية */
+  margin-top: 0 !important; /* منع رفع الحاوية بطريقة غير محسوبة */
+  margin-bottom: 0 !important; /* منع نزول الحاوية خارج الهيدر */
+
+  background:
+    linear-gradient(#cfcfcf, #cfcfcf) padding-box,
+    linear-gradient(135deg, #7a5a12, #d7b85a, #fff2a8, #b88922, #6f4d0d) border-box !important; /* خلفية رمادية مع إطار ذهبي متدرج */
+
+  border: var(--home-logo-border) solid transparent !important; /* إطار شفاف لإظهار التدرج الذهبي */
+
   box-shadow:
-    0 5px 14px rgba(0, 0, 0, 0.16),
-    inset 0 0 0 2px rgba(255, 255, 255, 0.85) !important; /* عمق خفيف */
-}
+    0 0 0 1px rgba(255, 232, 150, 0.42),
+    0 10px 26px rgba(88, 62, 10, 0.28),
+    0 0 34px rgba(214, 178, 70, 0.22),
+    inset 0 0 24px rgba(255, 238, 170, 0.18) !important; /* شادو ذهبي خارجي وداخلي */
+} /* نهاية حاوية الشعار */
 
-/* صورة الشعار داخل الدائرة */
-.home-brand-logo-img {
-  width: 100% !important; /* تملأ الحاوية عرضًا */
-  height: 100% !important; /* تملأ الحاوية ارتفاعًا */
-  object-fit: contain  !important; /* يملأ اللوغو الدائرة */
-  object-position: center !important; /* يثبت الصورة في الوسط */
 
-  transform: scale(1.85) !important; /* يكبر صورة اللوغو فقط وليس الهيدر */
-  transform-origin: center center !important; /* التكبير من المركز */
+/* =========================================================
+   21.04) FINAL LOGO IMAGE
+   صورة الشعار داخل الحاوية بدون all: unset وبدون scale صفر
+========================================================= */
 
-  filter: contrast(1.25) saturate(1.35) brightness(1.08) !important; /* إبراز الذهبي */
-  mix-blend-mode: normal !important; /* يمنع بهتان الذهب */
-}
+.home-brand-logo, /* كلاس الشعار القديم إن كان مستخدمًا */
+.home-brand-logo-img, /* كلاس الشعار الجديد إن كان مستخدمًا */
+.home-brand-logo-shell img { /* أي صورة داخل حاوية الشعار */
+  width: 100% !important; /* جعل الصورة تملأ عرض الحاوية */
+  height: 100% !important; /* جعل الصورة تملأ ارتفاع الحاوية */
+  max-width: 100% !important; /* منع تجاوز العرض */
+  max-height: 100% !important; /* منع تجاوز الارتفاع */
+  display: block !important; /* إزالة الفراغ الافتراضي أسفل الصور */
+  object-fit: contain !important; /* عرض الشعار كاملًا بدون قص أساسي */
+  object-position: center center !important; /* توسيط الشعار داخل الحاوية */
+  padding: var(--home-logo-pad-y) var(--home-logo-pad-x) !important; /* فراغ داخلي محسوب حول الشعار */
+  transform: scale(var(--home-logo-scale)) !important; /* تكبير الصورة داخل الحاوية */
+  transform-origin: center center !important; /* جعل التكبير من المركز */
+  box-sizing: border-box !important; /* جعل البادنك داخل أبعاد الصورة */
+  mix-blend-mode: normal !important; /* منع بهتان الشعار */
+  filter: contrast(1.16) saturate(1.18) brightness(1.04) !important; /* تحسين وضوح الشعار والذهب */
+} /* نهاية صورة الشعار */
 
-/* إلغاء تأثير كلاس الشعار القديم إن بقي في الصفحة */
-.home-brand-logo {
-  all: unset !important; /* يمنع تضارب الكلاس القديم مع النظام الجديد */
-}
 
-/* زر الثلاث خطوط */
-.home-mobile-burger {
+/* =========================================================
+   21.05) FINAL MOBILE BURGER
+   زر الثلاث خطوط للموبايل والتابلت
+========================================================= */
+
+.home-mobile-burger { /* زر فتح القائمة الجانبية */
   width: 48px !important; /* عرض الزر */
   height: 48px !important; /* ارتفاع الزر */
   display: none !important; /* مخفي على الديسكتوب */
-  align-items: center !important; /* توسيط الخطوط */
-  justify-content: center !important; /* توسيط الخطوط */
-  flex-direction: column !important; /* جعل الخطوط فوق بعض */
+  align-items: center !important; /* توسيط الخطوط عمودياً */
+  justify-content: center !important; /* توسيط الخطوط أفقياً */
+  flex-direction: column !important; /* جعل الخطوط فوق بعضها */
   gap: 6px !important; /* المسافة بين الخطوط */
-  border-radius: 16px !important; /* زوايا ناعمة */
-  border: 1px solid rgba(255, 255, 255, 0.45) !important; /* إطار شفاف */
-  background: rgba(255, 255, 255, 0.14) !important; /* خلفية خفيفة */
+  border-radius: 16px !important; /* حواف ناعمة */
+  border: 1px solid rgba(255, 255, 255, 0.45) !important; /* إطار أبيض شفاف */
+  background: rgba(255, 255, 255, 0.14) !important; /* خلفية شفافة خفيفة */
   cursor: pointer !important; /* مؤشر النقر */
-  position: relative !important; /* للتحكم بالطبقات */
-  z-index: 10002 !important; /* فوق الهيدر */
-  flex-shrink: 0 !important; /* منع الضغط */
-}
+  position: relative !important; /* طبقة مستقلة */
+  z-index: 6003 !important; /* فوق عناصر الهيدر */
+  flex-shrink: 0 !important; /* منع ضغط الزر */
+} /* نهاية زر القائمة */
 
-/* خطوط البرغر */
-.home-mobile-burger span {
+
+.home-mobile-burger span { /* خطوط زر القائمة */
   width: 22px !important; /* طول الخط */
   height: 2px !important; /* سماكة الخط */
-  display: block !important; /* يظهر كخط مستقل */
-  border-radius: 99px !important; /* نهايات ناعمة */
-  background: #ffffff !important; /* لون أبيض */
-}
+  display: block !important; /* كل خط كسطر مستقل */
+  border-radius: 99px !important; /* أطراف مستديرة */
+  background: #ffffff !important; /* لون الخط أبيض */
+} /* نهاية خطوط زر القائمة */
 
-/* طبقة التعتيم خلف القائمة */
-.home-mobile-overlay {
-  position: fixed !important; /* يغطي الشاشة */
-  inset: 0 !important; /* من كل الجهات */
-  z-index: 99998 !important; /* خلف القائمة وفوق الصفحة */
+
+/* =========================================================
+   21.06) FINAL MOBILE OVERLAY
+   طبقة التعتيم خلف القائمة
+========================================================= */
+
+.home-mobile-overlay { /* خلفية التعتيم */
+  position: fixed !important; /* تغطية ثابتة للشاشة */
+  inset: 0 !important; /* ملء الشاشة بالكامل */
+  z-index: 99998 !important; /* فوق الصفحة وتحت القائمة */
   border: 0 !important; /* بدون إطار */
-  background: rgba(0, 0, 0, 0.45) !important; /* تعتيم */
-  opacity: 0 !important; /* مخفي افتراضيًا */
-  pointer-events: none !important; /* لا يلتقط النقر وهو مغلق */
-  transition: opacity 0.25s ease !important; /* حركة ناعمة */
-}
+  background: rgba(0, 0, 0, 0.45) !important; /* تعتيم واضح */
+  opacity: 0 !important; /* مخفية افتراضياً */
+  visibility: hidden !important; /* غير مرئية عند الإغلاق */
+  pointer-events: none !important; /* لا تستقبل النقر عند الإغلاق */
+  transition: opacity 0.25s ease, visibility 0.25s ease !important; /* حركة فتح وإغلاق ناعمة */
+} /* نهاية طبقة التعتيم */
 
-/* حالة فتح طبقة التعتيم */
-.home-mobile-overlay.is-open {
+
+.home-mobile-overlay.is-open { /* حالة فتح طبقة التعتيم */
   opacity: 1 !important; /* إظهار التعتيم */
-  pointer-events: auto !important; /* يسمح بالنقر للإغلاق */
-}
+  visibility: visible !important; /* جعل الطبقة مرئية */
+  pointer-events: auto !important; /* السماح بالنقر عليها للإغلاق */
+} /* نهاية حالة فتح التعتيم */
 
-/* جسم القائمة الجانبية */
-.home-mobile-panel {
-  position: fixed !important; /* قائمة ثابتة فوق الصفحة */
-  top: 0 !important; /* تبدأ من الأعلى */
-  bottom: 0 !important; /* تمتد للأسفل */
+
+/* =========================================================
+   21.07) FINAL MOBILE PANEL
+   القائمة الجانبية البيضاء العمودية
+========================================================= */
+
+.home-mobile-panel { /* جسم القائمة الجانبية */
+  position: fixed !important; /* تثبيت القائمة فوق الصفحة */
+  top: 0 !important; /* تبدأ من أعلى الشاشة */
+  bottom: 0 !important; /* تمتد إلى أسفل الشاشة */
   z-index: 99999 !important; /* فوق طبقة التعتيم */
-  width: min(380px, 90vw) !important; /* عرض مناسب للموبايل */
+  width: var(--home-panel-width) !important; /* عرض القائمة النهائي */
+  max-width: var(--home-panel-width) !important; /* منع توسع زائد */
   height: 100vh !important; /* كامل ارتفاع الشاشة */
   padding: 24px 20px !important; /* فراغ داخلي */
-  background: #ffffff !important; /* أبيض واضح */
+  background: #ffffff !important; /* خلفية بيضاء صريحة */
   color: #111318 !important; /* لون النص */
-  overflow-y: auto !important; /* تمرير عند كثرة الروابط */
-  overscroll-behavior: contain !important; /* منع سحب الصفحة خلفها */
-  border: 0 !important; /* بدون حدود */
-  transition: transform 0.28s ease !important; /* حركة فتح ناعمة */
-}
+  overflow-y: auto !important; /* تمرير عمودي عند كثرة الروابط */
+  overscroll-behavior: contain !important; /* منع سحب الصفحة خلف القائمة */
+  border: 0 !important; /* بدون حدود خارجية */
+  transition: transform 0.28s ease !important; /* حركة دخول وخروج ناعمة */
+  display: flex !important; /* ترتيب داخلي مرن */
+  flex-direction: column !important; /* ترتيب عمودي */
+  gap: 0 !important; /* التحكم بالمسافات من العناصر الداخلية */
+} /* نهاية جسم القائمة */
 
-/* العربي: تفتح من اليسار */
-.home-mobile-panel--rtl {
-  left: 0 !important; /* تثبيت يسار */
-  right: auto !important; /* إلغاء اليمين */
-  transform: translateX(-105%) !important; /* مخفية خارج الشاشة يسارًا */
-  box-shadow: 20px 0 70px rgba(0, 0, 0, 0.24) !important; /* ظل من جهة الدخول */
-}
 
-/* الإنجليزي: تفتح من اليمين */
-.home-mobile-panel--ltr {
-  right: 0 !important; /* تثبيت يمين */
-  left: auto !important; /* إلغاء اليسار */
-  transform: translateX(105%) !important; /* مخفية خارج الشاشة يمينًا */
-  box-shadow: -20px 0 70px rgba(0, 0, 0, 0.24) !important; /* ظل من جهة الدخول */
-}
+/* العربي RTL: حسب نظامك الحالي القائمة تفتح من اليسار */
+.home-mobile-panel--rtl,
+main[dir="rtl"] .home-mobile-panel { /* دعم كلاس الاتجاه ودعم dir معاً */
+  left: 0 !important; /* تثبيت القائمة يساراً */
+  right: auto !important; /* إلغاء التثبيت من اليمين */
+  transform: translateX(-105%) !important; /* إخفاء القائمة خارج الشاشة من اليسار */
+  box-shadow: 20px 0 70px rgba(0, 0, 0, 0.24) !important; /* ظل من جهة اليسار */
+} /* نهاية اتجاه العربي */
 
-/* حالة الفتح */
-.home-mobile-panel.is-open {
-  transform: translateX(0) !important; /* إدخال القائمة داخل الشاشة */
-}
 
-/* رأس القائمة */
-.home-mobile-panel__header {
-  display: flex !important; /* ترتيب الشعار وزر الإغلاق */
+/* الإنجليزي LTR: حسب نظامك الحالي القائمة تفتح من اليمين */
+.home-mobile-panel--ltr,
+main[dir="ltr"] .home-mobile-panel { /* دعم كلاس الاتجاه ودعم dir معاً */
+  right: 0 !important; /* تثبيت القائمة يميناً */
+  left: auto !important; /* إلغاء التثبيت من اليسار */
+  transform: translateX(105%) !important; /* إخفاء القائمة خارج الشاشة من اليمين */
+  box-shadow: -20px 0 70px rgba(0, 0, 0, 0.24) !important; /* ظل من جهة اليمين */
+} /* نهاية اتجاه الإنجليزي */
+
+
+.home-mobile-panel.is-open { /* حالة فتح القائمة */
+  transform: translateX(0) !important; /* إدخال القائمة إلى داخل الشاشة */
+} /* نهاية حالة فتح القائمة */
+
+
+/* =========================================================
+   21.08) FINAL MOBILE PANEL HEADER
+   رأس القائمة الجانبية مع اللوكو وزر الإغلاق
+========================================================= */
+
+.home-mobile-panel__header { /* رأس القائمة */
+  display: flex !important; /* توزيع الشعار وزر الإغلاق */
   align-items: center !important; /* توسيط عمودي */
-  justify-content: space-between !important; /* الشعار بطرف والإغلاق بطرف */
-  gap: 14px !important; /* مسافة داخلية */
+  justify-content: space-between !important; /* الشعار بطرف وزر الإغلاق بطرف */
+  gap: 14px !important; /* مسافة بين العناصر */
   padding-bottom: 18px !important; /* فراغ أسفل الرأس */
-  margin-bottom: 20px !important; /* فصل عن الروابط */
-  border-bottom: 1px solid #e6e7eb !important; /* خط فاصل */
-}
+  margin-bottom: 20px !important; /* فصل الرأس عن الروابط */
+  border-bottom: 1px solid #e6e7eb !important; /* خط فاصل ناعم */
+} /* نهاية رأس القائمة */
 
-/* حاوية شعار القائمة */
-.home-mobile-panel__brand {
+
+.home-mobile-panel__brand { /* حاوية شعار القائمة */
   display: flex !important; /* عرض مرن */
-  align-items: center !important; /* توسيط */
-  justify-content: center !important; /* توسيط */
-}
+  align-items: center !important; /* توسيط عمودي */
+  justify-content: center !important; /* توسيط أفقي */
+  min-width: 120px !important; /* مساحة كافية للشعار */
+  overflow: visible !important; /* منع قص الشعار داخل القائمة */
+} /* نهاية حاوية شعار القائمة */
 
-/* شعار القائمة الجانبية */
-.home-mobile-panel__logo {
-  width: 110px !important; /* عرض الشعار داخل القائمة */
-  height: 76px !important; /* ارتفاع الشعار داخل القائمة */
-  max-height: none !important; /* إلغاء أي حد سابق */
-  object-fit: contain !important; /* عرض كامل بدون قص */
-  padding: 0 !important; /* بدون فراغ داخلي */
-  transform: scale(1.45) !important; /* تكبير الشعار داخل المساحة */
-  transform-origin: center !important; /* التكبير من المنتصف */
+
+.home-mobile-panel__logo { /* شعار القائمة الجانبية */
+  width: 120px !important; /* عرض الشعار داخل القائمة */
+  height: 90px !important; /* ارتفاع الشعار داخل القائمة */
+  max-width: 120px !important; /* منع تمدد زائد */
+  max-height: 90px !important; /* منع تمدد زائد */
+  object-fit: contain !important; /* عرض الشعار كاملًا */
+  object-position: center center !important; /* توسيط الشعار */
+  transform: scale(1.45) !important; /* تكبير الشعار داخل مساحة القائمة */
+  transform-origin: center center !important; /* التكبير من المركز */
   background: transparent !important; /* بدون خلفية */
   border: 0 !important; /* بدون إطار */
   border-radius: 0 !important; /* بدون تدوير */
   box-shadow: none !important; /* بدون ظل */
-  mix-blend-mode: normal !important; /* لا يبهت الشعار */
-  filter: contrast(1.22) saturate(1.25) brightness(1.08) !important; /* إبراز الذهب */
-  flex-shrink: 0 !important; /* منع الضغط */
-}
+  mix-blend-mode: normal !important; /* منع البهتان */
+  filter: contrast(1.16) saturate(1.18) brightness(1.04) !important; /* تحسين الوضوح */
+  flex-shrink: 0 !important; /* منع ضغط الشعار */
+} /* نهاية شعار القائمة */
 
-/* زر إغلاق القائمة */
-.home-mobile-panel__close {
+
+.home-mobile-panel__close { /* زر إغلاق القائمة */
   width: 44px !important; /* عرض الزر */
   height: 44px !important; /* ارتفاع الزر */
   border: 0 !important; /* بدون إطار */
-  border-radius: 14px !important; /* زوايا ناعمة */
+  border-radius: 14px !important; /* حواف ناعمة */
   background: #f3f4f6 !important; /* خلفية رمادية فاتحة */
-  color: #111318 !important; /* لون الرمز */
-  font-size: 30px !important; /* حجم X */
-  line-height: 1 !important; /* ضبط عمودي */
-  cursor: pointer !important; /* مؤشر النقر */
-}
+  color: #111318 !important; /* لون علامة الإغلاق */
+  font-size: 30px !important; /* حجم علامة X */
+  line-height: 1 !important; /* ضبط المحاذاة العمودية */
+  cursor: pointer !important; /* مؤشر قابل للنقر */
+  flex-shrink: 0 !important; /* منع ضغط الزر */
+} /* نهاية زر الإغلاق */
 
-/* القائمة عمودية */
-.home-mobile-panel__nav {
+
+/* =========================================================
+   21.09) FINAL MOBILE PANEL NAV LINKS
+   الروابط الرئيسية والفرعية داخل القائمة
+========================================================= */
+
+.home-mobile-panel__nav { /* قائمة الروابط */
   display: flex !important; /* Flex */
-  flex-direction: column !important; /* عمودي */
+  flex-direction: column !important; /* ترتيب عمودي */
   align-items: stretch !important; /* الروابط بعرض كامل */
   justify-content: flex-start !important; /* تبدأ من الأعلى */
   gap: 10px !important; /* مسافة بين الروابط */
   width: 100% !important; /* عرض كامل */
-}
+} /* نهاية قائمة الروابط */
 
-/* روابط القائمة الرئيسية والفرعية */
+
 .home-mobile-panel__nav > a,
-.home-mobile-panel__subnav > a {
-  display: flex !important; /* رابط كصف */
-  width: 100% !important; /* عرض كامل */
-  min-height: 50px !important; /* ارتفاع مريح */
-  align-items: center !important; /* توسيط النص */
-  justify-content: space-between !important; /* توزيع داخلي */
-  padding: 14px 16px !important; /* فراغ داخلي */
-  border-radius: 16px !important; /* زوايا ناعمة */
-  background: #f3f4f6 !important; /* خلفية خفيفة */
-  color: #111318 !important; /* نص داكن */
+.home-mobile-panel__subnav > a { /* الروابط الرئيسية والفرعية */
+  display: flex !important; /* جعل الرابط صفًا مرنًا */
+  width: 100% !important; /* الرابط يأخذ عرض القائمة */
+  min-height: 50px !important; /* ارتفاع مناسب للمس على الموبايل */
+  align-items: center !important; /* توسيط النص عمودياً */
+  justify-content: space-between !important; /* توزيع داخلي متوازن */
+  padding: 14px 16px !important; /* فراغ داخلي مريح */
+  border-radius: 16px !important; /* حواف ناعمة */
+  background: #f3f4f6 !important; /* خلفية رمادية فاتحة */
+  color: #111318 !important; /* نص داكن واضح */
   border: 1px solid #eceef2 !important; /* إطار خفيف */
   font-weight: 850 !important; /* وزن واضح */
-  text-decoration: none !important; /* بدون خط */
-  white-space: normal !important; /* يسمح بالتفاف النص */
+  text-decoration: none !important; /* بدون خط سفلي */
+  white-space: normal !important; /* السماح بالتفاف النص */
   line-height: 1.45 !important; /* قراءة أفضل */
-}
+  box-sizing: border-box !important; /* احتساب البادنك داخل العرض */
+} /* نهاية الروابط */
 
-/* صندوق الصفحات التابعة */
-.home-mobile-panel__subnav {
+
+.home-mobile-panel__nav > a:hover,
+.home-mobile-panel__subnav > a:hover { /* تأثير المرور على الروابط */
+  background: #fff7df !important; /* خلفية ذهبية فاتحة */
+  border-color: rgba(184, 137, 34, 0.34) !important; /* إطار ذهبي خفيف */
+  color: #6f4d0d !important; /* لون ذهبي داكن */
+} /* نهاية تأثير المرور */
+
+
+.home-mobile-panel__subnav { /* صندوق الصفحات التابعة */
   display: flex !important; /* Flex */
   flex-direction: column !important; /* عمودي */
   align-items: stretch !important; /* بعرض كامل */
-  gap: 8px !important; /* مسافات داخلية */
+  gap: 8px !important; /* مسافة بين الصفحات الفرعية */
   width: 100% !important; /* عرض كامل */
-  margin: 0 !important; /* بدون هامش */
+  margin: 0 !important; /* بدون هامش خارجي */
   padding: 10px !important; /* فراغ داخلي */
-  border-radius: 18px !important; /* زوايا ناعمة */
-  background: #ffffff !important; /* أبيض */
-  border: 1px solid #e6e7eb !important; /* إطار */
-}
+  border-radius: 18px !important; /* حواف ناعمة */
+  background: #ffffff !important; /* خلفية بيضاء */
+  border: 1px solid #e6e7eb !important; /* إطار خفيف */
+  box-sizing: border-box !important; /* احتساب البادنك داخل العرض */
+} /* نهاية صندوق الصفحات التابعة */
 
-/* روابط الصفحات التابعة */
-.home-mobile-panel__subnav > a {
-  background: #ffffff !important; /* روابط فرعية بيضاء */
-  border-color: #e6e7eb !important; /* إطار أخف */
-  font-size: 14px !important; /* أصغر قليلًا */
+
+.home-mobile-panel__subnav > a { /* روابط الصفحات التابعة */
+  background: #ffffff !important; /* خلفية بيضاء للفرعي */
+  border-color: #e6e7eb !important; /* إطار فرعي خفيف */
+  font-size: 14px !important; /* حجم أصغر من الرئيسي */
   font-weight: 750 !important; /* وزن متوسط */
-}
+} /* نهاية روابط الصفحات التابعة */
 
-/* إظهار البرغر وإخفاء روابط الديسكتوب */
-@media (max-width: 1024px) {
-  .topbar__nav {
-    display: none !important; /* إخفاء روابط الديسكتوب */
-  }
 
-  .home-mobile-burger {
-    display: flex !important; /* إظهار البرغر */
-  }
-}
-
-/* الموبايل */
-@media (max-width: 768px) {
-  :root {
-    --home-logo-size: 76px; /* ارتفاع الهيدر وحجم الشعار في الموبايل */
-  }
-
-  .topbar {
-    padding-left: 14px !important; /* تقليل الفراغ الجانبي */
-    padding-right: 14px !important; /* تقليل الفراغ الجانبي */
-  }
-
-  .home-brand-logo-img {
-    transform: scale(2.75) !important; /* تكبير مناسب للموبايل */
-  }
-}
-
-/* شاشات صغيرة جدًا */
-@media (max-width: 520px) {
-  .home-mobile-burger {
-    width: 42px !important; /* زر أصغر */
-    height: 42px !important; /* زر أصغر */
-    border-radius: 12px !important; /* زوايا أقل */
-  }
-
-  .home-mobile-panel {
-    width: 90vw !important; /* عرض مناسب جدًا للموبايل الصغير */
-    padding: 20px !important; /* فراغ أقل */
-  }
-
-  .home-mobile-panel__logo {
-    width: 104px !important; /* شعار أصغر في القائمة */
-    height: 72px !important; /* ارتفاع أصغر */
-    transform: scale(1.4) !important; /* تكبير آمن */
-  }
-}
 /* =========================================================
-   FINAL ALZUHA RESPONSIVE TOPBAR + LOGO + MOBILE MENU
-   هذا البلوك هو المرجع النهائي للهيدر في كل الشاشات.
+   21.10) TABLET / IPAD RESPONSIVE
+   ضبط الشعار والهيدر على التابلت والآيباد
 ========================================================= */
 
-:root {
-  --home-logo-size: 96px; /* ارتفاع وعرض دائرة الشعار في الديسكتوب */
-  --home-logo-scale: 1.85; /* تكبير صورة الشعار داخل الدائرة */
-}
+@media (max-width: 1024px) { /* بداية قواعد التابلت والآيباد */
+  :root { /* متغيرات التابلت */
+    --home-logo-width: 180px !important; /* عرض أصغر للتابلت */
+    --home-logo-height: 96px !important; /* ارتفاع أصغر للتابلت */
+    --home-logo-radius: 28px !important; /* تدوير أقل قليلاً */
+    --home-logo-scale: 1.22 !important; /* تكبير آمن يمنع القص */
+    --home-topbar-height: calc(var(--home-logo-height) + (var(--home-topbar-gap-y) * 2)) !important; /* ارتفاع متجاوب */
+  } /* نهاية متغيرات التابلت */
 
-/* الشريط العلوي يساوي ارتفاع حاوية الشعار */
-.topbar {
-  height: var(--home-logo-size) !important;
-  min-height: var(--home-logo-size) !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-}
+  .topbar__nav { /* روابط الديسكتوب */
+    display: none !important; /* إخفاء الروابط على التابلت والموبايل */
+  } /* نهاية إخفاء روابط الديسكتوب */
 
-/* جميع عناصر الهيدر تأخذ نفس ارتفاع الشريط */
-.topbar__right,
-.topbar__right a,
-.topbar__nav,
-.topbar__left {
-  height: var(--home-logo-size) !important;
-  min-height: var(--home-logo-size) !important;
-  display: flex !important;
-  align-items: center !important;
-}
+  .home-mobile-burger { /* زر القائمة */
+    display: flex !important; /* إظهار زر الثلاث خطوط */
+  } /* نهاية زر القائمة */
+} /* نهاية قواعد التابلت */
 
-/* حاوية الشعار الدائرية */
-.home-brand-logo-shell {
-  width: var(--home-logo-size) !important;
-  height: var(--home-logo-size) !important;
-  border-radius: 50% !important;
-  overflow: hidden !important;
-  flex-shrink: 0 !important;
-  position: relative !important;
 
-  background: radial-gradient(
-    circle at 35% 25%,
-    #ffffff 0%,
-    #fff8e8 45%,
-    #ead18e 100%
-  ) !important;
+/* =========================================================
+   21.11) MOBILE RESPONSIVE
+   ضبط الشعار والهيدر على الموبايل
+========================================================= */
 
-  border: 3px solid rgba(212, 175, 55, 0.95) !important;
+@media (max-width: 768px) { /* بداية قواعد الموبايل */
+  :root { /* متغيرات الموبايل */
+    --home-logo-width: 156px !important; /* عرض مناسب للموبايل */
+    --home-logo-height: 78px !important; /* ارتفاع مناسب للموبايل */
+    --home-logo-radius: 24px !important; /* حواف مناسبة للموبايل */
+    --home-logo-scale: 1.14 !important; /* تكبير آمن حتى لا يختفي جزء من الشعار */
+    --home-logo-pad-y: 5px !important; /* بادنك أقل للموبايل */
+    --home-logo-pad-x: 0px !important; /* بدون بادنك أفقي */
+    --home-topbar-height: calc(var(--home-logo-height) + (var(--home-topbar-gap-y) * 2)) !important; /* ارتفاع متجاوب */
+  } /* نهاية متغيرات الموبايل */
 
-  box-shadow:
-    0 5px 14px rgba(0, 0, 0, 0.16),
-    inset 0 0 0 2px rgba(255, 255, 255, 0.85) !important;
-}
+  .topbar { /* الشريط على الموبايل */
+    padding-left: 14px !important; /* تقليل المسافة اليسرى */
+    padding-right: 14px !important; /* تقليل المسافة اليمنى */
+    gap: 10px !important; /* تقليل الفراغ بين العناصر */
+  } /* نهاية الشريط على الموبايل */
 
-/* صورة الشعار داخل الدائرة */
-.home-brand-logo-img {
-  width: 100% !important;
-  height: 100% !important;
+  .home-mobile-burger { /* زر القائمة على الموبايل */
+    width: 44px !important; /* عرض أصغر */
+    height: 44px !important; /* ارتفاع أصغر */
+    border-radius: 14px !important; /* حواف مناسبة */
+  } /* نهاية زر القائمة على الموبايل */
 
-  object-fit: contain !important;
-  object-position: center !important;
+  .home-mobile-panel { /* القائمة على الموبايل */
+    width: min(360px, 90vw) !important; /* عرض مناسب للموبايل */
+    max-width: min(360px, 90vw) !important; /* منع التمدد */
+    padding: 20px !important; /* بادنك أقل */
+  } /* نهاية القائمة على الموبايل */
+} /* نهاية قواعد الموبايل */
 
-  transform: scale(var(--home-logo-scale)) !important;
-  transform-origin: center center !important;
 
-  filter: contrast(1.25) saturate(1.35) brightness(1.08) !important;
-  mix-blend-mode: normal !important;
-}
+/* =========================================================
+   21.12) SMALL MOBILE RESPONSIVE
+   ضبط الشاشات الصغيرة جدًا
+========================================================= */
 
-/* منع الكلاس القديم من التأثير إذا بقي في أي مكان */
-.home-brand-logo {
-  all: unset !important;
-}
+@media (max-width: 520px) { /* بداية قواعد الشاشات الصغيرة */
+  :root { /* متغيرات الشاشات الصغيرة */
+    --home-logo-width: 136px !important; /* عرض مناسب للشاشات الضيقة */
+    --home-logo-height: 70px !important; /* ارتفاع مناسب للشاشات الضيقة */
+    --home-logo-radius: 22px !important; /* حواف أصغر */
+    --home-logo-scale: 1.08 !important; /* تكبير أقل لمنع قص الشعار */
+    --home-topbar-height: calc(var(--home-logo-height) + (var(--home-topbar-gap-y) * 2)) !important; /* ارتفاع متجاوب */
+  } /* نهاية متغيرات الشاشات الصغيرة */
 
-/* ترتيب طرف اللغة والبرغر */
-.topbar__left {
-  gap: 10px !important;
-  justify-content: flex-end !important;
-  position: relative !important;
-  z-index: 10001 !important;
-}
+  .topbar { /* الشريط على الشاشات الصغيرة */
+    padding-left: 10px !important; /* تقليل المسافة اليسرى */
+    padding-right: 10px !important; /* تقليل المسافة اليمنى */
+  } /* نهاية الشريط على الشاشات الصغيرة */
 
-/* زر الثلاث خطوط */
-.home-mobile-burger {
-  width: 48px !important;
-  height: 48px !important;
-  display: none !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-direction: column !important;
-  gap: 6px !important;
-  border-radius: 16px !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
-  background: rgba(255, 255, 255, 0.14) !important;
-  cursor: pointer !important;
-  position: relative !important;
-  z-index: 10002 !important;
-  flex-shrink: 0 !important;
-}
+  .home-mobile-burger { /* زر القائمة الصغير */
+    width: 42px !important; /* عرض الزر */
+    height: 42px !important; /* ارتفاع الزر */
+    border-radius: 12px !important; /* تدوير مناسب */
+  } /* نهاية زر القائمة الصغير */
 
-.home-mobile-burger span {
-  width: 22px !important;
-  height: 2px !important;
-  display: block !important;
-  border-radius: 99px !important;
-  background: #ffffff !important;
-}
+  .home-mobile-panel { /* القائمة على الشاشات الصغيرة */
+    width: 90vw !important; /* عرض القائمة */
+    max-width: 90vw !important; /* منع تجاوز الشاشة */
+    padding: 18px !important; /* بادنك أقل */
+  } /* نهاية القائمة على الشاشات الصغيرة */
 
-/* طبقة التعتيم خلف القائمة */
-.home-mobile-overlay {
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 99998 !important;
-  border: 0 !important;
-  background: rgba(0, 0, 0, 0.45) !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transition: opacity 0.25s ease !important;
-}
-
-.home-mobile-overlay.is-open {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-/* القائمة الجانبية */
-.home-mobile-panel {
-  position: fixed !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  z-index: 99999 !important;
-  width: min(380px, 90vw) !important;
-  height: 100vh !important;
-  padding: 24px 20px !important;
-  background: #ffffff !important;
-  color: #111318 !important;
-  overflow-y: auto !important;
-  overscroll-behavior: contain !important;
-  border: 0 !important;
-  transition: transform 0.28s ease !important;
-}
-
-/* العربي يفتح من اليسار */
-.home-mobile-panel--rtl {
-  left: 0 !important;
-  right: auto !important;
-  transform: translateX(-105%) !important;
-  box-shadow: 20px 0 70px rgba(0, 0, 0, 0.24) !important;
-}
-
-/* الإنجليزي يفتح من اليمين */
-.home-mobile-panel--ltr {
-  right: 0 !important;
-  left: auto !important;
-  transform: translateX(105%) !important;
-  box-shadow: -20px 0 70px rgba(0, 0, 0, 0.24) !important;
-}
-
-.home-mobile-panel.is-open {
-  transform: translateX(0) !important;
-}
-
-/* رأس القائمة الجانبية */
-.home-mobile-panel__header {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 14px !important;
-  padding-bottom: 18px !important;
-  margin-bottom: 20px !important;
-  border-bottom: 1px solid #e6e7eb !important;
-}
-
-/* شعار القائمة الجانبية */
-.home-mobile-panel__brand {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.home-mobile-panel__logo {
-  width: 120px !important;
-  height: 90px !important;
-  object-fit: contain !important;
-  transform: scale(1.55) !important;
-  transform-origin: center !important;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  mix-blend-mode: normal !important;
-  filter: contrast(1.22) saturate(1.25) brightness(1.08) !important;
-}
-
-/* زر الإغلاق */
-.home-mobile-panel__close {
-  width: 44px !important;
-  height: 44px !important;
-  border: 0 !important;
-  border-radius: 14px !important;
-  background: #f3f4f6 !important;
-  color: #111318 !important;
-  font-size: 30px !important;
-  line-height: 1 !important;
-  cursor: pointer !important;
-}
-
-/* روابط القائمة عمودية */
-.home-mobile-panel__nav {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  justify-content: flex-start !important;
-  gap: 10px !important;
-  width: 100% !important;
-}
-
-/* الروابط الرئيسية والفرعية */
-.home-mobile-panel__nav > a,
-.home-mobile-panel__subnav > a {
-  display: flex !important;
-  width: 100% !important;
-  min-height: 50px !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  padding: 14px 16px !important;
-  border-radius: 16px !important;
-  background: #f3f4f6 !important;
-  color: #111318 !important;
-  border: 1px solid #eceef2 !important;
-  font-weight: 850 !important;
-  text-decoration: none !important;
-  white-space: normal !important;
-  line-height: 1.45 !important;
-}
-
-/* الصفحات التابعة */
-.home-mobile-panel__subnav {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  gap: 8px !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 10px !important;
-  border-radius: 18px !important;
-  background: #ffffff !important;
-  border: 1px solid #e6e7eb !important;
-}
-
-.home-mobile-panel__subnav > a {
-  background: #ffffff !important;
-  border-color: #e6e7eb !important;
-  font-size: 14px !important;
-  font-weight: 750 !important;
-}
-
-/* التابلت والآيباد */
-@media (max-width: 1024px) {
-  :root {
-    --home-logo-size: 84px;
-    --home-logo-scale: 1.82;
-  }
-
-  .topbar__nav {
-    display: none !important;
-  }
-
-  .home-mobile-burger {
-    display: flex !important;
-  }
-}
-
-/* الموبايل */
-@media (max-width: 768px) {
-  :root {
-    --home-logo-size: 76px;
-    --home-logo-scale: 1.78;
-  }
-
-  .topbar {
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-  }
-}
-
-/* الشاشات الصغيرة جدًا */
-@media (max-width: 520px) {
-  :root {
-    --home-logo-size: 70px;
-    --home-logo-scale: 1.72;
-  }
-
-  .home-mobile-burger {
-    width: 42px !important;
-    height: 42px !important;
-    border-radius: 12px !important;
-  }
-
-  .home-mobile-panel {
-    width: 90vw !important;
-    padding: 20px !important;
-  }
-}
+  .home-mobile-panel__logo { /* شعار القائمة على الشاشات الصغيرة */
+    width: 104px !important; /* عرض أصغر */
+    height: 72px !important; /* ارتفاع أصغر */
+    transform: scale(1.35) !important; /* تكبير آمن */
+  } /* نهاية شعار القائمة على الشاشات الصغيرة */
+} /* نهاية قواعد الشاشات الصغيرة */
