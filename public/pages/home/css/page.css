@@ -462,17 +462,273 @@ a {
 .stats__value { color: #fff; font-size: clamp(38px, 6vw, 66px); font-weight: 950; letter-spacing: -0.02em; margin: 0 0 10px; word-break: break-word; }
 .stats__desc { margin: 0; color: rgba(255, 255, 255, 0.6); max-width: 560px; font-weight: 650; }
 
-/* =========================================================
-   11) PROJECTS
-========================================================= */
-.projects { padding: 66px 0 62px; }
-.projects__title { text-align: center; margin: 0 0 12px; font-size: clamp(34px, 4vw, 44px); }
-.projects__desc { text-align: center; margin: 0 auto 28px; color: var(--muted); max-width: 860px; font-weight: 650; }
-.gallery { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 18px; align-items: stretch; }
-.stack { display: grid; grid-template-rows: 1fr 1fr; gap: 18px; }
-.tile { margin: 0; border-radius: 18px; overflow: hidden; box-shadow: 0 14px 36px rgba(0, 0, 0, 0.1); background: #d1d5db; border: 1px solid rgba(0, 0, 0, 0.06); min-height: 260px; }
-.tile--wide { min-height: 360px; }
+/* ========================================================= */ /* فاصل بصري لبداية قسم المشاريع */
+   /* 11) PROJECTS SLIDER - CLEAN STRUCTURE */ /* عنوان القسم الجديد بدل الجريد القديم */
+   /* هذا القسم يحوّل مشاريع الصفحة الرئيسية إلى سلايدر أفقي منظم */ /* شرح وظيفة القسم */
+/* ========================================================= */ /* نهاية عنوان القسم */
 
+
+.projects { /* قسم المشاريع الرئيسي */
+  position: relative; /* يجعل القسم مرجعًا للعناصر الداخلية مثل الأسهم */
+  padding: 66px 0 70px; /* يضبط المسافة العلوية والسفلية للقسم */
+  background: #f4f4f2; /* يعطي خلفية هادئة مناسبة لقسم المشاريع */
+  overflow: hidden; /* يمنع أي تمدد أفقي أو ظل زائد من كسر الصفحة */
+} /* نهاية قسم المشاريع */
+
+
+.projects > .container { /* الحاوية الداخلية لقسم المشاريع */
+  position: relative; /* تجعل الأسهم والنقاط تتموضع داخل حدود الحاوية */
+} /* نهاية الحاوية الداخلية */
+
+
+.projects__title { /* عنوان قسم المشاريع */
+  text-align: center; /* يوسّط العنوان */
+  margin: 0 0 12px; /* يلغي الهوامش العشوائية ويضيف مسافة أسفل العنوان */
+  font-size: clamp(34px, 4vw, 44px); /* يجعل حجم العنوان متجاوبًا بين الشاشات */
+  line-height: 1.15; /* يضبط ارتفاع السطر للعنوان */
+  font-weight: 950; /* يجعل العنوان قويًا وواضحًا */
+} /* نهاية عنوان المشاريع */
+
+
+.projects__desc { /* وصف قسم المشاريع */
+  text-align: center; /* يوسّط الوصف */
+  margin: 0 auto 32px; /* يوسّط الوصف ويضيف مسافة أسفله */
+  color: var(--muted); /* يستخدم لون النص الثانوي من متغيرات التصميم */
+  max-width: 900px; /* يمنع الوصف من التمدد الزائد على الشاشات الكبيرة */
+  font-weight: 650; /* يجعل الوصف واضحًا بدون مبالغة */
+  line-height: 1.75; /* يحسن قراءة الوصف */
+} /* نهاية وصف المشاريع */
+
+
+.gallery { /* مسار السلايدر الأفقي */
+  display: flex; /* يحوّل الجاليري إلى صف أفقي بدل Grid */
+  align-items: stretch; /* يجعل كل البطاقات بنفس الامتداد العمودي */
+  gap: clamp(16px, 2vw, 24px); /* يضبط المسافة بين البطاقات بشكل متجاوب */
+  width: 100%; /* يجعل السلايدر يأخذ عرض الحاوية */
+  max-width: 100%; /* يمنع أي تمدد خارج عرض الحاوية */
+  margin: 0 auto; /* يوسّط السلايدر */
+  padding: 8px 4px 34px; /* يضيف مساحة للظل والنقاط أسفل السلايدر */
+  overflow-x: auto; /* يفعّل التمرير الأفقي */
+  overflow-y: visible; /* يسمح بظهور الظلال عموديًا */
+  scroll-snap-type: x mandatory; /* يجعل البطاقات تقف عند موضع مرتب أثناء التمرير */
+  scroll-behavior: smooth; /* يجعل الحركة ناعمة */
+  overscroll-behavior-x: contain; /* يمنع سحب الصفحة بالكامل عند تحريك السلايدر */
+  scrollbar-width: none; /* يخفي شريط التمرير في Firefox */
+  touch-action: pan-x pan-y; /* يسمح بالسحب على الشاشات اللمسية */
+} /* نهاية مسار السلايدر */
+
+
+.gallery::-webkit-scrollbar { /* شريط التمرير في Chrome و Edge */
+  display: none; /* يخفي شريط التمرير حتى يكون الشكل أنظف */
+} /* نهاية إخفاء شريط التمرير */
+
+
+.stack { /* العنصر القديم الذي كان يرتب صورتين فوق بعض */
+  display: contents; /* يلغي صندوق stack ويجعل الصور داخله بطاقات مستقلة داخل السلايدر */
+} /* نهاية تعديل stack */
+
+
+.tile { /* بطاقة المشروع الواحدة */
+  flex: 0 0 clamp(310px, 34vw, 430px); /* يحدد عرض البطاقة بين حد أدنى وحد أعلى */
+  width: auto; /* يمنع العرض الثابت القديم */
+  min-width: 0; /* يمنع تمدد البطاقة بسبب محتوى داخلي */
+  height: clamp(310px, 34vw, 430px); /* يضبط ارتفاع البطاقة بشكل متوازن */
+  min-height: 0; /* يلغي أي ارتفاع أدنى قديم */
+  aspect-ratio: 4 / 3; /* يحافظ على نسبة مناسبة للصور العقارية */
+  margin: 0; /* يلغي أي هامش خارجي قديم */
+  border-radius: 24px; /* يعطي البطاقة حواف ناعمة واحترافية */
+  overflow: hidden; /* يمنع خروج الصورة أو التدرج خارج البطاقة */
+  position: relative; /* يسمح بوضع التدرج والنص فوق الصورة */
+  scroll-snap-align: center; /* يجعل البطاقة تقف في منتصف السلايدر عند التمرير */
+  scroll-snap-stop: always; /* يمنع تجاوز أكثر من بطاقة بسرعة مفرطة */
+  background: #d1d5db; /* لون احتياطي يظهر قبل تحميل الصورة */
+  border: 1px solid rgba(0, 0, 0, 0.08); /* إطار خفيف يحدد حدود البطاقة */
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.14); /* ظل يعطي عمقًا للبطاقة */
+  transform: translateZ(0); /* يحسّن أداء الرسم والتحريك */
+  transition: transform 0.22s ease, box-shadow 0.22s ease; /* حركة ناعمة عند المرور */
+} /* نهاية بطاقة المشروع */
+
+
+.tile--wide { /* البطاقة التي كانت كبيرة في التصميم القديم */
+  flex-basis: clamp(330px, 38vw, 470px); /* يجعلها أعرض قليلًا فقط وليس ضخمة */
+  height: clamp(310px, 34vw, 430px); /* يجعل ارتفاعها مساويًا تقريبًا لبقية البطاقات */
+  min-height: 0; /* يلغي الارتفاع القديم الكبير */
+} /* نهاية البطاقة الواسعة */
+
+
+.tile:hover { /* حالة مرور الماوس فوق البطاقة */
+  transform: translateY(-4px) scale(1.01); /* يرفع البطاقة قليلًا ويكبرها بشكل بسيط */
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.18); /* يزيد عمق الظل عند المرور */
+} /* نهاية حالة hover */
+
+
+.tile img { /* الصورة داخل بطاقة المشروع */
+  width: 100%; /* تجعل الصورة تملأ عرض البطاقة */
+  height: 100%; /* تجعل الصورة تملأ ارتفاع البطاقة */
+  object-fit: cover; /* تجعل الصورة تغطي البطاقة بدون تشويه */
+  object-position: center center; /* تجعل مركز الصورة في المنتصف */
+} /* نهاية صورة البطاقة */
+
+
+.tile::after { /* طبقة تدرج فوق الصورة */
+  content: ""; /* ينشئ طبقة وهمية */
+  position: absolute; /* يضع الطبقة فوق الصورة */
+  inset: 0; /* يجعل الطبقة تغطي البطاقة بالكامل */
+  z-index: 2; /* يضع التدرج فوق الصورة وتحت النص */
+  pointer-events: none; /* يمنع التدرج من تعطيل النقر */
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.24)); /* تدرج خفيف يحسن قراءة النص */
+} /* نهاية طبقة التدرج */
+
+
+.tile figcaption { /* نص البطاقة إذا كان موجودًا */
+  position: absolute; /* يثبت النص فوق الصورة */
+  inset-inline: 16px; /* يترك مسافة يمين ويسار */
+  bottom: 16px; /* يضع النص أسفل البطاقة */
+  z-index: 3; /* يضع النص فوق التدرج */
+  color: #ffffff; /* يجعل النص أبيض واضحًا */
+  font-weight: 900; /* يجعل النص قويًا */
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.45); /* يضيف ظلًا للنص */
+} /* نهاية نص البطاقة */
+
+
+.projectsSlider__controls { /* حاوية أسهم السلايدر */
+  position: absolute; /* تضع الأسهم فوق السلايدر */
+  inset-inline: -22px; /* تخرج الأسهم قليلًا خارج الحاوية بشكل أنيق */
+  top: 58%; /* تضع الأسهم في منتصف منطقة الصور تقريبًا */
+  z-index: 20; /* تجعل الأسهم فوق الصور */
+  height: 0; /* تمنع الحاوية من أخذ ارتفاع إضافي */
+  pointer-events: none; /* تمنع الحاوية نفسها من تعطيل النقر */
+} /* نهاية حاوية الأسهم */
+
+
+.projectsSlider__btn { /* زر السهم */
+  position: absolute; /* يثبت الزر داخل حاوية الأسهم */
+  top: 0; /* يضع الزر عند بداية الحاوية */
+  width: 50px; /* يحدد عرض الزر */
+  height: 50px; /* يحدد ارتفاع الزر */
+  border-radius: 999px; /* يجعل الزر دائريًا */
+  border: 1px solid rgba(255, 255, 255, 0.64); /* إطار أبيض شفاف */
+  background: rgba(255, 255, 255, 0.88); /* خلفية بيضاء شبه شفافة */
+  color: #111318; /* لون السهم */
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.18); /* ظل للزر */
+  backdrop-filter: blur(10px); /* تأثير زجاجي ناعم */
+  display: inline-flex; /* يجعل محتوى الزر مرنًا */
+  align-items: center; /* يوسّط السهم عموديًا */
+  justify-content: center; /* يوسّط السهم أفقيًا */
+  font-size: 28px; /* حجم رمز السهم */
+  font-weight: 900; /* يجعل رمز السهم واضحًا */
+  line-height: 1; /* يمنع اختلال محاذاة الرمز */
+  cursor: pointer; /* يظهر أن الزر قابل للنقر */
+  pointer-events: auto; /* يسمح بالنقر على الزر */
+  transition: transform 0.18s ease, background 0.18s ease, opacity 0.18s ease; /* حركة ناعمة */
+} /* نهاية زر السهم */
+
+
+.projectsSlider__btn:hover { /* حالة مرور الماوس فوق السهم */
+  background: #ffffff; /* يجعل الزر أبيض كاملًا */
+  transform: translateY(-2px); /* يرفع الزر قليلًا */
+} /* نهاية hover للسهم */
+
+
+.projectsSlider__btn:active { /* حالة الضغط على السهم */
+  transform: translateY(0) scale(0.96); /* يعطي إحساس الضغط */
+} /* نهاية الضغط على السهم */
+
+
+.projectsSlider__btn[disabled] { /* حالة السهم المعطل */
+  opacity: 0.38; /* يقلل وضوح السهم */
+  cursor: not-allowed; /* يوضح أن الزر غير نشط */
+} /* نهاية السهم المعطل */
+
+
+.projectsSlider__btn--prev { /* زر السابق */
+  inset-inline-start: 0; /* يضع زر السابق في بداية الاتجاه */
+} /* نهاية زر السابق */
+
+
+.projectsSlider__btn--next { /* زر التالي */
+  inset-inline-end: 0; /* يضع زر التالي في نهاية الاتجاه */
+} /* نهاية زر التالي */
+
+
+.projectsSlider__dots { /* حاوية نقاط التنقل */
+  display: flex; /* يجعل النقاط في صف */
+  align-items: center; /* يوسّط النقاط عموديًا */
+  justify-content: center; /* يوسّط النقاط أفقيًا */
+  gap: 8px; /* يضيف مسافة بين النقاط */
+  margin-top: 4px; /* يضيف مسافة بسيطة فوق النقاط */
+} /* نهاية حاوية النقاط */
+
+
+.projectsSlider__dot { /* النقطة الواحدة */
+  width: 9px; /* عرض النقطة */
+  height: 9px; /* ارتفاع النقطة */
+  border-radius: 999px; /* يجعل النقطة دائرية */
+  border: 0; /* يزيل الإطار */
+  background: rgba(17, 19, 24, 0.28); /* لون النقطة غير النشطة */
+  cursor: pointer; /* يجعل النقطة قابلة للنقر */
+  padding: 0; /* يزيل الفراغ الداخلي */
+  transition: width 0.2s ease, background 0.2s ease; /* حركة ناعمة عند التفعيل */
+} /* نهاية النقطة */
+
+
+.projectsSlider__dot.is-active { /* النقطة النشطة */
+  width: 28px; /* يجعل النقطة النشطة أطول */
+  background: #b88922; /* يعطي النقطة النشطة لونًا ذهبيًا */
+} /* نهاية النقطة النشطة */
+
+
+@media (max-width: 1024px) { /* قواعد التابلت */
+  .tile, /* البطاقة العادية على التابلت */
+  .tile--wide { /* البطاقة الواسعة على التابلت */
+    flex-basis: clamp(300px, 72vw, 560px); /* يجعل البطاقة أوسع على التابلت */
+    height: clamp(300px, 48vw, 430px); /* يضبط ارتفاع البطاقة على التابلت */
+  } /* نهاية بطاقات التابلت */
+
+  .projectsSlider__controls { /* أسهم التابلت */
+    inset-inline: 4px; /* يدخل الأسهم داخل حدود الشاشة */
+  } /* نهاية أسهم التابلت */
+} /* نهاية قواعد التابلت */
+
+
+@media (max-width: 768px) { /* قواعد الموبايل */
+  .projects { /* قسم المشاريع على الموبايل */
+    padding-top: 52px; /* يقلل المسافة العلوية */
+    padding-bottom: 58px; /* يضبط المسافة السفلية */
+  } /* نهاية قسم المشاريع على الموبايل */
+
+  .gallery { /* مسار السلايدر على الموبايل */
+    gap: 14px; /* يقلل المسافة بين البطاقات */
+    padding: 6px 0 30px; /* يضبط الفراغ الداخلي */
+  } /* نهاية مسار السلايدر على الموبايل */
+
+  .tile, /* البطاقة العادية على الموبايل */
+  .tile--wide { /* البطاقة الواسعة على الموبايل */
+    flex-basis: 86vw; /* يجعل البطاقة تأخذ أغلب عرض الشاشة */
+    height: clamp(245px, 62vw, 340px); /* يجعل الارتفاع متجاوبًا ومناسبًا */
+    border-radius: 22px; /* يقلل تدوير الحواف قليلًا */
+  } /* نهاية بطاقات الموبايل */
+
+  .projectsSlider__controls { /* أسهم الموبايل */
+    inset-inline: 8px; /* يضع الأسهم داخل الشاشة */
+    top: 60%; /* يضبط موضع الأسهم */
+  } /* نهاية أسهم الموبايل */
+
+  .projectsSlider__btn { /* زر السهم على الموبايل */
+    width: 42px; /* يقلل عرض الزر */
+    height: 42px; /* يقلل ارتفاع الزر */
+    font-size: 24px; /* يقلل حجم رمز السهم */
+  } /* نهاية زر السهم على الموبايل */
+} /* نهاية قواعد الموبايل */
+
+
+@media (max-width: 420px) { /* قواعد الشاشات الصغيرة */
+  .tile, /* البطاقة العادية في الشاشة الصغيرة */
+  .tile--wide { /* البطاقة الواسعة في الشاشة الصغيرة */
+    flex-basis: 88vw; /* يجعل البطاقة مناسبة جدًا للشاشات الضيقة */
+    height: 238px; /* يثبت ارتفاعًا عمليًا حتى لا تكبر الصورة */
+  } /* نهاية بطاقات الشاشات الصغيرة */
+} /* نهاية قواعد الشاشات الصغيرة */
 /* =========================================================
    12) TESTIMONIAL
 ========================================================= */
@@ -524,33 +780,249 @@ a {
 .linkArrow { color: var(--blue); font-weight: 950; }
 .faqNum { font-weight: 950; color: #111; opacity: 0.35; }
 
-/* =========================================================
-   16) CONTACT + BRAND
-========================================================= */
-.contact { background: #0b0c10; padding: 66px 0 78px; color: #fff; }
-.kicker--dark { color: rgba(255, 255, 255, 0.55); }
-.contact__title { margin: 0 0 10px; font-size: clamp(38px, 5vw, 58px); line-height: 1.02; font-weight: 950; }
-.contact__desc { margin: 0 0 26px; color: rgba(255, 255, 255, 0.6); max-width: 760px; font-weight: 650; }
-.contactCards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-bottom: 34px; }
-.cCard { background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 18px; }
-.cCard__icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(255, 255, 255, 0.12); display: grid; place-items: center; margin-bottom: 10px; }
-.cCard h3 { margin: 0 0 8px; font-weight: 950; }
-.cCard__text { margin: 0 0 10px; color: rgba(255, 255, 255, 0.62); font-weight: 650; }
-.cCard__link { color: #fff; opacity: 0.88; text-decoration: underline; font-weight: 900; word-break: break-word; }
-.brandWall { margin-top: 22px; }
-.brandHuge { margin: 0; border-radius: 18px; overflow: hidden; box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35); background: #111; min-height: 360px; }
-.brandHuge__cap { position: absolute; bottom: 12px; inset-inline-start: 12px; background: rgba(255, 255, 255, 0.14); color: #fff; padding: 6px 10px; border-radius: 999px; font-weight: 950; z-index: 5; }
-.footerMini { margin-top: 14px; display: flex; gap: 10px; align-items: center; justify-content: space-between; color: rgba(255, 255, 255, 0.62); }
-.footerMini__link { color: rgba(255, 255, 255, 0.78); text-decoration: underline; }
-.sep { opacity: 0.35; }
+/* ========================================================= */ /* بداية قسم الصورة والفوتر النهائي */
+   /* 16) HOME CONTACT IMAGE + 7CM FOOTER */ /* عنوان القسم الجديد بدل CONTACT + BRAND القديم */
+   /* الهدف: صورة متوسطة فوق الفوتر، ثم فوتر أسود بارتفاع يقارب 7 سم ومعلومات أفقية */ /* شرح وظيفة القسم */
+/* ========================================================= */ /* نهاية عنوان القسم */
+
+.homeContactShowcase { /* الغلاف العام لقسم الصورة والفوتر */
+  padding: clamp(28px, 4vw, 46px) 0 0; /* مسافة علوية فقط قبل الصورة لأن الفوتر يأتي بعدها مباشرة */
+  background: linear-gradient(180deg, #ffffff 0%, #f6f7fb 100%); /* خلفية فاتحة لإبراز الصورة خارج الفوتر */
+  position: relative; /* تجهيز القسم لأي طبقات داخلية مستقبلية */
+  overflow: hidden; /* منع أي ظل أو تمدد من كسر عرض الصفحة */
+} /* نهاية الغلاف العام */
+
+.homeContactShowcase__media { /* بطاقة الصورة الوسطية فوق الفوتر */
+  width: min(720px, 100%); /* عرض متوسط للصورة حتى لا تصبح ضخمة */
+  margin: 0 auto 18px; /* توسيط الصورة وإضافة مسافة صغيرة بينها وبين الفوتر */
+  padding: 10px; /* إطار داخلي حول الصورة */
+  border-radius: 26px; /* حواف مستديرة للبطاقة */
+  background: linear-gradient(180deg, #ddd9d1 0%, #c9c4ba 100%); /* خلفية فاتحة راقية حول الصورة */
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.18); /* ظل متوسط لإبراز الصورة */
+  overflow: hidden; /* منع خروج الصورة خارج الحواف */
+  position: relative; /* يجعل البطاقة مستقلة عن الفوتر */
+  z-index: 2; /* يضمن أن الصورة تظهر فوق أي خلفية لاحقة */
+} /* نهاية بطاقة الصورة */
+
+.homeContactShowcase__image { /* الصورة نفسها */
+  display: block; /* إزالة الفراغ الافتراضي أسفل الصور */
+  width: 100%; /* جعل الصورة تملأ عرض البطاقة */
+  height: clamp(220px, 28vw, 330px); /* ارتفاع متوسط ومتجاوب */
+  object-fit: cover; /* قص متوازن بدون تشويه */
+  object-position: center center; /* تركيز الصورة في الوسط */
+  border-radius: 18px; /* حواف مستديرة للصورة */
+  opacity: 1 !important; /* إجبار ظهور الصورة بعيدًا عن نظام is-loaded القديم */
+  transform: none !important; /* إلغاء أي تكبير موروث */
+  filter: none !important; /* إلغاء أي فلتر موروث */
+} /* نهاية الصورة */
+
+.homeContactFooterBar { /* الفوتر الأسود النهائي */
+  --home-footer-target-height: 7cm; /* ارتفاع مستهدف للفوتر حسب طلبك */
+  min-height: var(--home-footer-target-height); /* ضمان أن الفوتر لا يقل عن 7 سم تقريبًا */
+  padding: 18px 0; /* حشوة داخلية مضبوطة حتى لا يتضخم الفوتر */
+  background: linear-gradient(180deg, #050911 0%, #0a1019 100%); /* خلفية سوداء فاخرة */
+  color: #ffffff; /* لون النص داخل الفوتر */
+  position: relative; /* تجهيز الفوتر للطبقات الداخلية */
+  overflow: hidden; /* منع خروج الإضاءات أو الظلال */
+  display: flex; /* جعل المحتوى يتمركز داخل ارتفاع 7 سم */
+  align-items: center; /* توسيط محتوى الفوتر عموديًا */
+} /* نهاية الفوتر الأسود */
+
+.homeContactFooterBar::before { /* لمعة ذهبية خفيفة داخل الفوتر */
+  content: ""; /* إنشاء طبقة وهمية */
+  position: absolute; /* تثبيت الطبقة داخل الفوتر */
+  inset: 0; /* جعل اللمعة تغطي الفوتر بالكامل */
+  pointer-events: none; /* منع اللمعة من تعطيل النقر */
+  background: radial-gradient(circle at top right, rgba(184, 137, 34, 0.16), transparent 32%); /* إضاءة ذهبية ناعمة */
+} /* نهاية اللمعة */
+
+.homeContactFooterBar > .container { /* حاوية محتوى الفوتر */
+  position: relative; /* رفع المحتوى فوق اللمعة */
+  z-index: 1; /* وضع المحتوى أعلى الخلفية */
+} /* نهاية حاوية الفوتر */
+
+.homeContactShowcase__head { /* منطقة العنوان والوصف داخل الفوتر */
+  max-width: 980px; /* أقصى عرض للرأس */
+  margin: 0 auto 14px; /* توسيط الرأس وتقليل المسافة أسفله */
+  text-align: center; /* توسيط النص */
+} /* نهاية منطقة العنوان */
+
+.homeContactShowcase__title { /* عنوان الفوتر */
+  margin: 0 0 6px; /* تقليل هامش العنوان حتى لا يزيد ارتفاع الفوتر */
+  color: #f3efe7; /* لون فاتح مائل للذهبي */
+  font-size: clamp(28px, 3.4vw, 44px); /* حجم أقل من السابق حتى يناسب 7 سم */
+  line-height: 1.08; /* تقليل ارتفاع السطر */
+  font-weight: 950; /* إبراز العنوان */
+  letter-spacing: -0.025em; /* تقارب بسيط للحروف */
+  display: flex; /* تحويل العنوان إلى حاوية مرنة */
+  flex-direction: column; /* توزيع العنوان على سطرين واضحين */
+  align-items: center; /* توسيط السطرين أفقيًا */
+  justify-content: center; /* توسيط العنوان داخليًا */
+  gap: 2px; /* مسافة صغيرة بين السطرين */
+} /* نهاية عنوان الفوتر */
+
+.homeContactShowcase__titleLine { /* كل سطر من عنوان الفوتر */
+  display: block; /* جعل كل جزء يظهر في سطر مستقل */
+  white-space: nowrap; /* منع كسر السطر الواحد إلى أكثر من سطر على الديسكتوب */
+} /* نهاية سطر العنوان */
+
+.homeContactShowcase__desc { /* وصف الفوتر */
+  margin: 0; /* إزالة الهامش الافتراضي */
+  color: rgba(243, 239, 231, 0.72); /* لون ثانوي واضح */
+  font-size: clamp(13px, 1.1vw, 15px); /* حجم أقل حتى لا يزاحم الفوتر */
+  line-height: 1.55; /* ارتفاع سطر مناسب */
+  font-weight: 650; /* وزن متوسط */
+} /* نهاية وصف الفوتر */
+
+.homeContactFooterBar__grid { /* شبكة معلومات التواصل */
+  width: min(1080px, 100%); /* عرض متوازن للشبكة */
+  margin: 0 auto; /* توسيط الشبكة */
+  display: grid; /* تفعيل Grid */
+  grid-template-columns: repeat(4, minmax(0, 1fr)); /* أربع بطاقات أفقية في الديسكتوب */
+  gap: 10px; /* مسافة مضبوطة بين البطاقات */
+} /* نهاية شبكة التواصل */
+
+.homeContactFooterBar__item { /* بطاقة معلومة واحدة */
+  display: flex; /* ترتيب الرمز والنص أفقيًا */
+  align-items: center; /* محاذاة عمودية */
+  gap: 10px; /* مسافة بين الأيقونة والنص */
+  min-height: 64px; /* ارتفاع بطاقة صغير يناسب فوتر 7 سم */
+  padding: 10px 12px; /* حشوة داخلية مخفضة */
+  border-radius: 16px; /* حواف مستديرة للبطاقة */
+  background: rgba(255, 255, 255, 0.06); /* خلفية شفافة داخل الفوتر */
+  border: 1px solid rgba(255, 255, 255, 0.10); /* إطار خفيف */
+  color: #ffffff; /* لون النص */
+  text-decoration: none; /* إزالة خط الروابط */
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease; /* حركة ناعمة */
+} /* نهاية بطاقة المعلومة */
+
+.homeContactFooterBar__item:hover { /* تأثير المرور على البطاقة */
+  transform: translateY(-3px); /* رفع خفيف */
+  background: rgba(255, 255, 255, 0.09); /* زيادة وضوح الخلفية */
+  border-color: rgba(255, 255, 255, 0.16); /* تقوية الإطار */
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22); /* ظل راقٍ */
+} /* نهاية تأثير المرور */
+
+.homeContactFooterBar__icon { /* دائرة الأيقونة */
+  flex: 0 0 42px; /* تثبيت حجم الدائرة */
+  width: 42px; /* عرض الدائرة */
+  height: 42px; /* ارتفاع الدائرة */
+  border-radius: 999px; /* جعلها دائرة كاملة */
+  display: inline-flex; /* تمكين التوسيط */
+  align-items: center; /* توسيط عمودي */
+  justify-content: center; /* توسيط أفقي */
+  font-size: 19px; /* حجم الرمز */
+  font-weight: 900; /* وزن الرمز */
+  color: #ffffff; /* لون الرمز */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.26); /* ظل للأيقونة */
+} /* نهاية الأيقونة */
+
+.homeContactFooterBar__text { /* حاوية نص البطاقة */
+  display: flex; /* ترتيب داخلي */
+  flex-direction: column; /* جعل العنوان والقيمة فوق بعض */
+  gap: 2px; /* مسافة صغيرة بين النصوص */
+  min-width: 0; /* منع تمدد النص */
+} /* نهاية حاوية النص */
+
+.homeContactFooterBar__label { /* عنوان الحقل */
+  color: rgba(255, 255, 255, 0.68); /* لون ثانوي */
+  font-size: 11px; /* حجم صغير مناسب */
+  font-weight: 800; /* وزن واضح */
+  line-height: 1.25; /* ارتفاع سطر مضغوط */
+} /* نهاية عنوان الحقل */
+
+.homeContactFooterBar__value { /* قيمة الحقل */
+  color: #ffffff; /* لون أبيض */
+  font-size: 13px; /* حجم مناسب للفوتر القصير */
+  line-height: 1.35; /* ارتفاع سطر مضغوط */
+  font-weight: 900; /* إبراز القيمة */
+  word-break: break-word; /* منع خروج النص الطويل */
+} /* نهاية قيمة الحقل */
+
+.homeContactFooterBar__item--website .homeContactFooterBar__icon { /* لون أيقونة الموقع */
+  background: linear-gradient(135deg, #a97814 0%, #e4c46c 100%); /* ذهبي فاخر */
+} /* نهاية أيقونة الموقع */
+
+.homeContactFooterBar__item--address .homeContactFooterBar__icon { /* لون أيقونة العنوان */
+  background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%); /* أزرق واضح */
+} /* نهاية أيقونة العنوان */
+
+.homeContactFooterBar__item--phone .homeContactFooterBar__icon { /* لون أيقونة الهاتف */
+  background: linear-gradient(135deg, #c81e1e 0%, #f87171 100%); /* أحمر للهاتف */
+} /* نهاية أيقونة الهاتف */
+
+.homeContactFooterBar__item--email .homeContactFooterBar__icon { /* لون أيقونة البريد */
+  background: linear-gradient(135deg, #7c3aed 0%, #c084fc 100%); /* بنفسجي أنيق */
+} /* نهاية أيقونة البريد */
+
+.homeContactFooterBar__item--website .homeContactFooterBar__value, /* قيمة الموقع */
+.homeContactFooterBar__item--phone .homeContactFooterBar__value, /* قيمة الهاتف */
+.homeContactFooterBar__item--email .homeContactFooterBar__value { /* قيمة الإيميل */
+  text-decoration: underline; /* تمييز الروابط */
+  text-underline-offset: 3px; /* إبعاد الخط السفلي */
+  text-decoration-color: rgba(255, 255, 255, 0.30); /* لون خط هادئ */
+} /* نهاية تمييز الروابط */
+
+@media (max-width: 1100px) { /* قواعد التابلت */
+  .homeContactFooterBar { /* الفوتر على التابلت */
+    min-height: auto; /* السماح للفوتر بالتمدد إذا احتاجت البطاقات */
+    padding: 22px 0; /* حشوة مناسبة */
+  } /* نهاية الفوتر على التابلت */
+
+  .homeContactFooterBar__grid { /* شبكة التواصل على التابلت */
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* بطاقتان في كل صف */
+  } /* نهاية شبكة التابلت */
+} /* نهاية قواعد التابلت */
+
+@media (max-width: 700px) { /* قواعد الهاتف */
+  .homeContactShowcase { /* الغلاف على الهاتف */
+    padding-top: 24px; /* تقليل المسافة العلوية */
+  } /* نهاية الغلاف على الهاتف */
+
+  .homeContactShowcase__media { /* بطاقة الصورة على الهاتف */
+    width: min(100%, 560px); /* ضبط العرض */
+    margin-bottom: 14px; /* مسافة أسفل الصورة */
+    padding: 9px; /* إطار أصغر */
+    border-radius: 22px; /* حواف أصغر */
+  } /* نهاية صورة الهاتف */
+
+  .homeContactShowcase__image { /* الصورة على الهاتف */
+    height: 210px; /* ارتفاع مناسب للهاتف */
+    border-radius: 16px; /* حواف أصغر */
+  } /* نهاية الصورة على الهاتف */
+
+  .homeContactFooterBar { /* الفوتر على الهاتف */
+    min-height: auto; /* إلغاء الارتفاع الثابت حتى لا يضغط المحتوى */
+    padding: 28px 0; /* حشوة مريحة للهاتف */
+  } /* نهاية الفوتر على الهاتف */
+
+  .homeContactShowcase__title { /* عنوان الفوتر على الهاتف */
+    font-size: clamp(25px, 8vw, 34px); /* حجم مناسب للهاتف */
+  } /* نهاية عنوان الهاتف */
+
+  .homeContactShowcase__titleLine { /* سطر العنوان على الهاتف */
+    white-space: normal; /* السماح بالالتفاف إذا كانت الشاشة ضيقة */
+  } /* نهاية سطر العنوان على الهاتف */
+
+  .homeContactFooterBar__grid { /* شبكة المعلومات على الهاتف */
+    grid-template-columns: 1fr; /* بطاقة واحدة بكل صف */
+    gap: 9px; /* مسافة أقل */
+  } /* نهاية شبكة الهاتف */
+
+  .homeContactFooterBar__item { /* بطاقة المعلومات على الهاتف */
+    min-height: 72px; /* ارتفاع مناسب للهاتف */
+    padding: 12px 14px; /* حشوة مناسبة */
+    border-radius: 16px; /* حواف أقل */
+  } /* نهاية بطاقة الهاتف */
+} /* نهاية قواعد الهاتف */
 
 /* =========================================================
    17) RESPONSIVE - TABLET
 ========================================================= */
 @media (max-width: 1024px) {
   .container { width: 100%; padding-inline: 24px; }
-  .hero__grid, .trust__grid, .gallery, .quoteCard, .newsletterCard { grid-template-columns: 1fr !important; }
-  .featureGrid, .teamGrid, .contactCards { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .hero__grid, .trust__grid, .quoteCard, .newsletterCard { grid-template-columns: 1fr !important; } /* حذف .gallery لأن العرض الوسطي صار سلايدر flex */
+  .featureGrid, .teamGrid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } /* حذف .contactCards لأن الفوتر القديم أزيل */
   .logos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .hero__title { font-size: clamp(42px, 7vw, 58px) !important; }
   .stats__title, .stats__value { font-size: clamp(40px, 7vw, 58px) !important; }
@@ -569,13 +1041,13 @@ a {
   .nav__link { justify-content: space-between; }
   .dropdown { position: static; width: 100%; box-shadow: none; }
   .hero { padding-top: 32px; }
-  .hero__grid, .trust__grid, .gallery, .quoteCard, .newsletterCard, .featureGrid, .teamGrid, .contactCards, .faqGrid, .logos { grid-template-columns: 1fr !important; }
+  .hero__grid, .trust__grid, .quoteCard, .newsletterCard, .featureGrid, .teamGrid, .faqGrid, .logos { grid-template-columns: 1fr !important; } /* حذف .gallery و .contactCards لأن .gallery سلايدر والفوتر القديم أزيل */
   .hero__title, .display, .contact__title, .stats__title, .projects__title, .faq__title, .newsletterCard__title { font-size: clamp(30px, 10vw, 46px) !important; line-height: 1.08 !important; letter-spacing: -0.035em; }
   .hero__desc, .sublead, .contact__desc, .projects__desc, .stats__desc, .faq__desc, .newsletterCard__desc { font-size: 15px !important; line-height: 1.75 !important; }
-  .hero__actions, .center, .faqFooter, .newsletterForm, .footerMini { display: flex !important; flex-direction: column !important; align-items: stretch !important; text-align: center !important; gap: 14px !important; }
+  .hero__actions, .center, .faqFooter, .newsletterForm { display: flex !important; flex-direction: column !important; align-items: stretch !important; text-align: center !important; gap: 14px !important; } /* حذف .footerMini لأن الفوتر القديم أزيل */
   .btn, .btn--white, .btn--ghost, .btn--primary { width: 100%; justify-content: center; text-align: center; }
-  .shot, .shot--lg, .shot--hero, .tile, .brandHuge, .quoteCard__media, .member { width: 100% !important; min-height: 240px !important; max-height: 420px; border-radius: 22px !important; }
-  .shot img, .tile img, .brandHuge img, .quoteCard__media img, .member img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+  .shot, .shot--lg, .shot--hero, .quoteCard__media, .member { width: 100% !important; min-height: 240px !important; max-height: 420px; border-radius: 22px !important; } /* حذف .tile و .brandHuge لمنع كسر السلايدر والفوتر الجديد */
+  .shot img, .quoteCard__media img, .member img { width: 100% !important; height: 100% !important; object-fit: cover !important; } /* حذف .tile img و .brandHuge img لأن لكل قسم ضبطه الخاص */
   .cCard { min-height: auto !important; padding: 22px !important; }
   .stats__value { word-break: break-word; }
 }
@@ -586,7 +1058,7 @@ a {
 @media (max-width: 420px) {
   .container { padding-inline: 12px; }
   .hero__title, .display, .contact__title { font-size: clamp(28px, 12vw, 40px) !important; }
-  .shot, .shot--lg, .shot--hero, .tile, .brandHuge, .member { min-height: 210px !important; }
+  .shot, .shot--lg, .shot--hero, .member { min-height: 210px !important; } /* حذف .tile و .brandHuge حتى لا تتعارض مع السلايدر والفوتر */
   .cCard, .feature, .qa { padding: 18px !important; }
 }
 
@@ -1087,11 +1559,35 @@ main[dir="ltr"] .home-mobile-panel { /* دعم كلاس الاتجاه ودعم 
     padding-right: 10px !important; /* تقليل المسافة اليمنى */
   } /* نهاية الشريط على الشاشات الصغيرة */
 
-  .home-mobile-burger { /* زر القائمة الصغير */
-    width: 42px !important; /* عرض الزر */
-    height: 42px !important; /* ارتفاع الزر */
-    border-radius: 12px !important; /* تدوير مناسب */
-  } /* نهاية زر القائمة الصغير */
+  /* زر الثلاث خطوط */
+.home-mobile-burger {
+  width: 48px !important;
+  height: 48px !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  z-index: 10002 !important;
+  flex-shrink: 0 !important;
+}
+
+.home-mobile-burger span {
+  width: 22px !important;
+  height: 2px !important;
+  display: block !important;
+  border-radius: 99px !important;
+  background: #ffffff !important;
+}
+
+  
+  
+  /* نهاية زر القائمة الصغير */
 
   .home-mobile-panel { /* القائمة على الشاشات الصغيرة */
     width: 90vw !important; /* عرض القائمة */
@@ -1166,3 +1662,153 @@ main[dir="ltr"] .home-mobile-panel { /* دعم كلاس الاتجاه ودعم 
   } /* نهاية بطاقة الشعار في الموبايلات الضيقة */
 } /* نهاية قواعد الشاشات الصغيرة جدًا */
 
+/* ========================================================= */ /* بداية تعديل عرض سلايدر المشاريع كصورة واحدة فقط */
+   /* 24) PROJECTS SINGLE-SLIDE OVERRIDE */ /* اسم التعديل: إجبار السلايدر على عرض صورة واحدة */
+/* ========================================================= */ /* نهاية عنوان التعديل */
+
+
+.projects .gallery { /* استهداف مسار سلايدر المشاريع فقط داخل قسم projects */
+  width: min(1080px, 100%) !important; /* تحديد عرض السلايدر حتى لا يمتد بعشوائية على الشاشة الكبيرة */
+  max-width: 1080px !important; /* منع السلايدر من تجاوز عرض 1080 بكسل */
+  margin-inline: auto !important; /* توسيط السلايدر أفقيًا داخل الصفحة */
+  display: flex !important; /* إبقاء السلايدر بنظام flex الأفقي */
+  grid-template-columns: none !important; /* إلغاء أي Grid قديم حتى لا يعرض أكثر من صورة */
+  gap: 0 !important; /* إلغاء الفراغ بين الصور حتى لا تظهر أطراف الصور الجانبية */
+  padding: 8px 0 34px !important; /* إبقاء مسافة علوية بسيطة ومسافة سفلية للنقاط */
+  overflow-x: hidden !important; /* إخفاء الصور الجانبية تمامًا وعدم إظهار أنصاف الصور */
+  overflow-y: visible !important; /* السماح بظهور ظل الصورة عموديًا */
+  scroll-snap-type: x mandatory !important; /* إجبار التمرير على التوقف عند كل صورة */
+  scroll-behavior: smooth !important; /* جعل الانتقال بين الصور ناعمًا */
+  overscroll-behavior-x: contain !important; /* منع سحب الصفحة عند التعامل مع السلايدر */
+  scrollbar-width: none !important; /* إخفاء شريط التمرير في Firefox */
+} /* نهاية ضبط مسار السلايدر */
+
+
+.projects .gallery::-webkit-scrollbar { /* استهداف شريط التمرير في Chrome و Edge */
+  display: none !important; /* إخفاء شريط التمرير حتى يبقى التصميم نظيفًا */
+} /* نهاية إخفاء شريط التمرير */
+
+
+.projects .stack { /* العنصر القديم الذي كان يجمع بعض الصور */
+  display: contents !important; /* جعل الصور داخله تتصرف كأنها عناصر مباشرة في السلايدر */
+} /* نهاية ضبط stack */
+
+
+.projects .tile { /* استهداف كل بطاقة صورة داخل سلايدر المشاريع */
+  flex: 0 0 100% !important; /* جعل كل صورة تأخذ كامل عرض السلايدر، أي صورة واحدة فقط كل مرة */
+  width: 100% !important; /* إجبار البطاقة على ملء عرض السلايدر */
+  max-width: 100% !important; /* منع البطاقة من تجاوز عرض السلايدر */
+  height: clamp(430px, 48vw, 620px) !important; /* تكبير الصورة قليلًا بشكل متجاوب */
+  min-height: 430px !important; /* منع الصورة من أن تصبح قصيرة جدًا على الشاشات الكبيرة */
+  max-height: 620px !important; /* منع الصورة من أن تصبح ضخمة جدًا */
+  margin: 0 !important; /* إزالة أي هامش قد يجعل صورة جانبية تظهر */
+  border-radius: 28px !important; /* حواف مستديرة أجمل للصورة الكبيرة */
+  scroll-snap-align: center !important; /* جعل الصورة تقف في منتصف السلايدر عند الانتقال */
+  scroll-snap-stop: always !important; /* منع تخطي أكثر من صورة عند الضغط أو السحب */
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.18) !important; /* ظل أعمق للصورة الكبيرة */
+} /* نهاية ضبط بطاقة الصورة */
+
+
+.projects .tile--wide { /* استهداف الصورة التي كان لها حجم خاص سابقًا */
+  flex-basis: 100% !important; /* إجبار الصورة الواسعة أيضًا على أخذ صورة واحدة فقط */
+  height: clamp(430px, 48vw, 620px) !important; /* توحيد ارتفاعها مع باقي الصور */
+  min-height: 430px !important; /* منعها من التصغير الزائد */
+  max-height: 620px !important; /* منعها من التضخم الزائد */
+} /* نهاية ضبط الصورة الواسعة */
+
+
+.projects .tile img { /* الصورة داخل البطاقة */
+  width: 100% !important; /* جعل الصورة تملأ عرض البطاقة */
+  height: 100% !important; /* جعل الصورة تملأ ارتفاع البطاقة */
+  object-fit: cover !important; /* قص الصورة بشكل أنيق بدون تشويه */
+  object-position: center center !important; /* تمركز الصورة في الوسط */
+  display: block !important; /* إزالة أي فراغ افتراضي أسفل الصورة */
+} /* نهاية ضبط الصورة الداخلية */
+
+
+.projects .projectsSlider__controls { /* حاوية الأسهم */
+  inset-inline: -26px !important; /* وضع الأسهم خارج طرف الصورة قليلًا */
+  top: 52% !important; /* توسيط الأسهم عموديًا على الصورة */
+  z-index: 30 !important; /* جعل الأسهم فوق الصورة */
+  pointer-events: none !important; /* منع الحاوية من تعطيل النقر على الصورة */
+} /* نهاية حاوية الأسهم */
+
+
+.projects .projectsSlider__btn { /* زر السهم نفسه */
+  width: 58px !important; /* تكبير زر السهم قليلًا */
+  height: 58px !important; /* تكبير ارتفاع زر السهم */
+  font-size: 34px !important; /* تكبير رمز السهم */
+  background: rgba(255, 255, 255, 0.92) !important; /* خلفية واضحة للسهم */
+  border: 1px solid rgba(255, 255, 255, 0.78) !important; /* إطار ناعم حول الزر */
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22) !important; /* ظل واضح للزر */
+  pointer-events: auto !important; /* السماح بالنقر على الزر */
+} /* نهاية ضبط زر السهم */
+
+
+.projects .projectsSlider__btn:hover { /* حالة مرور الماوس على السهم */
+  background: #ffffff !important; /* جعل الزر أبيض كاملًا عند المرور */
+  transform: translateY(-2px) scale(1.03) !important; /* حركة بسيطة تعطي إحساسًا بالضغط */
+} /* نهاية hover */
+
+
+.projects .projectsSlider__dots { /* نقاط السلايدر */
+  margin-top: 10px !important; /* إبعاد النقاط قليلًا عن الصورة */
+} /* نهاية ضبط النقاط */
+
+
+.projects .projectsSlider__dot { /* النقطة العادية */
+  width: 10px !important; /* عرض النقطة */
+  height: 10px !important; /* ارتفاع النقطة */
+} /* نهاية النقطة العادية */
+
+
+.projects .projectsSlider__dot.is-active { /* النقطة النشطة */
+  width: 34px !important; /* جعل النقطة النشطة أطول وأوضح */
+} /* نهاية النقطة النشطة */
+
+
+@media (max-width: 1024px) { /* قواعد التابلت */
+  .projects .gallery { /* مسار السلايدر على التابلت */
+    width: min(92vw, 860px) !important; /* تقليل عرض السلايدر حتى لا يلتصق بالحواف */
+  } /* نهاية مسار التابلت */
+
+  .projects .tile, /* البطاقة العادية على التابلت */
+  .projects .tile--wide { /* البطاقة الواسعة على التابلت */
+    flex-basis: 100% !important; /* صورة واحدة فقط أيضًا على التابلت */
+    height: clamp(360px, 58vw, 520px) !important; /* ارتفاع مناسب للتابلت */
+    min-height: 360px !important; /* حد أدنى مناسب */
+    max-height: 520px !important; /* حد أعلى مناسب */
+  } /* نهاية بطاقات التابلت */
+
+  .projects .projectsSlider__controls { /* الأسهم على التابلت */
+    inset-inline: -12px !important; /* تقريب الأسهم قليلًا حتى لا تخرج من الشاشة */
+  } /* نهاية الأسهم على التابلت */
+} /* نهاية قواعد التابلت */
+
+
+@media (max-width: 700px) { /* قواعد الهاتف */
+  .projects .gallery { /* مسار السلايدر على الهاتف */
+    width: 92vw !important; /* جعل السلايدر يأخذ أغلب عرض الهاتف */
+    padding-bottom: 28px !important; /* مساحة أسفل للنقاط */
+  } /* نهاية مسار الهاتف */
+
+  .projects .tile, /* البطاقة العادية على الهاتف */
+  .projects .tile--wide { /* البطاقة الواسعة على الهاتف */
+    flex-basis: 100% !important; /* صورة واحدة فقط على الهاتف */
+    height: clamp(260px, 66vw, 360px) !important; /* ارتفاع مناسب للهاتف */
+    min-height: 260px !important; /* حد أدنى للهاتف */
+    max-height: 360px !important; /* حد أعلى للهاتف */
+    border-radius: 22px !important; /* حواف أصغر قليلًا للهاتف */
+  } /* نهاية بطاقات الهاتف */
+
+  .projects .projectsSlider__controls { /* حاوية الأسهم على الهاتف */
+    inset-inline: 8px !important; /* إدخال الأسهم داخل حدود السلايدر */
+    top: 50% !important; /* توسيط الأسهم */
+  } /* نهاية حاوية الأسهم على الهاتف */
+
+  .projects .projectsSlider__btn { /* زر السهم على الهاتف */
+    width: 44px !important; /* تصغير الزر للهاتف */
+    height: 44px !important; /* تصغير ارتفاع الزر */
+    font-size: 26px !important; /* تصغير رمز السهم */
+  } /* نهاية زر الهاتف */
+} /* نهاية قواعد الهاتف */

@@ -867,77 +867,160 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="contact">
+        <section className="homeContactShowcase" aria-labelledby="home-contact-showcase-title">
+          {/* بداية قسم الصورة والفوتر النهائي */}
+
           <div className="container">
-            <p className="kicker kicker--dark">{t("contact.eyebrow")}</p>
-            <h2 className="contact__title">{t("contact.title")}</h2>
-            <p className="contact__desc">{t("contact.desc")}</p>
+            {/* حاوية الصورة الخارجية حتى تبقى الصورة فوق الفوتر وليست داخله */}
 
-            <div className="contactCards">
-              <article className="cCard">
-                <div className="cCard__icon">✉</div>
-                <h3>{t("contact.card1.title")}</h3>
-                <p className="cCard__text">{t("contact.card1.desc")}</p>
+            <figure className="homeContactShowcase__media">
+              {/* إطار الصورة الوسطية فوق الفوتر */}
+
+              <img
+                src={brandImage}
+                alt={lang === "ar" ? "زها للتجارة العامة والاستثمار العقاري" : "ALZUHA real estate showcase"}
+                className="homeContactShowcase__image"
+              />
+              {/* الصورة الأخيرة بحجم متوسط وبدون style موروث حتى لا تكبر داخل الفوتر */}
+            </figure>
+          </div>
+
+          <footer className="homeContactFooterBar" aria-label={lang === "ar" ? "معلومات التواصل" : "Contact information"}>
+            {/* فوتر أسود مستقل بارتفاع يقارب 7 سم على الديسكتوب */}
+
+            <div className="container">
+              {/* حاوية محتوى الفوتر */}
+
+              <div className="homeContactShowcase__head">
+                {/* رأس الفوتر: العنوان موزع على سطرين والوصف تحته */}
+
+                <p className="kicker kicker--dark">{t("contact.eyebrow")}</p>
+                {/* نص صغير أعلى العنوان */}
+
+                <h2 id="home-contact-showcase-title" className="homeContactShowcase__title">
+                  {/* العنوان موزع على سطرين واضحين تحت الصورة */}
+                  {lang === "ar" ? (
+                    <>
+                      <span className="homeContactShowcase__titleLine">ابدأ خطوتك العقارية القادمة</span>
+                      {/* السطر الأول من العنوان العربي */}
+                      <span className="homeContactShowcase__titleLine">بوضوح</span>
+                      {/* السطر الثاني من العنوان العربي */}
+                    </>
+                  ) : (
+                    <>
+                      <span className="homeContactShowcase__titleLine">Start your next real estate step</span>
+                      {/* السطر الأول من العنوان الإنجليزي */}
+                      <span className="homeContactShowcase__titleLine">with clarity</span>
+                      {/* السطر الثاني من العنوان الإنجليزي */}
+                    </>
+                  )}
+                </h2>
+
+                <p className="homeContactShowcase__desc">
+                  {/* وصف قصير داخل الفوتر */}
+                  {t("contact.desc")}
+                  {/* استخدام قاموس الترجمة الحالي */}
+                </p>
+              </div>
+
+              <div className="homeContactFooterBar__grid">
+                {/* شبكة أفقية لمعلومات التواصل داخل الفوتر */}
+
                 <a
-                  className="cCard__link"
+                  href="https://zuha.us"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="homeContactFooterBar__item homeContactFooterBar__item--website"
+                >
+                  {/* بطاقة الموقع الإلكتروني */}
+
+                  <span className="homeContactFooterBar__icon" aria-hidden="true">🌐</span>
+                  {/* رمز الموقع الإلكتروني بلون ذهبي من CSS */}
+
+                  <span className="homeContactFooterBar__text">
+                    {/* حاوية نص الموقع */}
+                    <span className="homeContactFooterBar__label">
+                      {lang === "ar" ? "الموقع الإلكتروني" : "Website"}
+                    </span>
+                    {/* عنوان بطاقة الموقع */}
+                    <span className="homeContactFooterBar__value">zuha.us</span>
+                    {/* قيمة الموقع */}
+                  </span>
+                </a>
+
+                <div className="homeContactFooterBar__item homeContactFooterBar__item--address">
+                  {/* بطاقة العنوان */}
+
+                  <span className="homeContactFooterBar__icon" aria-hidden="true">🏢</span>
+                  {/* رمز العنوان بلون أزرق من CSS */}
+
+                  <span className="homeContactFooterBar__text">
+                    {/* حاوية نص العنوان */}
+                    <span className="homeContactFooterBar__label">
+                      {lang === "ar" ? "العنوان" : "Address"}
+                    </span>
+                    {/* عنوان بطاقة العنوان */}
+                    <span className="homeContactFooterBar__value">
+                      {lang === "ar" ? "العراق - النجف الأشرف" : "Iraq - Najaf Al-Ashraf"}
+                    </span>
+                    {/* قيمة العنوان */}
+                  </span>
+                </div>
+
+                <a
+                  href={`tel:${normalizePhoneForTel(safeData.phone, "+9647802335555")}`}
+                  className="homeContactFooterBar__item homeContactFooterBar__item--phone"
+                >
+                  {/* بطاقة الهاتف */}
+
+                  <span className="homeContactFooterBar__icon" aria-hidden="true">☎</span>
+                  {/* رمز الهاتف بلون أحمر من CSS */}
+
+                  <span className="homeContactFooterBar__text">
+                    {/* حاوية نص الهاتف */}
+                    <span className="homeContactFooterBar__label">
+                      {lang === "ar" ? "الهاتف" : "Phone"}
+                    </span>
+                    {/* عنوان بطاقة الهاتف */}
+                    <span className="homeContactFooterBar__value">
+                      {normalizeText(safeData.phone, "+964 780 233 5555")}
+                    </span>
+                    {/* قيمة الهاتف */}
+                  </span>
+                </a>
+
+                <a
                   href={`mailto:${normalizeText(safeData.email, "info@zuha.us")}`}
+                  className="homeContactFooterBar__item homeContactFooterBar__item--email"
                 >
-                  {normalizeText(safeData.email, "info@zuha.us")}
+                  {/* بطاقة البريد الإلكتروني */}
+
+                  <span className="homeContactFooterBar__icon" aria-hidden="true">✉</span>
+                  {/* رمز البريد الإلكتروني بلون بنفسجي من CSS */}
+
+                  <span className="homeContactFooterBar__text">
+                    {/* حاوية نص البريد */}
+                    <span className="homeContactFooterBar__label">
+                      {lang === "ar" ? "البريد الإلكتروني" : "Email"}
+                    </span>
+                    {/* عنوان بطاقة البريد */}
+                    <span className="homeContactFooterBar__value">
+                      {normalizeText(safeData.email, "info@zuha.us")}
+                    </span>
+                    {/* قيمة البريد الإلكتروني */}
+                  </span>
                 </a>
-              </article>
-
-              <article className="cCard">
-                <div className="cCard__icon">☎</div>
-                <h3>{t("contact.card2.title")}</h3>
-                <p className="cCard__text">{t("contact.card2.desc")}</p>
-                <a
-                  className="cCard__link"
-                  href={`tel:${normalizePhoneForTel(
-                    safeData.phone,
-                    "+9647802335555"
-                  )}`}
-                >
-                  {normalizeText(safeData.phone, "+964 7802335555")}
-                </a>
-              </article>
-
-              <article className="cCard">
-                <div className="cCard__icon">⌂</div>
-                <h3>{t("contact.card3.title")}</h3>
-                <p className="cCard__text">{t("contact.card3.desc")}</p>
-                <Link className="cCard__link" href="/contact">
-                  {normalizeText(safeData.location, "Iraq / Najaf")}
-                </Link>
-              </article>
-            </div>
-
-            <div className="brandWall">
-              <figure className="brandHuge">
-                <div className="shot__ph--inline">13</div>
-                <img src={brandImage} alt="Brand wall" style={mediaImgStyle} />
-                <div className="brandHuge__cap">{t("brand.title")}</div>
-              </figure>
-
-              <div className="footerMini">
-                <span>
-                  {normalizeText(safeData.location, "Iraq / Najaf")}{" "}
-                  <span className="sep">•</span>{" "}
-                  {normalizeText(safeData.phone, "+964 7802335555")}{" "}
-                  <span className="sep">•</span>{" "}
-                  {normalizeText(safeData.email, "info@zuha.us")}
-                </span>
-
-                <Link className="footerMini__link" href="/request-consultation">
-                  {t("contact.cta")}
-                </Link>
               </div>
             </div>
-          </div>
+          </footer>
         </section>
       </main>
 
+      <Script src="/pages/home/js/projects-slider.js" strategy="afterInteractive" />
+      {/* تشغيل سلايدر العرض الوسطي لقسم المشاريع بعد تحميل الصفحة */}
+
       <Script src="/pages/home/js/page.js" strategy="afterInteractive" />
-      {/* سلوك الواجهة */}
+      {/* سلوك الواجهة العام */}
     </>
   );
 }
