@@ -1253,23 +1253,31 @@ main img.home-brand-logo-img { /* أي نسخة بديلة من صورة الش�
    زر الثلاث خطوط للموبايل والتابلت
 ========================================================= */
 
+/* زر الثلاث خطوط الأساسي: مخفي على الديسكتوب ويظهر داخل media للتابلت والموبايل */
 .home-mobile-burger { /* زر فتح القائمة الجانبية */
-  width: 48px !important; /* عرض الزر */
-  height: 48px !important; /* ارتفاع الزر */
-  display: none !important; /* مخفي على الديسكتوب */
-  align-items: center !important; /* توسيط الخطوط عمودياً */
-  justify-content: center !important; /* توسيط الخطوط أفقياً */
-  flex-direction: column !important; /* جعل الخطوط فوق بعضها */
-  gap: 6px !important; /* المسافة بين الخطوط */
-  border-radius: 16px !important; /* حواف ناعمة */
-  border: 1px solid rgba(255, 255, 255, 0.45) !important; /* إطار أبيض شفاف */
-  background: rgba(255, 255, 255, 0.14) !important; /* خلفية شفافة خفيفة */
-  cursor: pointer !important; /* مؤشر النقر */
-  position: relative !important; /* طبقة مستقلة */
-  z-index: 6003 !important; /* فوق عناصر الهيدر */
-  flex-shrink: 0 !important; /* منع ضغط الزر */
-} /* نهاية زر القائمة */
+  width: 48px !important; /* عرض افتراضي للزر قبل تصغيره في الموبايل */
+  height: 48px !important; /* ارتفاع افتراضي للزر قبل تصغيره في الموبايل */
+  display: none !important; /* إخفاء الزر على الديسكتوب لأن روابط الهيدر ظاهرة هناك */
+  align-items: center !important; /* توسيط الخطوط الثلاثة عموديًا */
+  justify-content: center !important; /* توسيط الخطوط الثلاثة أفقيًا */
+  flex-direction: column !important; /* ترتيب الخطوط فوق بعضها */
+  gap: 6px !important; /* مسافة واضحة بين الخطوط */
+  border-radius: 16px !important; /* حواف ناعمة مناسبة للزر الأساسي */
+  border: 1px solid rgba(255, 255, 255, 0.45) !important; /* إطار أبيض شفاف فوق الهيدر الأزرق */
+  background: rgba(255, 255, 255, 0.14) !important; /* خلفية زجاجية خفيفة للزر */
+  cursor: pointer !important; /* إظهار أنه عنصر قابل للنقر */
+  position: relative !important; /* إبقاء الزر في طبقة مستقلة داخل الهيدر */
+  z-index: 10002 !important; /* رفع الزر فوق عناصر الهيدر وعدم دفنه خلف الشعار */
+  flex-shrink: 0 !important; /* منع ضغط الزر عند ضيق الشاشة */
+} /* نهاية زر فتح القائمة في الموبايل الصغير */
 
+.home-mobile-burger span { /* الخط الواحد داخل زر القائمة */
+  width: 21px !important; /* طول الخط المناسب داخل زر 44px */
+  height: 2px !important; /* سماكة الخط */
+  display: block !important; /* جعل كل خط يظهر كسطر مستقل */
+  border-radius: 99px !important; /* تدوير أطراف الخط */
+  background: #ffffff !important; /* لون أبيض واضح فوق الخلفية الزرقاء */
+} /* نهاية خطوط زر القائمة */
 
 .home-mobile-burger span { /* خطوط زر القائمة */
   width: 22px !important; /* طول الخط */
@@ -1332,23 +1340,24 @@ main img.home-brand-logo-img { /* أي نسخة بديلة من صورة الش�
 
 
 /* العربي RTL: حسب نظامك الحالي القائمة تفتح من اليسار */
+/* العربي RTL: القائمة تفتح من اليمين حسب طلبك */
 .home-mobile-panel--rtl,
-main[dir="rtl"] .home-mobile-panel { /* دعم كلاس الاتجاه ودعم dir معاً */
-  left: 0 !important; /* تثبيت القائمة يساراً */
-  right: auto !important; /* إلغاء التثبيت من اليمين */
-  transform: translateX(-105%) !important; /* إخفاء القائمة خارج الشاشة من اليسار */
-  box-shadow: 20px 0 70px rgba(0, 0, 0, 0.24) !important; /* ظل من جهة اليسار */
-} /* نهاية اتجاه العربي */
+main[dir="rtl"] .home-mobile-panel { /* دعم كلاس اللغة العربية ودعم dir=rtl معًا */
+  right: 0 !important; /* تثبيت القائمة العربية على يمين الشاشة */
+  left: auto !important; /* إلغاء أي تثبيت قديم من جهة اليسار */
+  transform: translateX(105%) !important; /* إخفاء القائمة خارج الشاشة من اليمين عند الإغلاق */
+  box-shadow: -20px 0 70px rgba(0, 0, 0, 0.24) !important; /* جعل الظل باتجاه الداخل عند الفتح من اليمين */
+} /* نهاية اتجاه القائمة العربية */
 
 
-/* الإنجليزي LTR: حسب نظامك الحالي القائمة تفتح من اليمين */
+/* الإنجليزي LTR: القائمة تفتح من اليسار حسب طلبك */
 .home-mobile-panel--ltr,
-main[dir="ltr"] .home-mobile-panel { /* دعم كلاس الاتجاه ودعم dir معاً */
-  right: 0 !important; /* تثبيت القائمة يميناً */
-  left: auto !important; /* إلغاء التثبيت من اليسار */
-  transform: translateX(105%) !important; /* إخفاء القائمة خارج الشاشة من اليمين */
-  box-shadow: -20px 0 70px rgba(0, 0, 0, 0.24) !important; /* ظل من جهة اليمين */
-} /* نهاية اتجاه الإنجليزي */
+main[dir="ltr"] .home-mobile-panel { /* دعم كلاس اللغة الإنجليزية ودعم dir=ltr معًا */
+  left: 0 !important; /* تثبيت القائمة الإنجليزية على يسار الشاشة */
+  right: auto !important; /* إلغاء أي تثبيت قديم من جهة اليمين */
+  transform: translateX(-105%) !important; /* إخفاء القائمة خارج الشاشة من اليسار عند الإغلاق */
+  box-shadow: 20px 0 70px rgba(0, 0, 0, 0.24) !important; /* جعل الظل باتجاه الداخل عند الفتح من اليسار */
+} /* نهاية اتجاه القائمة الإنجليزية */
 
 
 .home-mobile-panel.is-open { /* حالة فتح القائمة */
@@ -1559,31 +1568,31 @@ main[dir="ltr"] .home-mobile-panel { /* دعم كلاس الاتجاه ودعم 
     padding-right: 10px !important; /* تقليل المسافة اليمنى */
   } /* نهاية الشريط على الشاشات الصغيرة */
 
-  /* زر الثلاث خطوط */
-.home-mobile-burger {
-  width: 48px !important;
-  height: 48px !important;
-  display: none !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-direction: column !important;
-  gap: 6px !important;
-  border-radius: 16px !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
-  background: rgba(255, 255, 255, 0.14) !important;
-  cursor: pointer !important;
-  position: relative !important;
-  z-index: 10002 !important;
-  flex-shrink: 0 !important;
-}
+  /* زر الثلاث خطوط على الشاشات الصغيرة جدًا */
+  .home-mobile-burger { /* زر فتح القائمة في الآيفون والموبايلات الضيقة */
+    width: 44px !important; /* تصغير العرض حتى لا يزاحم مبدّل اللغة والشعار */
+    height: 44px !important; /* تصغير الارتفاع مع بقاء مساحة اللمس مناسبة */
+    display: flex !important; /* الإصلاح الحاسم: إظهار الزر في الموبايل الصغير بدل إخفائه */
+    align-items: center !important; /* توسيط الخطوط عموديًا */
+    justify-content: center !important; /* توسيط الخطوط أفقيًا */
+    flex-direction: column !important; /* ترتيب الخطوط الثلاثة فوق بعضها */
+    gap: 6px !important; /* مسافة واضحة بين الخطوط */
+    border-radius: 14px !important; /* حواف مناسبة للحجم الأصغر */
+    border: 1px solid rgba(255, 255, 255, 0.45) !important; /* إطار أبيض شفاف فوق الهيدر الأزرق */
+    background: rgba(255, 255, 255, 0.14) !important; /* خلفية زجاجية خفيفة للزر */
+    cursor: pointer !important; /* إظهار أنه قابل للنقر */
+    position: relative !important; /* إبقاء الزر في طبقة مستقلة */
+    z-index: 10002 !important; /* رفعه فوق عناصر الهيدر */
+    flex-shrink: 0 !important; /* منع ضغطه عند ضيق الشاشة */
+  } /* نهاية زر الموبايل الصغير */
 
-.home-mobile-burger span {
-  width: 22px !important;
-  height: 2px !important;
-  display: block !important;
-  border-radius: 99px !important;
-  background: #ffffff !important;
-}
+  .home-mobile-burger span { /* الخط الواحد داخل الزر */
+    width: 21px !important; /* طول مناسب داخل زر 44px */
+    height: 2px !important; /* سماكة الخط */
+    display: block !important; /* إظهار الخط كسطر مستقل */
+    border-radius: 99px !important; /* تدوير أطراف الخط */
+    background: #ffffff !important; /* لون أبيض واضح */
+  } /* نهاية خطوط الزر الصغير */
 
   
   
