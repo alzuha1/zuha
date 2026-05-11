@@ -321,17 +321,6 @@ export default function AboutInstitutional({
     return () => window.clearInterval(timer);
   }, [totalSlides]);
 
-  useEffect(() => {
-    // إغلاق القائمة بزر Escape
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-      }
-    }
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
 
  
   const prevIndex = useMemo(() => {
