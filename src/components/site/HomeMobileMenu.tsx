@@ -32,15 +32,15 @@ export default function HomeMobileMenu({ lang, variant = "main" }: HomeMobileMen
     { href: "/contact", label: isArabic ? "تواصل" : "Contact" }, // رابط التواصل.
   ]; // نهاية روابط القائمة العامة.
 
-  const serviceLinks: MobileMenuLink[] = [ // روابط قائمة الخدمات فقط.
-    { href: "/", label: isArabic ? "الرئيسية" : "Home" }, // الرجوع للرئيسية.
-    { href: "/services", label: isArabic ? "استكشف الخدمات" : "Explore Services" }, // صفحة الخدمات.
-    { href: "/services/project-development", label: isArabic ? "تطوير المشاريع" : "Project Development" }, // تطوير المشاريع.
-    { href: "/services/asset-assessment", label: isArabic ? "تقييم الأصل" : "Asset Assessment" }, // تقييم الأصل.
-    { href: "/services/strategic-advisory", label: isArabic ? "الاستشارات" : "Advisory" }, // الاستشارات.
-    { href: "/services/market-positioning", label: isArabic ? "التموضع السوقي" : "Market Positioning" }, // التموضع السوقي.
+    const serviceLinks: MobileMenuLink[] = [ // روابط قائمة الخدمات كما تظهر في هيدر اللابتوب داخل صفحة Services.
+    { href: "/", label: isArabic ? "الرئيسية" : "Home" }, // الرجوع إلى الصفحة الرئيسية.
+    { href: "/services", label: isArabic ? "استكشف" : "Explore" }, // صفحة الخدمات الرئيسية بنفس تسمية الديسكتوب.
+    { href: "/services/project-development", label: isArabic ? "تطوير المشاريع" : "Project Development" }, // رابط تطوير المشاريع.
+    { href: "/services/asset-assessment", label: isArabic ? "تقييم الأصل" : "Asset Assessment" }, // رابط تقييم الأصل.
+    { href: "/services/strategic-advisory", label: isArabic ? "الاستشارات" : "Advisory" }, // رابط الاستشارات.
+    { href: "/services/market-positioning", label: isArabic ? "التموضع" : "Positioning" }, // رابط التموضع بنفس تسمية الديسكتوب.
   ]; // نهاية روابط الخدمات.
-
+  
   const links = isServicesMenu ? serviceLinks : mainLinks; // اختيار الروابط المناسبة حسب نوع القائمة.
 
   const labels = { // نصوص التحكم حسب اللغة.
