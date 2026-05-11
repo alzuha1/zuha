@@ -12,10 +12,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* نثبت ألوان الموقع ولا نترك المتصفح يغيرها حسب وضع الجهاز */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
   }
 }
 
@@ -28,7 +29,7 @@ body {
    ALZUHA SHARED LOGO SYSTEM
    شعار موحد لكل الصفحات
 ========================================================= */
-
+/*
 .site-logo-shell {
   width: 96px !important;
   height: 96px !important;
@@ -53,6 +54,7 @@ body {
   filter: contrast(1.25) saturate(1.35) brightness(1.08) !important;
   mix-blend-mode: normal !important;
 }
+*/
 
 @media (max-width: 1024px) {
   .site-logo-shell {
@@ -85,4 +87,288 @@ body {
   .site-logo-img {
     transform: scale(1.72) !important;
   }
+}
+
+
+
+/* =========================================================
+   ALZUHA UNIFIED HEADER SYSTEM
+   هيدر موحد لكل الصفحات:
+   Home / About / Services / Portfolio / FAQ / Contact
+   بدون زر Request Consultation داخل الهيدر.
+========================================================= */
+
+.site-header {
+  width: 100% !important;
+  height: 92px !important;
+  min-height: 92px !important;
+  padding: 0 clamp(28px, 5vw, 90px) !important;
+  background: #244fca !important;
+  color: #d7d7d7 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* جهة الشعار */
+.site-header__logo-side {
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  flex: 0 0 auto !important;
+  overflow: visible !important;
+}
+
+/* رابط الشعار */
+.site-header__logo-link {
+  width: 156px !important;
+  height: 74px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  overflow: visible !important;
+}
+
+/* إطار الشعار الموحد */
+.site-header__logo-shell {
+  width: 156px !important;
+  height: 74px !important;
+  border-radius: 28px !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+
+  background:
+    linear-gradient(#cfcfcf, #cfcfcf) padding-box,
+    linear-gradient(135deg, #7a5a12, #d7b85a, #fff2a8, #b88922, #6f4d0d) border-box !important;
+
+  border: 2px solid transparent !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 232, 150, 0.28),
+    0 8px 22px rgba(0, 0, 0, 0.2),
+    inset 0 0 18px rgba(255, 238, 170, 0.16) !important;
+}
+
+/* صورة الشعار داخل الإطار */
+.site-header__logo-img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  display: block !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  padding: 5px 0 !important;
+  transform: scale(1.18) !important;
+  transform-origin: center center !important;
+  box-sizing: border-box !important;
+  position: static !important;
+  inset: auto !important;
+  filter: contrast(1.14) saturate(1.16) brightness(1.04) !important;
+  mix-blend-mode: normal !important;
+}
+
+/* روابط الديسكتوب */
+.site-header__nav {
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: clamp(18px, 2.4vw, 34px) !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+
+/* الرابط الواحد */
+.site-header__nav-link {
+  color: rgba(230, 230, 230, 0.86) !important;
+  font-size: 15px !important;
+  font-weight: 850 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  padding: 10px 0 !important;
+  border-bottom: 2px solid transparent !important;
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    opacity 0.18s ease !important;
+}
+
+/* مرور الماوس على الرابط */
+.site-header__nav-link:hover {
+  color: #ffffff !important;
+  border-bottom-color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* الرابط النشط */
+.site-header__nav-link.is-active {
+  color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
+}
+
+/* جهة اللغة والقائمة */
+.site-header__tools {
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+  flex: 0 0 auto !important;
+  overflow: visible !important;
+}
+
+/* حماية: أي صورة داخل الهيدر لا تتحول إلى صورة ضخمة */
+.site-header img {
+  max-width: 100% !important;
+  height: auto;
+}
+
+/* حماية خاصة لصورة الشعار */
+.site-header .site-header__logo-img {
+  height: 100% !important;
+}
+
+/* ضبط مبدّل اللغة مهما كانت كلاساته الداخلية */
+.site-header .lang,
+.site-header [class*="language"],
+.site-header [class*="Language"],
+.site-header [class*="switch"],
+.site-header [class*="Switch"] {
+  flex-shrink: 0 !important;
+}
+
+/* =========================================================
+   TABLET / IPAD
+========================================================= */
+
+@media (max-width: 1024px) {
+  .site-header {
+    height: 84px !important;
+    min-height: 84px !important;
+    padding: 0 24px !important;
+  }
+
+  .site-header__logo-link,
+  .site-header__logo-shell {
+    width: 140px !important;
+    height: 68px !important;
+    border-radius: 24px !important;
+  }
+
+  .site-header__logo-img {
+    transform: scale(1.15) !important;
+  }
+
+  .site-header__nav {
+    display: none !important;
+  }
+
+  .site-header__tools {
+    margin-inline-start: auto !important;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .site-header {
+    height: 78px !important;
+    min-height: 78px !important;
+    padding: 0 16px !important;
+    gap: 12px !important;
+  }
+
+  .site-header__logo-link,
+  .site-header__logo-shell {
+    width: 126px !important;
+    height: 62px !important;
+    border-radius: 22px !important;
+  }
+
+  .site-header__logo-img {
+    transform: scale(1.1) !important;
+    padding: 4px 0 !important;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+  .site-header {
+    height: 72px !important;
+    min-height: 72px !important;
+    padding: 0 12px !important;
+  }
+
+  .site-header__logo-link,
+  .site-header__logo-shell {
+    width: 112px !important;
+    height: 56px !important;
+    border-radius: 20px !important;
+  }
+
+  .site-header__logo-img {
+    transform: scale(1.06) !important;
+  }
+}
+
+
+
+
+/* =========================================================
+   ALZUHA REMOVE LEGACY INNER HEADERS
+   بعد اعتماد SiteHeader من layout.tsx، نمنع ظهور الهيدرات القديمة داخل الصفحات.
+   هذا لا يمس الهيدر الرسمي الجديد .site-header.
+========================================================= */
+
+.contact-topbar,
+.faq-topbar,
+.portfolio-topbar,
+.services-topbar,
+.service-detail-topbar,
+main .topbar {
+  display: none !important;
+}
+
+/* إخفاء طبقات وقوائم الموبايل القديمة التابعة للهيدرات القديمة فقط */
+.contact-sidepanel,
+.contact-sidepanelOverlay,
+.faq-sidepanel,
+.faq-sidepanelOverlay,
+.portfolio-sidepanel,
+.portfolio-sidepanelOverlay,
+.services-sidepanel,
+.services-sidepanelOverlay,
+.service-detail-sidepanel,
+.service-detail-sidepanelOverlay,
+.side-menu,
+.side-menu__overlay {
+  display: none !important;
+}
+
+
+/* إخفاء شعار ALZUHA الكبير داخل محتوى الصفحة فقط، وليس داخل الهيدر */
+main img[src*="alzuha-logo"]:not(.site-header__logo-img):not(.home-mobile-panel__logo) {
+  display: none !important;
 }

@@ -9,8 +9,6 @@ import { useEffect, useMemo, useState } from "react";
 // useEffect للتأثيرات الجانبية مثل السلايدر والقائمة
 // useMemo للقيم المشتقة
 
-import LanguageSwitch from "@/components/site/LanguageSwitch";
-// مبدّل اللغة الموجود أصلًا في المشروع
 
 export type Lang = "ar" | "en";
 // تصدير نوع اللغة حتى يمكن إعادة استخدامه في about/page.tsx بدل تكراره
@@ -278,8 +276,8 @@ export default function AboutInstitutional({
   page: AboutPageRecord;
   lang: Lang;
 }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  // حالة القائمة الجانبية للموبايل
+  
+
 
   const sections = asObject(page.sections_json);
   // تحويل sections_json إلى object آمن
@@ -335,18 +333,7 @@ export default function AboutInstitutional({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  useEffect(() => {
-    // منع تمرير الخلفية عند فتح القائمة
-    if (!menuOpen) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [menuOpen]);
-
+ 
   const prevIndex = useMemo(() => {
     // حساب الشريحة السابقة حتى تظهر خلف الشريحة النشطة
     if (totalSlides === 0) return -1;
@@ -610,82 +597,9 @@ export default function AboutInstitutional({
     <main dir={lang === "ar" ? "rtl" : "ltr"}>
       {/* بداية الصفحة مع ضبط الاتجاه حسب اللغة */}
 
-      <header className="topbar">
-        {/* الشريط العلوي */}
+      
 
-        <div className="topbar__right">
-          <Link href="/" className="topbar__logo-link" aria-label="Go to home page">
-            <div className="topbar__logo-icon">⌂</div>
-          </Link>
-
-          <div className="topbar__logo-text">
-            <strong>ALZUHA</strong>
-            <span>{lang === "ar" ? "العقارات" : "Real Estate"}</span>
-          </div>
-        </div>
-
-        <div className="topbar__left">
-          <Link href={consultationHref} className="topbar__btn">
-            {lang === "ar" ? "طلب استشارة" : "Request Consultation"}
-          </Link>
-
-          <LanguageSwitch />
-
-          <button
-            type="button"
-            className="topbar__menu-btn"
-            aria-label="Open menu"
-            onClick={() => setMenuOpen(true)}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
-      </header>
-
-      <aside className={`side-menu ${menuOpen ? "is-open" : ""}`}>
-        {/* القائمة الجانبية */}
-
-        <div className="side-menu__header">
-          <strong>{lang === "ar" ? "القائمة" : "Menu"}</strong>
-
-          <button
-            type="button"
-            className="side-menu__close"
-            aria-label="Close menu"
-            onClick={() => setMenuOpen(false)}
-          >
-            ×
-          </button>
-        </div>
-
-        <nav className="side-menu__nav">
-          <Link href="/" onClick={() => setMenuOpen(false)}>
-            {lang === "ar" ? "الرئيسية" : "Home"}
-          </Link>
-
-          <Link href="/about" className="active" onClick={() => setMenuOpen(false)}>
-            {lang === "ar" ? "من نحن" : "About"}
-          </Link>
-
-          <Link href="/services" onClick={() => setMenuOpen(false)}>
-            {lang === "ar" ? "الخدمات" : "Services"}
-          </Link>
-
-          <Link href={contactHref} onClick={() => setMenuOpen(false)}>
-            {lang === "ar" ? "تواصل" : "Contact"}
-          </Link>
-        </nav>
-
-        <Link
-          href={consultationHref}
-          className="side-menu__btn"
-          onClick={() => setMenuOpen(false)}
-        >
-          {lang === "ar" ? "طلب استشارة" : "Request Consultation"}
-        </Link>
-      </aside>
+      
 
       <section className="about-stack">
         {/* قسم السلايدر الرئيسي */}

@@ -1,69 +1,78 @@
-"use client";
-// هذا المكوّن يعمل في المتصفح فقط لأنه يستخدم useState لفتح وإغلاق القائمة.
-// لا نضع use client داخل src/app/page.tsx حتى تبقى الصفحة الرئيسية Server Component.
+"use client"; // هذا المكوّن يعمل في المتصفح لأنه يستخدم useState لفتح وإغلاق القائمة.
 
-import Link from "next/link";
-import { useState } from "react";
+import Link from "next/link"; // استيراد Link للتنقل الداخلي بين صفحات Next.js.
 
-type HomeMobileMenuProps = {
-  lang: "ar" | "en";
-};
+import { useState } from "react"; // استيراد useState للتحكم بحالة القائمة.
 
-export default function HomeMobileMenu({ lang }: HomeMobileMenuProps) {
-  // حالة فتح وإغلاق القائمة الجانبية
-  const [isOpen, setIsOpen] = useState(false);
+type MenuVariant = "main" | "services"; // نوع القائمة: عامة أو خاصة بالخدمات.
 
-  // تحديد اللغة الحالية لتغيير النصوص واتجاه القائمة
-  const isArabic = lang === "ar";
+type HomeMobileMenuProps = { // تعريف خصائص مكوّن القائمة.
+  lang: "ar" | "en"; // اللغة الحالية.
+  variant?: MenuVariant; // نوع القائمة المطلوب عرضها، والقيمة الافتراضية main.
+}; // نهاية تعريف الخصائص.
 
-  // كل نصوص القائمة حسب اللغة
-  const labels = {
-    openMenu: isArabic ? "فتح القائمة" : "Open menu",
-    closeMenu: isArabic ? "إغلاق القائمة" : "Close menu",
+type MobileMenuLink = { // تعريف نوع الرابط داخل القائمة.
+  href: string; // مسار الرابط.
+  label: string; // النص المعروض.
+}; // نهاية تعريف نوع الرابط.
 
-    home: isArabic ? "الرئيسية" : "Home",
-    about: isArabic ? "من نحن" : "About",
-    services: isArabic ? "الخدمات" : "Services",
-    portfolio: isArabic ? "المشاريع" : "Portfolio",
-    faq: isArabic ? "الأسئلة الشائعة" : "FAQ",
-    contact: isArabic ? "تواصل معنا" : "Contact",
+export default function HomeMobileMenu({ lang, variant = "main" }: HomeMobileMenuProps) { // بداية مكوّن القائمة الجانبية.
+  const [isOpen, setIsOpen] = useState(false); // حالة فتح وإغلاق القائمة.
 
-    serviceExplore: isArabic ? "استكشاف الخدمات" : "Explore Services",
-    projectDevelopment: isArabic ? "تطوير المشاريع" : "Project Development",
-    assetAssessment: isArabic ? "تقييم الأصول" : "Asset Assessment",
-    strategicAdvisory: isArabic ? "الاستشارات الاستراتيجية" : "Strategic Advisory",
-    marketPositioning: isArabic ? "التموضع والتسويق" : "Market Positioning",
-  };
+  const isArabic = lang === "ar"; // تحديد هل اللغة عربية.
 
-  // إغلاق القائمة عند الضغط على الخلفية أو أي رابط
-  const closeMenu = () => setIsOpen(false);
+  const isServicesMenu = variant === "services"; // تحديد هل القائمة خاصة بالخدمات.
 
-  return (
-    <>
-      {/* زر الثلاث خطوط */}
+  const mainLinks: MobileMenuLink[] = [ // روابط القائمة العامة للموقع.
+    { href: "/", label: isArabic ? "الرئيسية" : "Home" }, // رابط الرئيسية.
+    { href: "/about", label: isArabic ? "نبذة مؤسسية" : "Institutional Profile" }, // رابط النبذة المؤسسية.
+    { href: "/services", label: isArabic ? "الحلول الاستثمارية المتكاملة" : "Integrated Investment Solutions" }, // رابط الخدمات العامة.
+    { href: "/portfolio", label: isArabic ? "الخدمات وسجل الأعمال" : "Services & Portfolio" }, // رابط سجل الأعمال.
+    { href: "/faq", label: isArabic ? "الأسئلة الشائعة" : "FAQ" }, // رابط الأسئلة.
+    { href: "/contact", label: isArabic ? "تواصل" : "Contact" }, // رابط التواصل.
+  ]; // نهاية روابط القائمة العامة.
+
+  const serviceLinks: MobileMenuLink[] = [ // روابط قائمة الخدمات فقط.
+    { href: "/", label: isArabic ? "الرئيسية" : "Home" }, // الرجوع للرئيسية.
+    { href: "/services", label: isArabic ? "استكشف الخدمات" : "Explore Services" }, // صفحة الخدمات.
+    { href: "/services/project-development", label: isArabic ? "تطوير المشاريع" : "Project Development" }, // تطوير المشاريع.
+    { href: "/services/asset-assessment", label: isArabic ? "تقييم الأصل" : "Asset Assessment" }, // تقييم الأصل.
+    { href: "/services/strategic-advisory", label: isArabic ? "الاستشارات" : "Advisory" }, // الاستشارات.
+    { href: "/services/market-positioning", label: isArabic ? "التموضع السوقي" : "Market Positioning" }, // التموضع السوقي.
+  ]; // نهاية روابط الخدمات.
+
+  const links = isServicesMenu ? serviceLinks : mainLinks; // اختيار الروابط المناسبة حسب نوع القائمة.
+
+  const labels = { // نصوص التحكم حسب اللغة.
+    openMenu: isArabic ? "فتح القائمة" : "Open menu", // نص زر فتح القائمة.
+    closeMenu: isArabic ? "إغلاق القائمة" : "Close menu", // نص زر إغلاق القائمة.
+    logoAlt: isArabic ? "شعار الزُهى" : "ALZUHA Logo", // النص البديل للشعار.
+    navLabel: isArabic ? "روابط الموقع" : "Site links", // عنوان تنقلي لقارئات الشاشة.
+  }; // نهاية نصوص التحكم.
+
+  const closeMenu = () => setIsOpen(false); // دالة إغلاق القائمة.
+
+  return ( // بداية JSX.
+    <> {/* Fragment لتجميع عناصر القائمة بدون عنصر زائد */}
       <button
         type="button"
         className="home-mobile-burger"
         aria-label={labels.openMenu}
         aria-expanded={isOpen}
         onClick={() => setIsOpen(true)}
-      >
-        <span />
-        <span />
-        <span />
+      > {/* زر الثلاث خطوط */}
+        <span /> {/* الخط الأول */}
+        <span /> {/* الخط الثاني */}
+        <span /> {/* الخط الثالث */}
       </button>
 
-      {/* طبقة خلفية تغلق القائمة عند الضغط خارجها */}
       <button
         type="button"
         className={`home-mobile-overlay ${isOpen ? "is-open" : ""}`}
         aria-label={labels.closeMenu}
         onClick={closeMenu}
-      />
+      /> {/* طبقة الخلفية التي تغلق القائمة عند الضغط عليها */}
 
-      {/* القائمة الجانبية:
-          في العربي تفتح من اليسار عبر home-mobile-panel--rtl
-          في الإنجليزي تفتح من اليمين عبر home-mobile-panel--ltr */}
       <aside
         className={[
           "home-mobile-panel",
@@ -72,77 +81,35 @@ export default function HomeMobileMenu({ lang }: HomeMobileMenuProps) {
         ].join(" ")}
         dir={isArabic ? "rtl" : "ltr"}
         aria-hidden={!isOpen}
-      >
-        {/* رأس القائمة: شعار فقط + زر إغلاق */}
-        <div className="home-mobile-panel__header">
-          <div className="home-mobile-panel__brand">
+        data-menu-variant={variant}
+      > {/* لوحة القائمة الجانبية */}
+        <div className="home-mobile-panel__header"> {/* رأس القائمة */}
+          <div className="home-mobile-panel__brand"> {/* حاوية الشعار */}
             <img
               src="/images/alzuha-logo.png"
-              alt={isArabic ? "شعار الزُهى" : "ALZUHA Logo"}
+              alt={labels.logoAlt}
               className="home-mobile-panel__logo"
-            />
-          </div>
+            /> {/* صورة شعار زها */}
+          </div> {/* نهاية حاوية الشعار */}
 
           <button
             type="button"
             className="home-mobile-panel__close"
             aria-label={labels.closeMenu}
             onClick={closeMenu}
-          >
+          > {/* زر إغلاق القائمة */}
             ×
           </button>
-        </div>
+        </div> {/* نهاية رأس القائمة */}
 
-        {/* روابط القائمة الرئيسية والصفحات التابعة */}
-        <nav className="home-mobile-panel__nav">
-          <Link href="/" onClick={closeMenu}>
-            {labels.home}
-          </Link>
-
-          <Link href="/about" onClick={closeMenu}>
-            {labels.about}
-          </Link>
-
-          <Link href="/services" onClick={closeMenu}>
-            {labels.services}
-          </Link>
-
-          {/* الصفحات التابعة للخدمات */}
-          <div className="home-mobile-panel__subnav">
-            <Link href="/services/explore" onClick={closeMenu}>
-              {labels.serviceExplore}
+        <nav className="home-mobile-panel__nav" aria-label={labels.navLabel}> {/* روابط القائمة */}
+          {links.map((item) => ( // توليد الروابط حسب نوع الصفحة.
+            <Link key={item.href} href={item.href} onClick={closeMenu}> {/* رابط داخل القائمة */}
+              {item.label} {/* نص الرابط */}
             </Link>
-
-            <Link href="/services/project-development" onClick={closeMenu}>
-              {labels.projectDevelopment}
-            </Link>
-
-            <Link href="/services/asset-assessment" onClick={closeMenu}>
-              {labels.assetAssessment}
-            </Link>
-
-            <Link href="/services/strategic-advisory" onClick={closeMenu}>
-              {labels.strategicAdvisory}
-            </Link>
-
-            <Link href="/services/market-positioning" onClick={closeMenu}>
-              {labels.marketPositioning}
-            </Link>
-          </div>
-
-          <Link href="/portfolio" onClick={closeMenu}>
-            {labels.portfolio}
-          </Link>
-
-          <Link href="/faq" onClick={closeMenu}>
-            {labels.faq}
-          </Link>
-
-          <Link href="/contact" onClick={closeMenu}>
-            {labels.contact}
-          </Link>
-        </nav>
-      </aside>
+          ))} {/* نهاية توليد الروابط */}
+        </nav> {/* نهاية روابط القائمة */}
+      </aside> {/* نهاية لوحة القائمة */}
     </>
-  );
-}
+  ); // نهاية الإخراج.
+} // نهاية مكوّن HomeMobileMenu.
