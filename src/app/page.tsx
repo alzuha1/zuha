@@ -1,4 +1,3 @@
-import HomeMobileMenu from "@/components/site/HomeMobileMenu";
 /* eslint-disable @next/next/no-img-element */
 // تعطيل تحذير Next.js الخاص باستخدام <img>
 // لأن الصفحة تعتمد على صور ديناميكية من القاعدة ومن fallback
@@ -12,9 +11,6 @@ import Script from "next/script";
 import { cookies, headers } from "next/headers";
 // cookies لقراءة اللغة الحالية
 // headers لاكتشاف الرابط والمنفذ الحالي بدل تثبيت 3001 أو 3000
-
-import LanguageSwitch from "@/components/site/LanguageSwitch";
-// مبدّل اللغة الحقيقي الموجود في المشروع
 
 export const dynamic = "force-dynamic";
 // جعل الصفحة ديناميكية لأننا نقرأ الكوكيز ونطلب APIs مباشرة
@@ -353,89 +349,6 @@ const FALLBACKS: Record<"ar" | "en", Dict> = {
   },
 };
 
-const topbarStyle: React.CSSProperties = {
-  position: "sticky",
-  top: 0,
-  zIndex: 50,
-  background: "#2f55c7",
-  borderBottom: "1px solid rgba(255,255,255,0.08)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  gap: "24px",
-  padding: "18px 28px",
-  flexWrap: "wrap",
-};
-
-const topbarRightStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-};
-
-const topbarNavStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: "28px",
-  flexWrap: "wrap",
-  flex: 1,
-};
-
-const topbarLeftStyle: React.CSSProperties = {
-  // منطقة يسار الشريط العلوي.
-  // تحتوي الآن على مبدّل اللغة فقط بعد حذف زر "تواصل الآن" من الهيدر.
-  display: "flex",
-  alignItems: "center",
-  gap: "14px",
-};
-
-const brandStyle: React.CSSProperties = {
-  display: "inline-flex",
-  alignItems: "center",
-  gap: "12px",
-  color: "#fff",
-  textDecoration: "none",
-};
-
-const brandIconStyle: React.CSSProperties = {
-  width: "42px",
-  height: "42px",
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  borderRadius: "12px",
-  background: "rgba(255,255,255,0.12)",
-  color: "#fff",
-  fontSize: "18px",
-  fontWeight: 700,
-  flex: "0 0 auto",
-};
-
-const brandTextWrapStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  lineHeight: 1.1,
-};
-
-const brandTitleStyle: React.CSSProperties = {
-  fontSize: "18px",
-  fontWeight: 800,
-  color: "#fff",
-};
-
-const brandSubStyle: React.CSSProperties = {
-  fontSize: "13px",
-  color: "rgba(255,255,255,0.78)",
-};
-
-const navLinkStyle: React.CSSProperties = {
-  color: "rgba(255,255,255,0.92)",
-  textDecoration: "none",
-  fontWeight: 700,
-  fontSize: "16px",
-  whiteSpace: "nowrap",
-};
-
 const mediaImgStyle: React.CSSProperties = {
   display: "block",
   width: "100%",
@@ -518,61 +431,9 @@ export default async function HomePage() {
       {/* ربط CSS القديم كما هو */}
 
       <main dir={lang === "ar" ? "rtl" : "ltr"}>
-        <header className="topbar" style={topbarStyle}>
-          <div className="topbar__right" style={topbarRightStyle}>
-            <Link href="/" style={brandStyle} aria-label="Go to home page">
-              {/* شعار الزُهى فقط بدون كتابة جانبية.
-              الهدف: تقليل ازدحام الهيدر في الموبايل والتابلت وإظهار الهوية بصريًا فقط. */}
-              {/* حاوية الشعار تتحكم بحجم الدائرة وارتفاع الهيدر */}
-
-            <div className="home-brand-logo-shell">
-             {/* صورة الشعار تكبر داخل الدائرة فقط ولا تكبر الشريط العلوي */}
-               <img
-                src="/images/alzuha-logo.png"
-                alt={lang === "ar" ? "شعار الزُهى" : "ALZUHA Logo"}
-                className="home-brand-logo-img"
-               />
-            </div>
-            </Link>
-          </div>
-
-          <nav
-            className="topbar__nav"
-            aria-label="Primary navigation"
-            style={topbarNavStyle}
-          >
-            <Link href="/about" style={navLinkStyle}>
-              {t("nav.about")}
-            </Link>
-
-            <Link href="/services" style={navLinkStyle}>
-              {t("nav.services")}
-            </Link>
-
-            <Link href="/portfolio" style={navLinkStyle}>
-              {t("nav.portfolio")}
-            </Link>
-
-            <Link href="/faq" style={navLinkStyle}>
-              {t("nav.faq")}
-            </Link>
-
-            <Link href="/contact" style={navLinkStyle}>
-              {t("nav.contact")}
-            </Link>
-          </nav>
-
-          <div className="topbar__left" style={topbarLeftStyle}>
-              {/* مبدّل اللغة يبقى كما هو */}
-              <LanguageSwitch />
-
-              {/* منيو الموبايل/التابلت.
-               وضعناه كمكوّن منفصل لأنه يستخدم useState.
-      هذا يمنع تحويل الصفحة الرئيسية كلها إل       ى Client Component. */}
-             <HomeMobileMenu lang={lang} />
-          </div>
-        
-        </header>
+        {/* الهيدر لا يوجد هنا عمدًا. */}
+        {/* السبب: layout.tsx يستدعي SiteHeader مرة واحدة لكل الموقع. */}
+        {/* حذفنا الهيدر الداخلي من الصفحة الرئيسية لمنع تكراره. */}
 
         <section className="hero">
           <div className="container hero__grid">
