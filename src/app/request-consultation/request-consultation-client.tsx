@@ -1,14 +1,8 @@
 "use client";
 // هذا الملف عميل لأنه يحتوي على state وأحداث submit وتبديل القائمة
 
-import Link from "next/link";
-// روابط التنقل الداخلية
-
 import { useMemo, useState } from "react";
-// استيراد React hooks اللازمة
-
-import LanguageSwitch from "@/components/site/LanguageSwitch";
-// استخدام مبدّل اللغة الحالي الموجود في المشروع
+// useMemo لحساب تاريخ اليوم مرة واحدة، و useState لإدارة الصورة والنموذج وحالة الإرسال.
 
 export type Lang = "ar" | "en";
 // نوع اللغة المدعومة
@@ -113,9 +107,6 @@ export default function RequestConsultationClient({
   dir: "rtl" | "ltr";
   copy: RequestConsultationCopy;
 }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  // حالة القائمة الجانبية
-
   const [imageLoaded, setImageLoaded] = useState(false);
   // حالة تحميل الصورة التوضيحية
 
@@ -240,83 +231,8 @@ export default function RequestConsultationClient({
 
   return (
     <main dir={dir} className="consult-page">
-      {/* الشريط العلوي */}
-      <header className="consult-topbar">
-        <div className="consult-topbar__brand">
-          <Link href="/" className="consult-brand" aria-label="ALZUHA Home">
-            <div className="consult-brand__mark">⌂</div>
-
-            <div className="consult-brand__text">
-              <strong>ALZUHA</strong>
-              <span>{lang === "ar" ? "العقارات" : "Real Estate"}</span>
-            </div>
-          </Link>
-        </div>
-
-        <nav className="consult-topbar__nav" aria-label="Main navigation">
-          <Link href="/about">{copy.nav.about}</Link>
-          <Link href="/services">{copy.nav.services}</Link>
-          <Link href="/portfolio">{copy.nav.portfolio}</Link>
-          <Link href="/faq">FAQ</Link>
-          <Link href="/contact">{copy.nav.contact}</Link>
-        </nav>
-
-        <div className="consult-topbar__actions">
-          <LanguageSwitch />
-          {/* استخدام مبدّل اللغة الحالي كما هو */}
-
-          <button
-            type="button"
-            className="consult-burger"
-            aria-label="Open menu"
-            onClick={() => setMenuOpen(true)}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
-      </header>
-
-      {/* القائمة الجانبية للموبايل */}
-      <aside className={`consult-sidepanel ${menuOpen ? "is-open" : ""}`}>
-        <div className="consult-sidepanel__header">
-          <strong>{copy.nav.menuTitle}</strong>
-
-          <button
-            type="button"
-            className="consult-sidepanel__close"
-            aria-label="Close menu"
-            onClick={() => setMenuOpen(false)}
-          >
-            ×
-          </button>
-        </div>
-
-        <nav className="consult-sidepanel__nav">
-          <Link href="/" onClick={() => setMenuOpen(false)}>
-            {copy.nav.home}
-          </Link>
-
-          <Link href="/about" onClick={() => setMenuOpen(false)}>
-            {copy.nav.about}
-          </Link>
-
-          <Link href="/portfolio" onClick={() => setMenuOpen(false)}>
-            {copy.nav.portfolio}
-          </Link>
-
-          <Link href="/services" onClick={() => setMenuOpen(false)}>
-            {copy.nav.services}
-          </Link>
-
-          <Link href="/contact" onClick={() => setMenuOpen(false)}>
-            {copy.nav.contact}
-          </Link>
-        </nav>
-      </aside>
-
-      {/* الهيرو */}
+      {/* الغلاف العام للصفحة فقط؛ لا يوجد هنا أي هيدر داخلي قديم حتى لا يتكرر مع SiteHeader العام. */}
+      {/* الهيرو: يبدأ محتوى الصفحة مباشرة لأن الهيدر الموحد SiteHeader يُعرض من layout.tsx. */}
       <section className="consult-hero">
         <div className="consult-container consult-center">
           <span className="consult-kicker">{copy.hero.kicker}</span>
