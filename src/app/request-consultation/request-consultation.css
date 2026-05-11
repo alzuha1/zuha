@@ -1,505 +1,585 @@
-:root {
-  --consult-blue: #326bf6;
-  --consult-black: #050505;
-  --consult-white: #ffffff;
-  --consult-gray-bg: #f9f9f9;
-  --consult-gray-text: #666666;
-  --consult-gray-light: #e0e0e0;
-  --consult-placeholder: #e4e8eb;
-}
+/* ==========================================================================
+   ALZUHA Request Consultation CSS - Final with Image Asset
+   ضع الصورة باسم consultation-01.jpg داخل:
+   public/pages/request-consultation/img/consultation-01.jpg
+   هذا الملف يحتوي تعليقات عربية توضح وظيفة كل قاعدة وكل خاصية مهمة.
+   ========================================================================== */
 
-.consult-page {
-  background: var(--consult-gray-bg);
-  color: var(--consult-black);
-  min-height: 100vh;
-}
+/* ==========================================================================
+   ALZUHA Request Consultation Page CSS - Final Clean Version
+   الملف: src/app/request-consultation/request-consultation.css
+   الهدف:
+   - إزالة تضارب الهيدر القديم بصريًا.
+   - تحسين Hero ومنع تداخل النصوص.
+   - إضافة صورة احترافية بدل الـ placeholder الرمادي.
+   - ضبط اللابتوب، التابلت، والموبايل.
+   ========================================================================== */
 
-.consult-container {
-  width: min(1200px, 90%);
-  margin-inline: auto;
-}
+/* ==========================================================================
+   01) Design Tokens
+   ========================================================================== */
 
-.consult-center {
-  text-align: center;
-}
+:root { /* تعريف متغيرات التصميم العامة لهذه الصفحة فقط */
+  --consult-blue: #326bf6; /* اللون الأزرق الأساسي المعتمد في الهوية */
+  --consult-blue-dark: #16235f; /* أزرق داكن للعمق البصري في الهيرو */
+  --consult-navy: #0f172a; /* كحلي احترافي بديل عن الأسود الحاد */
+  --consult-navy-soft: #111827; /* كحلي رمادي لتدرج الهيرو */
+  --consult-black: #050505; /* أسود يستخدم للفوتر فقط عند الحاجة */
+  --consult-white: #ffffff; /* أبيض للعناصر والبطاقات */
+  --consult-gray-bg: #f5f6f8; /* خلفية الصفحة العامة بلون أهدأ من الأبيض الصريح */
+  --consult-gray-card: #ffffff; /* خلفية البطاقات */
+  --consult-gray-text: #5f6673; /* لون النص الثانوي */
+  --consult-gray-strong: #111827; /* لون العناوين */
+  --consult-gray-light: #dde2ea; /* حدود ناعمة للحقول */
+  --consult-placeholder: #e4e8eb; /* لون احتياطي عند عدم توفر الصورة */
+  --consult-radius-lg: 28px; /* نصف قطر كبير للبطاقات */
+  --consult-radius-md: 18px; /* نصف قطر متوسط للعناصر */
+  --consult-shadow-card: 0 22px 60px rgba(15, 23, 42, 0.12); /* ظل البطاقة الرئيسية */
+  --consult-shadow-soft: 0 12px 32px rgba(15, 23, 42, 0.08); /* ظل ناعم للعناصر الثانوية */
+  --consult-hero-offset: clamp(92px, 8vw, 128px); /* مسافة الهيرو العلوية أسفل الهيدر الموحد */
+  --consult-section-gap: clamp(42px, 5vw, 72px); /* مسافة عامة بين الهيرو والمحتوى */
+} /* نهاية متغيرات التصميم */
 
-.consult-topbar {
-  position: fixed;
-  inset-inline: 0;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 5%;
-  background: var(--consult-blue);
-  color: var(--consult-white);
-}
+/* ==========================================================================
+   02) Page Base
+   ========================================================================== */
 
-.consult-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: inherit;
-  text-decoration: none;
-}
+.consult-page { /* الغلاف العام لصفحة طلب الاستشارة */
+  background: var(--consult-gray-bg); /* خلفية هادئة لكل الصفحة */
+  color: var(--consult-gray-strong); /* لون النص الأساسي */
+  min-height: 100vh; /* ضمان ملء الشاشة على الأقل */
+  overflow-x: hidden; /* منع أي تمدد أفقي بسبب الكروت أو الشبكات */
+} /* نهاية الغلاف العام */
 
-.consult-brand__mark {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--consult-white);
-  color: var(--consult-blue);
-  font-size: 22px;
-}
+.consult-container { /* حاوية داخلية موحدة العرض */
+  width: min(1200px, calc(100% - 40px)); /* عرض كبير مع هامش آمن على الشاشات الصغيرة */
+  margin-inline: auto; /* توسيط الحاوية أفقياً */
+} /* نهاية الحاوية */
 
-.consult-brand__text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-  align-items: flex-start;
-}
+.consult-center { /* كلاس مساعد لتوسيط النص */
+  text-align: center; /* توسيط المحتوى النصي */
+} /* نهاية الكلاس المساعد */
 
-.consult-brand__text strong {
-  font-size: 18px;
-  font-weight: 800;
-}
+/* ==========================================================================
+   03) Legacy Internal Header - Disabled
+   ملاحظة:
+   الهيدر الرسمي الآن يأتي من src/app/layout.tsx عبر SiteHeader.
+   هذه القواعد تمنع أي بقايا قديمة من الظهور لو بقيت في DOM بالخطأ.
+   ========================================================================== */
 
-.consult-brand__text span {
-  font-size: 14px;
-  opacity: 0.85;
-}
+.consult-topbar, /* الهيدر القديم الخاص بصفحة request-consultation */
+.consult-sidepanel { /* القائمة الجانبية القديمة الخاصة بصفحة request-consultation */
+  display: none !important; /* منع ظهور الهيدر القديم نهائيًا */
+} /* نهاية تعطيل الهيدر القديم */
 
-.consult-topbar__nav {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
+.consult-brand, /* كلاس علامة الهيدر القديم */
+.consult-brand__mark, /* أيقونة الهيدر القديم */
+.consult-brand__text, /* نص الهيدر القديم */
+.consult-topbar__nav, /* روابط الهيدر القديم */
+.consult-topbar__actions, /* أدوات الهيدر القديم */
+.consult-burger, /* زر القائمة القديم */
+.consult-sidepanel__header, /* رأس القائمة الجانبية القديمة */
+.consult-sidepanel__close, /* زر إغلاق القائمة القديمة */
+.consult-sidepanel__nav { /* روابط القائمة القديمة */
+  pointer-events: none; /* احتياط يمنع التفاعل معها إن ظهرت بسبب كاش أو بقايا */
+} /* نهاية تعطيل تفاعل الهيدر القديم */
 
-.consult-topbar__nav a {
-  color: inherit;
-  text-decoration: none;
-  font-weight: 700;
-  opacity: 0.9;
-}
+/* ==========================================================================
+   04) Hero Section
+   ========================================================================== */
 
-.consult-topbar__actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.consult-hero { /* قسم الهيرو العلوي */
+  background:
+    radial-gradient(circle at 50% 0%, rgba(50, 107, 246, 0.20), transparent 40%),
+    linear-gradient(135deg, var(--consult-navy-soft) 0%, var(--consult-navy) 54%, var(--consult-blue-dark) 100%); /* تدرج كحلي/أزرق أرقى من الأسود الصريح */
+  color: var(--consult-white); /* لون نص الهيرو */
+  min-height: auto; /* إلغاء أي ارتفاع إجباري قد يسبب تداخلًا */
+  padding-top: var(--consult-hero-offset); /* مسافة محسوبة أسفل الهيدر الموحد */
+  padding-bottom: clamp(84px, 8vw, 122px); /* عمق سفلي متوازن بدون مبالغة */
+  border-radius: 0 0 42px 42px; /* نهاية دائرية ناعمة للهيرو */
+  overflow: visible; /* السماح للمحتوى التالي بالظهور وعدم قصه */
+  position: relative; /* تجهيز الطبقات الداخلية */
+  isolation: isolate; /* عزل طبقات الخلفية عن بقية الصفحة */
+} /* نهاية الهيرو */
 
-.consult-burger {
-  display: none;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
+.consult-hero::after { /* طبقة لمعان خفيفة داخل الهيرو */
+  content: ""; /* إنشاء طبقة زخرفية */
+  position: absolute; /* وضعها داخل الهيرو */
+  inset: auto 8% 18px 8%; /* تثبيتها قرب الأسفل مع هوامش جانبية */
+  height: 1px; /* خط خفيف جدًا */
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent); /* خط ضوء احترافي */
+  pointer-events: none; /* منع التفاعل مع الطبقة */
+  z-index: -1; /* جعلها خلف النص */
+} /* نهاية طبقة اللمعان */
 
-.consult-burger span {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background: var(--consult-white);
-  margin: 5px 0;
-}
+.consult-kicker { /* شارة صغيرة أعلى العنوان */
+  display: inline-block; /* جعل الشارة بحجم محتواها */
+  padding: 7px 17px; /* حشو داخلي مريح */
+  border-radius: 999px; /* شكل pill */
+  background: rgba(255, 255, 255, 0.10); /* خلفية شفافة */
+  color: rgba(255, 255, 255, 0.78); /* نص فاتح غير صارخ */
+  margin-bottom: 18px; /* مسافة بين الشارة والعنوان */
+  font-size: 14px; /* حجم مناسب */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* حد ناعم */
+} /* نهاية الشارة */
 
-.consult-sidepanel {
-  position: fixed;
-  top: 0;
-  inset-inline-end: -100%;
-  width: 300px;
-  height: 100vh;
-  z-index: 150;
-  background: var(--consult-white);
-  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.14);
-  padding: 28px;
-  transition: inset-inline-end 0.35s ease;
-}
+.consult-hero__title { /* عنوان الهيرو */
+  font-size: clamp(34px, 5vw, 58px); /* حجم متجاوب */
+  font-weight: 850; /* وزن قوي ومؤسسي */
+  line-height: 1.22; /* قراءة أفضل */
+  margin-bottom: 22px; /* مسافة أسفل العنوان */
+  letter-spacing: -0.035em; /* تقارب حروف إنجليزي راقٍ */
+  color: rgba(255, 255, 255, 0.88); /* أبيض ناعم */
+} /* نهاية عنوان الهيرو */
 
-.consult-sidepanel.is-open {
-  inset-inline-end: 0;
-}
+.consult-hero__desc { /* وصف الهيرو */
+  max-width: 760px; /* منع السطر الطويل جدًا */
+  margin-inline: auto; /* توسيط الوصف */
+  margin-bottom: 0; /* منع تراكم مسافات */
+  font-size: clamp(16px, 1.6vw, 19px); /* حجم متجاوب */
+  line-height: 1.7; /* تباعد قراءة واضح */
+  color: rgba(255, 255, 255, 0.68); /* لون ثانوي داخل الهيرو */
+} /* نهاية وصف الهيرو */
 
-.consult-sidepanel__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 28px;
-}
+/* ==========================================================================
+   05) Main Layout
+   ========================================================================== */
 
-.consult-sidepanel__close {
-  background: none;
-  border: none;
-  font-size: 30px;
-  cursor: pointer;
-}
+.consult-main { /* المنطقة الرئيسية بعد الهيرو */
+  margin-top: clamp(-38px, -3vw, -24px); /* رفع بسيط للبطاقة بدون إخفاء العنوان */
+  position: relative; /* تجهيز z-index */
+  z-index: 10; /* وضع المحتوى فوق نهاية الهيرو */
+  padding-bottom: 90px; /* مسافة قبل الفوتر */
+} /* نهاية المنطقة الرئيسية */
 
-.consult-sidepanel__nav {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
+.consult-split { /* شبكة الفوائد + الفورم */
+  display: grid; /* استخدام Grid لتوزيع العمودين */
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 1.15fr); /* عمود معلومات + عمود فورم */
+  gap: clamp(34px, 5vw, 58px); /* مسافة متجاوبة بين العمودين */
+  align-items: start; /* بداية محاذاة العمودين من الأعلى */
+} /* نهاية الشبكة */
 
-.consult-sidepanel__nav a {
-  color: var(--consult-black);
-  text-decoration: none;
-  font-weight: 700;
-}
+.consult-info { /* عمود معلومات الاستشارة */
+  padding-top: clamp(44px, 5vw, 68px); /* إنزال العنوان حتى لا يدخل تحت الهيرو */
+} /* نهاية عمود المعلومات */
 
-.consult-hero {
-  background: var(--consult-black);
-  color: var(--consult-white);
-  padding: 150px 0 110px;
-  border-radius: 0 0 40px 40px;
-}
+.consult-benefits__title { /* عنوان لماذا تحجز */
+  font-size: clamp(26px, 3vw, 34px); /* حجم متجاوب */
+  font-weight: 850; /* وزن واضح */
+  margin-bottom: 30px; /* مسافة قبل القائمة */
+  color: var(--consult-gray-strong); /* لون قوي */
+  letter-spacing: -0.02em; /* تحسين شكل العنوان */
+} /* نهاية عنوان الفوائد */
 
-.consult-kicker {
-  display: inline-block;
-  padding: 6px 16px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #d5d5d5;
-  margin-bottom: 18px;
-  font-size: 14px;
-}
+.consult-benefits__list { /* قائمة الفوائد */
+  list-style: none; /* إزالة النقاط */
+  display: flex; /* ترتيب عمودي */
+  flex-direction: column; /* اتجاه القائمة */
+  gap: 28px; /* مسافة بين العناصر */
+  margin-bottom: 38px; /* مسافة قبل الصورة */
+} /* نهاية قائمة الفوائد */
 
-.consult-hero__title {
-  font-size: clamp(32px, 5vw, 56px);
-  font-weight: 800;
-  line-height: 1.3;
-  margin-bottom: 20px;
-}
+.consult-benefits__list li { /* عنصر فائدة واحد */
+  display: flex; /* أيقونة + نص */
+  gap: 18px; /* مسافة بين الأيقونة والنص */
+  align-items: flex-start; /* محاذاة من الأعلى */
+} /* نهاية عنصر الفائدة */
 
-.consult-hero__desc {
-  max-width: 680px;
-  margin-inline: auto;
-  font-size: 18px;
-  opacity: 0.85;
-}
+.consult-benefits__icon { /* أيقونة الفائدة */
+  width: 62px; /* عرض الأيقونة */
+  height: 62px; /* ارتفاع الأيقونة */
+  flex-shrink: 0; /* منع ضغط الأيقونة */
+  border-radius: 18px; /* تدوير ناعم */
+  display: flex; /* توسيط داخلي */
+  align-items: center; /* توسيط رأسي */
+  justify-content: center; /* توسيط أفقي */
+  background: var(--consult-white); /* خلفية بيضاء */
+  box-shadow: var(--consult-shadow-soft); /* ظل ناعم */
+  font-size: 28px; /* حجم الرمز */
+} /* نهاية الأيقونة */
 
-.consult-main {
-  margin-top: -60px;
-  position: relative;
-  z-index: 10;
-  padding-bottom: 90px;
-}
+.consult-benefits__list h3 { /* عنوان الفائدة */
+  font-size: clamp(19px, 2vw, 23px); /* حجم متجاوب */
+  font-weight: 850; /* وزن قوي */
+  margin-bottom: 6px; /* مسافة قبل الوصف */
+  color: var(--consult-gray-strong); /* لون العنوان */
+} /* نهاية عنوان الفائدة */
 
-.consult-split {
-  display: grid;
-  grid-template-columns: 1fr 1.15fr;
-  gap: 56px;
-  align-items: start;
-}
+.consult-benefits__list p { /* وصف الفائدة */
+  color: var(--consult-gray-text); /* لون ثانوي */
+  line-height: 1.75; /* قراءة مريحة */
+  font-size: 15.5px; /* حجم واضح */
+} /* نهاية وصف الفائدة */
 
-.consult-info {
-  padding-top: 30px;
-}
+/* ==========================================================================
+   06) Consultation Image / Placeholder
+   ========================================================================== */
 
-.consult-benefits__title {
-  font-size: 28px;
-  font-weight: 800;
-  margin-bottom: 28px;
-}
+.consult-imgPlaceholder { /* حاوية الصورة أو الـ placeholder */
+  position: relative; /* تجهيز طبقات الصورة والرقم */
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.12), rgba(15, 23, 42, 0.18)),
+    url("/pages/request-consultation/img/consultation-01.jpg") center / cover no-repeat,
+    var(--consult-placeholder); /* صورة افتراضية بدل المربع الرمادي */
+  border-radius: var(--consult-radius-lg); /* حواف راقية */
+  overflow: hidden; /* قص الصورة داخل الحواف */
+  min-height: 310px; /* ارتفاع مناسب للابتوب */
+  display: flex; /* إبقاء التوسيط لو لم تظهر الصورة */
+  justify-content: center; /* توسيط أفقي */
+  align-items: center; /* توسيط رأسي */
+  box-shadow: var(--consult-shadow-soft); /* ظل ناعم */
+} /* نهاية حاوية الصورة */
 
-.consult-benefits__list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 26px;
-  margin-bottom: 36px;
-}
+.consult-imgPlaceholder::before { /* الرقم الاحتياطي 01 */
+  content: ""; /* إلغاء ظهور الرقم بعد اعتماد الصورة */
+  display: none; /* إخفاء الرقم بالكامل */
+} /* نهاية الرقم الاحتياطي */
 
-.consult-benefits__list li {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
+.consult-dynamicImage { /* الصورة الديناميكية إن أرسلها React */
+  position: relative; /* تبقى فوق الخلفية */
+  z-index: 2; /* فوق صورة الخلفية الاحتياطية */
+  width: 100%; /* ملء العرض */
+  height: 100%; /* ملء الارتفاع */
+  min-height: 310px; /* نفس ارتفاع الحاوية */
+  object-fit: cover; /* قص احترافي بدون تشويه */
+  display: block; /* إزالة فراغات الصور */
+  opacity: 0; /* مخفية حتى تحمل */
+  transition: opacity 0.35s ease; /* ظهور ناعم */
+} /* نهاية الصورة الديناميكية */
 
-.consult-benefits__icon {
-  width: 58px;
-  height: 58px;
-  flex-shrink: 0;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--consult-white);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
-  font-size: 28px;
-}
+.consult-dynamicImage.is-loaded { /* عند تحميل الصورة بنجاح */
+  opacity: 1; /* إظهار الصورة */
+} /* نهاية حالة التحميل */
 
-.consult-benefits__list h3 {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 4px;
-}
+/* ==========================================================================
+   07) Booking Form Card
+   ========================================================================== */
 
-.consult-benefits__list p {
-  color: var(--consult-gray-text);
-  line-height: 1.7;
-  font-size: 15px;
-}
+.consult-formCard { /* بطاقة نموذج الحجز */
+  background: var(--consult-gray-card); /* خلفية بيضاء */
+  padding: clamp(28px, 4vw, 42px); /* حشو متجاوب */
+  border-radius: var(--consult-radius-lg); /* حواف كبيرة */
+  box-shadow: var(--consult-shadow-card); /* ظل احترافي */
+  border: 1px solid rgba(221, 226, 234, 0.9); /* حد ناعم */
+  position: relative; /* تجهيز الطبقات */
+  z-index: 12; /* فوق الهيرو */
+} /* نهاية بطاقة الفورم */
 
-.consult-imgPlaceholder {
-  position: relative;
-  background: var(--consult-placeholder);
-  border-radius: 22px;
-  overflow: hidden;
-  min-height: 260px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+.consult-formCard__title { /* عنوان بطاقة الحجز */
+  font-size: clamp(24px, 2.5vw, 30px); /* حجم متجاوب */
+  font-weight: 850; /* وزن قوي */
+  margin-bottom: 24px; /* مسافة قبل الخط */
+  padding-bottom: 16px; /* مسافة داخلية قبل الخط */
+  border-bottom: 2px solid var(--consult-gray-bg); /* خط فاصل */
+  color: var(--consult-gray-strong); /* لون العنوان */
+} /* نهاية عنوان البطاقة */
 
-.consult-imgPlaceholder::before {
-  content: attr(data-num);
-  position: absolute;
-  font-size: 3rem;
-  color: rgba(0, 0, 0, 0.14);
-  font-weight: 800;
-  z-index: 1;
-}
+.consult-form { /* النموذج */
+  display: flex; /* ترتيب عمودي */
+  flex-direction: column; /* اتجاه الحقول */
+  gap: 16px; /* مسافة بين الحقول */
+} /* نهاية النموذج */
 
-.consult-dynamicImage {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  min-height: 260px;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
+.consult-formRow { /* صف حقول مزدوج */
+  display: grid; /* Grid */
+  grid-template-columns: 1fr 1fr; /* عمودان */
+  gap: 16px; /* مسافة بين الحقول */
+} /* نهاية صف الحقول */
 
-.consult-dynamicImage.is-loaded {
-  opacity: 1;
-}
+.consult-formGroup { /* مجموعة حقل */
+  display: flex; /* ترتيب عمودي */
+  flex-direction: column; /* label ثم input */
+  gap: 8px; /* مسافة بين العنوان والحقل */
+} /* نهاية مجموعة الحقل */
 
-.consult-formCard {
-  background: var(--consult-white);
-  padding: 40px;
-  border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
-  border: 1px solid var(--consult-gray-light);
-}
-
-.consult-formCard__title {
-  font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 24px;
-  padding-bottom: 14px;
-  border-bottom: 2px solid var(--consult-gray-bg);
-}
-
-.consult-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.consult-formRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.consult-formGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.consult-formGroup label {
-  font-size: 14px;
-  font-weight: 700;
-}
+.consult-formGroup label { /* عنوان الحقل */
+  font-size: 14px; /* حجم صغير واضح */
+  font-weight: 800; /* وزن قوي */
+  color: var(--consult-gray-strong); /* لون قوي */
+} /* نهاية عنوان الحقل */
 
 .consult-formGroup input,
-.consult-formGroup select {
-  padding: 14px 16px;
-  border: 1px solid var(--consult-gray-light);
-  border-radius: 10px;
-  font: inherit;
-  background: var(--consult-gray-bg);
-  outline: none;
-  transition: 0.25s ease;
-  text-align: start;
-}
+.consult-formGroup select { /* الحقول والقوائم */
+  padding: 14px 16px; /* حشو داخلي */
+  border: 1px solid var(--consult-gray-light); /* حد ناعم */
+  border-radius: 12px; /* حواف مريحة */
+  font: inherit; /* نفس خط الصفحة */
+  background: var(--consult-gray-bg); /* خلفية خفيفة */
+  outline: none; /* إزالة outline الافتراضي */
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease; /* حركة تركيز */
+  text-align: start; /* دعم RTL/LTR */
+} /* نهاية الحقول */
 
-.consult-formGroup input::placeholder {
-  color: #aaaaaa;
-  text-align: start;
-}
+.consult-formGroup input::placeholder { /* نص placeholder */
+  color: #9aa3af; /* لون هادئ */
+  text-align: start; /* دعم الاتجاه */
+} /* نهاية placeholder */
 
 .consult-formGroup input:focus,
-.consult-formGroup select:focus {
-  border-color: var(--consult-blue);
-  background: var(--consult-white);
-  box-shadow: 0 0 0 3px rgba(50, 107, 246, 0.1);
-}
+.consult-formGroup select:focus { /* حالة التركيز */
+  border-color: var(--consult-blue); /* حد أزرق */
+  background: var(--consult-white); /* خلفية بيضاء */
+  box-shadow: 0 0 0 3px rgba(50, 107, 246, 0.12); /* توهج ناعم */
+} /* نهاية التركيز */
 
-.consult-radioGrid {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
+.consult-radioGrid { /* شبكة خيارات طريقة الاجتماع */
+  display: flex; /* Flex */
+  gap: 10px; /* مسافة بين الخيارات */
+  flex-wrap: wrap; /* التفاف عند الضيق */
+} /* نهاية شبكة الراديو */
 
-.consult-radioCard {
-  flex: 1;
-  min-width: 120px;
-  cursor: pointer;
-}
+.consult-radioCard { /* بطاقة خيار */
+  flex: 1; /* توزيع العرض */
+  min-width: 120px; /* حد أدنى */
+  cursor: pointer; /* مؤشر تفاعل */
+} /* نهاية بطاقة الخيار */
 
-.consult-radioCard input {
-  display: none;
-}
+.consult-radioCard input { /* input الحقيقي */
+  display: none; /* إخفاء الراديو الأصلي */
+} /* نهاية input */
 
-.consult-radioCard span {
-  display: block;
-  text-align: center;
-  padding: 12px 10px;
-  border: 1px solid var(--consult-gray-light);
-  border-radius: 10px;
-  background: var(--consult-gray-bg);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--consult-gray-text);
-  transition: 0.25s ease;
-}
+.consult-radioCard span { /* الشكل الظاهر للراديو */
+  display: block; /* كتلة كاملة */
+  text-align: center; /* توسيط النص */
+  padding: 12px 10px; /* حشو */
+  border: 1px solid var(--consult-gray-light); /* حد */
+  border-radius: 12px; /* حواف */
+  background: var(--consult-gray-bg); /* خلفية */
+  font-size: 14px; /* حجم */
+  font-weight: 800; /* وزن */
+  color: var(--consult-gray-text); /* لون */
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease; /* حركة */
+} /* نهاية شكل الراديو */
 
-.consult-radioCard input:checked + span {
-  background: var(--consult-blue);
-  border-color: var(--consult-blue);
-  color: var(--consult-white);
-  box-shadow: 0 6px 18px rgba(50, 107, 246, 0.22);
-}
+.consult-radioCard input:checked + span { /* الخيار المحدد */
+  background: var(--consult-blue); /* خلفية زرقاء */
+  border-color: var(--consult-blue); /* حد أزرق */
+  color: var(--consult-white); /* نص أبيض */
+  box-shadow: 0 8px 20px rgba(50, 107, 246, 0.24); /* ظل اختيار */
+} /* نهاية الخيار المحدد */
 
-.consult-errorText {
-  color: #d93025;
-  font-size: 13px;
-  font-weight: 700;
-}
+.consult-errorText { /* نص الخطأ */
+  color: #d93025; /* أحمر واضح */
+  font-size: 13px; /* حجم صغير */
+  font-weight: 800; /* وزن قوي */
+} /* نهاية نص الخطأ */
 
-.consult-notice {
-  border-radius: 12px;
-  padding: 14px 16px;
-  font-weight: 700;
-  font-size: 14px;
-}
+.consult-notice { /* رسالة النظام */
+  border-radius: 14px; /* حواف */
+  padding: 14px 16px; /* حشو */
+  font-weight: 800; /* وزن */
+  font-size: 14px; /* حجم */
+} /* نهاية الرسالة */
 
-.consult-notice--success {
-  background: #ecfdf3;
-  color: #157347;
-  border: 1px solid #c7f0d8;
-}
+.consult-notice--success { /* رسالة النجاح */
+  background: #ecfdf3; /* خلفية خضراء فاتحة */
+  color: #157347; /* نص أخضر */
+  border: 1px solid #c7f0d8; /* حد أخضر */
+} /* نهاية النجاح */
 
-.consult-notice--error {
-  background: #fff1f1;
-  color: #b42318;
-  border: 1px solid #f5c2c7;
-}
+.consult-notice--error { /* رسالة الخطأ */
+  background: #fff1f1; /* خلفية حمراء فاتحة */
+  color: #b42318; /* نص أحمر */
+  border: 1px solid #f5c2c7; /* حد أحمر */
+} /* نهاية الخطأ */
 
-.consult-submitBtn {
-  border: none;
-  border-radius: 10px;
-  padding: 15px 22px;
-  font: inherit;
-  font-size: 16px;
-  font-weight: 800;
-  background: var(--consult-blue);
-  color: var(--consult-white);
-  cursor: pointer;
-  transition: 0.25s ease;
-}
+.consult-submitBtn { /* زر الإرسال */
+  border: none; /* بدون حد */
+  border-radius: 12px; /* حواف */
+  padding: 15px 22px; /* حشو */
+  font: inherit; /* خط */
+  font-size: 16px; /* حجم */
+  font-weight: 850; /* وزن */
+  background: var(--consult-blue); /* خلفية أزرق */
+  color: var(--consult-white); /* نص أبيض */
+  cursor: pointer; /* مؤشر */
+  transition: opacity 0.25s ease, transform 0.25s ease; /* حركة */
+} /* نهاية زر الإرسال */
 
-.consult-submitBtn:hover {
-  opacity: 0.92;
-}
+.consult-submitBtn:hover { /* عند المرور */
+  opacity: 0.94; /* تخفيف بسيط */
+  transform: translateY(-1px); /* رفع خفيف */
+} /* نهاية المرور */
 
-.consult-submitBtn:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
+.consult-submitBtn:disabled { /* عند التعطيل */
+  opacity: 0.65; /* تخفيف */
+  cursor: not-allowed; /* مؤشر غير مسموح */
+  transform: none; /* إلغاء الحركة */
+} /* نهاية التعطيل */
 
-.consult-footer {
-  background: var(--consult-black);
-  color: var(--consult-white);
-  padding: 60px 0 30px;
-}
+/* ==========================================================================
+   08) Footer
+   ========================================================================== */
 
-.consult-footer__inner {
-  text-align: center;
-}
+.consult-footer { /* فوتر صفحة الطلب */
+  background: var(--consult-navy); /* كحلي بدل الأسود الحاد */
+  color: var(--consult-white); /* نص أبيض */
+  padding: 60px 0 30px; /* مسافات */
+} /* نهاية الفوتر */
 
-.consult-footer__email {
-  display: inline-block;
-  margin-bottom: 24px;
-  color: inherit;
-  text-decoration: none;
-  font-weight: 600;
-}
+.consult-footer__inner { /* محتوى الفوتر */
+  text-align: center; /* توسيط */
+} /* نهاية محتوى الفوتر */
 
-.consult-footer__socials {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-}
+.consult-footer__email { /* بريد الفوتر */
+  display: inline-block; /* عنصر بحجم محتواه */
+  margin-bottom: 24px; /* مسافة */
+  color: inherit; /* لون أبيض */
+  text-decoration: none; /* بدون خط */
+  font-weight: 700; /* وزن */
+} /* نهاية البريد */
 
-.consult-footer__socials a {
-  color: inherit;
-  text-decoration: none;
-  opacity: 0.8;
-}
+.consult-footer__socials { /* روابط التواصل */
+  display: flex; /* Flex */
+  justify-content: center; /* توسيط */
+  gap: 18px; /* مسافة */
+  margin-bottom: 28px; /* مسافة */
+  flex-wrap: wrap; /* التفاف */
+} /* نهاية روابط التواصل */
 
-.consult-footer__bottom {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  font-size: 13px;
-  opacity: 0.7;
-}
+.consult-footer__socials a { /* رابط تواصل */
+  color: inherit; /* لون */
+  text-decoration: none; /* بدون خط */
+  opacity: 0.82; /* تخفيف */
+} /* نهاية الرابط */
 
-.consult-footer__bottom a {
-  color: inherit;
-  text-decoration: none;
-}
+.consult-footer__bottom { /* أسفل الفوتر */
+  display: flex; /* Flex */
+  justify-content: center; /* توسيط */
+  gap: 14px; /* مسافة */
+  flex-wrap: wrap; /* التفاف */
+  font-size: 13px; /* حجم */
+  opacity: 0.72; /* تخفيف */
+} /* نهاية أسفل الفوتر */
 
-@media (max-width: 991px) {
-  .consult-topbar__nav {
-    display: none;
-  }
+.consult-footer__bottom a { /* روابط أسفل الفوتر */
+  color: inherit; /* لون */
+  text-decoration: none; /* بدون خط */
+} /* نهاية روابط الفوتر */
 
-  .consult-burger {
-    display: inline-block;
-  }
+/* ==========================================================================
+   09) Tablet
+   ========================================================================== */
 
-  .consult-split {
-    grid-template-columns: 1fr;
-    gap: 34px;
-  }
-}
+@media (max-width: 991px) { /* قواعد التابلت */
+  .consult-split { /* الشبكة الرئيسية */
+    grid-template-columns: 1fr; /* عمود واحد */
+    gap: 34px; /* مسافة */
+  } /* نهاية الشبكة */
 
-@media (max-width: 640px) {
-  .consult-formRow {
-    grid-template-columns: 1fr;
-  }
+  .consult-main { /* المحتوى الرئيسي */
+    margin-top: -22px; /* رفع أقل على التابلت */
+  } /* نهاية المحتوى */
 
-  .consult-formCard {
-    padding: 24px;
-  }
+  .consult-info { /* عمود المعلومات */
+    padding-top: 46px; /* منع التداخل */
+  } /* نهاية المعلومات */
 
-  .consult-hero {
-    padding: 135px 0 90px;
-  }
+  .consult-imgPlaceholder { /* حاوية الصورة */
+    min-height: 300px; /* ارتفاع مناسب */
+  } /* نهاية الصورة */
 
-  .consult-hero__desc {
-    font-size: 16px;
-  }
-}
+  .consult-dynamicImage { /* الصورة */
+    min-height: 300px; /* مساواة الحاوية */
+  } /* نهاية الصورة */
+} /* نهاية التابلت */
+
+/* ==========================================================================
+   10) Mobile
+   ========================================================================== */
+
+@media (max-width: 640px) { /* قواعد الموبايل */
+  .consult-container { /* الحاوية */
+    width: min(100% - 28px, 1200px); /* هامش صغير على الجوال */
+  } /* نهاية الحاوية */
+
+  .consult-hero { /* الهيرو */
+    padding-top: 88px; /* أسفل الهيدر */
+    padding-bottom: 68px; /* عمق أقل */
+    border-radius: 0 0 28px 28px; /* حواف أصغر */
+  } /* نهاية الهيرو */
+
+  .consult-hero__title { /* عنوان الهيرو */
+    font-size: clamp(34px, 9vw, 46px); /* حجم مناسب */
+    line-height: 1.14; /* سطر مريح */
+  } /* نهاية العنوان */
+
+  .consult-hero__desc { /* وصف الهيرو */
+    font-size: 16px; /* حجم مناسب للجوال */
+  } /* نهاية الوصف */
+
+  .consult-main { /* المحتوى */
+    margin-top: 0; /* منع التداخل على الجوال */
+    padding-bottom: 64px; /* مسافة قبل الفوتر */
+  } /* نهاية المحتوى */
+
+  .consult-info { /* المعلومات */
+    padding-top: 34px; /* مسافة مناسبة */
+  } /* نهاية المعلومات */
+
+  .consult-benefits__title { /* عنوان الفوائد */
+    font-size: 25px; /* حجم جوال */
+    margin-bottom: 24px; /* مسافة */
+  } /* نهاية عنوان الفوائد */
+
+  .consult-benefits__list { /* القائمة */
+    gap: 24px; /* تقليل المسافة */
+    margin-bottom: 30px; /* مسافة قبل الصورة */
+  } /* نهاية القائمة */
+
+  .consult-benefits__list li { /* عنصر القائمة */
+    gap: 14px; /* مسافة أقل */
+  } /* نهاية العنصر */
+
+  .consult-benefits__icon { /* الأيقونة */
+    width: 54px; /* عرض */
+    height: 54px; /* ارتفاع */
+    border-radius: 16px; /* حواف */
+    font-size: 25px; /* رمز */
+  } /* نهاية الأيقونة */
+
+  .consult-imgPlaceholder { /* الصورة */
+    min-height: 230px; /* ارتفاع جوال */
+    border-radius: 22px; /* حواف */
+  } /* نهاية الصورة */
+
+  .consult-dynamicImage { /* الصورة الديناميكية */
+    min-height: 230px; /* نفس الحاوية */
+  } /* نهاية الصورة الديناميكية */
+
+  .consult-formRow { /* صف الحقول */
+    grid-template-columns: 1fr; /* حقل واحد في السطر */
+  } /* نهاية صف الحقول */
+
+  .consult-formCard { /* بطاقة الفورم */
+    padding: 24px; /* حشو أقل */
+    border-radius: 22px; /* حواف */
+  } /* نهاية الفورم */
+
+  .consult-radioCard { /* خيار طريقة الاجتماع */
+    min-width: 100%; /* كل خيار بسطر */
+  } /* نهاية خيار الاجتماع */
+} /* نهاية الموبايل */
+
+/* ==========================================================================
+   11) Small Mobile
+   ========================================================================== */
+
+@media (max-width: 420px) { /* الشاشات الصغيرة جدًا */
+  .consult-container { /* الحاوية */
+    width: min(100% - 22px, 1200px); /* هامش أضيق */
+  } /* نهاية الحاوية */
+
+  .consult-hero { /* الهيرو */
+    padding-top: 82px; /* أعلى */
+    padding-bottom: 58px; /* أسفل */
+  } /* نهاية الهيرو */
+
+  .consult-imgPlaceholder { /* الصورة */
+    min-height: 210px; /* ارتفاع أقل */
+  } /* نهاية الصورة */
+
+  .consult-dynamicImage { /* الصورة */
+    min-height: 210px; /* نفس الحاوية */
+  } /* نهاية الصورة */
+} /* نهاية الشاشات الصغيرة */
