@@ -1,8 +1,9 @@
 "use client";
 // هذا الملف عميل لأنه يحتوي على state والتفاعل الكامل مع لوحة الأدمن
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 // useState لإدارة الحالة المحلية
+// useEffect لقراءة لغة لوحة التحكم من الكوكي.
 // useMemo لحساب الإحصائيات والتطبيع دون إعادة حساب غير لازمة
 
 type ShowcaseItem = {
@@ -129,6 +130,204 @@ type PortfolioPageAdminRecord = {
 // السجل الكامل الذي تتحكم به لوحة الأدمن
 
 type PathSegment = string | number;
+
+type BuilderLang = "ar" | "en";
+// لغة واجهة لوحة التحكم: عربي أو إنجليزي.
+
+type PreviewDevice = "desktop" | "tablet" | "mobile";
+// نوع الجهاز المستخدم في المعاينة الحية.
+
+const builderCopy = {
+  ar: {
+    cms: "ALZUHA CMS",
+    title: "منشئ صفحة الأعمال",
+    desc: "تحكم بصفحة الأعمال، القصص المختارة، الصور، النصوص، التواصل، والفوتر من مساحة عمل واحدة.",
+    openPublic: "عرض الصفحة",
+    reset: "إرجاع التغييرات",
+    save: "حفظ التغييرات",
+    saving: "جارٍ الحفظ...",
+    saved: "تم حفظ صفحة الأعمال بنجاح.",
+    live: "منشور",
+    draft: "مسودة",
+    sections: "الأقسام",
+    preview: "معاينة مباشرة",
+    desktop: "ديسكتوب",
+    tablet: "تابلت",
+    mobile: "موبايل",
+    pageMeta: "بيانات الصفحة",
+    hero: "الهيرو",
+    showcase: "الأعمال المختارة",
+    insight: "الرؤية/التحليل",
+    contact: "التواصل",
+    footer: "الفوتر",
+    showcaseItems: "عناصر الأعمال",
+    missingCovers: "صور ناقصة",
+    categories: "التصنيفات",
+    publishState: "حالة النشر",
+    active: "نشط",
+    activeSuffix: "نشط",
+    missing: "ناقص",
+    language: "لغة اللوحة",
+    noItems: "لا توجد عناصر بعد.",
+  },
+  en: {
+    cms: "ALZUHA CMS",
+    title: "Portfolio Live Builder",
+    desc: "Manage the Portfolio page, selected stories, imagery, text blocks, contact section, and footer from one workspace.",
+    openPublic: "Open Public Page",
+    reset: "Reset Changes",
+    save: "Save Changes",
+    saving: "Saving...",
+    saved: "Portfolio page saved successfully.",
+    live: "Live",
+    draft: "Draft",
+    sections: "Sections",
+    preview: "Live Preview",
+    desktop: "Desktop",
+    tablet: "Tablet",
+    mobile: "Mobile",
+    pageMeta: "Page Meta",
+    hero: "Hero",
+    showcase: "Showcase",
+    insight: "Insight",
+    contact: "Contact",
+    footer: "Footer",
+    showcaseItems: "Showcase Items",
+    missingCovers: "Missing Covers",
+    categories: "Categories Used",
+    publishState: "Publish State",
+    active: "active",
+    activeSuffix: "active",
+    missing: "missing",
+    language: "Interface Language",
+    noItems: "No showcase items yet.",
+  },
+} as const;
+// قاموس نصوص واجهة الأدمن؛ لا يغيّر محتوى الصفحة المخزن.
+
+const portfolioFieldLabelsAr: Record<string, string> = {
+  "Portfolio live preview": "معاينة صفحة الأعمال",
+  "Portfolio": "الأعمال",
+  "Page Meta": "بيانات الصفحة",
+  "General titles, descriptions, and publish state for the portfolio page.": "العناوين، الملخصات، وحالة النشر الخاصة بصفحة الأعمال.",
+  "Title AR": "العنوان AR",
+  "Title EN": "العنوان EN",
+  "Content AR": "المحتوى AR",
+  "Content EN": "المحتوى EN",
+  "Published": "منشور",
+  "Slug:": "المسار:",
+  "Page Type:": "نوع الصفحة:",
+  "Hero": "الهيرو",
+  "Primary visual and messaging block for the public portfolio page.": "القسم البصري والرسالة الافتتاحية لصفحة الأعمال العامة.",
+  "Hero Kicker AR": "النص العلوي للهيرو AR",
+  "Hero Kicker EN": "النص العلوي للهيرو EN",
+  "Hero Title AR": "عنوان الهيرو AR",
+  "Hero Title EN": "عنوان الهيرو EN",
+  "Hero Description AR": "وصف الهيرو AR",
+  "Hero Description EN": "وصف الهيرو EN",
+  "Hero Card Title AR": "عنوان بطاقة الهيرو AR",
+  "Hero Card Title EN": "عنوان بطاقة الهيرو EN",
+  "Hero Card Description AR": "وصف بطاقة الهيرو AR",
+  "Hero Card Description EN": "وصف بطاقة الهيرو EN",
+  "Hero Card Button AR": "زر بطاقة الهيرو AR",
+  "Hero Card Button EN": "زر بطاقة الهيرو EN",
+  "Hero Card Button Href": "رابط زر بطاقة الهيرو",
+  "Hero Image URL": "رابط صورة الهيرو",
+  "Showcase Section": "قسم الأعمال المختارة",
+  "Manage section heading, category tabs, and selected portfolio items.": "إدارة عنوان القسم، تبويبات التصنيف، وعناصر الأعمال المختارة.",
+  "Showcase Kicker AR": "النص العلوي للأعمال AR",
+  "Showcase Kicker EN": "النص العلوي للأعمال EN",
+  "Showcase Title AR": "عنوان الأعمال AR",
+  "Showcase Title EN": "عنوان الأعمال EN",
+  "Showcase Description AR": "وصف الأعمال AR",
+  "Showcase Description EN": "وصف الأعمال EN",
+  "Tabs Labels": "عناوين التبويبات",
+  "All AR": "الكل AR",
+  "All EN": "الكل EN",
+  "Development AR": "التطوير AR",
+  "Development EN": "التطوير EN",
+  "Investment AR": "الاستثمار AR",
+  "Investment EN": "الاستثمار EN",
+  "Management AR": "الإدارة AR",
+  "Management EN": "الإدارة EN",
+  "Showcase Items": "عناصر الأعمال",
+  "Add Showcase Item": "إضافة عنصر أعمال",
+  "No showcase items yet.": "لا توجد عناصر أعمال بعد.",
+  "Active": "نشط",
+  "Inactive": "غير نشط",
+  "Sort Order": "ترتيب العرض",
+  "Move Up": "تحريك للأعلى",
+  "Move Down": "تحريك للأسفل",
+  "Delete Item": "حذف العنصر",
+  "Item ID": "معرّف العنصر",
+  "Category Key": "مفتاح التصنيف",
+  "Tag AR": "الوسم AR",
+  "Tag EN": "الوسم EN",
+  "Description AR": "الوصف AR",
+  "Description EN": "الوصف EN",
+  "Author AR": "الجهة/الكاتب AR",
+  "Author EN": "الجهة/الكاتب EN",
+  "Role AR": "الدور AR",
+  "Role EN": "الدور EN",
+  "Date AR": "التاريخ AR",
+  "Date EN": "التاريخ EN",
+  "Cover Image URL": "رابط صورة الغلاف",
+  "Author Image URL": "رابط صورة الجهة/الكاتب",
+  "Item Href": "رابط العنصر",
+  "Insight Section": "قسم الرؤية/التحليل",
+  "A supporting statement block that strengthens the portfolio narrative.": "قسم داعم يعزز قصة الأعمال وسجل التنفيذ.",
+  "Insight Kicker AR": "النص العلوي للرؤية AR",
+  "Insight Kicker EN": "النص العلوي للرؤية EN",
+  "Insight Title AR": "عنوان الرؤية AR",
+  "Insight Title EN": "عنوان الرؤية EN",
+  "Insight Description AR": "وصف الرؤية AR",
+  "Insight Description EN": "وصف الرؤية EN",
+  "Contact Section": "قسم التواصل",
+  "Manage the contact/consultation block shown on the public portfolio page.": "إدارة قسم التواصل أو الاستشارة الظاهر في صفحة الأعمال العامة.",
+  "Contact Title AR": "عنوان التواصل AR",
+  "Contact Title EN": "عنوان التواصل EN",
+  "Contact Description AR": "وصف التواصل AR",
+  "Contact Description EN": "وصف التواصل EN",
+  "First Name AR": "الاسم الأول AR",
+  "First Name EN": "الاسم الأول EN",
+  "Second Name AR": "الاسم الثاني AR",
+  "Second Name EN": "الاسم الثاني EN",
+  "Last Name AR": "الاسم الأخير AR",
+  "Last Name EN": "الاسم الأخير EN",
+  "Email AR": "البريد الإلكتروني AR",
+  "Email EN": "البريد الإلكتروني EN",
+  "Message AR": "الرسالة AR",
+  "Message EN": "الرسالة EN",
+  "Submit Button AR": "زر الإرسال AR",
+  "Submit Button EN": "زر الإرسال EN",
+  "Footer": "الفوتر",
+  "Manage footer links and general contact information for Portfolio.": "إدارة روابط الفوتر ومعلومات التواصل العامة الخاصة بصفحة الأعمال.",
+  "Footer Email": "بريد الفوتر",
+  "Privacy Href": "رابط سياسة الخصوصية",
+  "Social 1 AR": "الرابط الاجتماعي 1 AR",
+  "Social 1 EN": "الرابط الاجتماعي 1 EN",
+  "Social 1 Href": "رابط الاجتماعي 1",
+  "Social 2 AR": "الرابط الاجتماعي 2 AR",
+  "Social 2 EN": "الرابط الاجتماعي 2 EN",
+  "Social 2 Href": "رابط الاجتماعي 2",
+  "Social 3 AR": "الرابط الاجتماعي 3 AR",
+  "Social 3 EN": "الرابط الاجتماعي 3 EN",
+  "Social 3 Href": "رابط الاجتماعي 3",
+  "Copy AR": "حقوق النشر AR",
+  "Copy EN": "حقوق النشر EN",
+  "Privacy AR": "سياسة الخصوصية AR",
+  "Privacy EN": "سياسة الخصوصية EN",
+  "Reset Changes": "إرجاع التغييرات",
+  "Save Changes": "حفظ التغييرات",
+};
+// قاموس عربي لكل نصوص الحقول والأقسام التي كانت ثابتة بالإنجليزية داخل محرر Portfolio.
+
+function labelFor(label: string, lang: BuilderLang) {
+  // يعيد النص العربي عند اختيار AR، ويُبقي النص الإنجليزي كما هو عند اختيار EN.
+  return lang === "ar" ? portfolioFieldLabelsAr[label] ?? label : label;
+}
+// دالة مركزية تمنع بقاء النصوص ثابتة عند تبديل اللغة.
+
 // نوع المقطع داخل المسار الديناميكي عند التحديث الداخلي
 
 function asObject(value: unknown): Record<string, unknown> {
@@ -620,6 +819,121 @@ function SelectInput({
   );
 }
 
+
+function stripHtmlBreaks(value: string) {
+  // يحول <br> إلى مسافة داخل المعاينة المصغرة.
+  return value.replace(/<br\s*\/?>(\s*)/gi, " ").trim();
+}
+
+function pickLangText(lang: BuilderLang, ar: string, en: string) {
+  // يختار النص المناسب حسب لغة واجهة الأدمن.
+  return lang === "ar" ? ar || en : en || ar;
+}
+
+function PortfolioPreviewImage({ src, alt }: { src: string; alt: string }) {
+  // يعرض صورة آمنة داخل المعاينة أو بديلًا بصريًا عند عدم وجود صورة.
+  if (!src) {
+    return <div className="admin-portfolio-preview__imagePlaceholder">ALZUHA</div>;
+  }
+
+  return <img src={src} alt={alt || "Portfolio preview image"} />;
+}
+
+function PortfolioLivePreview({
+  item,
+  lang,
+  device,
+  onDeviceChange,
+  copy,
+}: {
+  item: PortfolioPageAdminRecord;
+  lang: BuilderLang;
+  device: PreviewDevice;
+  onDeviceChange: (device: PreviewDevice) => void;
+  copy: (typeof builderCopy)[BuilderLang];
+}) {
+  // المعاينة الحية تقرأ نفس الحالة الحالية؛ لذلك تظهر التغييرات فور الكتابة.
+  const sections = item.sections_json ?? createDefaultSections();
+  const heroTitle = stripHtmlBreaks(pickLangText(lang, sections.hero.title_ar, sections.hero.title_en));
+  const heroDesc = pickLangText(lang, sections.hero.desc_ar, sections.hero.desc_en);
+  const heroKicker = pickLangText(lang, sections.hero.kicker_ar, sections.hero.kicker_en);
+  const previewItems = sections.showcase.items.filter((entry) => entry.is_active).slice(0, 4);
+  const insightTitle = pickLangText(lang, sections.insight.title_ar, sections.insight.title_en);
+  const insightDesc = pickLangText(lang, sections.insight.desc_ar, sections.insight.desc_en);
+  const contactTitle = pickLangText(lang, sections.contact.title_ar, sections.contact.title_en);
+
+  return (
+    <aside className="admin-portfolio-preview" aria-label={labelFor("Portfolio live preview", lang)}>
+      <div className="admin-portfolio-preview__toolbar">
+        <div>
+          <span>{copy.cms}</span>
+          <strong>{copy.preview}</strong>
+        </div>
+
+        <div className="admin-portfolio-preview__devices">
+          {(["desktop", "tablet", "mobile"] as PreviewDevice[]).map((option) => (
+            <button
+              key={option}
+              type="button"
+              className={device === option ? "is-active" : ""}
+              onClick={() => onDeviceChange(option)}
+            >
+              {option === "desktop" ? copy.desktop : option === "tablet" ? copy.tablet : copy.mobile}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className={`admin-portfolio-preview__stage is-${device}`}>
+        <div className="admin-portfolio-preview__page" dir={lang === "ar" ? "rtl" : "ltr"}>
+          <section className="admin-portfolio-preview__hero">
+            <PortfolioPreviewImage src={sections.hero.image_url} alt={heroTitle} />
+            <div className="admin-portfolio-preview__heroCopy">
+              <span>{heroKicker}</span>
+              <h2>{heroTitle}</h2>
+              <p>{heroDesc}</p>
+            </div>
+          </section>
+
+          <section className="admin-portfolio-preview__section">
+            <span>{pickLangText(lang, sections.showcase.kicker_ar, sections.showcase.kicker_en)}</span>
+            <h3>{stripHtmlBreaks(pickLangText(lang, sections.showcase.title_ar, sections.showcase.title_en))}</h3>
+            <p>{pickLangText(lang, sections.showcase.desc_ar, sections.showcase.desc_en)}</p>
+
+            <div className="admin-portfolio-preview__cards">
+              {previewItems.length === 0 ? (
+                <div className="admin-portfolio-preview__empty">{copy.noItems}</div>
+              ) : (
+                previewItems.map((entry) => (
+                  <article key={entry.id} className="admin-portfolio-preview__card">
+                    <PortfolioPreviewImage src={entry.cover_image_url} alt={pickLangText(lang, entry.title_ar, entry.title_en)} />
+                    <div>
+                      <small>{pickLangText(lang, entry.tag_ar, entry.tag_en)}</small>
+                      <strong>{pickLangText(lang, entry.title_ar, entry.title_en)}</strong>
+                      <p>{pickLangText(lang, entry.desc_ar, entry.desc_en)}</p>
+                    </div>
+                  </article>
+                ))
+              )}
+            </div>
+          </section>
+
+          <section className="admin-portfolio-preview__section admin-portfolio-preview__section--blue">
+            <span>{pickLangText(lang, sections.insight.kicker_ar, sections.insight.kicker_en)}</span>
+            <h3>{stripHtmlBreaks(insightTitle)}</h3>
+            <p>{insightDesc}</p>
+          </section>
+
+          <section className="admin-portfolio-preview__contact">
+            <h3>{stripHtmlBreaks(contactTitle)}</h3>
+            <p>{pickLangText(lang, sections.contact.desc_ar, sections.contact.desc_en)}</p>
+          </section>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 export default function PortfolioPageEditor({
   initialItem,
 }: {
@@ -644,6 +958,35 @@ export default function PortfolioPageEditor({
 
   const [error, setError] = useState("");
   // رسالة الخطأ
+
+
+  const [builderLang, setBuilderLang] = useState<BuilderLang>("en");
+  // لغة واجهة Portfolio Builder.
+
+  const [previewDevice, setPreviewDevice] = useState<PreviewDevice>("desktop");
+  // حجم المعاينة الحية.
+
+  useEffect(() => {
+    // قراءة كوكي اللغة عند فتح لوحة الأدمن.
+    const cookieLang = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("lang="))
+      ?.split("=")[1];
+
+    setBuilderLang(cookieLang === "ar" ? "ar" : "en");
+  }, []);
+
+  const isArabicBuilder = builderLang === "ar";
+  // هل واجهة الأدمن عربية.
+
+  const copy = builderCopy[builderLang];
+  // النصوص المستخدمة في الواجهة حسب اللغة.
+
+  function changeBuilderLang(nextLang: BuilderLang) {
+    // تغيير لغة واجهة الأدمن وتحديث الكوكي حتى تتذكرها الصفحة.
+    setBuilderLang(nextLang);
+    document.cookie = `lang=${nextLang}; path=/; max-age=31536000`;
+  }
 
   const sections = item.sections_json ?? createDefaultSections();
   // اختصار للوصول إلى الأقسام
@@ -783,7 +1126,7 @@ export default function PortfolioPageEditor({
       // إعادة تطبيع السجل القادم من السيرفر
 
       setItem(normalizedSaved);
-      setNotice("Portfolio page saved successfully.");
+      setNotice(copy.saved);
     } catch (saveError) {
       console.error("portfolio handleSave error:", saveError);
       setError(
@@ -803,27 +1146,53 @@ export default function PortfolioPageEditor({
     setError("");
   }
 
-  return (
-    <main className="admin-portfolio-editor">
-      {/* الغلاف العام لمحرر Portfolio */}
+  const sectionLinks = [
+    { id: "portfolio-section-meta", label: copy.pageMeta, metric: item.is_published ? copy.live : copy.draft },
+    { id: "portfolio-section-hero", label: copy.hero, metric: "Hero" },
+    { id: "portfolio-section-showcase", label: copy.showcase, metric: `${stats.showcaseItemsCount}` },
+    { id: "portfolio-section-insight", label: copy.insight, metric: "Insight" },
+    { id: "portfolio-section-contact", label: copy.contact, metric: "Contact" },
+    { id: "portfolio-section-footer", label: copy.footer, metric: "Footer" },
+  ];
+  // روابط التنقل الجانبية داخل محرر Portfolio.
 
-      <section className="admin-portfolio-editor__header">
+  return (
+    <main className="admin-portfolio-editor admin-portfolio-editor--builder" dir={isArabicBuilder ? "rtl" : "ltr"}>
+      {/* الغلاف العام لمحرر Portfolio بصيغة Builder. */}
+
+      <section className="admin-portfolio-editor__header admin-portfolio-builder__topbar">
         <div>
-          <h1>Portfolio Page Management</h1>
-          <p>
-            Manage the public Portfolio page, selected works, category filters,
-            imagery, text blocks, and footer content from one place.
-          </p>
+          <span className="admin-portfolio-builder__eyebrow">{copy.cms}</span>
+          <h1>{copy.title}</h1>
+          <p>{copy.desc}</p>
         </div>
 
         <div className="admin-portfolio-editor__headerActions">
+          <div className="admin-portfolio-builder__lang" aria-label={copy.language}>
+            <button
+              type="button"
+              className={builderLang === "ar" ? "is-active" : ""}
+              onClick={() => changeBuilderLang("ar")}
+            >
+              AR
+            </button>
+
+            <button
+              type="button"
+              className={builderLang === "en" ? "is-active" : ""}
+              onClick={() => changeBuilderLang("en")}
+            >
+              EN
+            </button>
+          </div>
+
           <a
             href="/portfolio"
             target="_blank"
             rel="noreferrer"
             className="admin-portfolio-editor__ghostBtn"
           >
-            Open Public Page
+            {copy.openPublic}
           </a>
 
           <button
@@ -832,7 +1201,7 @@ export default function PortfolioPageEditor({
             onClick={resetUnsavedChanges}
             disabled={saving}
           >
-            Reset Changes
+            {copy.reset}
           </button>
 
           <button
@@ -841,32 +1210,35 @@ export default function PortfolioPageEditor({
             onClick={handleSave}
             disabled={saving}
           >
-            {saving ? "Saving..." : "Save All Changes"}
+            {saving ? copy.saving : copy.save}
           </button>
         </div>
       </section>
 
       <section className="admin-portfolio-editor__stats">
-        {/* بطاقات إحصائية مختصرة */}
+        {/* بطاقات إحصائية مختصرة. */}
         <article className="admin-portfolio-editor__statCard">
-          <span>Showcase Items</span>
+          <span>{copy.showcaseItems}</span>
           <strong>{stats.showcaseItemsCount}</strong>
-          <small>{stats.activeShowcaseItemsCount} active</small>
+          <small>{stats.activeShowcaseItemsCount} {copy.activeSuffix}</small>
         </article>
 
         <article className="admin-portfolio-editor__statCard">
-          <span>Missing Covers</span>
+          <span>{copy.missingCovers}</span>
           <strong>{stats.missingCoverCount}</strong>
+          <small>{copy.missing}</small>
         </article>
 
         <article className="admin-portfolio-editor__statCard">
-          <span>Categories Used</span>
+          <span>{copy.categories}</span>
           <strong>{stats.categoriesCount}</strong>
+          <small>{labelFor("Portfolio", builderLang)}</small>
         </article>
 
         <article className="admin-portfolio-editor__statCard">
-          <span>Publish State</span>
-          <strong>{item.is_published ? "Live" : "Draft"}</strong>
+          <span>{copy.publishState}</span>
+          <strong>{item.is_published ? copy.live : copy.draft}</strong>
+          <small>{item.slug}</small>
         </article>
       </section>
 
@@ -875,44 +1247,60 @@ export default function PortfolioPageEditor({
           {notice}
         </div>
       ) : null}
-      {/* رسالة النجاح */}
 
       {error ? (
         <div className="admin-portfolio-editor__notice admin-portfolio-editor__notice--error">
           {error}
         </div>
       ) : null}
-      {/* رسالة الخطأ */}
 
-      <section className="admin-portfolio-editor__section">
+      <section className="admin-portfolio-builder__workspace">
+        <aside className="admin-portfolio-builder__sidebar" aria-label={copy.sections}>
+          <div className="admin-portfolio-builder__sidebarHead">
+            <span>{copy.cms}</span>
+            <strong>{copy.sections}</strong>
+          </div>
+
+          <nav className="admin-portfolio-builder__nav">
+            {sectionLinks.map((section) => (
+              <a key={section.id} href={`#${section.id}`}>
+                <span>{section.label}</span>
+                <small>{section.metric}</small>
+              </a>
+            ))}
+          </nav>
+        </aside>
+
+        <div className="admin-portfolio-builder__content">
+      <section id="portfolio-section-meta" className="admin-portfolio-editor__section">
         {/* Page Meta */}
         <div className="admin-portfolio-editor__sectionHead">
-          <h2>Page Meta</h2>
-          <p>General titles, descriptions, and publish state for the portfolio page.</p>
+          <h2>{labelFor("Page Meta", builderLang)}</h2>
+          <p>{labelFor("General titles, descriptions, and publish state for the portfolio page.", builderLang)}</p>
         </div>
 
         <div className="admin-portfolio-editor__grid admin-portfolio-editor__grid--2">
           <TextInput
-            label="Title AR"
+            label={labelFor("Title AR", builderLang)}
             value={item.title_ar}
             onChange={(value) => updateRootField("title_ar", value)}
           />
 
           <TextInput
-            label="Title EN"
+            label={labelFor("Title EN", builderLang)}
             value={item.title_en}
             onChange={(value) => updateRootField("title_en", value)}
           />
 
           <TextArea
-            label="Content AR"
+            label={labelFor("Content AR", builderLang)}
             value={item.content_ar}
             onChange={(value) => updateRootField("content_ar", value)}
             rows={4}
           />
 
           <TextArea
-            label="Content EN"
+            label={labelFor("Content EN", builderLang)}
             value={item.content_en}
             onChange={(value) => updateRootField("content_en", value)}
             rows={4}
@@ -921,117 +1309,117 @@ export default function PortfolioPageEditor({
 
         <div className="admin-portfolio-editor__inlineRow">
           <ToggleInput
-            label="Published"
+            label={labelFor("Published", builderLang)}
             checked={item.is_published}
             onChange={(checked) => updateRootField("is_published", checked)}
           />
 
           <div className="admin-portfolio-editor__metaTag">
-            <span>Slug:</span>
+            <span>{labelFor("Slug:", builderLang)}</span>
             <strong>{item.slug}</strong>
           </div>
 
           <div className="admin-portfolio-editor__metaTag">
-            <span>Page Type:</span>
+            <span>{labelFor("Page Type:", builderLang)}</span>
             <strong>{item.page_type || "portfolio"}</strong>
           </div>
         </div>
       </section>
 
-      <section className="admin-portfolio-editor__section">
+      <section id="portfolio-section-hero" className="admin-portfolio-editor__section">
         {/* Hero */}
         <div className="admin-portfolio-editor__sectionHead">
-          <h2>Hero</h2>
-          <p>Primary visual and messaging block for the public portfolio page.</p>
+          <h2>{labelFor("Hero", builderLang)}</h2>
+          <p>{labelFor("Primary visual and messaging block for the public portfolio page.", builderLang)}</p>
         </div>
 
         <div className="admin-portfolio-editor__grid admin-portfolio-editor__grid--2">
           <TextInput
-            label="Hero Kicker AR"
+            label={labelFor("Hero Kicker AR", builderLang)}
             value={sections.hero.kicker_ar}
             onChange={(value) => updateAtPath(["hero", "kicker_ar"], value)}
           />
 
           <TextInput
-            label="Hero Kicker EN"
+            label={labelFor("Hero Kicker EN", builderLang)}
             value={sections.hero.kicker_en}
             onChange={(value) => updateAtPath(["hero", "kicker_en"], value)}
           />
 
           <TextArea
-            label="Hero Title AR"
+            label={labelFor("Hero Title AR", builderLang)}
             value={sections.hero.title_ar}
             onChange={(value) => updateAtPath(["hero", "title_ar"], value)}
             rows={3}
           />
 
           <TextArea
-            label="Hero Title EN"
+            label={labelFor("Hero Title EN", builderLang)}
             value={sections.hero.title_en}
             onChange={(value) => updateAtPath(["hero", "title_en"], value)}
             rows={3}
           />
 
           <TextArea
-            label="Hero Description AR"
+            label={labelFor("Hero Description AR", builderLang)}
             value={sections.hero.desc_ar}
             onChange={(value) => updateAtPath(["hero", "desc_ar"], value)}
             rows={5}
           />
 
           <TextArea
-            label="Hero Description EN"
+            label={labelFor("Hero Description EN", builderLang)}
             value={sections.hero.desc_en}
             onChange={(value) => updateAtPath(["hero", "desc_en"], value)}
             rows={5}
           />
 
           <TextInput
-            label="Hero Card Title AR"
+            label={labelFor("Hero Card Title AR", builderLang)}
             value={sections.hero.card_title_ar}
             onChange={(value) => updateAtPath(["hero", "card_title_ar"], value)}
           />
 
           <TextInput
-            label="Hero Card Title EN"
+            label={labelFor("Hero Card Title EN", builderLang)}
             value={sections.hero.card_title_en}
             onChange={(value) => updateAtPath(["hero", "card_title_en"], value)}
           />
 
           <TextArea
-            label="Hero Card Description AR"
+            label={labelFor("Hero Card Description AR", builderLang)}
             value={sections.hero.card_desc_ar}
             onChange={(value) => updateAtPath(["hero", "card_desc_ar"], value)}
             rows={4}
           />
 
           <TextArea
-            label="Hero Card Description EN"
+            label={labelFor("Hero Card Description EN", builderLang)}
             value={sections.hero.card_desc_en}
             onChange={(value) => updateAtPath(["hero", "card_desc_en"], value)}
             rows={4}
           />
 
           <TextInput
-            label="Hero Card Button AR"
+            label={labelFor("Hero Card Button AR", builderLang)}
             value={sections.hero.card_btn_ar}
             onChange={(value) => updateAtPath(["hero", "card_btn_ar"], value)}
           />
 
           <TextInput
-            label="Hero Card Button EN"
+            label={labelFor("Hero Card Button EN", builderLang)}
             value={sections.hero.card_btn_en}
             onChange={(value) => updateAtPath(["hero", "card_btn_en"], value)}
           />
 
           <TextInput
-            label="Hero Card Button Href"
+            label={labelFor("Hero Card Button Href", builderLang)}
             value={sections.hero.card_btn_href}
             onChange={(value) => updateAtPath(["hero", "card_btn_href"], value)}
           />
 
           <TextInput
-            label="Hero Image URL"
+            label={labelFor("Hero Image URL", builderLang)}
             value={sections.hero.image_url}
             onChange={(value) => updateAtPath(["hero", "image_url"], value)}
             placeholder="/portfolio/img/img%20(1).jpg"
@@ -1039,51 +1427,49 @@ export default function PortfolioPageEditor({
         </div>
       </section>
 
-      <section className="admin-portfolio-editor__section">
+      <section id="portfolio-section-showcase" className="admin-portfolio-editor__section">
         {/* Showcase */}
         <div className="admin-portfolio-editor__sectionHead">
-          <h2>Showcase Section</h2>
-          <p>
-            Manage section heading, category tabs, and selected portfolio items.
-          </p>
+          <h2>{labelFor("Showcase Section", builderLang)}</h2>
+          <p>{labelFor("Manage section heading, category tabs, and selected portfolio items.", builderLang)}</p>
         </div>
 
         <div className="admin-portfolio-editor__grid admin-portfolio-editor__grid--2">
           <TextInput
-            label="Showcase Kicker AR"
+            label={labelFor("Showcase Kicker AR", builderLang)}
             value={sections.showcase.kicker_ar}
             onChange={(value) => updateAtPath(["showcase", "kicker_ar"], value)}
           />
 
           <TextInput
-            label="Showcase Kicker EN"
+            label={labelFor("Showcase Kicker EN", builderLang)}
             value={sections.showcase.kicker_en}
             onChange={(value) => updateAtPath(["showcase", "kicker_en"], value)}
           />
 
           <TextArea
-            label="Showcase Title AR"
+            label={labelFor("Showcase Title AR", builderLang)}
             value={sections.showcase.title_ar}
             onChange={(value) => updateAtPath(["showcase", "title_ar"], value)}
             rows={3}
           />
 
           <TextArea
-            label="Showcase Title EN"
+            label={labelFor("Showcase Title EN", builderLang)}
             value={sections.showcase.title_en}
             onChange={(value) => updateAtPath(["showcase", "title_en"], value)}
             rows={3}
           />
 
           <TextArea
-            label="Showcase Description AR"
+            label={labelFor("Showcase Description AR", builderLang)}
             value={sections.showcase.desc_ar}
             onChange={(value) => updateAtPath(["showcase", "desc_ar"], value)}
             rows={4}
           />
 
           <TextArea
-            label="Showcase Description EN"
+            label={labelFor("Showcase Description EN", builderLang)}
             value={sections.showcase.desc_en}
             onChange={(value) => updateAtPath(["showcase", "desc_en"], value)}
             rows={4}
@@ -1091,53 +1477,53 @@ export default function PortfolioPageEditor({
         </div>
 
         <div className="admin-portfolio-editor__subSection">
-          <h4>Tabs Labels</h4>
+          <h4>{labelFor("Tabs Labels", builderLang)}</h4>
 
           <div className="admin-portfolio-editor__grid admin-portfolio-editor__grid--2">
             <TextInput
-              label="All AR"
+              label={labelFor("All AR", builderLang)}
               value={sections.showcase.tabs.all_ar}
               onChange={(value) => updateAtPath(["showcase", "tabs", "all_ar"], value)}
             />
 
             <TextInput
-              label="All EN"
+              label={labelFor("All EN", builderLang)}
               value={sections.showcase.tabs.all_en}
               onChange={(value) => updateAtPath(["showcase", "tabs", "all_en"], value)}
             />
 
             <TextInput
-              label="Development AR"
+              label={labelFor("Development AR", builderLang)}
               value={sections.showcase.tabs.dev_ar}
               onChange={(value) => updateAtPath(["showcase", "tabs", "dev_ar"], value)}
             />
 
             <TextInput
-              label="Development EN"
+              label={labelFor("Development EN", builderLang)}
               value={sections.showcase.tabs.dev_en}
               onChange={(value) => updateAtPath(["showcase", "tabs", "dev_en"], value)}
             />
 
             <TextInput
-              label="Investment AR"
+              label={labelFor("Investment AR", builderLang)}
               value={sections.showcase.tabs.inv_ar}
               onChange={(value) => updateAtPath(["showcase", "tabs", "inv_ar"], value)}
             />
 
             <TextInput
-              label="Investment EN"
+              label={labelFor("Investment EN", builderLang)}
               value={sections.showcase.tabs.inv_en}
               onChange={(value) => updateAtPath(["showcase", "tabs", "inv_en"], value)}
             />
 
             <TextInput
-              label="Management AR"
+              label={labelFor("Management AR", builderLang)}
               value={sections.showcase.tabs.mng_ar}
               onChange={(value) => updateAtPath(["showcase", "tabs", "mng_ar"], value)}
             />
 
             <TextInput
-              label="Management EN"
+              label={labelFor("Management EN", builderLang)}
               value={sections.showcase.tabs.mng_en}
               onChange={(value) => updateAtPath(["showcase", "tabs", "mng_en"], value)}
             />
@@ -1145,7 +1531,7 @@ export default function PortfolioPageEditor({
         </div>
 
         <div className="admin-portfolio-editor__arrayHeader">
-          <h3>Showcase Items</h3>
+          <h3>{labelFor("Showcase Items", builderLang)}</h3>
 
           <button
             type="button"
@@ -1157,21 +1543,20 @@ export default function PortfolioPageEditor({
               )
             }
           >
-            Add Showcase Item
+            {labelFor("Add Showcase Item", builderLang)}
           </button>
         </div>
 
         <div className="admin-portfolio-editor__stack">
           {showcaseItems.length === 0 ? (
             <div className="admin-portfolio-editor__emptyState">
-              No showcase items yet.
+              {labelFor("No showcase items yet.", builderLang)}
             </div>
           ) : (
             showcaseItems.map((entry, itemIndex) => (
               <details
                 key={entry.id}
                 className="admin-portfolio-editor__item"
-                open
               >
                 <summary className="admin-portfolio-editor__itemSummary">
                   <div>
@@ -1188,7 +1573,7 @@ export default function PortfolioPageEditor({
                         entry.is_active ? "is-active" : "is-inactive"
                       }`}
                     >
-                      {entry.is_active ? "Active" : "Inactive"}
+                      {entry.is_active ? labelFor("Active", builderLang) : labelFor("Inactive", builderLang)}
                     </span>
                   </div>
                 </summary>
@@ -1201,7 +1586,7 @@ export default function PortfolioPageEditor({
                       onClick={() => moveInArray(["showcase", "items"], itemIndex, -1)}
                       disabled={itemIndex === 0}
                     >
-                      Move Up
+                      {labelFor("Move Up", builderLang)}
                     </button>
 
                     <button
@@ -1210,7 +1595,7 @@ export default function PortfolioPageEditor({
                       onClick={() => moveInArray(["showcase", "items"], itemIndex, 1)}
                       disabled={itemIndex === showcaseItems.length - 1}
                     >
-                      Move Down
+                      {labelFor("Move Down", builderLang)}
                     </button>
 
                     <button
@@ -1218,13 +1603,13 @@ export default function PortfolioPageEditor({
                       className="admin-portfolio-editor__dangerBtn"
                       onClick={() => removeFromArray(["showcase", "items"], itemIndex)}
                     >
-                      Delete Item
+                      {labelFor("Delete Item", builderLang)}
                     </button>
                   </div>
 
                   <div className="admin-portfolio-editor__inlineRow">
                     <ToggleInput
-                      label="Active"
+                      label={labelFor("Active", builderLang)}
                       checked={entry.is_active}
                       onChange={(checked) =>
                         updateAtPath(["showcase", "items", itemIndex, "is_active"], checked)
@@ -1232,7 +1617,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Sort Order"
+                      label={labelFor("Sort Order", builderLang)}
                       value={String(entry.sort_order)}
                       onChange={(value) =>
                         updateAtPath(
@@ -1245,7 +1630,7 @@ export default function PortfolioPageEditor({
 
                   <div className="admin-portfolio-editor__grid admin-portfolio-editor__grid--2">
                     <TextInput
-                      label="Item ID"
+                      label={labelFor("Item ID", builderLang)}
                       value={entry.id}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "id"], value)
@@ -1253,7 +1638,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <SelectInput
-                      label="Category Key"
+                      label={labelFor("Category Key", builderLang)}
                       value={entry.category_key}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "category_key"], value)
@@ -1266,7 +1651,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Tag AR"
+                      label={labelFor("Tag AR", builderLang)}
                       value={entry.tag_ar}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "tag_ar"], value)
@@ -1274,7 +1659,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Tag EN"
+                      label={labelFor("Tag EN", builderLang)}
                       value={entry.tag_en}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "tag_en"], value)
@@ -1282,7 +1667,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Title AR"
+                      label={labelFor("Title AR", builderLang)}
                       value={entry.title_ar}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "title_ar"], value)
@@ -1290,7 +1675,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Title EN"
+                      label={labelFor("Title EN", builderLang)}
                       value={entry.title_en}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "title_en"], value)
@@ -1298,7 +1683,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextArea
-                      label="Description AR"
+                      label={labelFor("Description AR", builderLang)}
                       value={entry.desc_ar}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "desc_ar"], value)
@@ -1307,7 +1692,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextArea
-                      label="Description EN"
+                      label={labelFor("Description EN", builderLang)}
                       value={entry.desc_en}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "desc_en"], value)
@@ -1316,7 +1701,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Author AR"
+                      label={labelFor("Author AR", builderLang)}
                       value={entry.author_ar}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "author_ar"], value)
@@ -1324,7 +1709,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Author EN"
+                      label={labelFor("Author EN", builderLang)}
                       value={entry.author_en}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "author_en"], value)
@@ -1332,7 +1717,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Role AR"
+                      label={labelFor("Role AR", builderLang)}
                       value={entry.role_ar}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "role_ar"], value)
@@ -1340,7 +1725,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Role EN"
+                      label={labelFor("Role EN", builderLang)}
                       value={entry.role_en}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "role_en"], value)
@@ -1348,7 +1733,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Date AR"
+                      label={labelFor("Date AR", builderLang)}
                       value={entry.date_ar}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "date_ar"], value)
@@ -1356,7 +1741,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Date EN"
+                      label={labelFor("Date EN", builderLang)}
                       value={entry.date_en}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "date_en"], value)
@@ -1364,7 +1749,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Cover Image URL"
+                      label={labelFor("Cover Image URL", builderLang)}
                       value={entry.cover_image_url}
                       onChange={(value) =>
                         updateAtPath(
@@ -1376,7 +1761,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Author Image URL"
+                      label={labelFor("Author Image URL", builderLang)}
                       value={entry.author_image_url}
                       onChange={(value) =>
                         updateAtPath(
@@ -1388,7 +1773,7 @@ export default function PortfolioPageEditor({
                     />
 
                     <TextInput
-                      label="Item Href"
+                      label={labelFor("Item Href", builderLang)}
                       value={entry.href}
                       onChange={(value) =>
                         updateAtPath(["showcase", "items", itemIndex, "href"], value)
@@ -1402,49 +1787,49 @@ export default function PortfolioPageEditor({
         </div>
       </section>
 
-      <section className="admin-portfolio-editor__section">
+      <section id="portfolio-section-insight" className="admin-portfolio-editor__section">
         {/* Insight */}
         <div className="admin-portfolio-editor__sectionHead">
-          <h2>Insight Section</h2>
-          <p>A supporting statement block that strengthens the portfolio narrative.</p>
+          <h2>{labelFor("Insight Section", builderLang)}</h2>
+          <p>{labelFor("A supporting statement block that strengthens the portfolio narrative.", builderLang)}</p>
         </div>
 
         <div className="admin-portfolio-editor__grid admin-portfolio-editor__grid--2">
           <TextInput
-            label="Insight Kicker AR"
+            label={labelFor("Insight Kicker AR", builderLang)}
             value={sections.insight.kicker_ar}
             onChange={(value) => updateAtPath(["insight", "kicker_ar"], value)}
           />
 
           <TextInput
-            label="Insight Kicker EN"
+            label={labelFor("Insight Kicker EN", builderLang)}
             value={sections.insight.kicker_en}
             onChange={(value) => updateAtPath(["insight", "kicker_en"], value)}
           />
 
           <TextArea
-            label="Insight Title AR"
+            label={labelFor("Insight Title AR", builderLang)}
             value={sections.insight.title_ar}
             onChange={(value) => updateAtPath(["insight", "title_ar"], value)}
             rows={3}
           />
 
           <TextArea
-            label="Insight Title EN"
+            label={labelFor("Insight Title EN", builderLang)}
             value={sections.insight.title_en}
             onChange={(value) => updateAtPath(["insight", "title_en"], value)}
             rows={3}
           />
 
           <TextArea
-            label="Insight Description AR"
+            label={labelFor("Insight Description AR", builderLang)}
             value={sections.insight.desc_ar}
             onChange={(value) => updateAtPath(["insight", "desc_ar"], value)}
             rows={5}
           />
 
           <TextArea
-            label="Insight Description EN"
+            label={labelFor("Insight Description EN", builderLang)}
             value={sections.insight.desc_en}
             onChange={(value) => updateAtPath(["insight", "desc_en"], value)}
             rows={5}
@@ -1452,235 +1837,245 @@ export default function PortfolioPageEditor({
         </div>
       </section>
 
-      <section className="admin-portfolio-editor__section">
+      <section id="portfolio-section-contact" className="admin-portfolio-editor__section">
         {/* Contact */}
         <div className="admin-portfolio-editor__sectionHead">
-          <h2>Contact Section</h2>
-          <p>Manage the contact/consultation block shown on the public portfolio page.</p>
+          <h2>{labelFor("Contact Section", builderLang)}</h2>
+          <p>{labelFor("Manage the contact/consultation block shown on the public portfolio page.", builderLang)}</p>
         </div>
 
         <div className="admin-portfolio-editor__grid admin-portfolio-editor__grid--2">
           <TextArea
-            label="Contact Title AR"
+            label={labelFor("Contact Title AR", builderLang)}
             value={sections.contact.title_ar}
             onChange={(value) => updateAtPath(["contact", "title_ar"], value)}
             rows={3}
           />
 
           <TextArea
-            label="Contact Title EN"
+            label={labelFor("Contact Title EN", builderLang)}
             value={sections.contact.title_en}
             onChange={(value) => updateAtPath(["contact", "title_en"], value)}
             rows={3}
           />
 
           <TextArea
-            label="Contact Description AR"
+            label={labelFor("Contact Description AR", builderLang)}
             value={sections.contact.desc_ar}
             onChange={(value) => updateAtPath(["contact", "desc_ar"], value)}
             rows={4}
           />
 
           <TextArea
-            label="Contact Description EN"
+            label={labelFor("Contact Description EN", builderLang)}
             value={sections.contact.desc_en}
             onChange={(value) => updateAtPath(["contact", "desc_en"], value)}
             rows={4}
           />
 
           <TextInput
-            label="First Name AR"
+            label={labelFor("First Name AR", builderLang)}
             value={sections.contact.first_name_ar}
             onChange={(value) => updateAtPath(["contact", "first_name_ar"], value)}
           />
 
           <TextInput
-            label="First Name EN"
+            label={labelFor("First Name EN", builderLang)}
             value={sections.contact.first_name_en}
             onChange={(value) => updateAtPath(["contact", "first_name_en"], value)}
           />
 
           <TextInput
-            label="Second Name AR"
+            label={labelFor("Second Name AR", builderLang)}
             value={sections.contact.second_name_ar}
             onChange={(value) => updateAtPath(["contact", "second_name_ar"], value)}
           />
 
           <TextInput
-            label="Second Name EN"
+            label={labelFor("Second Name EN", builderLang)}
             value={sections.contact.second_name_en}
             onChange={(value) => updateAtPath(["contact", "second_name_en"], value)}
           />
 
           <TextInput
-            label="Last Name AR"
+            label={labelFor("Last Name AR", builderLang)}
             value={sections.contact.last_name_ar}
             onChange={(value) => updateAtPath(["contact", "last_name_ar"], value)}
           />
 
           <TextInput
-            label="Last Name EN"
+            label={labelFor("Last Name EN", builderLang)}
             value={sections.contact.last_name_en}
             onChange={(value) => updateAtPath(["contact", "last_name_en"], value)}
           />
 
           <TextInput
-            label="Email AR"
+            label={labelFor("Email AR", builderLang)}
             value={sections.contact.email_ar}
             onChange={(value) => updateAtPath(["contact", "email_ar"], value)}
           />
 
           <TextInput
-            label="Email EN"
+            label={labelFor("Email EN", builderLang)}
             value={sections.contact.email_en}
             onChange={(value) => updateAtPath(["contact", "email_en"], value)}
           />
 
           <TextInput
-            label="Message AR"
+            label={labelFor("Message AR", builderLang)}
             value={sections.contact.message_ar}
             onChange={(value) => updateAtPath(["contact", "message_ar"], value)}
           />
 
           <TextInput
-            label="Message EN"
+            label={labelFor("Message EN", builderLang)}
             value={sections.contact.message_en}
             onChange={(value) => updateAtPath(["contact", "message_en"], value)}
           />
 
           <TextInput
-            label="Submit Button AR"
+            label={labelFor("Submit Button AR", builderLang)}
             value={sections.contact.submit_btn_ar}
             onChange={(value) => updateAtPath(["contact", "submit_btn_ar"], value)}
           />
 
           <TextInput
-            label="Submit Button EN"
+            label={labelFor("Submit Button EN", builderLang)}
             value={sections.contact.submit_btn_en}
             onChange={(value) => updateAtPath(["contact", "submit_btn_en"], value)}
           />
         </div>
       </section>
 
-      <section className="admin-portfolio-editor__section">
+      <section id="portfolio-section-footer" className="admin-portfolio-editor__section">
         {/* Footer */}
         <div className="admin-portfolio-editor__sectionHead">
-          <h2>Footer</h2>
-          <p>Manage footer links and general contact information for Portfolio.</p>
+          <h2>{labelFor("Footer", builderLang)}</h2>
+          <p>{labelFor("Manage footer links and general contact information for Portfolio.", builderLang)}</p>
         </div>
 
         <div className="admin-portfolio-editor__grid admin-portfolio-editor__grid--2">
           <TextInput
-            label="Footer Email"
+            label={labelFor("Footer Email", builderLang)}
             value={sections.footer.email}
             onChange={(value) => updateAtPath(["footer", "email"], value)}
           />
 
           <TextInput
-            label="Privacy Href"
+            label={labelFor("Privacy Href", builderLang)}
             value={sections.footer.privacy_href}
             onChange={(value) => updateAtPath(["footer", "privacy_href"], value)}
           />
 
           <TextInput
-            label="Social 1 AR"
+            label={labelFor("Social 1 AR", builderLang)}
             value={sections.footer.social1_ar}
             onChange={(value) => updateAtPath(["footer", "social1_ar"], value)}
           />
 
           <TextInput
-            label="Social 1 EN"
+            label={labelFor("Social 1 EN", builderLang)}
             value={sections.footer.social1_en}
             onChange={(value) => updateAtPath(["footer", "social1_en"], value)}
           />
 
           <TextInput
-            label="Social 1 Href"
+            label={labelFor("Social 1 Href", builderLang)}
             value={sections.footer.social1_href}
             onChange={(value) => updateAtPath(["footer", "social1_href"], value)}
           />
 
           <TextInput
-            label="Social 2 AR"
+            label={labelFor("Social 2 AR", builderLang)}
             value={sections.footer.social2_ar}
             onChange={(value) => updateAtPath(["footer", "social2_ar"], value)}
           />
 
           <TextInput
-            label="Social 2 EN"
+            label={labelFor("Social 2 EN", builderLang)}
             value={sections.footer.social2_en}
             onChange={(value) => updateAtPath(["footer", "social2_en"], value)}
           />
 
           <TextInput
-            label="Social 2 Href"
+            label={labelFor("Social 2 Href", builderLang)}
             value={sections.footer.social2_href}
             onChange={(value) => updateAtPath(["footer", "social2_href"], value)}
           />
 
           <TextInput
-            label="Social 3 AR"
+            label={labelFor("Social 3 AR", builderLang)}
             value={sections.footer.social3_ar}
             onChange={(value) => updateAtPath(["footer", "social3_ar"], value)}
           />
 
           <TextInput
-            label="Social 3 EN"
+            label={labelFor("Social 3 EN", builderLang)}
             value={sections.footer.social3_en}
             onChange={(value) => updateAtPath(["footer", "social3_en"], value)}
           />
 
           <TextInput
-            label="Social 3 Href"
+            label={labelFor("Social 3 Href", builderLang)}
             value={sections.footer.social3_href}
             onChange={(value) => updateAtPath(["footer", "social3_href"], value)}
           />
 
           <TextInput
-            label="Copy AR"
+            label={labelFor("Copy AR", builderLang)}
             value={sections.footer.copy_ar}
             onChange={(value) => updateAtPath(["footer", "copy_ar"], value)}
           />
 
           <TextInput
-            label="Copy EN"
+            label={labelFor("Copy EN", builderLang)}
             value={sections.footer.copy_en}
             onChange={(value) => updateAtPath(["footer", "copy_en"], value)}
           />
 
           <TextInput
-            label="Privacy AR"
+            label={labelFor("Privacy AR", builderLang)}
             value={sections.footer.privacy_ar}
             onChange={(value) => updateAtPath(["footer", "privacy_ar"], value)}
           />
 
           <TextInput
-            label="Privacy EN"
+            label={labelFor("Privacy EN", builderLang)}
             value={sections.footer.privacy_en}
             onChange={(value) => updateAtPath(["footer", "privacy_en"], value)}
           />
         </div>
       </section>
 
-      <section className="admin-portfolio-editor__footerActions">
-        {/* أزرار الحفظ النهائية */}
-        <button
-          type="button"
-          className="admin-portfolio-editor__ghostBtn"
-          onClick={resetUnsavedChanges}
-          disabled={saving}
-        >
-          Reset Changes
-        </button>
+          <section className="admin-portfolio-editor__footerActions">
+            {/* أزرار الحفظ النهائية. */}
+            <button
+              type="button"
+              className="admin-portfolio-editor__ghostBtn"
+              onClick={resetUnsavedChanges}
+              disabled={saving}
+            >
+              {copy.reset}
+            </button>
 
-        <button
-          type="button"
-          className="admin-portfolio-editor__primaryBtn"
-          onClick={handleSave}
-          disabled={saving}
-        >
-          {saving ? "Saving..." : "Save All Changes"}
-        </button>
+            <button
+              type="button"
+              className="admin-portfolio-editor__primaryBtn"
+              onClick={handleSave}
+              disabled={saving}
+            >
+              {saving ? copy.saving : copy.save}
+            </button>
+          </section>
+        </div>
+
+        <PortfolioLivePreview
+          item={item}
+          lang={builderLang}
+          device={previewDevice}
+          onDeviceChange={setPreviewDevice}
+          copy={copy}
+        />
       </section>
     </main>
   );
