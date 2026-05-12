@@ -1,492 +1,86 @@
-import "./faq-page.css";
-// استيراد CSS الخاص بلوحة إدارة صفحة FAQ
+import "./faq-page.css"; // تحميل تنسيقات لوحة إدارة FAQ الخاصة بهذه الصفحة فقط.
+import { cookies } from "next/headers"; // قراءة كوكي جلسة الأدمن من السيرفر.
+import { redirect } from "next/navigation"; // إعادة توجيه غير المصرح لهم إلى صفحة الدخول.
+import { supabaseServer } from "@/lib/supabase-server"; // إنشاء عميل Supabase server-side آمن.
+import FaqPageEditor from "./faq-page-editor"; // استيراد محرر FAQ التفاعلي.
 
-import { cookies } from "next/headers";
-// قراءة الكوكيز الحالية لمعرفة هل المستخدم أدمن أم لا
+export const dynamic = "force-dynamic"; // منع الكاش الثابت لأن صفحة الأدمن يجب أن تقرأ أحدث بيانات دائمًا.
 
-import { redirect } from "next/navigation";
-// لإعادة التوجيه إلى صفحة تسجيل الدخول إذا لم توجد جلسة أدمن
+type FaqPageAdminRecord = { // تعريف شكل السجل الذي سيمرر إلى محرر FAQ.
+  slug: string; // معرف الصفحة داخل جدول pages.
+  title_ar: string; // عنوان الصفحة بالعربية.
+  title_en: string; // عنوان الصفحة بالإنجليزية.
+  content_ar: string; // ملخص الصفحة بالعربية.
+  content_en: string; // ملخص الصفحة بالإنجليزية.
+  is_published: boolean; // حالة النشر الحالية.
+  page_type: string | null; // نوع الصفحة داخل النظام إن وجد.
+  sections_json: unknown; // محتوى الأقسام، يطبّعه محرر العميل لاحقًا.
+}; // نهاية تعريف سجل FAQ.
 
-import { supabaseServer } from "@/lib/supabase-server";
-// عميل Supabase الخاص بالسيرفر
+function getAdminCookieNames() { // دالة تجمع أسماء الكوكي المقبولة للأدمن.
+  const envCookie = process.env.ADMIN_COOKIE?.trim(); // قراءة اسم الكوكي من البيئة إن كان موجودًا.
+  return Array.from(new Set([envCookie, "admin_session", "zuha_admin"].filter(Boolean) as string[])); // إرجاع قائمة بدون تكرار.
+} // نهاية getAdminCookieNames.
 
-import FaqPageEditor from "./faq-page-editor";
-// مكوّن محرر صفحة FAQ
-// هذا الملف سيستقبل السجل الأولي ويعرض واجهة التحكم الكاملة
+async function isAdminAuthorized() { // دالة تتحقق من وجود جلسة أدمن.
+  const cookieStore: any = await Promise.resolve(cookies() as any); // الحصول على مخزن الكوكيز بطريقة متوافقة مع Next.
+  const names = getAdminCookieNames(); // جلب كل أسماء الكوكي المقبولة.
+  return names.some((name) => Boolean(cookieStore?.get?.(name)?.value)); // السماح إذا وجد أي كوكي جلسة صالح.
+} // نهاية isAdminAuthorized.
 
-export const dynamic = "force-dynamic";
-// جعل الصفحة ديناميكية بالكامل
-// لأن صفحات الأدمن لا يجب أن تعتمد على كاش ثابت
+function fallbackFaqPage(): FaqPageAdminRecord { // دالة fallback حتى لا تنهار اللوحة إذا لم يرجع السجل من Supabase.
+  return { // بداية السجل الافتراضي.
+    slug: "faq", // slug ثابت لصفحة FAQ.
+    title_ar: "الأسئلة الشائعة", // عنوان عربي افتراضي.
+    title_en: "FAQ", // عنوان إنجليزي افتراضي.
+    content_ar: "إدارة محتوى صفحة الأسئلة الشائعة من لوحة التحكم.", // ملخص عربي افتراضي.
+    content_en: "Manage the FAQ page content from the admin dashboard.", // ملخص إنجليزي افتراضي.
+    is_published: true, // جعلها منشورة افتراضيًا حتى لا تخفي الصفحة خطأً.
+    page_type: "faq", // نوع الصفحة.
+    sections_json: null, // يترك التطبيع للمحرر.
+  }; // نهاية السجل الافتراضي.
+} // نهاية fallbackFaqPage.
 
-type FaqCategoryItem = {
-  id: string;
-  key: string;
-  is_active: boolean;
-  sort_order: number;
-  label_ar: string;
-  label_en: string;
-};
-// نوع عنصر التصنيف داخل صفحة FAQ
+async function getFaqPage(): Promise<FaqPageAdminRecord> { // دالة تجلب سجل FAQ من قاعدة البيانات.
+  try { // بدء كتلة حماية من أخطاء Supabase.
+    const supabase = supabaseServer(); // إنشاء عميل Supabase للـ server.
+    const { data, error } = await supabase // تنفيذ استعلام قاعدة البيانات.
+      .from("pages") // جدول الصفحات العام.
+      .select("slug,title_ar,title_en,content_ar,content_en,is_published,page_type,sections_json") // الأعمدة المطلوبة فقط.
+      .eq("slug", "faq") // جلب صفحة FAQ فقط.
+      .maybeSingle(); // إرجاع سجل واحد أو null.
 
-type FaqItem = {
-  id: string;
-  category_key: string;
-  is_active: boolean;
-  sort_order: number;
-  question_ar: string;
-  question_en: string;
-  answer_ar: string;
-  answer_en: string;
-};
-// نوع السؤال/الجواب الفردي
+    if (error) { // فحص خطأ Supabase.
+      console.error("Admin FAQ fetch error:", error); // تسجيل الخطأ للديبغ.
+      return fallbackFaqPage(); // الرجوع إلى fallback آمن.
+    } // نهاية فحص الخطأ.
 
-type FaqPageSections = {
-  hero: {
-    kicker_ar: string;
-    kicker_en: string;
-    title_ar: string;
-    title_en: string;
-    desc_ar: string;
-    desc_en: string;
-    btn_ar: string;
-    btn_en: string;
-    btn_href: string;
-  };
+    if (!data) { // إذا لم توجد صفحة FAQ في جدول pages.
+      return fallbackFaqPage(); // استخدام fallback آمن.
+    } // نهاية فحص عدم وجود البيانات.
 
-  categories: {
-    title_ar: string;
-    title_en: string;
-    desc_ar: string;
-    desc_en: string;
-    items: FaqCategoryItem[];
-  };
+    return { // إرجاع السجل بعد سد القيم الناقصة.
+      slug: String(data.slug || "faq"), // تطبيع slug.
+      title_ar: String(data.title_ar || "الأسئلة الشائعة"), // تطبيع العنوان العربي.
+      title_en: String(data.title_en || "FAQ"), // تطبيع العنوان الإنجليزي.
+      content_ar: String(data.content_ar || ""), // تطبيع الملخص العربي.
+      content_en: String(data.content_en || ""), // تطبيع الملخص الإنجليزي.
+      is_published: typeof data.is_published === "boolean" ? data.is_published : true, // تطبيع حالة النشر.
+      page_type: data.page_type ? String(data.page_type) : "faq", // تطبيع نوع الصفحة.
+      sections_json: data.sections_json ?? null, // تمرير sections_json كما هو للمحرر.
+    }; // نهاية السجل.
+  } catch (error) { // التقاط أي خطأ غير متوقع.
+    console.error("Admin FAQ page crashed while fetching:", error); // تسجيل الخطأ.
+    return fallbackFaqPage(); // الرجوع إلى fallback آمن.
+  } // نهاية try/catch.
+} // نهاية getFaqPage.
 
-  faqItems: {
-    items: FaqItem[];
-  };
+export default async function AdminFaqPage() { // مكوّن صفحة إدارة FAQ من جهة السيرفر.
+  const authorized = await isAdminAuthorized(); // التحقق من صلاحية الأدمن.
+  if (!authorized) { // إذا لا توجد جلسة أدمن.
+    redirect("/admin/login?next=/admin/faq-page"); // إعادة التوجيه لتسجيل الدخول.
+  } // نهاية شرط الحماية.
 
-  cta: {
-    title_ar: string;
-    title_en: string;
-    desc_ar: string;
-    desc_en: string;
-    button_ar: string;
-    button_en: string;
-    button_href: string;
-  };
-
-  footer: {
-    email: string;
-    social1_ar: string;
-    social1_en: string;
-    social1_href: string;
-    social2_ar: string;
-    social2_en: string;
-    social2_href: string;
-    social3_ar: string;
-    social3_en: string;
-    social3_href: string;
-    copy_ar: string;
-    copy_en: string;
-    privacy_ar: string;
-    privacy_en: string;
-    privacy_href: string;
-  };
-};
-// الشكل الكامل لـ sections_json الخاص بصفحة FAQ
-
-export type FaqPageAdminRecord = {
-  slug: string;
-  title_ar: string;
-  title_en: string;
-  content_ar: string;
-  content_en: string;
-  is_published: boolean;
-  page_type: string | null;
-  sections_json: FaqPageSections | null;
-};
-// السجل الكامل الذي سنمرره إلى محرر الأدمن
-
-function asObject(value: unknown): Record<string, unknown> {
-  // تحويل أي قيمة إلى object آمن
-  return typeof value === "object" && value !== null
-    ? (value as Record<string, unknown>)
-    : {};
-}
-
-function normalizeText(value: unknown, fallback = "") {
-  // تنظيف أي قيمة نصية قادمة من القاعدة أو fallback
-  return String(value ?? fallback).trim();
-}
-
-function normalizeBoolean(value: unknown, fallback = false) {
-  // إرجاع boolean آمن
-  return typeof value === "boolean" ? value : fallback;
-}
-
-function normalizeNumber(value: unknown, fallback = 0) {
-  // إرجاع رقم آمن
-  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
-}
-
-function createId(prefix: string) {
-  // إنشاء معرف داخلي احتياطي للعناصر عند نقص البيانات
-  return `${prefix}-${Math.random().toString(36).slice(2, 10)}`;
-}
-
-function getAdminCookieNames() {
-  // دعم أكثر من اسم كوكي لأن المشروع عنده أكثر من مسار/نسخة سابقة
-  // هذا يمنع كسر الدخول إذا تغيّر اسم الكوكي بين ملف وآخر
-  const envCookie = process.env.ADMIN_COOKIE?.trim();
-
-  return Array.from(
-    new Set(
-      [envCookie, "admin_session", "zuha_admin"].filter(
-        (value): value is string => Boolean(value)
-      )
-    )
-  );
-}
-
-async function isAdminAuthorized() {
-  // التحقق من وجود جلسة أدمن صالحة
-  const cookieStore: any = await Promise.resolve(cookies() as any);
-  const cookieNames = getAdminCookieNames();
-
-  return cookieNames.some((cookieName) => {
-    const cookieValue = cookieStore?.get?.(cookieName)?.value;
-    return Boolean(cookieValue);
-  });
-}
-
-function createDefaultCategoryItem(
-  key: string,
-  order: number,
-  label_ar: string,
-  label_en: string
-): FaqCategoryItem {
-  // إنشاء تصنيف افتراضي منظم
-  return {
-    id: `faq-category-${key}`,
-    key,
-    is_active: true,
-    sort_order: order,
-    label_ar,
-    label_en,
-  };
-}
-
-function createDefaultFaqItem(
-  id: string,
-  category_key: string,
-  sort_order: number,
-  question_ar: string,
-  question_en: string,
-  answer_ar: string,
-  answer_en: string
-): FaqItem {
-  // إنشاء سؤال/جواب افتراضي مرتب
-  return {
-    id,
-    category_key,
-    is_active: true,
-    sort_order,
-    question_ar,
-    question_en,
-    answer_ar,
-    answer_en,
-  };
-}
-
-function createDefaultFaqSections(): FaqPageSections {
-  // البنية الافتراضية الكاملة لصفحة FAQ
-  // تُستخدم عندما لا نجد البيانات في القاعدة أو تكون ناقصة
-  return {
-    hero: {
-      kicker_ar: "إجابات واضحة",
-      kicker_en: "Clear Answers",
-      title_ar: "الأسئلة الشائعة<br/>بصياغة عملية ومباشرة",
-      title_en: "Frequently Asked Questions<br/>With Practical, Direct Answers",
-      desc_ar:
-        "هذه الصفحة تجمع أكثر الأسئلة شيوعًا حول الخدمات العقارية، آلية العمل، التقييم، التطوير، والتواصل، بصياغة مختصرة وواضحة.",
-      desc_en:
-        "This page gathers the most common questions about real-estate services, workflow, valuation, development, and communication in a concise and clear format.",
-      btn_ar: "طلب استشارة",
-      btn_en: "Request Consultation",
-      btn_href: "/request-consultation",
-    },
-
-    categories: {
-      title_ar: "تصنيفات الأسئلة",
-      title_en: "Question Categories",
-      desc_ar:
-        "رتبنا الأسئلة حسب طبيعة الموضوع لتسهيل الوصول إلى الإجابة الصحيحة بسرعة.",
-      desc_en:
-        "Questions are organized by topic to make it easier to reach the right answer quickly.",
-      items: [
-        createDefaultCategoryItem("general", 1, "عام", "General"),
-        createDefaultCategoryItem("services", 2, "الخدمات", "Services"),
-        createDefaultCategoryItem("investment", 3, "الاستثمار", "Investment"),
-        createDefaultCategoryItem("contact", 4, "التواصل", "Contact"),
-      ],
-    },
-
-    faqItems: {
-      items: [
-        createDefaultFaqItem(
-          "faq-1",
-          "general",
-          1,
-          "ما طبيعة عمل شركة الزُهى؟",
-          "What is the nature of ALZUHA’s work?",
-          "نقدم حلولًا عقارية تشمل التطوير، الاستشارات، تقييم الأصول، ودعم القرار للمشاريع والفرص العقارية.",
-          "We provide real-estate solutions including development, advisory, asset assessment, and decision support for projects and opportunities."
-        ),
-        createDefaultFaqItem(
-          "faq-2",
-          "services",
-          2,
-          "هل تقدمون استشارة قبل البدء بالمشروع؟",
-          "Do you provide consultation before starting a project?",
-          "نعم، نبدأ بفهم الهدف والمرحلة الحالية ثم نقترح المسار الأنسب من الناحية التشغيلية والاستثمارية.",
-          "Yes. We start by understanding the objective and current stage, then recommend the most suitable operational and investment path."
-        ),
-        createDefaultFaqItem(
-          "faq-3",
-          "investment",
-          3,
-          "هل يمكن تقييم أصل أو فرصة قبل اتخاذ قرار الاستثمار؟",
-          "Can an asset or opportunity be assessed before making an investment decision?",
-          "نعم، وهذا جزء أساسي من عملنا. نحلل الأصل أو الفرصة لإعطاء صورة أوضح عن القيمة والملاءمة والمخاطر.",
-          "Yes, and that is a core part of our work. We analyze the asset or opportunity to provide a clearer picture of value, fit, and risk."
-        ),
-        createDefaultFaqItem(
-          "faq-4",
-          "contact",
-          4,
-          "كيف أبدأ التواصل معكم؟",
-          "How do I start working with you?",
-          "ابدأ بطلب استشارة أو عبر صفحة التواصل، وبعدها يتم توجيهك إلى المسار الأنسب حسب نوع الاحتياج.",
-          "Start with a consultation request or through the contact page, then you will be guided to the most suitable path based on your need."
-        ),
-      ],
-    },
-
-    cta: {
-      title_ar: "لم تجد الإجابة التي تبحث عنها؟",
-      title_en: "Didn’t Find the Answer You Need?",
-      desc_ar:
-        "يمكنك الانتقال مباشرة إلى طلب استشارة حتى نراجع حالتك أو استفسارك بصورة أدق.",
-      desc_en:
-        "You can move directly to a consultation request so we can review your case or question more precisely.",
-      button_ar: "طلب استشارة",
-      button_en: "Request Consultation",
-      button_href: "/request-consultation",
-    },
-
-    footer: {
-      email: "info@alzuharealestate.com",
-      social1_ar: "لينكدإن",
-      social1_en: "LinkedIn",
-      social1_href: "#",
-      social2_ar: "انستغرام",
-      social2_en: "Instagram",
-      social2_href: "#",
-      social3_ar: "دريبل",
-      social3_en: "Dribbble",
-      social3_href: "#",
-      copy_ar: "جميع الحقوق محفوظة © الزُهى 2026",
-      copy_en: "All rights reserved © ALZUHA 2026",
-      privacy_ar: "سياسة الخصوصية",
-      privacy_en: "Privacy Policy",
-      privacy_href: "/privacy-policy",
-    },
-  };
-}
-
-function createDefaultFaqRecord(): FaqPageAdminRecord {
-  // إنشاء سجل افتراضي كامل إذا لم تكن صفحة faq موجودة في القاعدة بعد
-  return {
-    slug: "faq",
-    title_ar: "الأسئلة الشائعة",
-    title_en: "FAQ",
-    content_ar:
-      "صفحة الأسئلة الشائعة تقدم إجابات عملية وواضحة على أكثر الاستفسارات شيوعًا.",
-    content_en:
-      "The FAQ page provides practical and clear answers to the most common questions.",
-    is_published: true,
-    page_type: "faq",
-    sections_json: createDefaultFaqSections(),
-  };
-}
-
-function normalizeCategoryItem(value: unknown, index: number): FaqCategoryItem {
-  // تطبيع عنصر تصنيف واحد داخل categories.items
-  const obj = asObject(value);
-
-  return {
-    id: normalizeText(obj.id, createId("faq-category")),
-    key: normalizeText(obj.key, index === 0 ? "general" : `category-${index + 1}`),
-    is_active: normalizeBoolean(obj.is_active, true),
-    sort_order: normalizeNumber(obj.sort_order, index + 1),
-    label_ar: normalizeText(obj.label_ar, "تصنيف"),
-    label_en: normalizeText(obj.label_en, "Category"),
-  };
-}
-
-function normalizeFaqItem(value: unknown, index: number): FaqItem {
-  // تطبيع عنصر سؤال/جواب واحد داخل faqItems.items
-  const obj = asObject(value);
-
-  return {
-    id: normalizeText(obj.id, createId("faq-item")),
-    category_key: normalizeText(obj.category_key, "general"),
-    is_active: normalizeBoolean(obj.is_active, true),
-    sort_order: normalizeNumber(obj.sort_order, index + 1),
-    question_ar: normalizeText(obj.question_ar, "سؤال جديد"),
-    question_en: normalizeText(obj.question_en, "New Question"),
-    answer_ar: normalizeText(obj.answer_ar, "إجابة السؤال بالعربية."),
-    answer_en: normalizeText(obj.answer_en, "Answer to the question in English."),
-  };
-}
-
-function normalizeFaqSections(value: unknown): FaqPageSections {
-  // تطبيع البنية الكاملة لـ sections_json
-  const defaults = createDefaultFaqSections();
-  const obj = asObject(value);
-
-  const hero = asObject(obj.hero);
-  const categories = asObject(obj.categories);
-  const faqItems = asObject(obj.faqItems);
-  const cta = asObject(obj.cta);
-  const footer = asObject(obj.footer);
-
-  return {
-    hero: {
-      kicker_ar: normalizeText(hero.kicker_ar, defaults.hero.kicker_ar),
-      kicker_en: normalizeText(hero.kicker_en, defaults.hero.kicker_en),
-      title_ar: normalizeText(hero.title_ar, defaults.hero.title_ar),
-      title_en: normalizeText(hero.title_en, defaults.hero.title_en),
-      desc_ar: normalizeText(hero.desc_ar, defaults.hero.desc_ar),
-      desc_en: normalizeText(hero.desc_en, defaults.hero.desc_en),
-      btn_ar: normalizeText(hero.btn_ar, defaults.hero.btn_ar),
-      btn_en: normalizeText(hero.btn_en, defaults.hero.btn_en),
-      btn_href: normalizeText(hero.btn_href, defaults.hero.btn_href),
-    },
-
-    categories: {
-      title_ar: normalizeText(categories.title_ar, defaults.categories.title_ar),
-      title_en: normalizeText(categories.title_en, defaults.categories.title_en),
-      desc_ar: normalizeText(categories.desc_ar, defaults.categories.desc_ar),
-      desc_en: normalizeText(categories.desc_en, defaults.categories.desc_en),
-      items:
-        Array.isArray(categories.items) && categories.items.length > 0
-          ? categories.items.map((item, index) => normalizeCategoryItem(item, index))
-          : defaults.categories.items,
-    },
-
-    faqItems: {
-      items:
-        Array.isArray(faqItems.items) && faqItems.items.length > 0
-          ? faqItems.items.map((item, index) => normalizeFaqItem(item, index))
-          : defaults.faqItems.items,
-    },
-
-    cta: {
-      title_ar: normalizeText(cta.title_ar, defaults.cta.title_ar),
-      title_en: normalizeText(cta.title_en, defaults.cta.title_en),
-      desc_ar: normalizeText(cta.desc_ar, defaults.cta.desc_ar),
-      desc_en: normalizeText(cta.desc_en, defaults.cta.desc_en),
-      button_ar: normalizeText(cta.button_ar, defaults.cta.button_ar),
-      button_en: normalizeText(cta.button_en, defaults.cta.button_en),
-      button_href: normalizeText(cta.button_href, defaults.cta.button_href),
-    },
-
-    footer: {
-      email: normalizeText(footer.email, defaults.footer.email),
-      social1_ar: normalizeText(footer.social1_ar, defaults.footer.social1_ar),
-      social1_en: normalizeText(footer.social1_en, defaults.footer.social1_en),
-      social1_href: normalizeText(footer.social1_href, defaults.footer.social1_href),
-      social2_ar: normalizeText(footer.social2_ar, defaults.footer.social2_ar),
-      social2_en: normalizeText(footer.social2_en, defaults.footer.social2_en),
-      social2_href: normalizeText(footer.social2_href, defaults.footer.social2_href),
-      social3_ar: normalizeText(footer.social3_ar, defaults.footer.social3_ar),
-      social3_en: normalizeText(footer.social3_en, defaults.footer.social3_en),
-      social3_href: normalizeText(footer.social3_href, defaults.footer.social3_href),
-      copy_ar: normalizeText(footer.copy_ar, defaults.footer.copy_ar),
-      copy_en: normalizeText(footer.copy_en, defaults.footer.copy_en),
-      privacy_ar: normalizeText(footer.privacy_ar, defaults.footer.privacy_ar),
-      privacy_en: normalizeText(footer.privacy_en, defaults.footer.privacy_en),
-      privacy_href: normalizeText(footer.privacy_href, defaults.footer.privacy_href),
-    },
-  };
-}
-
-function normalizeFaqRecord(data: Record<string, unknown>): FaqPageAdminRecord {
-  // تطبيع السجل الكامل القادم من القاعدة
-  const fallback = createDefaultFaqRecord();
-
-  return {
-    slug: normalizeText(data.slug, fallback.slug),
-    title_ar: normalizeText(data.title_ar, fallback.title_ar),
-    title_en: normalizeText(data.title_en, fallback.title_en),
-    content_ar: normalizeText(data.content_ar, fallback.content_ar),
-    content_en: normalizeText(data.content_en, fallback.content_en),
-    is_published: normalizeBoolean(data.is_published, fallback.is_published),
-    page_type: normalizeText(data.page_type, fallback.page_type || "faq") || "faq",
-    sections_json: normalizeFaqSections(data.sections_json),
-  };
-}
-
-async function getInitialFaqRecord(): Promise<FaqPageAdminRecord> {
-  // جلب سجل FAQ من قاعدة البيانات
-  // وإذا لم نجده أو حصل خطأ نرجع fallback كامل وصالح
-  const fallbackRecord = createDefaultFaqRecord();
-
-  try {
-    const supabase = supabaseServer();
-    // إنشاء عميل Supabase
-
-    const { data, error } = await supabase
-      .from("pages")
-      .select(
-        "slug,title_ar,title_en,content_ar,content_en,is_published,page_type,sections_json"
-      )
-      .eq("slug", "faq")
-      .maybeSingle();
-    // جلب صف faq من جدول pages
-
-    if (error || !data) {
-      return fallbackRecord;
-    }
-    // إذا لم نجد الصف أو حدث خطأ نعيد fallback بدل كسر صفحة الأدمن
-
-    return normalizeFaqRecord(data as Record<string, unknown>);
-    // تطبيع السجل وإرجاعه
-  } catch (error) {
-    console.error("Admin FAQ page fetch error:", error);
-    // طباعة الخطأ في الطرفية أثناء التطوير
-
-    return fallbackRecord;
-    // العودة إلى fallback للحفاظ على استقرار لوحة الأدمن
-  }
-}
-
-export default async function AdminFaqPage() {
-  // الصفحة الرئيسية لإدارة FAQ
-
-  const authorized = await isAdminAuthorized();
-  // التحقق من صلاحية الأدمن
-
-  if (!authorized) {
-    redirect("/admin/login?next=/admin/faq-page");
-  }
-  // إذا لم توجد جلسة أدمن نعيد توجيه المستخدم إلى صفحة تسجيل الدخول
-  // مع الاحتفاظ بالمسار المطلوب داخل next
-
-  const initialItem = await getInitialFaqRecord();
-  // جلب البيانات الأولية للواجهة
-
-  return <FaqPageEditor initialItem={initialItem} />;
-  // تمرير السجل الأولي إلى محرر FAQ
-}
+  const initialItem = await getFaqPage(); // جلب السجل الأولي للصفحة.
+  return <FaqPageEditor initialItem={initialItem} />; // تمرير السجل إلى محرر العميل.
+} // نهاية صفحة AdminFaqPage.
