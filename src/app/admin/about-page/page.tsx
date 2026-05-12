@@ -1,20 +1,23 @@
 import "./about-page.css";
-import AboutPageEditor from "./about-page-editor";
+// يستورد تنسيق صفحة About Admin بالكامل، بما في ذلك تنسيق الـ Live Builder.
 
-// نجعل الصفحة ديناميكية لأن المحتوى يقرأ من API حيّة
+import AboutPageEditor from "./about-page-editor";
+// يستورد مكوّن محرر About الجديد: أقسام + محرر + معاينة حية.
+
 export const dynamic = "force-dynamic";
+// يجعل صفحة الأدمن ديناميكية حتى لا تعتمد على كاش ثابت.
 
 export default function AdminAboutPage() {
+  // غلاف صفحة إدارة About.
   return (
     <main className="about-admin-page">
-      <section className="about-admin-shell">
-        <header className="about-admin-header">
+      <section className="about-admin-shell about-admin-shell--builder">
+        <header className="about-admin-header about-admin-header--compact">
           <div>
             <p className="about-admin-kicker">Admin / About Page</p>
-            <h1 className="about-admin-title">About Page Editor</h1>
+            <h1 className="about-admin-title">About Page Live Builder</h1>
             <p className="about-admin-desc">
-              تحكم كامل بمحتوى صفحة About عبر sections_json:
-              النصوص، الصور، الخدمات، الإحصائيات، الفريق، والفوتر.
+              لوحة تحكم منظمة لإدارة صفحة About: اختر القسم، عدّل الحقول، وشاهد المعاينة مباشرة من نفس النافذة.
             </p>
           </div>
         </header>

@@ -1,241 +1,739 @@
+/* ==========================================================================
+   ALZUHA ADMIN ABOUT BUILDER
+   ملف تنسيق لوحة About الجديدة.
+   الهدف: تحويل محرر الحقول الطويل إلى لوحة تحكم بثلاث مناطق:
+   1) قائمة أقسام  2) محرر القسم الحالي  3) معاينة مباشرة.
+   ========================================================================== */
+
 .about-admin-page {
-  min-height: 100vh;
-  background: #f5f7fb;
-  padding: 32px;
+  min-height: 100vh; /* يجعل خلفية الأدمن تغطي كامل الشاشة. */
+  background: #eef3fb; /* خلفية هادئة مناسبة للوحة تحكم. */
+  color: #0f172a; /* لون نص داكن واضح. */
+  padding: 28px; /* مساحة خارجية حول اللوحة. */
 }
 
 .about-admin-shell {
-  max-width: 1400px;
-  margin: 0 auto;
+  width: min(1680px, 100%); /* يمنع تمدد اللوحة بشكل مبالغ على الشاشات الكبيرة. */
+  margin-inline: auto; /* يوسّط لوحة الإدارة. */
+}
+
+.about-admin-shell--builder {
+  max-width: 1680px; /* يوسع مساحة العمل للوحة الثلاثية. */
 }
 
 .about-admin-header {
-  margin-bottom: 24px;
+  margin-bottom: 22px; /* يفصل رأس الصفحة عن المحرر. */
+  padding: 22px 24px; /* حشوة مريحة داخل رأس الصفحة. */
+  border: 1px solid rgba(15, 23, 42, 0.08); /* حد خفيف. */
+  border-radius: 26px; /* زوايا ناعمة. */
+  background: linear-gradient(135deg, #ffffff, #f8fbff); /* خلفية راقية. */
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08); /* ظل احترافي خفيف. */
+}
+
+.about-admin-header--compact {
+  margin-bottom: 18px; /* رأس أصغر لأن المحرر أصبح غنيًا. */
 }
 
 .about-admin-kicker {
-  margin: 0 0 8px;
-  color: #3856cf;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  margin: 0 0 8px; /* يزيل الهوامش الافتراضية ويضيف فصلًا بسيطًا. */
+  color: #326bf6; /* لون الهوية. */
+  font-size: 12px; /* حجم label صغير. */
+  font-weight: 900; /* إبراز واضح. */
+  letter-spacing: 0.12em; /* مظهر إداري احترافي. */
+  text-transform: uppercase; /* توحيد شكل النص. */
 }
 
 .about-admin-title {
-  margin: 0;
-  color: #101828;
-  font-size: 36px;
-  line-height: 1.1;
-  font-weight: 800;
+  margin: 0; /* يمنع فراغات غير محسوبة. */
+  color: #0f172a; /* لون عنوان قوي. */
+  font-size: clamp(26px, 3vw, 42px); /* حجم متجاوب. */
+  font-weight: 950; /* وزن قوي. */
+  letter-spacing: -0.04em; /* مظهر SaaS حديث. */
 }
 
 .about-admin-desc {
-  margin: 10px 0 0;
-  max-width: 900px;
-  color: #475467;
-  font-size: 15px;
-  line-height: 1.8;
-}
-
-.about-editor {
-  display: grid;
-  gap: 20px;
+  max-width: 780px; /* يمنع تمدد النص. */
+  margin: 10px 0 0; /* مسافة محسوبة أسفل العنوان. */
+  color: #64748b; /* لون نص ثانوي. */
+  font-size: 15px; /* حجم مريح. */
+  line-height: 1.8; /* قراءة أفضل. */
 }
 
 .about-editor-loading {
-  padding: 24px;
-  border-radius: 20px;
-  background: #ffffff;
-  color: #344054;
-  font-size: 15px;
-  font-weight: 600;
+  padding: 34px; /* مساحة انتظار واضحة. */
+  border-radius: 22px; /* زوايا ناعمة. */
+  background: #ffffff; /* خلفية بيضاء. */
+  color: #475569; /* نص هادئ. */
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08); /* ظل خفيف. */
 }
 
-.about-editor-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 18px 22px;
-  border: 1px solid #dbe3f0;
-  border-radius: 20px;
-  background: #ffffff;
-  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.05);
+.about-editor--builder {
+  width: 100%; /* يستفيد من كامل عرض لوحة الأدمن. */
 }
 
-.about-editor-status {
-  color: #344054;
-  font-size: 14px;
-  font-weight: 700;
+.about-builder-topbar {
+  position: sticky; /* يبقى ظاهرًا أثناء العمل الطويل. */
+  top: 12px; /* مسافة من أعلى الشاشة. */
+  z-index: 30; /* يظهر فوق الكروت. */
+  display: flex; /* توزيع العنوان والأزرار. */
+  align-items: center; /* محاذاة عمودية. */
+  justify-content: space-between; /* العنوان يسار والأزرار يمين. */
+  gap: 18px; /* مسافة بين العناصر. */
+  margin-bottom: 18px; /* فصل عن مساحة العمل. */
+  padding: 16px 18px; /* حشوة داخلية. */
+  border: 1px solid rgba(15, 23, 42, 0.08); /* حد خفيف. */
+  border-radius: 24px; /* شكل بطاقة. */
+  background: rgba(255, 255, 255, 0.92); /* خلفية شبه شفافة. */
+  backdrop-filter: blur(14px); /* تأثير زجاجي حديث. */
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.10); /* ظل واضح. */
+}
+
+.about-builder-topbar__eyebrow {
+  display: block; /* يظهر كسطر مستقل. */
+  color: #326bf6; /* لون الهوية. */
+  font-size: 11px; /* label صغير. */
+  font-weight: 900; /* إبراز. */
+  letter-spacing: 0.12em; /* تباعد احترافي. */
+  text-transform: uppercase; /* مظهر موحد. */
+}
+
+.about-builder-topbar h2 {
+  margin: 4px 0 4px; /* مسافة دقيقة. */
+  color: #0f172a; /* عنوان داكن. */
+  font-size: 20px; /* مناسب للشريط. */
+  font-weight: 950; /* وزن قوي. */
+}
+
+.about-builder-topbar p {
+  margin: 0; /* إزالة هامش افتراضي. */
+  color: #64748b; /* نص ثانوي. */
+  font-size: 13px; /* لا يزاحم الأزرار. */
+}
+
+.about-builder-topbar__actions {
+  display: flex; /* أزرار متجاورة. */
+  align-items: center; /* محاذاة وسط. */
+  gap: 10px; /* مسافة بين الأزرار. */
+  flex-wrap: wrap; /* يسمح بالالتفاف عند ضيق الشاشة. */
+  justify-content: flex-end; /* يحافظ على الأزرار يمينًا. */
+}
+
+.about-publish-pill {
+  display: inline-flex; /* كبسولة حالة. */
+  align-items: center; /* محاذاة وسط. */
+  min-height: 38px; /* ارتفاع مريح. */
+  padding: 0 14px; /* عرض مناسب. */
+  border-radius: 999px; /* شكل كبسولة. */
+  background: #fff7ed; /* لون draft. */
+  color: #9a3412; /* نص draft. */
+  font-size: 13px; /* حجم واضح. */
+  font-weight: 900; /* إبراز الحالة. */
+}
+
+.about-publish-pill.is-live {
+  background: #ecfdf5; /* خلفية live. */
+  color: #047857; /* لون live. */
+}
+
+.about-open-page,
+.about-editor-save,
+.about-add-btn,
+.about-remove-btn {
+  font: inherit; /* يستخدم خط المشروع. */
+  text-decoration: none; /* يمنع خط الروابط. */
+}
+
+.about-open-page {
+  display: inline-flex; /* يحوله إلى زر. */
+  align-items: center; /* محاذاة وسط. */
+  min-height: 38px; /* ارتفاع مريح. */
+  padding: 0 14px; /* حشوة أفقية. */
+  border: 1px solid rgba(50, 107, 246, 0.22); /* حد أزرق خفيف. */
+  border-radius: 999px; /* كبسولة. */
+  color: #326bf6; /* لون الهوية. */
+  background: #ffffff; /* خلفية بيضاء. */
+  font-size: 13px; /* حجم إداري. */
+  font-weight: 900; /* واضح. */
 }
 
 .about-editor-save {
-  border: 0;
-  border-radius: 14px;
-  background: #2f55c7;
-  color: #ffffff;
-  padding: 12px 18px;
-  font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
+  min-height: 40px; /* ارتفاع زر الحفظ. */
+  border: 0; /* إزالة حد المتصفح. */
+  border-radius: 999px; /* زر كبسولة. */
+  padding: 0 18px; /* عرض مناسب. */
+  background: #326bf6; /* لون الهوية. */
+  color: #ffffff; /* نص أبيض. */
+  font-size: 14px; /* حجم واضح. */
+  font-weight: 950; /* وزن قوي. */
+  cursor: pointer; /* يوضح قابلية النقر. */
+  box-shadow: 0 12px 28px rgba(50, 107, 246, 0.30); /* إبراز زر الحفظ. */
 }
 
 .about-editor-save:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  opacity: 0.65; /* حالة تعطيل. */
+  cursor: not-allowed; /* يمنع التوقع الخاطئ. */
+  box-shadow: none; /* يخفف الزر عند التعطيل. */
+}
+
+.about-builder-workspace {
+  display: grid; /* التخطيط الرئيسي بثلاث مناطق. */
+  grid-template-columns: 280px minmax(0, 1fr) minmax(390px, 0.88fr); /* قائمة + محرر + معاينة. */
+  gap: 18px; /* مسافة بين المناطق. */
+  align-items: start; /* يمنع تمدد الأعمدة. */
+}
+
+.about-builder-nav {
+  position: sticky; /* تبقى القائمة ظاهرة. */
+  top: 104px; /* تبدأ تحت شريط الحفظ. */
+  display: flex; /* ترتيب عمودي. */
+  flex-direction: column; /* عناصر فوق بعض. */
+  gap: 10px; /* مسافة بين العناصر. */
+  padding: 14px; /* حشوة داخلية. */
+  border: 1px solid rgba(15, 23, 42, 0.08); /* حد خفيف. */
+  border-radius: 26px; /* زوايا ناعمة. */
+  background: #ffffff; /* خلفية واضحة. */
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08); /* ظل احترافي. */
+}
+
+.about-builder-nav__head {
+  padding: 8px 8px 12px; /* حشوة رأس القائمة. */
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08); /* فاصل. */
+}
+
+.about-builder-nav__head strong {
+  display: block; /* عنوان مستقل. */
+  color: #0f172a; /* لون قوي. */
+  font-size: 15px; /* حجم مناسب. */
+  font-weight: 950; /* إبراز. */
+}
+
+.about-builder-nav__head span {
+  display: block; /* وصف مستقل. */
+  margin-top: 4px; /* مسافة صغيرة. */
+  color: #64748b; /* لون ثانوي. */
+  font-size: 12px; /* وصف صغير. */
+}
+
+.about-builder-nav__item {
+  display: flex; /* توزيع النص والعداد. */
+  align-items: center; /* محاذاة وسط. */
+  justify-content: space-between; /* العداد في الطرف. */
+  gap: 12px; /* مسافة. */
+  width: 100%; /* يملأ عرض القائمة. */
+  padding: 12px; /* مساحة نقر مريحة. */
+  border: 1px solid transparent; /* حد احتياطي. */
+  border-radius: 18px; /* شكل كرت. */
+  background: transparent; /* غير نشط بدون خلفية. */
+  color: #334155; /* نص داكن. */
+  text-align: start; /* يحترم اتجاه النص. */
+  cursor: pointer; /* قابل للنقر. */
+}
+
+.about-builder-nav__item strong {
+  display: block; /* عنوان القسم. */
+  font-size: 14px; /* حجم واضح. */
+  font-weight: 950; /* إبراز. */
+}
+
+.about-builder-nav__item small {
+  display: block; /* وصف القسم. */
+  margin-top: 3px; /* مسافة بسيطة. */
+  color: #64748b; /* وصف ثانوي. */
+  font-size: 11px; /* صغير. */
+}
+
+.about-builder-nav__item em {
+  min-width: 34px; /* يثبت مساحة العداد. */
+  padding: 5px 8px; /* حشوة صغيرة. */
+  border-radius: 999px; /* كبسولة. */
+  background: #eef2ff; /* خلفية عداد. */
+  color: #326bf6; /* لون الهوية. */
+  font-size: 11px; /* حجم عداد. */
+  font-style: normal; /* إزالة italic. */
+  font-weight: 950; /* واضح. */
+  text-align: center; /* توسيط. */
+}
+
+.about-builder-nav__item.is-active {
+  border-color: rgba(50, 107, 246, 0.28); /* حد نشط. */
+  background: linear-gradient(135deg, #eef4ff, #ffffff); /* خلفية نشطة. */
+  box-shadow: 0 10px 22px rgba(50, 107, 246, 0.12); /* إبراز نشط. */
+}
+
+.about-builder-panel {
+  min-width: 0; /* يمنع تكسير grid. */
 }
 
 .about-editor-card {
-  border: 1px solid #dbe3f0;
-  border-radius: 24px;
-  background: #ffffff;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.05);
+  padding: 22px; /* حشوة الكرت. */
+  border: 1px solid rgba(15, 23, 42, 0.08); /* حد خفيف. */
+  border-radius: 26px; /* زوايا ناعمة. */
+  background: #ffffff; /* خلفية بيضاء. */
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08); /* ظل ناعم. */
 }
 
-.about-editor-card__title {
-  margin: 0 0 18px;
-  color: #101828;
-  font-size: 24px;
-  font-weight: 800;
+.about-editor-card--active {
+  min-height: 520px; /* يعطي مساحة عمل محترمة. */
+}
+
+.about-section-heading {
+  display: flex; /* رقم + نص. */
+  align-items: flex-start; /* محاذاة من الأعلى. */
+  gap: 14px; /* مسافة. */
+  margin-bottom: 20px; /* فصل عن الحقول. */
+}
+
+.about-section-heading.compact {
+  margin-bottom: 0; /* يستخدم داخل رأس sticky. */
+}
+
+.about-section-heading > span {
+  display: inline-flex; /* رقم القسم داخل مربع. */
+  align-items: center; /* توسيط عمودي. */
+  justify-content: center; /* توسيط أفقي. */
+  width: 42px; /* عرض الرقم. */
+  height: 42px; /* ارتفاع الرقم. */
+  border-radius: 14px; /* زوايا ناعمة. */
+  background: #326bf6; /* لون الهوية. */
+  color: #ffffff; /* رقم أبيض. */
+  font-size: 13px; /* حجم الرقم. */
+  font-weight: 950; /* إبراز. */
+}
+
+.about-section-heading h2 {
+  margin: 0; /* إزالة هوامش. */
+  color: #0f172a; /* عنوان داكن. */
+  font-size: 24px; /* واضح. */
+  font-weight: 950; /* قوي. */
+  letter-spacing: -0.03em; /* حديث. */
+}
+
+.about-section-heading p {
+  margin: 5px 0 0; /* مسافة وصف. */
+  color: #64748b; /* وصف ثانوي. */
+  line-height: 1.6; /* قراءة أفضل. */
+  font-size: 13px; /* مناسب. */
 }
 
 .about-grid {
-  display: grid;
-  gap: 16px;
+  display: grid; /* شبكة حقول. */
+  gap: 16px; /* مسافة بين الحقول. */
 }
 
 .about-grid.two {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* عمودان للديسكتوب. */
+}
+
+.about-block-gap {
+  margin-bottom: 18px; /* فصل بين حقول القسم والعناصر المتكررة. */
 }
 
 .about-field {
-  display: grid;
-  gap: 8px;
+  display: flex; /* ترتيب label ثم input. */
+  flex-direction: column; /* عمودي. */
+  gap: 7px; /* مسافة داخلية. */
 }
 
 .about-field__label {
-  color: #101828;
-  font-size: 13px;
-  font-weight: 700;
+  color: #0f172a; /* label واضح. */
+  font-size: 13px; /* حجم إداري. */
+  font-weight: 900; /* إبراز. */
 }
 
 .about-field__hint {
-  color: #667085;
-  font-size: 12px;
-  line-height: 1.6;
+  color: #64748b; /* تلميح ثانوي. */
+  font-size: 12px; /* أصغر من label. */
+  line-height: 1.5; /* قراءة أفضل. */
 }
 
 .about-field input,
 .about-field textarea {
-  width: 100%;
-  border: 1px solid #cfd8e6;
-  border-radius: 14px;
-  background: #ffffff;
-  color: #101828;
-  padding: 12px 14px;
-  font-size: 14px;
-  line-height: 1.7;
-  outline: none;
+  width: 100%; /* يملأ الحقل. */
+  border: 1px solid rgba(148, 163, 184, 0.55); /* حد واضح. */
+  border-radius: 15px; /* زوايا عصرية. */
+  padding: 12px 13px; /* حشوة مريحة. */
+  background: #f8fafc; /* خلفية إدخال ناعمة. */
+  color: #0f172a; /* لون نص. */
+  font: inherit; /* خط موحد. */
+  outline: none; /* إزالة outline الافتراضي. */
+}
+
+.about-field textarea {
+  resize: vertical; /* يسمح بتكبير رأسي فقط. */
+  min-height: 104px; /* ارتفاع مناسب. */
 }
 
 .about-field input:focus,
 .about-field textarea:focus {
-  border-color: #2f55c7;
-  box-shadow: 0 0 0 3px rgba(47, 85, 199, 0.12);
+  border-color: #326bf6; /* لون focus. */
+  background: #ffffff; /* خلفية أوضح عند التركيز. */
+  box-shadow: 0 0 0 4px rgba(50, 107, 246, 0.12); /* حلقة focus احترافية. */
 }
 
 .about-checkbox {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 18px;
-  color: #101828;
-  font-size: 14px;
-  font-weight: 700;
+  display: inline-flex; /* checkbox + text. */
+  align-items: center; /* محاذاة وسط. */
+  gap: 10px; /* مسافة. */
+  margin-top: 18px; /* فصل عن الحقول. */
+  color: #0f172a; /* نص واضح. */
+  font-weight: 900; /* إبراز. */
+}
+
+.about-checkbox--large {
+  padding: 12px 14px; /* حشوة إضافية. */
+  border-radius: 16px; /* كرت صغير. */
+  background: #f8fafc; /* خلفية ناعمة. */
+}
+
+.about-checkbox input {
+  width: 18px; /* حجم checkbox. */
+  height: 18px; /* حجم checkbox. */
 }
 
 .about-subheader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  margin: 24px 0 16px;
+  display: flex; /* عنوان + زر. */
+  align-items: center; /* محاذاة وسط. */
+  justify-content: space-between; /* زر في الطرف. */
+  gap: 14px; /* مسافة. */
+  margin-bottom: 18px; /* فصل عن القائمة. */
 }
 
-.about-subheader h3 {
-  margin: 0;
-  color: #101828;
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.about-add-btn,
-.about-remove-btn {
-  border: 0;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
+.about-subheader--sticky {
+  position: sticky; /* رأس القسم يبقى أثناء عناصر كثيرة. */
+  top: 96px; /* تحت شريط الحفظ. */
+  z-index: 8; /* فوق الكروت. */
+  padding: 10px; /* حشوة. */
+  margin: -10px -10px 18px; /* يعوض الحشوة. */
+  border-radius: 20px; /* زوايا. */
+  background: rgba(255, 255, 255, 0.92); /* خلفية شبه شفافة. */
+  backdrop-filter: blur(12px); /* زجاجي. */
 }
 
 .about-add-btn {
-  background: #e8efff;
-  color: #2f55c7;
-}
-
-.about-remove-btn {
-  background: #fff1f1;
-  color: #b42318;
+  border: 0; /* إزالة الحد. */
+  border-radius: 999px; /* كبسولة. */
+  padding: 10px 14px; /* حجم مناسب. */
+  background: #0f172a; /* لون داكن. */
+  color: #ffffff; /* نص أبيض. */
+  font-size: 13px; /* حجم إداري. */
+  font-weight: 900; /* واضح. */
+  cursor: pointer; /* قابل للنقر. */
 }
 
 .about-stack {
-  display: grid;
-  gap: 16px;
+  display: flex; /* ترتيب العناصر عمودي. */
+  flex-direction: column; /* فوق بعض. */
+  gap: 14px; /* مسافة بين الكروت. */
 }
 
 .about-item-card {
-  border: 1px solid #dbe3f0;
-  border-radius: 20px;
-  background: #f9fbff;
-  padding: 18px;
+  padding: 16px; /* حشوة داخلية. */
+  border: 1px solid rgba(148, 163, 184, 0.35); /* حد كرت. */
+  border-radius: 20px; /* زوايا. */
+  background: #fbfdff; /* خلفية خفيفة. */
 }
 
 .about-item-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
+  display: flex; /* عنوان وزر حذف. */
+  align-items: center; /* محاذاة وسط. */
+  justify-content: space-between; /* توزيع. */
+  gap: 12px; /* مسافة. */
+  margin-bottom: 14px; /* فصل عن الحقول. */
 }
 
 .about-item-head strong {
-  color: #101828;
-  font-size: 15px;
-  font-weight: 800;
+  color: #0f172a; /* نص واضح. */
+  font-weight: 950; /* إبراز. */
 }
 
-@media (max-width: 980px) {
+.about-remove-btn {
+  border: 0; /* إزالة الحد. */
+  border-radius: 999px; /* كبسولة. */
+  padding: 8px 12px; /* حجم مناسب. */
+  background: #fee2e2; /* خلفية حذف. */
+  color: #b91c1c; /* نص أحمر. */
+  font-size: 12px; /* حجم صغير. */
+  font-weight: 900; /* واضح. */
+  cursor: pointer; /* قابل للنقر. */
+}
+
+.about-live-preview {
+  position: sticky; /* تبقى المعاينة ظاهرة. */
+  top: 104px; /* أسفل شريط الحفظ. */
+  overflow: hidden; /* يمنع خروج المعاينة. */
+  border: 1px solid rgba(15, 23, 42, 0.10); /* حد خفيف. */
+  border-radius: 28px; /* زوايا ناعمة. */
+  background: #ffffff; /* خلفية. */
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.10); /* ظل. */
+}
+
+.about-live-preview__toolbar {
+  display: flex; /* عنوان وأزرار. */
+  align-items: center; /* محاذاة. */
+  justify-content: space-between; /* توزيع. */
+  gap: 14px; /* مسافة. */
+  padding: 15px; /* حشوة. */
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08); /* فاصل. */
+  background: linear-gradient(135deg, #f8fafc, #edf4ff); /* رأس المعاينة. */
+}
+
+.about-live-preview__eyebrow {
+  display: block; /* label مستقل. */
+  color: #326bf6; /* لون الهوية. */
+  font-size: 11px; /* صغير. */
+  font-weight: 950; /* بارز. */
+  letter-spacing: 0.10em; /* مظهر احترافي. */
+  text-transform: uppercase; /* uppercase. */
+}
+
+.about-live-preview__toolbar strong {
+  color: #0f172a; /* عنوان المعاينة. */
+  font-size: 15px; /* حجم مناسب. */
+  font-weight: 950; /* بارز. */
+}
+
+.about-live-preview__devices {
+  display: inline-flex; /* أزرار بجانب بعض. */
+  padding: 4px; /* حشوة. */
+  border-radius: 999px; /* كبسولة. */
+  background: rgba(15, 23, 42, 0.06); /* خلفية. */
+}
+
+.about-live-preview__devices button {
+  border: 0; /* إزالة الحد. */
+  border-radius: 999px; /* كبسولة. */
+  padding: 7px 10px; /* حجم. */
+  background: transparent; /* غير نشط. */
+  color: #475569; /* لون. */
+  font-size: 12px; /* حجم. */
+  font-weight: 900; /* وزن. */
+  cursor: pointer; /* قابل للنقر. */
+}
+
+.about-live-preview__devices button.is-active {
+  background: #326bf6; /* نشط. */
+  color: #ffffff; /* نص أبيض. */
+  box-shadow: 0 8px 18px rgba(50, 107, 246, 0.28); /* إبراز. */
+}
+
+.about-live-preview__stage {
+  padding: 18px; /* مساحة حول المعاينة. */
+  background: #e8edf6; /* canvas. */
+  overflow-x: auto; /* يسمح بعرض tablet. */
+}
+
+.about-live-preview__stage.is-desktop .about-preview-page {
+  width: 100%; /* ديسكتوب. */
+}
+
+.about-live-preview__stage.is-tablet .about-preview-page {
+  width: 760px; /* تابلت. */
+  max-width: 100%; /* لا يتجاوز الحاوية. */
+}
+
+.about-live-preview__stage.is-mobile .about-preview-page {
+  width: 390px; /* موبايل. */
+  max-width: 100%; /* يحافظ على الاستجابة. */
+}
+
+.about-preview-page {
+  margin-inline: auto; /* توسيط. */
+  overflow: hidden; /* قص الزوايا. */
+  border-radius: 24px; /* شكل جهاز. */
+  background: #ffffff; /* خلفية الصفحة. */
+  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.22); /* ظل. */
+}
+
+.about-preview-hero {
+  position: relative; /* لوضع النص فوق الصورة. */
+  min-height: 320px; /* ارتفاع hero. */
+  background: #326bf6; /* fallback. */
+}
+
+.about-preview-hero img {
+  width: 100%; /* ملء العرض. */
+  height: 320px; /* ارتفاع ثابت. */
+  display: block; /* منع فراغات. */
+  object-fit: cover; /* قص احترافي. */
+  filter: brightness(0.72); /* يوضح النص. */
+}
+
+.about-preview-hero__copy {
+  position: absolute; /* فوق الصورة. */
+  inset-inline: 24px; /* يمين ويسار. */
+  bottom: 24px; /* أسفل. */
+  color: #ffffff; /* نص أبيض. */
+}
+
+.about-preview-hero__copy span {
+  display: inline-block; /* كبسولة. */
+  margin-bottom: 10px; /* فصل. */
+  padding: 5px 10px; /* حشوة. */
+  border-radius: 999px; /* كبسولة. */
+  background: rgba(255, 255, 255, 0.18); /* شفافية. */
+  font-size: 11px; /* صغير. */
+  font-weight: 900; /* واضح. */
+}
+
+.about-preview-hero__copy h2 {
+  margin: 0 0 8px; /* مسافة. */
+  font-size: clamp(22px, 3vw, 34px); /* متجاوب. */
+  line-height: 1.15; /* مضبوط. */
+}
+
+.about-preview-hero__copy p {
+  max-width: 560px; /* لا يتمدد. */
+  margin: 0; /* بدون هامش. */
+  color: rgba(255, 255, 255, 0.86); /* نص ثانوي. */
+  font-size: 14px; /* حجم مناسب. */
+  line-height: 1.6; /* قراءة. */
+}
+
+.about-preview-section {
+  padding: 28px; /* حشوة. */
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08); /* فاصل. */
+}
+
+.about-preview-section--blue {
+  background: #326bf6; /* قسم أزرق. */
+  color: #ffffff; /* نص أبيض. */
+}
+
+.about-preview-section span {
+  display: block; /* label. */
+  margin-bottom: 8px; /* فصل. */
+  font-size: 12px; /* صغير. */
+  font-weight: 900; /* واضح. */
+  opacity: 0.85; /* ناعم. */
+}
+
+.about-preview-section h3 {
+  margin: 0 0 10px; /* مسافة. */
+  color: inherit; /* يرث اللون. */
+  font-size: 22px; /* عنوان. */
+}
+
+.about-preview-section p {
+  margin: 0; /* بدون هامش. */
+  color: inherit; /* يرث. */
+  opacity: 0.82; /* ثانوي. */
+  line-height: 1.65; /* قراءة. */
+}
+
+.about-preview-card {
+  display: grid; /* صورة + نص. */
+  grid-template-columns: 120px 1fr; /* الصورة يسار. */
+  gap: 16px; /* مسافة. */
+  align-items: center; /* وسط. */
+  margin-top: 18px; /* فصل. */
+  padding: 14px; /* حشوة. */
+  border-radius: 18px; /* زوايا. */
+  background: #f8fafc; /* خلفية. */
+}
+
+.about-preview-card img {
+  width: 120px; /* عرض. */
+  height: 90px; /* ارتفاع. */
+  border-radius: 14px; /* زوايا. */
+  object-fit: cover; /* قص. */
+}
+
+.about-preview-card strong {
+  display: block; /* عنوان. */
+  margin-bottom: 6px; /* مسافة. */
+  color: #0f172a; /* لون. */
+}
+
+.about-preview-mini-grid {
+  display: grid; /* شبكة. */
+  grid-template-columns: repeat(2, 1fr); /* عمودان. */
+  gap: 12px; /* مسافة. */
+  padding: 18px; /* حشوة. */
+  background: #0f172a; /* خلفية داكنة. */
+}
+
+.about-preview-mini-grid div {
+  padding: 16px; /* حشوة كرت. */
+  border-radius: 16px; /* زوايا. */
+  background: rgba(255, 255, 255, 0.08); /* كرت شفاف. */
+  color: #ffffff; /* نص أبيض. */
+}
+
+.about-preview-mini-grid small,
+.about-preview-mini-grid span {
+  display: block; /* كل نص بسطر. */
+  color: rgba(255, 255, 255, 0.66); /* لون ثانوي. */
+}
+
+.about-preview-mini-grid strong {
+  display: block; /* عنصر بارز. */
+  margin: 6px 0; /* مسافة. */
+  font-size: 22px; /* كبير. */
+}
+
+@media (max-width: 1320px) {
+  .about-builder-workspace {
+    grid-template-columns: 240px minmax(0, 1fr); /* القائمة + المحرر. */
+  }
+
+  .about-live-preview {
+    grid-column: 1 / -1; /* المعاينة تحت الأعمدة. */
+    position: relative; /* إلغاء sticky. */
+    top: auto; /* بدون إزاحة. */
+  }
+}
+
+@media (max-width: 900px) {
   .about-admin-page {
-    padding: 16px;
+    padding: 16px; /* تقليل الحواف. */
+  }
+
+  .about-builder-topbar {
+    position: relative; /* منع ازدحام sticky في الشاشات الصغيرة. */
+    top: auto; /* إلغاء. */
+    align-items: flex-start; /* ترتيب مريح. */
+    flex-direction: column; /* عمودي. */
+  }
+
+  .about-builder-topbar__actions {
+    justify-content: flex-start; /* أزرار تحت العنوان. */
+  }
+
+  .about-builder-workspace {
+    grid-template-columns: 1fr; /* عمود واحد. */
+  }
+
+  .about-builder-nav {
+    position: relative; /* إلغاء sticky. */
+    top: auto; /* إلغاء. */
   }
 
   .about-grid.two {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* حقل واحد بالسطر. */
+  }
+}
+
+@media (max-width: 640px) {
+  .about-subheader {
+    align-items: flex-start; /* تكديس مريح. */
+    flex-direction: column; /* عمودي. */
   }
 
-  .about-editor-actions,
-  .about-subheader,
-  .about-item-head {
-    flex-direction: column;
-    align-items: stretch;
+  .about-live-preview__toolbar {
+    align-items: flex-start; /* شريط المعاينة عمودي. */
+    flex-direction: column; /* ترتيب موبايل. */
   }
 
-  .about-editor-save,
-  .about-add-btn,
-  .about-remove-btn {
-    width: 100%;
+  .about-preview-card {
+    grid-template-columns: 1fr; /* كرت المعاينة عمودي. */
+  }
+
+  .about-preview-card img {
+    width: 100%; /* صورة كاملة العرض. */
+    height: 170px; /* ارتفاع مناسب. */
+  }
+
+  .about-preview-mini-grid {
+    grid-template-columns: 1fr; /* شبكة موبايل. */
   }
 }
