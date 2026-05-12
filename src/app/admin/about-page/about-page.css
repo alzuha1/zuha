@@ -737,3 +737,302 @@
     grid-template-columns: 1fr; /* شبكة موبايل. */
   }
 }
+
+
+
+
+/* ==========================================================================
+   ABOUT ADMIN BUILDER - WORKSPACE POLISH
+   الهدف:
+   تحويل واجهة About Builder إلى مساحة عمل احترافية:
+   - القائمة اليسرى ثابتة.
+   - المحرر الأوسط مريح.
+   - المعاينة اليمنى ثابتة وبتمرير داخلي.
+   - تقليل التشتت والمسافات الزائدة.
+   ========================================================================== */
+
+/* ضبط مساحة العمل الرئيسية بثلاثة أعمدة واضحة */
+.about-builder-workspace,
+.about-builder-grid,
+.about-builder-layout {
+  display: grid !important;
+  grid-template-columns: 260px minmax(520px, 1fr) minmax(430px, 0.9fr) !important;
+  gap: 22px !important;
+  align-items: start !important;
+}
+
+/* القائمة اليسرى تبقى واضحة أثناء العمل */
+.about-builder-sidebar,
+.about-section-nav,
+.about-builder-sections {
+  position: sticky !important;
+  top: 18px !important;
+  max-height: calc(100vh - 36px) !important;
+  overflow-y: auto !important;
+  border-radius: 28px !important;
+}
+
+/* تحسين أزرار الأقسام */
+.about-builder-sidebar button,
+.about-section-nav button,
+.about-builder-sections button {
+  width: 100% !important;
+  min-height: 68px !important;
+  border-radius: 20px !important;
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease !important;
+}
+
+/* تفاعل خفيف عند المرور */
+.about-builder-sidebar button:hover,
+.about-section-nav button:hover,
+.about-builder-sections button:hover {
+  transform: translateY(-1px) !important;
+}
+
+/* المحرر الأوسط: يمنع التمدد العشوائي */
+.about-builder-editor,
+.about-builder-panel {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* كروت التحرير تكون أكثر ضغطًا واحترافية */
+.about-editor-card,
+.about-builder-card {
+  border-radius: 28px !important;
+  padding: 26px !important;
+  margin-bottom: 18px !important;
+}
+
+/* تقليل ضخامة حقول الإدخال */
+.about-editor input,
+.about-editor textarea,
+.about-editor select {
+  border-radius: 16px !important;
+  min-height: 48px !important;
+}
+
+/* النصوص الطويلة لا تكسر التخطيط */
+.about-editor textarea {
+  resize: vertical !important;
+  max-height: 220px !important;
+}
+
+/* عناصر مكررة مثل أعضاء الفريق والخدمات */
+.about-item-card,
+.about-builder-item {
+  border-radius: 24px !important;
+  padding: 22px !important;
+  margin-bottom: 16px !important;
+}
+
+/* رأس العنصر: العنوان وزر الحذف */
+.about-item-head {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 2 !important;
+  background: inherit !important;
+  padding-bottom: 10px !important;
+}
+
+/* المعاينة اليمنى يجب أن تكون ثابتة ومريحة */
+.about-live-preview,
+.about-builder-preview {
+  position: sticky !important;
+  top: 18px !important;
+  max-height: calc(100vh - 36px) !important;
+  overflow: hidden !important;
+  border-radius: 30px !important;
+}
+
+/* منطقة المعاينة نفسها يكون لها تمرير داخلي */
+.about-live-preview__stage,
+.about-preview-stage,
+.about-builder-preview-stage {
+  max-height: calc(100vh - 132px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* إخفاء scrollbar بشكل أنظف في المعاينة */
+.about-live-preview__stage::-webkit-scrollbar,
+.about-preview-stage::-webkit-scrollbar,
+.about-builder-preview-stage::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.about-live-preview__stage::-webkit-scrollbar-thumb,
+.about-preview-stage::-webkit-scrollbar-thumb,
+.about-builder-preview-stage::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.25) !important;
+  border-radius: 999px !important;
+}
+
+/* شريط الحفظ العلوي يكون ثابتًا ومفيدًا */
+.about-builder-toolbar,
+.about-editor-actions {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 30 !important;
+  backdrop-filter: blur(18px) !important;
+  background: rgba(248, 250, 252, 0.86) !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  border-radius: 26px !important;
+  margin-bottom: 20px !important;
+}
+
+/* زر الحفظ أوضح */
+.about-editor-save,
+.about-builder-save {
+  min-height: 48px !important;
+  padding-inline: 24px !important;
+  border-radius: 999px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 12px 28px rgba(50, 107, 246, 0.28) !important;
+}
+
+/* أزرار العرض Desktop/Tablet/Mobile */
+.about-live-preview__devices,
+.about-preview-devices {
+  white-space: nowrap !important;
+}
+
+/* تحسين preview على الموبايل داخل الأدمن */
+.about-live-preview__stage.is-mobile .about-preview-page,
+.about-preview-stage.is-mobile .about-preview-page {
+  width: 390px !important;
+  max-width: 100% !important;
+}
+
+/* تحسين preview على التابلت */
+.about-live-preview__stage.is-tablet .about-preview-page,
+.about-preview-stage.is-tablet .about-preview-page {
+  width: 760px !important;
+  max-width: 100% !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE ADMIN WORKSPACE
+   ========================================================================== */
+
+@media (max-width: 1380px) {
+  .about-builder-workspace,
+  .about-builder-grid,
+  .about-builder-layout {
+    grid-template-columns: 230px minmax(480px, 1fr) minmax(390px, 0.85fr) !important;
+    gap: 18px !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  .about-builder-workspace,
+  .about-builder-grid,
+  .about-builder-layout {
+    grid-template-columns: 220px minmax(0, 1fr) !important;
+  }
+
+  .about-live-preview,
+  .about-builder-preview {
+    grid-column: 1 / -1 !important;
+    position: relative !important;
+    top: auto !important;
+    max-height: none !important;
+  }
+
+  .about-live-preview__stage,
+  .about-preview-stage,
+  .about-builder-preview-stage {
+    max-height: 720px !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .about-builder-workspace,
+  .about-builder-grid,
+  .about-builder-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-builder-sidebar,
+  .about-section-nav,
+  .about-builder-sections {
+    position: relative !important;
+    top: auto !important;
+    max-height: none !important;
+  }
+
+  .about-builder-sidebar,
+  .about-section-nav,
+  .about-builder-sections {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .about-builder-toolbar,
+  .about-editor-actions {
+    position: relative !important;
+    top: auto !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .about-builder-sidebar,
+  .about-section-nav,
+  .about-builder-sections {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-editor-card,
+  .about-builder-card,
+  .about-item-card,
+  .about-builder-item {
+    padding: 18px !important;
+    border-radius: 22px !important;
+  }
+}
+
+
+
+
+
+/* زر تبديل لغة واجهة الأدمن */
+.about-builder-lang {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.06);
+}
+
+/* زر لغة منفرد */
+.about-builder-lang button {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: transparent;
+  color: #475569;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* اللغة النشطة */
+.about-builder-lang button.is-active {
+  background: #326bf6;
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(50, 107, 246, 0.26);
+}
+
+/* تحسين اتجاه واجهة الأدمن عند العربية */
+.about-editor[dir="rtl"] .about-builder-topbar,
+.about-editor[dir="rtl"] .about-builder-workspace {
+  direction: rtl;
+}
+
+/* إبقاء النصوص الإنجليزية داخل input كما يكتبها المستخدم */
+.about-editor input,
+.about-editor textarea {
+  unicode-bidi: plaintext;
+}

@@ -134,6 +134,208 @@ type AdminSectionId =
 type PreviewDevice = "desktop" | "tablet" | "mobile";
 // أحجام المعاينة الحية.
 
+type BuilderLang = "ar" | "en";
+// نوع لغة واجهة لوحة التحكم نفسها؛ هذا لا يغيّر بيانات الصفحة، بل يغيّر أسماء الأزرار والعناوين فقط.
+
+const builderCopy = {
+  ar: {
+    cms: "ALZUHA CMS",
+    builderTitle: "منشئ صفحة النبذة",
+    builderDesc: "جاهز — عدّل الحقول وشاهد التغييرات مباشرة.",
+    save: "حفظ التغييرات",
+    saving: "جارٍ الحفظ...",
+    viewPage: "عرض الصفحة",
+    live: "منشور",
+    draft: "مسودة",
+    loading: "جارٍ تحميل محرر صفحة النبذة...",
+    sections: "الأقسام",
+    organizedEditor: "محرر منظم",
+    livePreview: "معاينة مباشرة",
+    aboutPage: "صفحة النبذة",
+    desktop: "ديسكتوب",
+    tablet: "تابلت",
+    mobile: "موبايل",
+    overview: "عام",
+    overviewDesc: "عنوان الصفحة، الملخص، وحالة النشر",
+    hero: "الهيرو",
+    heroDesc: "المقدمة الرئيسية والأزرار والصورة الأساسية",
+    slides: "الشرائح",
+    slidesDesc: "معرض الهيرو المتحرك",
+    vision: "الرؤية",
+    visionDesc: "الرؤية والتموضع المؤسسي",
+    services: "الخدمات",
+    servicesDesc: "بطاقات الخدمات في صفحة النبذة",
+    stats: "الإحصائيات",
+    statsDesc: "الأرقام والمؤشرات ونقاط الإثبات",
+    team: "الفريق",
+    teamDesc: "بطاقات الفريق والأدوار القيادية",
+    footer: "الفوتر",
+    footerDesc: "بيانات التواصل والروابط الاجتماعية",
+    addSlide: "إضافة شريحة",
+    addService: "إضافة خدمة",
+    addStat: "إضافة إحصائية",
+    addMember: "إضافة عضو",
+    addSocial: "إضافة رابط اجتماعي",
+    remove: "حذف",
+    publishedOnWebsite: "منشور على الموقع",
+    pageTitleAr: "عنوان الصفحة AR",
+    pageTitleEn: "عنوان الصفحة EN",
+    summaryAr: "الملخص AR",
+    summaryEn: "الملخص EN",
+    heroKickerAr: "عبارة الهيرو AR",
+    heroKickerEn: "عبارة الهيرو EN",
+    heroTitleAr: "عنوان الهيرو AR",
+    heroTitleEn: "عنوان الهيرو EN",
+    heroDescAr: "وصف الهيرو AR",
+    heroDescEn: "وصف الهيرو EN",
+    mainHeroImage: "رابط صورة الهيرو الرئيسية",
+    primaryButtonHref: "رابط الزر الأساسي",
+    primaryButtonAr: "نص الزر الأساسي AR",
+    primaryButtonEn: "نص الزر الأساسي EN",
+    secondaryButtonHref: "رابط الزر الثانوي",
+    secondaryButtonAr: "نص الزر الثانوي AR",
+    secondaryButtonEn: "نص الزر الثانوي EN",
+    imageHint: "مثال: /pages/about/img/img%20(1).jpg",
+    titleAr: "العنوان AR",
+    titleEn: "العنوان EN",
+    descriptionAr: "الوصف AR",
+    descriptionEn: "الوصف EN",
+    imageUrl: "رابط الصورة",
+    label: "الوسم",
+    href: "الرابط",
+    textAr: "النص AR",
+    textEn: "النص EN",
+    buttonAr: "الزر AR",
+    buttonEn: "الزر EN",
+    number: "الرقم",
+    nameAr: "الاسم AR",
+    nameEn: "الاسم EN",
+    roleAr: "الدور AR",
+    roleEn: "الدور EN",
+    email: "البريد الإلكتروني",
+    phone: "الهاتف",
+    addressAr: "العنوان AR",
+    addressEn: "العنوان EN",
+    slide: "شريحة",
+    service: "خدمة",
+    stat: "إحصائية",
+    member: "عضو",
+    social: "رابط اجتماعي",
+    savedSuccessfully: "تم الحفظ بنجاح.",
+    failedSave: "فشل حفظ التغييرات.",
+    failedLoad: "فشل تحميل بيانات المحرر.",
+    failedLoadAbout: "فشل تحميل بيانات صفحة النبذة",
+    aboutFallback: "معاينة صفحة النبذة",
+    visionTitleFallback: "عنوان الرؤية",
+    visionDescFallback: "وصف الرؤية",
+    serviceTitleFallback: "عنوان الخدمة",
+    serviceDescFallback: "وصف الخدمة",
+    projectsFallback: "المشاريع",
+    teamMemberFallback: "عضو الفريق",
+    roleFallback: "الدور",
+  },
+  en: {
+    cms: "ALZUHA CMS",
+    builderTitle: "About Live Builder",
+    builderDesc: "Ready — edit fields and preview changes live.",
+    save: "Save Changes",
+    saving: "Saving...",
+    viewPage: "View Page",
+    live: "Live",
+    draft: "Draft",
+    loading: "Loading About page editor...",
+    sections: "Sections",
+    organizedEditor: "Organized editor",
+    livePreview: "Live Preview",
+    aboutPage: "About Page",
+    desktop: "desktop",
+    tablet: "tablet",
+    mobile: "mobile",
+    overview: "Overview",
+    overviewDesc: "Page title, summary, publish",
+    hero: "Hero",
+    heroDesc: "Main hero content and buttons",
+    slides: "Slides",
+    slidesDesc: "Stacked hero gallery",
+    vision: "Vision",
+    visionDesc: "Institutional vision and positioning",
+    services: "Services",
+    servicesDesc: "Cards shown in the About service section",
+    stats: "Stats",
+    statsDesc: "Numbers, proof points, and impact",
+    team: "Team",
+    teamDesc: "Team cards and leadership presentation",
+    footer: "Footer",
+    footerDesc: "Contact details and social links",
+    addSlide: "Add Slide",
+    addService: "Add Service",
+    addStat: "Add Stat",
+    addMember: "Add Member",
+    addSocial: "Add Social",
+    remove: "Remove",
+    publishedOnWebsite: "Published on website",
+    pageTitleAr: "Page Title AR",
+    pageTitleEn: "Page Title EN",
+    summaryAr: "Summary AR",
+    summaryEn: "Summary EN",
+    heroKickerAr: "Hero Kicker AR",
+    heroKickerEn: "Hero Kicker EN",
+    heroTitleAr: "Hero Title AR",
+    heroTitleEn: "Hero Title EN",
+    heroDescAr: "Hero Description AR",
+    heroDescEn: "Hero Description EN",
+    mainHeroImage: "Main Hero Image URL",
+    primaryButtonHref: "Primary Button Href",
+    primaryButtonAr: "Primary Button AR",
+    primaryButtonEn: "Primary Button EN",
+    secondaryButtonHref: "Secondary Button Href",
+    secondaryButtonAr: "Secondary Button AR",
+    secondaryButtonEn: "Secondary Button EN",
+    imageHint: "Example: /pages/about/img/img%20(1).jpg",
+    titleAr: "Title AR",
+    titleEn: "Title EN",
+    descriptionAr: "Description AR",
+    descriptionEn: "Description EN",
+    imageUrl: "Image URL",
+    label: "Label",
+    href: "Href",
+    textAr: "Text AR",
+    textEn: "Text EN",
+    buttonAr: "Button AR",
+    buttonEn: "Button EN",
+    number: "Number",
+    nameAr: "Name AR",
+    nameEn: "Name EN",
+    roleAr: "Role AR",
+    roleEn: "Role EN",
+    email: "Email",
+    phone: "Phone",
+    addressAr: "Address AR",
+    addressEn: "Address EN",
+    slide: "Slide",
+    service: "Service",
+    stat: "Stat",
+    member: "Member",
+    social: "Social",
+    savedSuccessfully: "Saved successfully.",
+    failedSave: "Failed to save changes.",
+    failedLoad: "Failed to load editor data",
+    failedLoadAbout: "Failed to load About page data",
+    aboutFallback: "About page preview",
+    visionTitleFallback: "Vision title",
+    visionDescFallback: "Vision description",
+    serviceTitleFallback: "Service title",
+    serviceDescFallback: "Service description",
+    projectsFallback: "Projects",
+    teamMemberFallback: "Team Member",
+    roleFallback: "Role",
+  },
+} as const;
+// قاموس النصوص الخاص بواجهة الأدمن؛ وضعناه محليًا حتى لا نغيّر API أو قاعدة البيانات.
+
+type BuilderCopy = (typeof builderCopy)[BuilderLang];
+// نوع مساعد يضمن أن كل المكوّنات تستخدم مفاتيح ترجمة صحيحة.
+
 function createDefaultPayload(): AboutPagePayload {
   // نسخة احتياطية تمنع انهيار اللوحة إذا تأخر API أو رجع سجلًا ناقصًا.
   return {
@@ -285,23 +487,43 @@ function BuilderHeader(props: {
   message: string;
   saving: boolean;
   published: boolean;
+  lang: BuilderLang;
+  copy: BuilderCopy;
   onSave: () => void;
+  onLangChange: (lang: BuilderLang) => void;
 }) {
   // شريط علوي ثابت نسبيًا يحفظ أهم الإجراءات أمام المستخدم.
   return (
     <div className="about-builder-topbar">
       <div>
-        <span className="about-builder-topbar__eyebrow">ALZUHA CMS</span>
-        <h2>About Live Builder</h2>
-        <p>{props.message || "Ready — edit fields and preview changes live."}</p>
+        <span className="about-builder-topbar__eyebrow">{props.copy.cms}</span>
+        <h2>{props.copy.builderTitle}</h2>
+        <p>{props.message || props.copy.builderDesc}</p>
       </div>
 
       <div className="about-builder-topbar__actions">
+        <div className="about-builder-lang" aria-label="Admin builder language">
+          <button
+            type="button"
+            className={props.lang === "ar" ? "is-active" : ""}
+            onClick={() => props.onLangChange("ar")}
+          >
+            AR
+          </button>
+          <button
+            type="button"
+            className={props.lang === "en" ? "is-active" : ""}
+            onClick={() => props.onLangChange("en")}
+          >
+            EN
+          </button>
+        </div>
+
         <span className={props.published ? "about-publish-pill is-live" : "about-publish-pill"}>
-          {props.published ? "Live" : "Draft"}
+          {props.published ? props.copy.live : props.copy.draft}
         </span>
         <a className="about-open-page" href="/about" target="_blank" rel="noreferrer">
-          View Page
+          {props.copy.viewPage}
         </a>
         <button
           type="button"
@@ -309,7 +531,7 @@ function BuilderHeader(props: {
           onClick={props.onSave}
           disabled={props.saving}
         >
-          {props.saving ? "Saving..." : "Save Changes"}
+          {props.saving ? props.copy.saving : props.copy.save}
         </button>
       </div>
     </div>
@@ -320,24 +542,25 @@ function SectionNav(props: {
   active: AdminSectionId;
   setActive: (id: AdminSectionId) => void;
   counts: Record<AdminSectionId, string>;
+  copy: BuilderCopy;
 }) {
   // قائمة أقسام جانبية بدل نموذج طويل مرهق.
   const items: Array<{ id: AdminSectionId; title: string; desc: string }> = [
-    { id: "overview", title: "Overview", desc: "Page title, summary, publish" },
-    { id: "hero", title: "Hero", desc: "Main hero content and buttons" },
-    { id: "slides", title: "Slides", desc: "Stacked hero gallery" },
-    { id: "vision", title: "Vision", desc: "Institutional statement" },
-    { id: "services", title: "Services", desc: "Service cards" },
-    { id: "stats", title: "Stats", desc: "Numbers and proof" },
-    { id: "team", title: "Team", desc: "Members and roles" },
-    { id: "footer", title: "Footer", desc: "Contact and socials" },
+    { id: "overview", title: props.copy.overview, desc: props.copy.overviewDesc },
+    { id: "hero", title: props.copy.hero, desc: props.copy.heroDesc },
+    { id: "slides", title: props.copy.slides, desc: props.copy.slidesDesc },
+    { id: "vision", title: props.copy.vision, desc: props.copy.visionDesc },
+    { id: "services", title: props.copy.services, desc: props.copy.servicesDesc },
+    { id: "stats", title: props.copy.stats, desc: props.copy.statsDesc },
+    { id: "team", title: props.copy.team, desc: props.copy.teamDesc },
+    { id: "footer", title: props.copy.footer, desc: props.copy.footerDesc },
   ];
 
   return (
-    <aside className="about-builder-nav" aria-label="About builder sections">
+    <aside className="about-builder-nav" aria-label={props.copy.sections}>
       <div className="about-builder-nav__head">
-        <strong>Sections</strong>
-        <span>Organized editor</span>
+        <strong>{props.copy.sections}</strong>
+        <span>{props.copy.organizedEditor}</span>
       </div>
 
       {items.map((item) => (
@@ -361,10 +584,13 @@ function SectionNav(props: {
 function AboutLivePreview(props: {
   form: AboutPagePayload;
   device: PreviewDevice;
+  lang: BuilderLang;
+  copy: BuilderCopy;
   setDevice: (device: PreviewDevice) => void;
 }) {
   // معاينة مصغّرة تعتمد على نفس form الحالي، لذلك تتغير فور الكتابة.
   const sections = props.form.sections_json;
+  const isArabic = props.lang === "ar";
   const firstSlide = sections.hero.slides[0];
   const firstService = sections.services.items[0];
   const firstStat = sections.stats.items[0];
@@ -374,12 +600,27 @@ function AboutLivePreview(props: {
     "/pages/about/img/img%20(1).jpg"
   );
 
+  const heroKicker = isArabic ? sections.hero.kicker_ar : sections.hero.kicker_en;
+  const heroTitle = isArabic ? sections.hero.title_ar : sections.hero.title_en;
+  const heroDesc = isArabic ? sections.hero.desc_ar : sections.hero.desc_en;
+  const pageTitle = isArabic ? props.form.title_ar : props.form.title_en;
+  const pageSummary = isArabic ? props.form.content_ar : props.form.content_en;
+  const visionKicker = isArabic ? sections.vision.kicker_ar : sections.vision.kicker_en;
+  const visionTitle = isArabic ? sections.vision.title_ar : sections.vision.title_en;
+  const visionDesc = isArabic ? sections.vision.desc_ar : sections.vision.desc_en;
+  const servicesTitle = isArabic ? sections.services.title_ar : sections.services.title_en;
+  const serviceTitle = isArabic ? firstService?.title_ar : firstService?.title_en;
+  const serviceText = isArabic ? firstService?.text_ar : firstService?.text_en;
+  const statTitle = isArabic ? firstStat?.title_ar : firstStat?.title_en;
+  const memberName = isArabic ? firstMember?.name_ar : firstMember?.name_en;
+  const memberRole = isArabic ? firstMember?.role_ar : firstMember?.role_en;
+
   return (
-    <aside className="about-live-preview">
+    <aside className="about-live-preview" dir={isArabic ? "rtl" : "ltr"}>
       <div className="about-live-preview__toolbar">
         <div>
-          <span className="about-live-preview__eyebrow">Live Preview</span>
-          <strong>About Page</strong>
+          <span className="about-live-preview__eyebrow">{props.copy.livePreview}</span>
+          <strong>{props.copy.aboutPage}</strong>
         </div>
 
         <div className="about-live-preview__devices" aria-label="Preview device size">
@@ -390,7 +631,7 @@ function AboutLivePreview(props: {
               className={props.device === device ? "is-active" : ""}
               onClick={() => props.setDevice(device)}
             >
-              {device}
+              {props.copy[device]}
             </button>
           ))}
         </div>
@@ -399,29 +640,29 @@ function AboutLivePreview(props: {
       <div className={`about-live-preview__stage is-${props.device}`}>
         <article className="about-preview-page">
           <section className="about-preview-hero">
-            <img src={heroImage} alt="About preview hero" />
+            <img src={heroImage} alt={props.copy.aboutPage} />
             <div className="about-preview-hero__copy">
-              <span>{safeText(sections.hero.kicker_en, "Institutional profile")}</span>
-              <h2>{safeText(sections.hero.title_en, props.form.title_en || "About")}</h2>
-              <p>{safeText(sections.hero.desc_en, props.form.content_en || "About page preview")}</p>
+              <span>{safeText(heroKicker, isArabic ? "نبذة مؤسسية" : "Institutional profile")}</span>
+              <h2>{safeText(heroTitle, pageTitle || props.copy.aboutPage)}</h2>
+              <p>{safeText(heroDesc, pageSummary || props.copy.aboutFallback)}</p>
             </div>
           </section>
 
           <section className="about-preview-section about-preview-section--blue">
-            <span>{safeText(sections.vision.kicker_en, "ALZUHA Vision")}</span>
-            <h3>{safeText(sections.vision.title_en, "Vision title")}</h3>
-            <p>{safeText(sections.vision.desc_en, "Vision description")}</p>
+            <span>{safeText(visionKicker, isArabic ? "رؤية الزُهى" : "ALZUHA Vision")}</span>
+            <h3>{safeText(visionTitle, props.copy.visionTitleFallback)}</h3>
+            <p>{safeText(visionDesc, props.copy.visionDescFallback)}</p>
           </section>
 
           {firstService ? (
             <section className="about-preview-section">
-              <span>Services</span>
-              <h3>{safeText(sections.services.title_en, "Services")}</h3>
+              <span>{props.copy.services}</span>
+              <h3>{safeText(servicesTitle, props.copy.services)}</h3>
               <article className="about-preview-card">
-                <img src={safeImage(firstService.image_url, "/pages/about/img/img%20(2).jpg")} alt="Service preview" />
+                <img src={safeImage(firstService.image_url, "/pages/about/img/img%20(2).jpg")} alt={props.copy.service} />
                 <div>
-                  <strong>{safeText(firstService.title_en, "Service title")}</strong>
-                  <p>{safeText(firstService.text_en, "Service description")}</p>
+                  <strong>{safeText(serviceTitle, props.copy.serviceTitleFallback)}</strong>
+                  <p>{safeText(serviceText, props.copy.serviceDescFallback)}</p>
                 </div>
               </article>
             </section>
@@ -429,14 +670,14 @@ function AboutLivePreview(props: {
 
           <section className="about-preview-mini-grid">
             <div>
-              <small>Stat</small>
+              <small>{props.copy.stat}</small>
               <strong>{safeText(firstStat?.num, "+100")}</strong>
-              <span>{safeText(firstStat?.title_en, "Projects")}</span>
+              <span>{safeText(statTitle, props.copy.projectsFallback)}</span>
             </div>
             <div>
-              <small>Team</small>
-              <strong>{safeText(firstMember?.name_en, "Team Member")}</strong>
-              <span>{safeText(firstMember?.role_en, "Role")}</span>
+              <small>{props.copy.team}</small>
+              <strong>{safeText(memberName, props.copy.teamMemberFallback)}</strong>
+              <span>{safeText(memberRole, props.copy.roleFallback)}</span>
             </div>
           </section>
         </article>
@@ -452,6 +693,24 @@ export default function AboutPageEditor() {
   const [message, setMessage] = useState<string>("");
   const [activeSection, setActiveSection] = useState<AdminSectionId>("overview");
   const [previewDevice, setPreviewDevice] = useState<PreviewDevice>("desktop");
+  const [builderLang, setBuilderLang] = useState<BuilderLang>("en");
+  const copy = builderCopy[builderLang];
+
+  function changeBuilderLang(nextLang: BuilderLang) {
+    // تغيير لغة واجهة الأدمن فورًا، مع تحديث الكوكي ليستفيد الهيدر العام عند إعادة التحميل.
+    setBuilderLang(nextLang);
+    document.cookie = `lang=${nextLang}; path=/; max-age=31536000`;
+  }
+
+  useEffect(() => {
+    // قراءة لغة الموقع الحالية من الكوكي عند فتح محرر الأدمن.
+    const cookieLang = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("lang="))
+      ?.split("=")[1];
+
+    setBuilderLang(cookieLang === "ar" ? "ar" : "en");
+  }, []);
 
   useEffect(() => {
     // تحميل بيانات الصفحة من API الإداري الحالي بدون تغيير الـ API.
@@ -467,12 +726,12 @@ export default function AboutPageEditor() {
         const data = await res.json();
 
         if (!res.ok || !data?.ok) {
-          throw new Error(data?.message || "Failed to load About page data");
+          throw new Error(data?.message || copy.failedLoadAbout);
         }
 
         setForm(data.page);
       } catch (error: unknown) {
-        const text = error instanceof Error ? error.message : "Failed to load editor data";
+        const text = error instanceof Error ? error.message : copy.failedLoad;
         setMessage(text);
       } finally {
         setLoading(false);
@@ -656,22 +915,24 @@ export default function AboutPageEditor() {
       });
       const data = await res.json();
 
-      if (!res.ok || !data?.ok) throw new Error(data?.message || "Failed to save About page");
+      if (!res.ok || !data?.ok) throw new Error(data?.message || copy.failedSave);
 
       setForm(data.page);
-      setMessage("Saved successfully.");
+      setMessage(copy.savedSuccessfully);
     } catch (error: unknown) {
-      const text = error instanceof Error ? error.message : "Failed to save changes.";
+      const text = error instanceof Error ? error.message : copy.failedSave;
       setMessage(text);
     } finally {
       setSaving(false);
     }
   }
 
+  const isArabicBuilder = builderLang === "ar";
+
   const counts = useMemo<Record<AdminSectionId, string>>(
     () => ({
-      overview: form.is_published ? "Live" : "Draft",
-      hero: "Main",
+      overview: form.is_published ? copy.live : copy.draft,
+      hero: isArabicBuilder ? "رئيسي" : "Main",
       slides: String(form.sections_json.hero.slides.length),
       vision: "1",
       services: String(form.sections_json.services.items.length),
@@ -679,10 +940,10 @@ export default function AboutPageEditor() {
       team: String(form.sections_json.team.members.length),
       footer: String(form.sections_json.footer.social.length),
     }),
-    [form]
+    [form, copy.live, copy.draft, builderLang]
   );
 
-  if (loading) return <section className="about-editor-loading">Loading About page editor...</section>;
+  if (loading) return <section className="about-editor-loading">{copy.loading}</section>;
 
   function renderOverview() {
     return (
@@ -690,21 +951,21 @@ export default function AboutPageEditor() {
         <div className="about-section-heading">
           <span>01</span>
           <div>
-            <h2>Overview</h2>
-            <p>Manage public title, summary, and publish state.</p>
+            <h2>{copy.overview}</h2>
+            <p>{copy.overviewDesc}</p>
           </div>
         </div>
 
         <div className="about-grid two">
-          <Field label="Page Title AR"><input value={form.title_ar} onChange={(e) => setTopField("title_ar", e.target.value)} /></Field>
-          <Field label="Page Title EN"><input value={form.title_en} onChange={(e) => setTopField("title_en", e.target.value)} /></Field>
-          <Field label="Summary AR"><textarea rows={4} value={form.content_ar} onChange={(e) => setTopField("content_ar", e.target.value)} /></Field>
-          <Field label="Summary EN"><textarea rows={4} value={form.content_en} onChange={(e) => setTopField("content_en", e.target.value)} /></Field>
+          <Field label={copy.pageTitleAr}><input value={form.title_ar} onChange={(e) => setTopField("title_ar", e.target.value)} /></Field>
+          <Field label={copy.pageTitleEn}><input value={form.title_en} onChange={(e) => setTopField("title_en", e.target.value)} /></Field>
+          <Field label={copy.summaryAr}><textarea rows={4} value={form.content_ar} onChange={(e) => setTopField("content_ar", e.target.value)} /></Field>
+          <Field label={copy.summaryEn}><textarea rows={4} value={form.content_en} onChange={(e) => setTopField("content_en", e.target.value)} /></Field>
         </div>
 
         <label className="about-checkbox about-checkbox--large">
           <input type="checkbox" checked={form.is_published} onChange={(e) => setTopField("is_published", e.target.checked)} />
-          <span>Published on website</span>
+          <span>{copy.publishedOnWebsite}</span>
         </label>
       </section>
     );
@@ -716,25 +977,25 @@ export default function AboutPageEditor() {
         <div className="about-section-heading">
           <span>02</span>
           <div>
-            <h2>Hero</h2>
-            <p>Main introduction, buttons, and primary visual.</p>
+            <h2>{copy.hero}</h2>
+            <p>{copy.heroDesc}</p>
           </div>
         </div>
 
         <div className="about-grid two">
-          <Field label="Hero Kicker AR"><input value={form.sections_json.hero.kicker_ar} onChange={(e) => setSectionField("hero", "kicker_ar", e.target.value)} /></Field>
-          <Field label="Hero Kicker EN"><input value={form.sections_json.hero.kicker_en} onChange={(e) => setSectionField("hero", "kicker_en", e.target.value)} /></Field>
-          <Field label="Hero Title AR"><textarea rows={3} value={form.sections_json.hero.title_ar} onChange={(e) => setSectionField("hero", "title_ar", e.target.value)} /></Field>
-          <Field label="Hero Title EN"><textarea rows={3} value={form.sections_json.hero.title_en} onChange={(e) => setSectionField("hero", "title_en", e.target.value)} /></Field>
-          <Field label="Hero Description AR"><textarea rows={4} value={form.sections_json.hero.desc_ar} onChange={(e) => setSectionField("hero", "desc_ar", e.target.value)} /></Field>
-          <Field label="Hero Description EN"><textarea rows={4} value={form.sections_json.hero.desc_en} onChange={(e) => setSectionField("hero", "desc_en", e.target.value)} /></Field>
-          <Field label="Main Hero Image URL" hint="Example: /pages/about/img/img%20(1).jpg"><input value={form.sections_json.hero.image_url} onChange={(e) => setSectionField("hero", "image_url", e.target.value)} /></Field>
-          <Field label="Primary Button Href"><input value={form.sections_json.hero.primary_btn_href} onChange={(e) => setSectionField("hero", "primary_btn_href", e.target.value)} /></Field>
-          <Field label="Primary Button AR"><input value={form.sections_json.hero.primary_btn_ar} onChange={(e) => setSectionField("hero", "primary_btn_ar", e.target.value)} /></Field>
-          <Field label="Primary Button EN"><input value={form.sections_json.hero.primary_btn_en} onChange={(e) => setSectionField("hero", "primary_btn_en", e.target.value)} /></Field>
-          <Field label="Secondary Button Href"><input value={form.sections_json.hero.secondary_btn_href} onChange={(e) => setSectionField("hero", "secondary_btn_href", e.target.value)} /></Field>
-          <Field label="Secondary Button AR"><input value={form.sections_json.hero.secondary_btn_ar} onChange={(e) => setSectionField("hero", "secondary_btn_ar", e.target.value)} /></Field>
-          <Field label="Secondary Button EN"><input value={form.sections_json.hero.secondary_btn_en} onChange={(e) => setSectionField("hero", "secondary_btn_en", e.target.value)} /></Field>
+          <Field label={copy.heroKickerAr}><input value={form.sections_json.hero.kicker_ar} onChange={(e) => setSectionField("hero", "kicker_ar", e.target.value)} /></Field>
+          <Field label={copy.heroKickerEn}><input value={form.sections_json.hero.kicker_en} onChange={(e) => setSectionField("hero", "kicker_en", e.target.value)} /></Field>
+          <Field label={copy.heroTitleAr}><textarea rows={3} value={form.sections_json.hero.title_ar} onChange={(e) => setSectionField("hero", "title_ar", e.target.value)} /></Field>
+          <Field label={copy.heroTitleEn}><textarea rows={3} value={form.sections_json.hero.title_en} onChange={(e) => setSectionField("hero", "title_en", e.target.value)} /></Field>
+          <Field label={copy.heroDescAr}><textarea rows={4} value={form.sections_json.hero.desc_ar} onChange={(e) => setSectionField("hero", "desc_ar", e.target.value)} /></Field>
+          <Field label={copy.heroDescEn}><textarea rows={4} value={form.sections_json.hero.desc_en} onChange={(e) => setSectionField("hero", "desc_en", e.target.value)} /></Field>
+          <Field label={copy.mainHeroImage} hint={copy.imageHint}><input value={form.sections_json.hero.image_url} onChange={(e) => setSectionField("hero", "image_url", e.target.value)} /></Field>
+          <Field label={copy.primaryButtonHref}><input value={form.sections_json.hero.primary_btn_href} onChange={(e) => setSectionField("hero", "primary_btn_href", e.target.value)} /></Field>
+          <Field label={copy.primaryButtonAr}><input value={form.sections_json.hero.primary_btn_ar} onChange={(e) => setSectionField("hero", "primary_btn_ar", e.target.value)} /></Field>
+          <Field label={copy.primaryButtonEn}><input value={form.sections_json.hero.primary_btn_en} onChange={(e) => setSectionField("hero", "primary_btn_en", e.target.value)} /></Field>
+          <Field label={copy.secondaryButtonHref}><input value={form.sections_json.hero.secondary_btn_href} onChange={(e) => setSectionField("hero", "secondary_btn_href", e.target.value)} /></Field>
+          <Field label={copy.secondaryButtonAr}><input value={form.sections_json.hero.secondary_btn_ar} onChange={(e) => setSectionField("hero", "secondary_btn_ar", e.target.value)} /></Field>
+          <Field label={copy.secondaryButtonEn}><input value={form.sections_json.hero.secondary_btn_en} onChange={(e) => setSectionField("hero", "secondary_btn_en", e.target.value)} /></Field>
         </div>
       </section>
     );
@@ -747,23 +1008,23 @@ export default function AboutPageEditor() {
           <div className="about-section-heading compact">
             <span>03</span>
             <div>
-              <h2>Hero Slides</h2>
-              <p>Manage stacked visual storytelling.</p>
+              <h2>{copy.slides}</h2>
+              <p>{copy.slidesDesc}</p>
             </div>
           </div>
-          <button type="button" className="about-add-btn" onClick={addHeroSlide}>Add Slide</button>
+          <button type="button" className="about-add-btn" onClick={addHeroSlide}>{copy.addSlide}</button>
         </div>
 
         <div className="about-stack">
           {form.sections_json.hero.slides.map((slide, index) => (
             <div className="about-item-card" key={`hero-slide-${index}`}>
-              <div className="about-item-head"><strong>Slide #{index + 1}</strong><button type="button" className="about-remove-btn" onClick={() => removeHeroSlide(index)}>Remove</button></div>
+              <div className="about-item-head"><strong>{copy.slide} #{index + 1}</strong><button type="button" className="about-remove-btn" onClick={() => removeHeroSlide(index)}>{copy.remove}</button></div>
               <div className="about-grid two">
-                <Field label="Title AR"><input value={slide.title_ar} onChange={(e) => updateHeroSlide(index, "title_ar", e.target.value)} /></Field>
-                <Field label="Title EN"><input value={slide.title_en} onChange={(e) => updateHeroSlide(index, "title_en", e.target.value)} /></Field>
-                <Field label="Description AR"><textarea rows={3} value={slide.desc_ar} onChange={(e) => updateHeroSlide(index, "desc_ar", e.target.value)} /></Field>
-                <Field label="Description EN"><textarea rows={3} value={slide.desc_en} onChange={(e) => updateHeroSlide(index, "desc_en", e.target.value)} /></Field>
-                <Field label="Image URL"><input value={slide.image_url} onChange={(e) => updateHeroSlide(index, "image_url", e.target.value)} /></Field>
+                <Field label={copy.titleAr}><input value={slide.title_ar} onChange={(e) => updateHeroSlide(index, "title_ar", e.target.value)} /></Field>
+                <Field label={copy.titleEn}><input value={slide.title_en} onChange={(e) => updateHeroSlide(index, "title_en", e.target.value)} /></Field>
+                <Field label={copy.descriptionAr}><textarea rows={3} value={slide.desc_ar} onChange={(e) => updateHeroSlide(index, "desc_ar", e.target.value)} /></Field>
+                <Field label={copy.descriptionEn}><textarea rows={3} value={slide.desc_en} onChange={(e) => updateHeroSlide(index, "desc_en", e.target.value)} /></Field>
+                <Field label={copy.imageUrl}><input value={slide.image_url} onChange={(e) => updateHeroSlide(index, "image_url", e.target.value)} /></Field>
               </div>
             </div>
           ))}
@@ -775,14 +1036,14 @@ export default function AboutPageEditor() {
   function renderVision() {
     return (
       <section className="about-editor-card about-editor-card--active">
-        <div className="about-section-heading"><span>04</span><div><h2>Vision</h2><p>Institutional vision and positioning.</p></div></div>
+        <div className="about-section-heading"><span>04</span><div><h2>{copy.vision}</h2><p>{copy.visionDesc}</p></div></div>
         <div className="about-grid two">
-          <Field label="Vision Kicker AR"><input value={form.sections_json.vision.kicker_ar} onChange={(e) => setSectionField("vision", "kicker_ar", e.target.value)} /></Field>
-          <Field label="Vision Kicker EN"><input value={form.sections_json.vision.kicker_en} onChange={(e) => setSectionField("vision", "kicker_en", e.target.value)} /></Field>
-          <Field label="Vision Title AR"><textarea rows={3} value={form.sections_json.vision.title_ar} onChange={(e) => setSectionField("vision", "title_ar", e.target.value)} /></Field>
-          <Field label="Vision Title EN"><textarea rows={3} value={form.sections_json.vision.title_en} onChange={(e) => setSectionField("vision", "title_en", e.target.value)} /></Field>
-          <Field label="Vision Description AR"><textarea rows={4} value={form.sections_json.vision.desc_ar} onChange={(e) => setSectionField("vision", "desc_ar", e.target.value)} /></Field>
-          <Field label="Vision Description EN"><textarea rows={4} value={form.sections_json.vision.desc_en} onChange={(e) => setSectionField("vision", "desc_en", e.target.value)} /></Field>
+          <Field label={copy.heroKickerAr}><input value={form.sections_json.vision.kicker_ar} onChange={(e) => setSectionField("vision", "kicker_ar", e.target.value)} /></Field>
+          <Field label={copy.heroKickerEn}><input value={form.sections_json.vision.kicker_en} onChange={(e) => setSectionField("vision", "kicker_en", e.target.value)} /></Field>
+          <Field label={copy.titleAr}><textarea rows={3} value={form.sections_json.vision.title_ar} onChange={(e) => setSectionField("vision", "title_ar", e.target.value)} /></Field>
+          <Field label={copy.titleEn}><textarea rows={3} value={form.sections_json.vision.title_en} onChange={(e) => setSectionField("vision", "title_en", e.target.value)} /></Field>
+          <Field label={copy.descriptionAr}><textarea rows={4} value={form.sections_json.vision.desc_ar} onChange={(e) => setSectionField("vision", "desc_ar", e.target.value)} /></Field>
+          <Field label={copy.descriptionEn}><textarea rows={4} value={form.sections_json.vision.desc_en} onChange={(e) => setSectionField("vision", "desc_en", e.target.value)} /></Field>
         </div>
       </section>
     );
@@ -791,27 +1052,27 @@ export default function AboutPageEditor() {
   function renderServices() {
     return (
       <section className="about-editor-card about-editor-card--active">
-        <div className="about-subheader about-subheader--sticky"><div className="about-section-heading compact"><span>05</span><div><h2>Services</h2><p>Cards shown in the About service section.</p></div></div><button type="button" className="about-add-btn" onClick={addServiceItem}>Add Service</button></div>
+        <div className="about-subheader about-subheader--sticky"><div className="about-section-heading compact"><span>05</span><div><h2>{copy.services}</h2><p>{copy.servicesDesc}</p></div></div><button type="button" className="about-add-btn" onClick={addServiceItem}>{copy.addService}</button></div>
         <div className="about-grid two about-block-gap">
-          <Field label="Services Title AR"><input value={form.sections_json.services.title_ar} onChange={(e) => setSectionField("services", "title_ar", e.target.value)} /></Field>
-          <Field label="Services Title EN"><input value={form.sections_json.services.title_en} onChange={(e) => setSectionField("services", "title_en", e.target.value)} /></Field>
-          <Field label="Services Description AR"><textarea rows={4} value={form.sections_json.services.desc_ar} onChange={(e) => setSectionField("services", "desc_ar", e.target.value)} /></Field>
-          <Field label="Services Description EN"><textarea rows={4} value={form.sections_json.services.desc_en} onChange={(e) => setSectionField("services", "desc_en", e.target.value)} /></Field>
+          <Field label={copy.titleAr}><input value={form.sections_json.services.title_ar} onChange={(e) => setSectionField("services", "title_ar", e.target.value)} /></Field>
+          <Field label={copy.titleEn}><input value={form.sections_json.services.title_en} onChange={(e) => setSectionField("services", "title_en", e.target.value)} /></Field>
+          <Field label={copy.descriptionAr}><textarea rows={4} value={form.sections_json.services.desc_ar} onChange={(e) => setSectionField("services", "desc_ar", e.target.value)} /></Field>
+          <Field label={copy.descriptionEn}><textarea rows={4} value={form.sections_json.services.desc_en} onChange={(e) => setSectionField("services", "desc_en", e.target.value)} /></Field>
         </div>
         <div className="about-stack">
           {form.sections_json.services.items.map((item, index) => (
             <div className="about-item-card" key={`service-${index}`}>
-              <div className="about-item-head"><strong>Service #{index + 1}</strong><button type="button" className="about-remove-btn" onClick={() => removeServiceItem(index)}>Remove</button></div>
+              <div className="about-item-head"><strong>{copy.service} #{index + 1}</strong><button type="button" className="about-remove-btn" onClick={() => removeServiceItem(index)}>{copy.remove}</button></div>
               <div className="about-grid two">
-                <Field label="Label"><input value={item.label} onChange={(e) => updateServiceItem(index, "label", e.target.value)} /></Field>
-                <Field label="Href"><input value={item.href} onChange={(e) => updateServiceItem(index, "href", e.target.value)} /></Field>
-                <Field label="Title AR"><input value={item.title_ar} onChange={(e) => updateServiceItem(index, "title_ar", e.target.value)} /></Field>
-                <Field label="Title EN"><input value={item.title_en} onChange={(e) => updateServiceItem(index, "title_en", e.target.value)} /></Field>
-                <Field label="Text AR"><textarea rows={4} value={item.text_ar} onChange={(e) => updateServiceItem(index, "text_ar", e.target.value)} /></Field>
-                <Field label="Text EN"><textarea rows={4} value={item.text_en} onChange={(e) => updateServiceItem(index, "text_en", e.target.value)} /></Field>
-                <Field label="Button AR"><input value={item.btn_ar} onChange={(e) => updateServiceItem(index, "btn_ar", e.target.value)} /></Field>
-                <Field label="Button EN"><input value={item.btn_en} onChange={(e) => updateServiceItem(index, "btn_en", e.target.value)} /></Field>
-                <Field label="Image URL"><input value={item.image_url} onChange={(e) => updateServiceItem(index, "image_url", e.target.value)} /></Field>
+                <Field label={copy.label}><input value={item.label} onChange={(e) => updateServiceItem(index, "label", e.target.value)} /></Field>
+                <Field label={copy.href}><input value={item.href} onChange={(e) => updateServiceItem(index, "href", e.target.value)} /></Field>
+                <Field label={copy.titleAr}><input value={item.title_ar} onChange={(e) => updateServiceItem(index, "title_ar", e.target.value)} /></Field>
+                <Field label={copy.titleEn}><input value={item.title_en} onChange={(e) => updateServiceItem(index, "title_en", e.target.value)} /></Field>
+                <Field label={copy.textAr}><textarea rows={4} value={item.text_ar} onChange={(e) => updateServiceItem(index, "text_ar", e.target.value)} /></Field>
+                <Field label={copy.textEn}><textarea rows={4} value={item.text_en} onChange={(e) => updateServiceItem(index, "text_en", e.target.value)} /></Field>
+                <Field label={copy.buttonAr}><input value={item.btn_ar} onChange={(e) => updateServiceItem(index, "btn_ar", e.target.value)} /></Field>
+                <Field label={copy.buttonEn}><input value={item.btn_en} onChange={(e) => updateServiceItem(index, "btn_en", e.target.value)} /></Field>
+                <Field label={copy.imageUrl}><input value={item.image_url} onChange={(e) => updateServiceItem(index, "image_url", e.target.value)} /></Field>
               </div>
             </div>
           ))}
@@ -823,21 +1084,21 @@ export default function AboutPageEditor() {
   function renderStats() {
     return (
       <section className="about-editor-card about-editor-card--active">
-        <div className="about-subheader about-subheader--sticky"><div className="about-section-heading compact"><span>06</span><div><h2>Stats</h2><p>Numbers, proof points, and impact.</p></div></div><button type="button" className="about-add-btn" onClick={addStatItem}>Add Stat</button></div>
+        <div className="about-subheader about-subheader--sticky"><div className="about-section-heading compact"><span>06</span><div><h2>{copy.stats}</h2><p>{copy.statsDesc}</p></div></div><button type="button" className="about-add-btn" onClick={addStatItem}>{copy.addStat}</button></div>
         <div className="about-grid two about-block-gap">
-          <Field label="Stats Title AR"><input value={form.sections_json.stats.title_ar} onChange={(e) => setSectionField("stats", "title_ar", e.target.value)} /></Field>
-          <Field label="Stats Title EN"><input value={form.sections_json.stats.title_en} onChange={(e) => setSectionField("stats", "title_en", e.target.value)} /></Field>
+          <Field label={copy.titleAr}><input value={form.sections_json.stats.title_ar} onChange={(e) => setSectionField("stats", "title_ar", e.target.value)} /></Field>
+          <Field label={copy.titleEn}><input value={form.sections_json.stats.title_en} onChange={(e) => setSectionField("stats", "title_en", e.target.value)} /></Field>
         </div>
         <div className="about-stack">
           {form.sections_json.stats.items.map((item, index) => (
             <div className="about-item-card" key={`stat-${index}`}>
-              <div className="about-item-head"><strong>Stat #{index + 1}</strong><button type="button" className="about-remove-btn" onClick={() => removeStatItem(index)}>Remove</button></div>
+              <div className="about-item-head"><strong>{copy.stat} #{index + 1}</strong><button type="button" className="about-remove-btn" onClick={() => removeStatItem(index)}>{copy.remove}</button></div>
               <div className="about-grid two">
-                <Field label="Number"><input value={item.num} onChange={(e) => updateStatItem(index, "num", e.target.value)} /></Field>
-                <Field label="Title AR"><input value={item.title_ar} onChange={(e) => updateStatItem(index, "title_ar", e.target.value)} /></Field>
-                <Field label="Title EN"><input value={item.title_en} onChange={(e) => updateStatItem(index, "title_en", e.target.value)} /></Field>
-                <Field label="Description AR"><textarea rows={3} value={item.desc_ar} onChange={(e) => updateStatItem(index, "desc_ar", e.target.value)} /></Field>
-                <Field label="Description EN"><textarea rows={3} value={item.desc_en} onChange={(e) => updateStatItem(index, "desc_en", e.target.value)} /></Field>
+                <Field label={copy.number}><input value={item.num} onChange={(e) => updateStatItem(index, "num", e.target.value)} /></Field>
+                <Field label={copy.titleAr}><input value={item.title_ar} onChange={(e) => updateStatItem(index, "title_ar", e.target.value)} /></Field>
+                <Field label={copy.titleEn}><input value={item.title_en} onChange={(e) => updateStatItem(index, "title_en", e.target.value)} /></Field>
+                <Field label={copy.descriptionAr}><textarea rows={3} value={item.desc_ar} onChange={(e) => updateStatItem(index, "desc_ar", e.target.value)} /></Field>
+                <Field label={copy.descriptionEn}><textarea rows={3} value={item.desc_en} onChange={(e) => updateStatItem(index, "desc_en", e.target.value)} /></Field>
               </div>
             </div>
           ))}
@@ -849,23 +1110,23 @@ export default function AboutPageEditor() {
   function renderTeam() {
     return (
       <section className="about-editor-card about-editor-card--active">
-        <div className="about-subheader about-subheader--sticky"><div className="about-section-heading compact"><span>07</span><div><h2>Team</h2><p>Team cards and leadership presentation.</p></div></div><button type="button" className="about-add-btn" onClick={addTeamMember}>Add Member</button></div>
+        <div className="about-subheader about-subheader--sticky"><div className="about-section-heading compact"><span>07</span><div><h2>{copy.team}</h2><p>{copy.teamDesc}</p></div></div><button type="button" className="about-add-btn" onClick={addTeamMember}>{copy.addMember}</button></div>
         <div className="about-grid two about-block-gap">
-          <Field label="Team Title AR"><input value={form.sections_json.team.title_ar} onChange={(e) => setSectionField("team", "title_ar", e.target.value)} /></Field>
-          <Field label="Team Title EN"><input value={form.sections_json.team.title_en} onChange={(e) => setSectionField("team", "title_en", e.target.value)} /></Field>
-          <Field label="Team Description AR"><textarea rows={4} value={form.sections_json.team.desc_ar} onChange={(e) => setSectionField("team", "desc_ar", e.target.value)} /></Field>
-          <Field label="Team Description EN"><textarea rows={4} value={form.sections_json.team.desc_en} onChange={(e) => setSectionField("team", "desc_en", e.target.value)} /></Field>
+          <Field label={copy.titleAr}><input value={form.sections_json.team.title_ar} onChange={(e) => setSectionField("team", "title_ar", e.target.value)} /></Field>
+          <Field label={copy.titleEn}><input value={form.sections_json.team.title_en} onChange={(e) => setSectionField("team", "title_en", e.target.value)} /></Field>
+          <Field label={copy.descriptionAr}><textarea rows={4} value={form.sections_json.team.desc_ar} onChange={(e) => setSectionField("team", "desc_ar", e.target.value)} /></Field>
+          <Field label={copy.descriptionEn}><textarea rows={4} value={form.sections_json.team.desc_en} onChange={(e) => setSectionField("team", "desc_en", e.target.value)} /></Field>
         </div>
         <div className="about-stack">
           {form.sections_json.team.members.map((member, index) => (
             <div className="about-item-card" key={`member-${index}`}>
-              <div className="about-item-head"><strong>Member #{index + 1}</strong><button type="button" className="about-remove-btn" onClick={() => removeTeamMember(index)}>Remove</button></div>
+              <div className="about-item-head"><strong>{copy.member} #{index + 1}</strong><button type="button" className="about-remove-btn" onClick={() => removeTeamMember(index)}>{copy.remove}</button></div>
               <div className="about-grid two">
-                <Field label="Name AR"><input value={member.name_ar} onChange={(e) => updateTeamMember(index, "name_ar", e.target.value)} /></Field>
-                <Field label="Name EN"><input value={member.name_en} onChange={(e) => updateTeamMember(index, "name_en", e.target.value)} /></Field>
-                <Field label="Role AR"><input value={member.role_ar} onChange={(e) => updateTeamMember(index, "role_ar", e.target.value)} /></Field>
-                <Field label="Role EN"><input value={member.role_en} onChange={(e) => updateTeamMember(index, "role_en", e.target.value)} /></Field>
-                <Field label="Image URL"><input value={member.image_url} onChange={(e) => updateTeamMember(index, "image_url", e.target.value)} /></Field>
+                <Field label={copy.nameAr}><input value={member.name_ar} onChange={(e) => updateTeamMember(index, "name_ar", e.target.value)} /></Field>
+                <Field label={copy.nameEn}><input value={member.name_en} onChange={(e) => updateTeamMember(index, "name_en", e.target.value)} /></Field>
+                <Field label={copy.roleAr}><input value={member.role_ar} onChange={(e) => updateTeamMember(index, "role_ar", e.target.value)} /></Field>
+                <Field label={copy.roleEn}><input value={member.role_en} onChange={(e) => updateTeamMember(index, "role_en", e.target.value)} /></Field>
+                <Field label={copy.imageUrl}><input value={member.image_url} onChange={(e) => updateTeamMember(index, "image_url", e.target.value)} /></Field>
               </div>
             </div>
           ))}
@@ -877,24 +1138,24 @@ export default function AboutPageEditor() {
   function renderFooter() {
     return (
       <section className="about-editor-card about-editor-card--active">
-        <div className="about-subheader about-subheader--sticky"><div className="about-section-heading compact"><span>08</span><div><h2>Footer</h2><p>Contact details and social links.</p></div></div><button type="button" className="about-add-btn" onClick={addSocialItem}>Add Social</button></div>
+        <div className="about-subheader about-subheader--sticky"><div className="about-section-heading compact"><span>08</span><div><h2>{copy.footer}</h2><p>{copy.footerDesc}</p></div></div><button type="button" className="about-add-btn" onClick={addSocialItem}>{copy.addSocial}</button></div>
         <div className="about-grid two about-block-gap">
-          <Field label="Footer Title AR"><input value={form.sections_json.footer.title_ar} onChange={(e) => setSectionField("footer", "title_ar", e.target.value)} /></Field>
-          <Field label="Footer Title EN"><input value={form.sections_json.footer.title_en} onChange={(e) => setSectionField("footer", "title_en", e.target.value)} /></Field>
-          <Field label="Footer Description AR"><textarea rows={4} value={form.sections_json.footer.desc_ar} onChange={(e) => setSectionField("footer", "desc_ar", e.target.value)} /></Field>
-          <Field label="Footer Description EN"><textarea rows={4} value={form.sections_json.footer.desc_en} onChange={(e) => setSectionField("footer", "desc_en", e.target.value)} /></Field>
-          <Field label="Email"><input value={form.sections_json.footer.email} onChange={(e) => setSectionField("footer", "email", e.target.value)} /></Field>
-          <Field label="Phone"><input value={form.sections_json.footer.phone} onChange={(e) => setSectionField("footer", "phone", e.target.value)} /></Field>
-          <Field label="Address AR"><input value={form.sections_json.footer.address_ar} onChange={(e) => setSectionField("footer", "address_ar", e.target.value)} /></Field>
-          <Field label="Address EN"><input value={form.sections_json.footer.address_en} onChange={(e) => setSectionField("footer", "address_en", e.target.value)} /></Field>
+          <Field label={copy.titleAr}><input value={form.sections_json.footer.title_ar} onChange={(e) => setSectionField("footer", "title_ar", e.target.value)} /></Field>
+          <Field label={copy.titleEn}><input value={form.sections_json.footer.title_en} onChange={(e) => setSectionField("footer", "title_en", e.target.value)} /></Field>
+          <Field label={copy.descriptionAr}><textarea rows={4} value={form.sections_json.footer.desc_ar} onChange={(e) => setSectionField("footer", "desc_ar", e.target.value)} /></Field>
+          <Field label={copy.descriptionEn}><textarea rows={4} value={form.sections_json.footer.desc_en} onChange={(e) => setSectionField("footer", "desc_en", e.target.value)} /></Field>
+          <Field label={copy.email}><input value={form.sections_json.footer.email} onChange={(e) => setSectionField("footer", "email", e.target.value)} /></Field>
+          <Field label={copy.phone}><input value={form.sections_json.footer.phone} onChange={(e) => setSectionField("footer", "phone", e.target.value)} /></Field>
+          <Field label={copy.addressAr}><input value={form.sections_json.footer.address_ar} onChange={(e) => setSectionField("footer", "address_ar", e.target.value)} /></Field>
+          <Field label={copy.addressEn}><input value={form.sections_json.footer.address_en} onChange={(e) => setSectionField("footer", "address_en", e.target.value)} /></Field>
         </div>
         <div className="about-stack">
           {form.sections_json.footer.social.map((social, index) => (
             <div className="about-item-card" key={`social-${index}`}>
-              <div className="about-item-head"><strong>Social #{index + 1}</strong><button type="button" className="about-remove-btn" onClick={() => removeSocialItem(index)}>Remove</button></div>
+              <div className="about-item-head"><strong>{copy.social} #{index + 1}</strong><button type="button" className="about-remove-btn" onClick={() => removeSocialItem(index)}>{copy.remove}</button></div>
               <div className="about-grid two">
-                <Field label="Label"><input value={social.label} onChange={(e) => updateSocialItem(index, "label", e.target.value)} /></Field>
-                <Field label="Href"><input value={social.href} onChange={(e) => updateSocialItem(index, "href", e.target.value)} /></Field>
+                <Field label={copy.label}><input value={social.label} onChange={(e) => updateSocialItem(index, "label", e.target.value)} /></Field>
+                <Field label={copy.href}><input value={social.href} onChange={(e) => updateSocialItem(index, "href", e.target.value)} /></Field>
               </div>
             </div>
           ))}
@@ -918,17 +1179,25 @@ export default function AboutPageEditor() {
   }
 
   return (
-    <section className="about-editor about-editor--builder">
-      <BuilderHeader message={message} saving={saving} published={form.is_published} onSave={savePage} />
+    <section className="about-editor about-editor--builder" dir={isArabicBuilder ? "rtl" : "ltr"}>
+      <BuilderHeader
+        message={message}
+        saving={saving}
+        published={form.is_published}
+        lang={builderLang}
+        copy={copy}
+        onSave={savePage}
+        onLangChange={changeBuilderLang}
+      />
 
       <div className="about-builder-workspace">
-        <SectionNav active={activeSection} setActive={setActiveSection} counts={counts} />
+        <SectionNav active={activeSection} setActive={setActiveSection} counts={counts} copy={copy} />
 
         <main className="about-builder-panel" aria-live="polite">
           {renderActiveSection()}
         </main>
 
-        <AboutLivePreview form={form} device={previewDevice} setDevice={setPreviewDevice} />
+        <AboutLivePreview form={form} device={previewDevice} lang={builderLang} copy={copy} setDevice={setPreviewDevice} />
       </div>
     </section>
   );
