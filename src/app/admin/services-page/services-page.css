@@ -658,3 +658,835 @@
     align-items: stretch;
   }
 }
+
+
+
+
+
+/* ==========================================================================
+   ALZUHA SERVICES ADMIN - WORKSPACE POLISH PATCH
+   الهدف:
+   تحسين واجهة محرر الخدمات الحالي بدون تغيير TypeScript أو API.
+   هذا تعديل آمن لأنه يغيّر العرض فقط ولا يلمس منطق الحفظ.
+   ========================================================================== */
+
+/* يجعل صفحة محرر الخدمات أكثر هدوءًا واتساعًا */
+.admin-services-editor {
+  padding: clamp(18px, 2vw, 32px) !important; /* حشو مرن حسب حجم الشاشة */
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 34%),
+    var(--admin-services-bg) !important; /* خلفية أرقى من الرمادي المسطح */
+}
+
+/* تثبيت الهيدر العلوي حتى تبقى أزرار الحفظ والرؤية قريبة */
+.admin-services-editor__header {
+  position: sticky !important; /* يجعل رأس لوحة الخدمات ثابتًا أثناء النزول */
+  top: 0 !important; /* يثبت الهيدر عند أعلى نافذة المتصفح */
+  z-index: 40 !important; /* يمنع اختفاء الهيدر خلف الكروت */
+  backdrop-filter: blur(18px) !important; /* يعطي تأثير SaaS احترافي */
+  background: rgba(255, 255, 255, 0.88) !important; /* خلفية شفافة ناعمة */
+  border-radius: 28px !important; /* زوايا أكبر وأكثر حداثة */
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.10) !important; /* ظل أعمق للهيدر */
+}
+
+/* جعل أزرار الهيدر واضحة ومضغوطة */
+.admin-services-editor__headerActions {
+  align-items: center !important; /* محاذاة عمودية سليمة للأزرار */
+  gap: 10px !important; /* مسافة معتدلة بين الأزرار */
+}
+
+/* كروت الإحصائيات تصبح أكثر ضغطًا */
+.admin-services-editor__stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important; /* أربع كروت على الديسكتوب */
+  gap: 14px !important; /* تقليل الفراغات */
+  margin-bottom: 20px !important; /* تقليل المسافة أسفل الإحصائيات */
+}
+
+/* تحسين كرت الإحصاء */
+.admin-services-editor__statCard {
+  border-radius: 22px !important; /* زوايا أكثر نعومة */
+  padding: 18px !important; /* ضغط الحشو */
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.055) !important; /* ظل خفيف */
+}
+
+/* جعل الأقسام الرئيسية أكثر اتساقًا */
+.admin-services-editor__section {
+  border-radius: 28px !important; /* توحيد الزوايا */
+  padding: clamp(20px, 2vw, 28px) !important; /* حشو مرن */
+  margin-bottom: 20px !important; /* مسافة أقل بين الأقسام */
+  box-shadow: 0 14px 38px rgba(15, 23, 42, 0.055) !important; /* ظل مؤسسي */
+}
+
+/* رأس القسم يصبح أوضح */
+.admin-services-editor__sectionHead {
+  padding-bottom: 16px !important; /* مسافة قبل الحقول */
+  margin-bottom: 18px !important; /* فصل واضح عن المحتوى */
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important; /* خط فصل ناعم */
+}
+
+/* عنوان القسم */
+.admin-services-editor__sectionHead h2 {
+  font-size: clamp(22px, 2.4vw, 30px) !important; /* حجم مرن */
+  letter-spacing: -0.03em !important; /* مظهر حديث */
+}
+
+/* وصف القسم */
+.admin-services-editor__sectionHead p {
+  max-width: 960px !important; /* منع تمدد النص بشكل مزعج */
+  font-size: 14px !important; /* حجم قراءة مناسب */
+}
+
+/* تحسين الشبكات */
+.admin-services-editor__grid {
+  gap: 14px !important; /* تقليل الفراغات داخل الشبكات */
+}
+
+/* حقول الإدخال تكون أوضح وأسهل */
+.admin-services-editor__input,
+.admin-services-editor__textarea {
+  min-height: 48px !important; /* ارتفاع مريح */
+  border-radius: 16px !important; /* زوايا حديثة */
+  padding: 13px 15px !important; /* حشو أفضل */
+  background: rgba(255, 255, 255, 0.96) !important; /* خلفية نظيفة */
+}
+
+/* النصوص الطويلة لا تكبر الصفحة بشكل جنوني */
+.admin-services-editor__textarea {
+  max-height: 240px !important; /* يمنع الحقول من ابتلاع الشاشة */
+  resize: vertical !important; /* يسمح بتكبير يدوي عند الحاجة */
+}
+
+/* تحسين حاوية الصفوف السريعة */
+.admin-services-editor__inlineRow {
+  gap: 12px !important; /* مسافة أقل */
+  margin-top: 14px !important; /* تقليل المسافة */
+}
+
+/* تحسين sections الفرعية مثل Hero / Overview / CTA */
+.admin-services-editor__subSection {
+  border-radius: 22px !important; /* زوايا مريحة */
+  padding: 18px !important; /* حشو متوازن */
+  background:
+    linear-gradient(180deg, rgba(248, 250, 252, 0.96), rgba(241, 245, 249, 0.72)) !important; /* خلفية ناعمة */
+}
+
+/* عناوين الأقسام الفرعية */
+.admin-services-editor__subSection h4 {
+  display: flex !important; /* يساعد على ترتيب العنوان لاحقًا */
+  align-items: center !important; /* محاذاة وسطية */
+  gap: 8px !important; /* مسافة بسيطة */
+  font-size: 18px !important; /* حجم واضح */
+}
+
+/* تحسين كروت details الخاصة بالخدمات والتفاصيل */
+.admin-services-editor__item {
+  border: 1px solid rgba(148, 163, 184, 0.34) !important; /* حد أوضح */
+  border-radius: 24px !important; /* زوايا حديثة */
+  background: #ffffff !important; /* خلفية بيضاء */
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.045) !important; /* ظل خفيف */
+  overflow: clip !important; /* يمنع خروج محتوى التفاصيل */
+}
+
+/* ملخص كرت التفاصيل */
+.admin-services-editor__itemSummary {
+  position: sticky !important; /* يجعل رأس الكرت واضحًا عند التمرير داخل كرت طويل */
+  top: 76px !important; /* يترك مساحة للهيدر الثابت */
+  z-index: 5 !important; /* يبقى فوق محتوى الكرت */
+  background:
+    linear-gradient(135deg, #ffffff 0%, #f8fbff 100%) !important; /* خلفية أنيقة */
+  border-bottom: 1px solid rgba(148, 163, 184, 0.26) !important; /* خط فصل */
+  cursor: pointer !important; /* يوضح أنه قابل للفتح/الإغلاق */
+}
+
+/* عند فتح detail، نعطيه تمييزًا بسيطًا */
+.admin-services-editor__item[open] {
+  border-color: rgba(37, 99, 235, 0.32) !important; /* حد أزرق خفيف */
+}
+
+/* جسم الكرت */
+.admin-services-editor__itemBody {
+  padding: 18px !important; /* تقليل الحشو الداخلي */
+}
+
+/* شريط الأزرار داخل كل كرت */
+.admin-services-editor__itemActions {
+  position: sticky !important; /* يجعل أزرار Move/Delete قريبة */
+  top: 142px !important; /* أسفل summary */
+  z-index: 4 !important; /* فوق الحقول */
+  display: flex !important; /* ترتيب أفقي */
+  flex-wrap: wrap !important; /* يسمح بالالتفاف */
+  gap: 10px !important; /* مسافة بين الأزرار */
+  padding: 10px !important; /* حشو للشريط */
+  margin-bottom: 16px !important; /* فصل عن الحقول */
+  border-radius: 18px !important; /* زوايا شريط الأزرار */
+  background: rgba(248, 250, 252, 0.92) !important; /* خلفية شبه شفافة */
+  backdrop-filter: blur(12px) !important; /* تأثير احترافي */
+  border: 1px solid rgba(148, 163, 184, 0.22) !important; /* حد ناعم */
+}
+
+/* الكروت المتداخلة مثل Capability وGallery */
+.admin-services-editor__nestedCard {
+  border-radius: 20px !important; /* زوايا أنعم */
+  padding: 16px !important; /* حشو أقل */
+  background: #ffffff !important; /* خلفية نظيفة */
+  border: 1px solid rgba(148, 163, 184, 0.30) !important; /* حد واضح */
+}
+
+/* ترويسة array مثل Detail Routes */
+.admin-services-editor__arrayHeader {
+  display: flex !important; /* ترتيب العنوان والزر */
+  align-items: center !important; /* محاذاة وسط */
+  justify-content: space-between !important; /* توزيع طرفي */
+  gap: 14px !important; /* مسافة */
+  margin: 18px 0 !important; /* مسافة حول الهيدر */
+}
+
+/* الأزرار تصبح أكثر اتساقًا */
+.admin-services-editor__primaryBtn,
+.admin-services-editor__ghostBtn,
+.admin-services-editor__dangerBtn {
+  min-height: 42px !important; /* ارتفاع مريح */
+  border-radius: 999px !important; /* كبسولة */
+  padding: 10px 16px !important; /* حشو */
+  font-weight: 900 !important; /* وضوح */
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease !important; /* حركة ناعمة */
+}
+
+/* حركة hover لكل الأزرار */
+.admin-services-editor__primaryBtn:hover,
+.admin-services-editor__ghostBtn:hover,
+.admin-services-editor__dangerBtn:hover {
+  transform: translateY(-1px) !important; /* رفع خفيف */
+}
+
+/* زر أساسي أقوى */
+.admin-services-editor__primaryBtn {
+  background: var(--admin-services-blue) !important; /* أزرق الهوية */
+  color: #ffffff !important; /* نص أبيض */
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.26) !important; /* ظل أزرق */
+}
+
+/* زر ثانوي واضح */
+.admin-services-editor__ghostBtn {
+  background: rgba(37, 99, 235, 0.08) !important; /* أزرق شفاف */
+  color: var(--admin-services-blue-dark) !important; /* نص أزرق */
+}
+
+/* زر خطر أكثر وضوحًا لكن غير مزعج */
+.admin-services-editor__dangerBtn {
+  background: rgba(220, 38, 38, 0.10) !important; /* أحمر شفاف */
+  color: #991b1b !important; /* نص أحمر داكن */
+}
+
+/* الشارات */
+.admin-services-editor__tag,
+.admin-services-editor__metaTag {
+  border-radius: 999px !important; /* شكل كبسولة */
+  font-weight: 800 !important; /* وضوح */
+}
+
+/* حالة active */
+.admin-services-editor__tag.is-active {
+  background: rgba(22, 163, 74, 0.12) !important; /* أخضر شفاف */
+  color: #166534 !important; /* أخضر داكن */
+}
+
+/* حالة inactive */
+.admin-services-editor__tag.is-inactive {
+  background: rgba(100, 116, 139, 0.12) !important; /* رمادي شفاف */
+  color: #475569 !important; /* رمادي داكن */
+}
+
+/* تحسين القائمة الطويلة داخل stack */
+.admin-services-editor__stack {
+  display: grid !important; /* يجعل العناصر منظمة */
+  gap: 16px !important; /* مسافة بين الكروت */
+}
+
+/* الحقول داخل الديتيل الطويل لا تكسر الاتجاه */
+.admin-services-editor__input,
+.admin-services-editor__textarea {
+  unicode-bidi: plaintext !important; /* يحافظ على اتجاه النص حسب المحتوى */
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+/* تابلت */
+@media (max-width: 1100px) {
+  .admin-services-editor__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important; /* كرتان في الصف */
+  }
+
+  .admin-services-editor__header {
+    position: relative !important; /* إلغاء التثبيت لو الشاشة ضيقة */
+    top: auto !important; /* إلغاء top */
+  }
+}
+
+/* موبايل */
+@media (max-width: 720px) {
+  .admin-services-editor {
+    padding: 14px !important; /* تقليل الحشو */
+  }
+
+  .admin-services-editor__header {
+    flex-direction: column !important; /* ترتيب عمودي */
+  }
+
+  .admin-services-editor__headerActions {
+    width: 100% !important; /* الأزرار تأخذ العرض */
+    justify-content: stretch !important; /* توزيع */
+  }
+
+  .admin-services-editor__headerActions > * {
+    flex: 1 1 auto !important; /* الأزرار تتوسع */
+  }
+
+  .admin-services-editor__stats {
+    grid-template-columns: 1fr !important; /* كرت واحد */
+  }
+
+  .admin-services-editor__grid--2 {
+    grid-template-columns: 1fr !important; /* عمود واحد للحقول */
+  }
+
+  .admin-services-editor__arrayHeader {
+    align-items: stretch !important; /* تمديد العناصر */
+    flex-direction: column !important; /* عنوان ثم زر */
+  }
+
+  .admin-services-editor__itemSummary {
+    position: relative !important; /* إلغاء sticky على الموبايل */
+    top: auto !important; /* إلغاء top */
+  }
+
+  .admin-services-editor__itemActions {
+    position: relative !important; /* إلغاء sticky */
+    top: auto !important; /* إلغاء top */
+  }
+}
+/* ==========================================================================
+   ALZUHA SERVICES ADMIN BUILDER ENHANCEMENT
+   هذه الطبقة تحول محرر الخدمات من نموذج طويل إلى مساحة عمل عملية.
+   ========================================================================== */
+
+.admin-services-editor {
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 34%),
+    var(--admin-services-bg);
+  scroll-behavior: smooth;
+}
+
+.admin-services-editor__eyebrow {
+  display: inline-flex;
+  margin-bottom: 8px;
+  color: var(--admin-services-blue);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.admin-services-editor__header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.10);
+}
+
+.admin-services-editor__langSwitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.04);
+}
+
+.admin-services-editor__langSwitch button {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: transparent;
+  color: var(--admin-services-text-soft);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.admin-services-editor__langSwitch button.is-active {
+  background: var(--admin-services-blue);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+.admin-services-editor__stats {
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.admin-services-editor__statCard {
+  border-radius: 22px;
+  padding: 18px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.055);
+}
+
+.admin-services-editor__workspace {
+  display: grid;
+  grid-template-columns: 250px minmax(620px, 1fr) minmax(410px, 0.82fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.admin-services-editor__sidebar {
+  position: sticky;
+  top: 126px;
+  max-height: calc(100vh - 146px);
+  overflow-y: auto;
+  padding: 14px;
+  border: 1px solid var(--admin-services-border);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.07);
+}
+
+.admin-services-editor__sidebar > strong {
+  display: block;
+  margin: 4px 8px 12px;
+  color: var(--admin-services-text);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.admin-services-editor__sidebar a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 52px;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 18px;
+  color: var(--admin-services-text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 850;
+  background: rgba(248, 250, 252, 0.78);
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.admin-services-editor__sidebar a:hover {
+  transform: translateY(-1px);
+  border-color: rgba(37, 99, 235, 0.25);
+  background: rgba(239, 246, 255, 0.92);
+}
+
+.admin-services-editor__sidebar a small {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  min-height: 26px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.10);
+  color: var(--admin-services-blue-dark);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.admin-services-editor__content {
+  min-width: 0;
+}
+
+.admin-services-editor__section {
+  scroll-margin-top: 128px;
+  border-radius: 28px;
+  padding: clamp(20px, 2vw, 28px);
+  margin-bottom: 20px;
+  box-shadow: 0 14px 38px rgba(15, 23, 42, 0.055);
+}
+
+.admin-services-editor__sectionHead {
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.admin-services-editor__sectionHead h2 {
+  font-size: clamp(22px, 2.4vw, 30px);
+  letter-spacing: -0.03em;
+}
+
+.admin-services-editor__sectionHead p {
+  max-width: 960px;
+  font-size: 14px;
+}
+
+.admin-services-editor__grid {
+  gap: 14px;
+}
+
+.admin-services-editor__input,
+.admin-services-editor__textarea {
+  min-height: 48px;
+  border-radius: 16px;
+  padding: 13px 15px;
+  background: rgba(255, 255, 255, 0.96);
+  unicode-bidi: plaintext;
+}
+
+.admin-services-editor__textarea {
+  max-height: 240px;
+  resize: vertical;
+}
+
+.admin-services-editor__subSection {
+  border-radius: 22px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.96), rgba(241, 245, 249, 0.72));
+}
+
+.admin-services-editor__item {
+  border-color: rgba(148, 163, 184, 0.34);
+  border-radius: 24px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.045);
+  overflow: clip;
+}
+
+.admin-services-editor__item[open] {
+  border-color: rgba(37, 99, 235, 0.32);
+}
+
+.admin-services-editor__itemSummary {
+  position: sticky;
+  top: 112px;
+  z-index: 5;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.26);
+}
+
+.admin-services-editor__itemActions {
+  position: sticky;
+  top: 174px;
+  z-index: 4;
+  padding: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 18px;
+  background: rgba(248, 250, 252, 0.92);
+  backdrop-filter: blur(12px);
+}
+
+.admin-services-editor__primaryBtn,
+.admin-services-editor__ghostBtn,
+.admin-services-editor__dangerBtn {
+  border-radius: 999px;
+  font-weight: 900;
+}
+
+.admin-services-editor__previewNote {
+  color: var(--admin-services-text-soft);
+}
+
+.admin-services-preview {
+  position: sticky;
+  top: 126px;
+  max-height: calc(100vh - 146px);
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  border-radius: 30px;
+  background: #ffffff;
+  box-shadow: 0 22px 65px rgba(15, 23, 42, 0.12);
+}
+
+.admin-services-preview__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+  background: linear-gradient(135deg, #f8fafc, #eef4ff);
+}
+
+.admin-services-preview__toolbar span {
+  display: block;
+  color: var(--admin-services-blue);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+.admin-services-preview__toolbar strong {
+  display: block;
+  color: var(--admin-services-text);
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.admin-services-preview__devices {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.06);
+}
+
+.admin-services-preview__devices button {
+  border: 0;
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: transparent;
+  color: var(--admin-services-text-soft);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.admin-services-preview__devices button.is-active {
+  background: var(--admin-services-blue);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+.admin-services-preview__stage {
+  max-height: calc(100vh - 222px);
+  overflow: auto;
+  padding: 18px;
+  background: #e8edf6;
+}
+
+.admin-services-preview__stage.is-tablet .admin-services-preview__page {
+  width: min(100%, 760px);
+}
+
+.admin-services-preview__stage.is-mobile .admin-services-preview__page {
+  width: min(100%, 390px);
+}
+
+.admin-services-preview__page {
+  width: 100%;
+  margin-inline: auto;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.22);
+}
+
+.admin-services-preview__hero {
+  position: relative;
+  min-height: 300px;
+  background: #0f172a;
+}
+
+.admin-services-preview__hero img,
+.admin-services-preview__imagePlaceholder {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+  background: linear-gradient(135deg, #1e293b, #2563eb);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 28px;
+  font-weight: 900;
+  filter: brightness(0.76);
+}
+
+.admin-services-preview__heroCopy {
+  position: absolute;
+  inset-inline: 24px;
+  bottom: 24px;
+  color: #ffffff;
+}
+
+.admin-services-preview__heroCopy span {
+  display: inline-flex;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.admin-services-preview__heroCopy h2 {
+  margin: 0 0 8px;
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1.16;
+}
+
+.admin-services-preview__heroCopy p {
+  margin: 0;
+  max-width: 620px;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.admin-services-preview__section {
+  padding: 26px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.admin-services-preview__section > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--admin-services-blue);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.admin-services-preview__section > p {
+  margin: 0 0 18px;
+  color: var(--admin-services-text-soft);
+  line-height: 1.7;
+}
+
+.admin-services-preview__section--blue {
+  background: var(--admin-services-blue);
+  color: #ffffff;
+}
+
+.admin-services-preview__section--blue span,
+.admin-services-preview__section--blue p {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.admin-services-preview__cards {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-services-preview__card {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 18px;
+  background: #f8fafc;
+}
+
+.admin-services-preview__card img,
+.admin-services-preview__card .admin-services-preview__imagePlaceholder {
+  width: 112px;
+  height: 84px;
+  border-radius: 14px;
+  filter: none;
+  font-size: 12px;
+}
+
+.admin-services-preview__card strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--admin-services-text);
+}
+
+.admin-services-preview__card p {
+  margin: 0;
+  color: var(--admin-services-text-soft);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.admin-services-preview__gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 18px;
+  background: #0f172a;
+}
+
+.admin-services-preview__gallery img,
+.admin-services-preview__gallery .admin-services-preview__imagePlaceholder {
+  width: 100%;
+  height: 120px;
+  border-radius: 16px;
+  object-fit: cover;
+  filter: none;
+  font-size: 12px;
+}
+
+.admin-services-preview__empty {
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(148, 163, 184, 0.16);
+  color: var(--admin-services-text-soft);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+@media (max-width: 1380px) {
+  .admin-services-editor__workspace {
+    grid-template-columns: 220px minmax(520px, 1fr);
+  }
+
+  .admin-services-preview {
+    grid-column: 1 / -1;
+    position: relative;
+    top: auto;
+    max-height: none;
+  }
+
+  .admin-services-preview__stage {
+    max-height: 720px;
+  }
+}
+
+@media (max-width: 980px) {
+  .admin-services-editor__workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-services-editor__sidebar {
+    position: relative;
+    top: auto;
+    max-height: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-services-editor__header {
+    position: relative;
+  }
+
+  .admin-services-editor__itemSummary,
+  .admin-services-editor__itemActions {
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-services-editor__sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-services-preview__toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-services-preview__card {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-services-preview__card img,
+  .admin-services-preview__card .admin-services-preview__imagePlaceholder {
+    width: 100%;
+    height: 160px;
+  }
+}

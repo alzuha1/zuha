@@ -1,8 +1,9 @@
 "use client";
 // هذا الملف عميل لأنه يحتوي على state وإدارة النموذج والتفاعل مع الأدمن
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 // useState لإدارة الحالة المحلية
+// useEffect لقراءة لغة لوحة التحكم من الكوكي ومزامنتها.
 // useMemo لحساب الإحصائيات والتشخيصات بدون إعادة حساب غير ضرورية
 
 type ServiceCardItem = {
@@ -182,7 +183,7 @@ type ServicesPageSections = {
 };
 // الشكل الكامل لـ sections_json في صفحة الخدمات
 
-type ServicesPageAdminRecord = {
+export type ServicesPageAdminRecord = {
   slug: string;
   title_ar: string;
   title_en: string;
@@ -196,6 +197,97 @@ type ServicesPageAdminRecord = {
 
 type PathSegment = string | number;
 // نوع المقطع داخل المسار الديناميكي عند التحديث الداخلي
+
+type BuilderLang = "ar" | "en";
+// لغة واجهة لوحة التحكم نفسها.
+
+type PreviewDevice = "desktop" | "tablet" | "mobile";
+// نوع الجهاز المستخدم في المعاينة الحية.
+
+const builderCopy = {
+  ar: {
+    cms: "ALZUHA CMS",
+    title: "منشئ صفحة الخدمات",
+    desc: "تحكم كامل بصفحة الخدمات، البطاقات، الصفحات الفرعية، الشهادات، المعرض، والدعوة النهائية من نافذة واحدة.",
+    openPublic: "عرض الصفحة",
+    reset: "إرجاع التغييرات",
+    save: "حفظ التغييرات",
+    saving: "جارٍ الحفظ...",
+    saved: "تم حفظ صفحة الخدمات بنجاح.",
+    live: "منشور",
+    draft: "مسودة",
+    interfaceLang: "لغة اللوحة",
+    sections: "الأقسام",
+    preview: "معاينة مباشرة",
+    desktop: "ديسكتوب",
+    tablet: "تابلت",
+    mobile: "موبايل",
+    pageMeta: "بيانات الصفحة",
+    hero: "الهيرو",
+    diagnostics: "فحص الروابط",
+    serviceCards: "بطاقات الخدمات",
+    detailPages: "الصفحات الفرعية",
+    testimonials: "الشهادات",
+    gallery: "المعرض",
+    cta: "الدعوة النهائية",
+    footer: "الفوتر",
+    serviceCardsStat: "بطاقات الخدمات",
+    detailsStat: "صفحات تفصيلية",
+    testimonialsStat: "الشهادات",
+    galleryStat: "صور المعرض",
+    active: "نشط",
+    inactive: "غير نشط",
+    activeLabel: "نشط",
+    missing: "صفحة فرعية ناقصة",
+    found: "صفحة فرعية موجودة",
+    noCards: "لا توجد بطاقات خدمات بعد.",
+    noDetails: "لا توجد صفحات فرعية بعد.",
+    noTestimonials: "لا توجد شهادات بعد.",
+    noGallery: "لا توجد صور معرض بعد.",
+  },
+  en: {
+    cms: "ALZUHA CMS",
+    title: "Services Live Builder",
+    desc: "Manage the Services page, cards, detail routes, testimonials, gallery, CTA, and footer from one workspace.",
+    openPublic: "Open Public Page",
+    reset: "Reset Changes",
+    save: "Save Changes",
+    saving: "Saving...",
+    saved: "Services page saved successfully.",
+    live: "Live",
+    draft: "Draft",
+    interfaceLang: "Interface language",
+    sections: "Sections",
+    preview: "Live Preview",
+    desktop: "Desktop",
+    tablet: "Tablet",
+    mobile: "Mobile",
+    pageMeta: "Page Meta",
+    hero: "Hero",
+    diagnostics: "Route Diagnostics",
+    serviceCards: "Service Cards",
+    detailPages: "Detail Pages",
+    testimonials: "Testimonials",
+    gallery: "Gallery",
+    cta: "Main CTA",
+    footer: "Footer",
+    serviceCardsStat: "Service Cards",
+    detailsStat: "Detail Pages",
+    testimonialsStat: "Testimonials",
+    galleryStat: "Gallery Images",
+    active: "Active",
+    inactive: "Inactive",
+    activeLabel: "Active",
+    missing: "Missing detail page",
+    found: "Detail page found",
+    noCards: "No service cards yet.",
+    noDetails: "No detail pages yet.",
+    noTestimonials: "No testimonials yet.",
+    noGallery: "No gallery images yet.",
+  },
+} as const;
+// قاموس نصوص واجهة الأدمن؛ لا يغير محتوى الصفحة المخزن في قاعدة البيانات.
+
 
 function asObject(value: unknown): Record<string, unknown> {
   // تحويل أي قيمة إلى object آمن
@@ -894,6 +986,125 @@ function ToggleInput({
   );
 }
 
+
+function stripHtmlBreaks(value: string) {
+  // يحول <br> إلى مسافة داخل المعاينة المصغرة حتى لا نستخدم HTML مباشرًا.
+  return value.replace(/<br\s*\/?>(\s*)/gi, " ").trim();
+}
+
+function pickLangText(lang: BuilderLang, ar: string, en: string) {
+  // يختار النص العربي أو الإنجليزي حسب لغة لوحة التحكم والمعاينة.
+  return lang === "ar" ? ar || en : en || ar;
+}
+
+function PreviewImage({ src, alt }: { src: string; alt: string }) {
+  // يعرض صورة آمنة داخل المعاينة مع حالة بديلة عند غياب المسار.
+  if (!src) {
+    return <div className="admin-services-preview__imagePlaceholder">ALZUHA</div>;
+  }
+
+  return <img src={src} alt={alt || "Preview image"} />;
+}
+
+function ServicesLivePreview({
+  item,
+  lang,
+  device,
+  onDeviceChange,
+  copy,
+}: {
+  item: ServicesPageAdminRecord;
+  lang: BuilderLang;
+  device: PreviewDevice;
+  onDeviceChange: (device: PreviewDevice) => void;
+  copy: (typeof builderCopy)[BuilderLang];
+}) {
+  // المعاينة الحية تقرأ نفس state الحالي؛ لذلك تظهر التغييرات فور الكتابة قبل الحفظ.
+  const sections = item.sections_json ?? createDefaultSections();
+  const heroTitle = stripHtmlBreaks(pickLangText(lang, sections.hero.title_ar, sections.hero.title_en));
+  const heroDesc = pickLangText(lang, sections.hero.desc_ar, sections.hero.desc_en);
+  const heroKicker = pickLangText(lang, sections.hero.kicker_ar, sections.hero.kicker_en);
+  const cards = sections.servicesSection.items.filter((card) => card.is_active).slice(0, 4);
+  const firstDetail = sections.serviceDetails.items.find((detail) => detail.is_active);
+  const galleryImages = sections.gallery.images.filter((image) => image.is_active).slice(0, 4);
+
+  return (
+    <aside className="admin-services-preview" aria-label="Services live preview">
+      <div className="admin-services-preview__toolbar">
+        <div>
+          <span>{copy.cms}</span>
+          <strong>{copy.preview}</strong>
+        </div>
+
+        <div className="admin-services-preview__devices">
+          {(["desktop", "tablet", "mobile"] as PreviewDevice[]).map((option) => (
+            <button
+              key={option}
+              type="button"
+              className={device === option ? "is-active" : ""}
+              onClick={() => onDeviceChange(option)}
+            >
+              {option === "desktop" ? copy.desktop : option === "tablet" ? copy.tablet : copy.mobile}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className={`admin-services-preview__stage is-${device}`}>
+        <div className="admin-services-preview__page">
+          <section className="admin-services-preview__hero">
+            <PreviewImage src={sections.hero.image_url} alt={heroTitle} />
+            <div className="admin-services-preview__heroCopy">
+              <span>{heroKicker}</span>
+              <h2>{heroTitle}</h2>
+              <p>{heroDesc}</p>
+            </div>
+          </section>
+
+          <section className="admin-services-preview__section">
+            <span>{pickLangText(lang, sections.servicesSection.title_ar, sections.servicesSection.title_en)}</span>
+            <p>{pickLangText(lang, sections.servicesSection.desc_ar, sections.servicesSection.desc_en)}</p>
+
+            <div className="admin-services-preview__cards">
+              {cards.length === 0 ? (
+                <div className="admin-services-preview__empty">{copy.noCards}</div>
+              ) : (
+                cards.map((card) => (
+                  <article key={card.id} className="admin-services-preview__card">
+                    <PreviewImage src={card.image_url} alt={pickLangText(lang, card.title_ar, card.title_en)} />
+                    <div>
+                      <strong>{card.icon} {pickLangText(lang, card.title_ar, card.title_en)}</strong>
+                      <p>{pickLangText(lang, card.desc_ar, card.desc_en)}</p>
+                    </div>
+                  </article>
+                ))
+              )}
+            </div>
+          </section>
+
+          {firstDetail ? (
+            <section className="admin-services-preview__section admin-services-preview__section--blue">
+              <span>/services/{firstDetail.slug}</span>
+              <h3>{pickLangText(lang, firstDetail.hero.title_ar, firstDetail.hero.title_en)}</h3>
+              <p>{pickLangText(lang, firstDetail.overview.desc_ar, firstDetail.overview.desc_en)}</p>
+            </section>
+          ) : null}
+
+          <section className="admin-services-preview__gallery">
+            {galleryImages.length === 0 ? (
+              <div className="admin-services-preview__empty">{copy.noGallery}</div>
+            ) : (
+              galleryImages.map((image) => (
+                <PreviewImage key={image.id} src={image.image_url} alt={pickLangText(lang, image.alt_ar, image.alt_en)} />
+              ))
+            )}
+          </section>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 export default function ServicesPageEditor({
   initialItem,
 }: {
@@ -919,8 +1130,32 @@ export default function ServicesPageEditor({
   const [error, setError] = useState<string>("");
   // رسالة خطأ
 
+  const [builderLang, setBuilderLang] = useState<BuilderLang>("en");
+  // لغة واجهة الأدمن الحالية.
+
+  const [previewDevice, setPreviewDevice] = useState<PreviewDevice>("desktop");
+  // حجم الجهاز المستخدم داخل المعاينة الحية.
+
+
   const sections = item.sections_json ?? createDefaultSections();
   // اختصار للوصول إلى الأقسام
+
+  useEffect(() => {
+    // قراءة كوكي اللغة عند فتح المحرر حتى تتبع لوحة الأدمن لغة الموقع الحالية.
+    const cookieLang = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("lang="))
+      ?.split("=")[1];
+
+    setBuilderLang(cookieLang === "ar" ? "ar" : "en");
+  }, []);
+
+  const copy = builderCopy[builderLang];
+  // النصوص الحالية لواجهة الأدمن حسب اللغة المختارة.
+
+  const isArabicBuilder = builderLang === "ar";
+  // يستخدم لضبط اتجاه واجهة الأدمن والمعاينة.
+
 
   const serviceCards = sections.servicesSection.items;
   // بطاقات الخدمات الرئيسية
@@ -962,6 +1197,23 @@ export default function ServicesPageEditor({
     [serviceCards, detailPages, testimonials, publicGallery]
   );
   // إحصائيات مختصرة للواجهة
+
+
+  const sectionLinks = useMemo(
+    () => [
+      { id: "services-meta", label: copy.pageMeta, count: item.is_published ? copy.live : copy.draft },
+      { id: "services-hero", label: copy.hero, count: "1" },
+      { id: "services-diagnostics", label: copy.diagnostics, count: String(diagnostics.length) },
+      { id: "services-cards", label: copy.serviceCards, count: String(stats.serviceCardsCount) },
+      { id: "services-details", label: copy.detailPages, count: String(stats.detailPagesCount) },
+      { id: "services-testimonials", label: copy.testimonials, count: String(stats.testimonialsCount) },
+      { id: "services-gallery", label: copy.gallery, count: String(stats.galleryCount) },
+      { id: "services-cta", label: copy.cta, count: "1" },
+      { id: "services-footer", label: copy.footer, count: "1" },
+    ],
+    [copy, item.is_published, diagnostics.length, stats]
+  );
+  // قائمة أقسام جانبية للتنقل السريع داخل Builder.
 
   function updateRootField(
     field: keyof Pick<
@@ -1150,7 +1402,7 @@ export default function ServicesPageEditor({
       setItem(normalizedSaved);
       // تحديث الحالة بالسجل المحفوظ
 
-      setNotice("Services page saved successfully.");
+      setNotice(copy.saved);
     } catch (saveError) {
       console.error("handleSave error:", saveError);
       setError(
@@ -1171,26 +1423,40 @@ export default function ServicesPageEditor({
   }
 
   return (
-    <main className="admin-services-editor">
+    <main className="admin-services-editor" dir={isArabicBuilder ? "rtl" : "ltr"}>
       {/* الغلاف العام لمحرر الأدمن */}
 
       <section className="admin-services-editor__header">
         <div>
-          <h1>Services Page Management</h1>
-          <p>
-            Manage the public Services page, its internal service routes, images,
-            text blocks, and structure from one place.
-          </p>
+          <span className="admin-services-editor__eyebrow">{copy.cms}</span>
+          <h1>{copy.title}</h1>
+          <p>{copy.desc}</p>
         </div>
 
         <div className="admin-services-editor__headerActions">
+          <div className="admin-services-editor__langSwitch" aria-label={copy.interfaceLang}>
+            {(["ar", "en"] as BuilderLang[]).map((lang) => (
+              <button
+                key={lang}
+                type="button"
+                className={builderLang === lang ? "is-active" : ""}
+                onClick={() => {
+                  setBuilderLang(lang);
+                  document.cookie = `lang=${lang}; path=/; max-age=31536000`;
+                }}
+              >
+                {lang.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
           <a
             href="/services"
             target="_blank"
             rel="noreferrer"
             className="admin-services-editor__ghostBtn"
           >
-            Open Public Page
+            {copy.openPublic}
           </a>
 
           <button
@@ -1199,7 +1465,7 @@ export default function ServicesPageEditor({
             onClick={resetUnsavedChanges}
             disabled={saving}
           >
-            Reset Changes
+            {copy.reset}
           </button>
 
           <button
@@ -1208,7 +1474,7 @@ export default function ServicesPageEditor({
             onClick={handleSave}
             disabled={saving}
           >
-            {saving ? "Saving..." : "Save All Changes"}
+            {saving ? copy.saving : copy.save}
           </button>
         </div>
       </section>
@@ -1216,24 +1482,24 @@ export default function ServicesPageEditor({
       <section className="admin-services-editor__stats">
         {/* بطاقات إحصائية مختصرة */}
         <article className="admin-services-editor__statCard">
-          <span>Service Cards</span>
+          <span>{copy.serviceCardsStat}</span>
           <strong>{stats.serviceCardsCount}</strong>
-          <small>{stats.activeServiceCardsCount} active</small>
+          <small>{stats.activeServiceCardsCount} {copy.active}</small>
         </article>
 
         <article className="admin-services-editor__statCard">
-          <span>Detail Pages</span>
+          <span>{copy.detailsStat}</span>
           <strong>{stats.detailPagesCount}</strong>
-          <small>{stats.activeDetailPagesCount} active</small>
+          <small>{stats.activeDetailPagesCount} {copy.active}</small>
         </article>
 
         <article className="admin-services-editor__statCard">
-          <span>Testimonials</span>
+          <span>{copy.testimonialsStat}</span>
           <strong>{stats.testimonialsCount}</strong>
         </article>
 
         <article className="admin-services-editor__statCard">
-          <span>Gallery Images</span>
+          <span>{copy.galleryStat}</span>
           <strong>{stats.galleryCount}</strong>
         </article>
       </section>
@@ -1252,7 +1518,19 @@ export default function ServicesPageEditor({
       ) : null}
       {/* رسالة الخطأ */}
 
-      <section className="admin-services-editor__section">
+      <div className="admin-services-editor__workspace">
+        <aside className="admin-services-editor__sidebar" aria-label={copy.sections}>
+          <strong>{copy.sections}</strong>
+          {sectionLinks.map((section) => (
+            <a key={section.id} href={`#${section.id}`}>
+              <span>{section.label}</span>
+              <small>{section.count}</small>
+            </a>
+          ))}
+        </aside>
+
+        <div className="admin-services-editor__content">
+          <section id="services-meta" className="admin-services-editor__section">
         {/* معلومات الصفحة الأساسية */}
         <div className="admin-services-editor__sectionHead">
           <h2>Page Meta</h2>
@@ -1306,7 +1584,7 @@ export default function ServicesPageEditor({
         </div>
       </section>
 
-      <section className="admin-services-editor__section">
+          <section id="services-hero" className="admin-services-editor__section">
         {/* Hero */}
         <div className="admin-services-editor__sectionHead">
           <h2>Hero</h2>
@@ -1399,7 +1677,7 @@ export default function ServicesPageEditor({
         </div>
       </section>
 
-      <section className="admin-services-editor__section">
+          <section id="services-diagnostics" className="admin-services-editor__section">
         {/* تشخيص الروابط الداخلية */}
         <div className="admin-services-editor__sectionHead">
           <h2>Internal Route Diagnostics</h2>
@@ -1412,7 +1690,7 @@ export default function ServicesPageEditor({
         <div className="admin-services-editor__diagnostics">
           {diagnostics.length === 0 ? (
             <div className="admin-services-editor__emptyState">
-              No service cards yet.
+              {copy.noCards}
             </div>
           ) : (
             diagnostics.map((entry) => (
@@ -1427,7 +1705,7 @@ export default function ServicesPageEditor({
                     entry.hasMatchingDetail ? "is-ok" : "is-missing"
                   }`}
                 >
-                  {entry.hasMatchingDetail ? "Detail page found" : "Missing detail page"}
+                  {entry.hasMatchingDetail ? copy.found : copy.missing}
                 </span>
               </div>
             ))
@@ -1435,7 +1713,7 @@ export default function ServicesPageEditor({
         </div>
       </section>
 
-      <section className="admin-services-editor__section">
+          <section id="services-cards" className="admin-services-editor__section">
         {/* بطاقات الخدمات الرئيسية */}
         <div className="admin-services-editor__sectionHead">
           <h2>Main Service Cards</h2>
@@ -1495,7 +1773,7 @@ export default function ServicesPageEditor({
         <div className="admin-services-editor__stack">
           {serviceCards.length === 0 ? (
             <div className="admin-services-editor__emptyState">
-              No service cards yet.
+              {copy.noCards}
             </div>
           ) : (
             serviceCards.map((card, index) => (
@@ -1519,7 +1797,7 @@ export default function ServicesPageEditor({
                         card.is_active ? "is-active" : "is-inactive"
                       }`}
                     >
-                      {card.is_active ? "Active" : "Inactive"}
+                      {card.is_active ? copy.active : copy.inactive}
                     </span>
                   </div>
                 </summary>
@@ -1680,7 +1958,7 @@ export default function ServicesPageEditor({
         </div>
       </section>
 
-      <section className="admin-services-editor__section">
+          <section id="services-details" className="admin-services-editor__section">
         {/* الصفحات الفرعية للخدمات */}
         <div className="admin-services-editor__sectionHead">
           <h2>Service Detail Pages</h2>
@@ -1710,7 +1988,7 @@ export default function ServicesPageEditor({
         <div className="admin-services-editor__stack">
           {detailPages.length === 0 ? (
             <div className="admin-services-editor__emptyState">
-              No detail pages yet.
+              {copy.noDetails}
             </div>
           ) : (
             detailPages.map((detail, detailIndex) => (
@@ -1736,7 +2014,7 @@ export default function ServicesPageEditor({
                         detail.is_active ? "is-active" : "is-inactive"
                       }`}
                     >
-                      {detail.is_active ? "Active" : "Inactive"}
+                      {detail.is_active ? copy.active : copy.inactive}
                     </span>
                   </div>
                 </summary>
@@ -2265,7 +2543,7 @@ export default function ServicesPageEditor({
         </div>
       </section>
 
-      <section className="admin-services-editor__section">
+          <section id="services-testimonials" className="admin-services-editor__section">
         {/* Testimonials */}
         <div className="admin-services-editor__sectionHead">
           <h2>Testimonials</h2>
@@ -2350,7 +2628,7 @@ export default function ServicesPageEditor({
         <div className="admin-services-editor__stack">
           {testimonials.length === 0 ? (
             <div className="admin-services-editor__emptyState">
-              No testimonials yet.
+              {copy.noTestimonials}
             </div>
           ) : (
             testimonials.map((entry, testimonialIndex) => (
@@ -2374,7 +2652,7 @@ export default function ServicesPageEditor({
                         entry.is_active ? "is-active" : "is-inactive"
                       }`}
                     >
-                      {entry.is_active ? "Active" : "Inactive"}
+                      {entry.is_active ? copy.active : copy.inactive}
                     </span>
                   </div>
                 </summary>
@@ -2525,7 +2803,7 @@ export default function ServicesPageEditor({
         </div>
       </section>
 
-      <section className="admin-services-editor__section">
+          <section id="services-gallery" className="admin-services-editor__section">
         {/* المعرض العام */}
         <div className="admin-services-editor__sectionHead">
           <h2>Public Gallery</h2>
@@ -2580,7 +2858,7 @@ export default function ServicesPageEditor({
         <div className="admin-services-editor__stack">
           {publicGallery.length === 0 ? (
             <div className="admin-services-editor__emptyState">
-              No gallery images yet.
+              {copy.noGallery}
             </div>
           ) : (
             publicGallery.map((image, galleryIndex) => (
@@ -2604,7 +2882,7 @@ export default function ServicesPageEditor({
                         image.is_active ? "is-active" : "is-inactive"
                       }`}
                     >
-                      {image.is_active ? "Active" : "Inactive"}
+                      {image.is_active ? copy.active : copy.inactive}
                     </span>
                   </div>
                 </summary>
@@ -2702,7 +2980,7 @@ export default function ServicesPageEditor({
         </div>
       </section>
 
-      <section className="admin-services-editor__section">
+          <section id="services-cta" className="admin-services-editor__section">
         {/* CTA */}
         <div className="admin-services-editor__sectionHead">
           <h2>Main CTA</h2>
@@ -2770,7 +3048,7 @@ export default function ServicesPageEditor({
         </div>
       </section>
 
-      <section className="admin-services-editor__section">
+          <section id="services-footer" className="admin-services-editor__section">
         {/* Footer */}
         <div className="admin-services-editor__sectionHead">
           <h2>Footer</h2>
@@ -2870,6 +3148,17 @@ export default function ServicesPageEditor({
         </div>
       </section>
 
+        </div>
+
+        <ServicesLivePreview
+          item={item}
+          lang={builderLang}
+          device={previewDevice}
+          onDeviceChange={setPreviewDevice}
+          copy={copy}
+        />
+      </div>
+
       <section className="admin-services-editor__footerActions">
         {/* أزرار الحفظ النهائية */}
         <button
@@ -2878,7 +3167,7 @@ export default function ServicesPageEditor({
           onClick={resetUnsavedChanges}
           disabled={saving}
         >
-          Reset Changes
+          {copy.reset}
         </button>
 
         <button
@@ -2887,7 +3176,7 @@ export default function ServicesPageEditor({
           onClick={handleSave}
           disabled={saving}
         >
-          {saving ? "Saving..." : "Save All Changes"}
+          {saving ? copy.saving : copy.save}
         </button>
       </section>
     </main>
