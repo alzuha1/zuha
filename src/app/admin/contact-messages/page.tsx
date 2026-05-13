@@ -1,54 +1,68 @@
 import "./contact-messages.css";
-// استيراد CSS الخاص بواجهة إدارة رسائل التواصل
+// يستورد ملف التنسيق الخاص بصفحة إدارة رسائل التواصل.
 
 import { cookies } from "next/headers";
-// قراءة الكوكيز الحالية لمعرفة هل الأدمن مسجل دخول أم لا
+// يستورد cookies من Next.js لقراءة كوكي تسجيل دخول الأدمن من السيرفر.
 
 import { redirect } from "next/navigation";
-// لإعادة توجيه المستخدم إذا لم يكن أدمن
+// يستورد redirect لإعادة غير المصرح لهم إلى صفحة تسجيل الدخول.
 
 import { supabaseServer } from "@/lib/supabase-server";
-// استيراد عميل Supabase الخاص بالسيرفر
+// يستورد عميل Supabase server-side حتى لا تظهر مفاتيح الخدمة في المتصفح.
 
 import ContactMessagesClient, {
   type ContactMessageAdminRow,
 } from "./contact-messages-client";
-// استيراد مكوّن العميل مع نوع الرسالة
+// يستورد واجهة العميل ونوع صف الرسالة الذي ستستقبله الواجهة.
 
 export const dynamic = "force-dynamic";
-// جعل الصفحة ديناميكية حتى لا تعتمد على كاش قديم
+// يمنع كاش الصفحة لأن رسائل التواصل يجب أن تكون حيّة دائمًا.
+
+function getAdminCookieNames() {
+  // يرجع قائمة أسماء كوكي الأدمن المقبولة لحماية التوافق مع إعداداتك السابقة.
+  const envCookie = process.env.ADMIN_COOKIE?.trim();
+  // يقرأ اسم الكوكي من متغير البيئة إذا كان مضبوطًا.
+
+  return Array.from(
+    new Set(
+      [envCookie, "zuha_admin", "admin_session"].filter(
+        (value): value is string => Boolean(value)
+      )
+    )
+  );
+  // يعيد أسماء الكوكي بدون تكرار وبدون قيم فارغة.
+}
 
 async function isAdminAuthorized() {
-  // هذه الدالة تتحقق من وجود كوكي الأدمن
-  // اعتمدت هنا على وجود الكوكي فقط لأن هذا الأكثر توافقًا مع إعدادك الحالي
-  // إذا كان عندك لاحقًا قيمة محددة للكوكي، يمكن تشديد الفحص هنا
-
+  // يتحقق من وجود جلسة أدمن قبل عرض الرسائل.
   const cookieStore: any = await Promise.resolve(cookies() as any);
-  // قراءة الكوكيز بصيغة متوافقة مع مشروعك الحالي
+  // يقرأ الكوكيز بطريقة متوافقة مع نسخ Next.js المختلفة.
 
-  const adminCookieName = process.env.ADMIN_COOKIE || "zuha_admin";
-  // اسم كوكي الأدمن من البيئة أو fallback افتراضي
+  const cookieNames = getAdminCookieNames();
+  // يجهز كل أسماء الكوكي المقبولة.
 
-  const adminCookie = cookieStore?.get?.(adminCookieName)?.value;
-  // محاولة قراءة قيمة الكوكي
-
-  return Boolean(adminCookie);
-  // إذا كانت القيمة موجودة نعتبر المستخدم أدمن
+  return cookieNames.some((cookieName) => {
+    // يمر على أسماء الكوكي ويقبل أول كوكي موجود.
+    const cookieValue = cookieStore?.get?.(cookieName)?.value;
+    // يقرأ قيمة الكوكي الحالية.
+    return Boolean(cookieValue);
+    // يرجع true إذا كانت القيمة موجودة.
+  });
 }
 
 export default async function AdminContactMessagesPage() {
-  // الصفحة الرئيسية لإدارة رسائل Contact
-
+  // صفحة السيرفر الرئيسية لإدارة رسائل التواصل.
   const authorized = await isAdminAuthorized();
-  // التحقق من صلاحية الأدمن
+  // يتحقق هل المستخدم أدمن أم لا.
 
   if (!authorized) {
-    redirect("/admin/login");
+    // إذا لا توجد جلسة أدمن.
+    redirect("/admin/login?next=/admin/contact-messages");
+    // يعيد المستخدم لصفحة الدخول مع حفظ الوجهة المطلوبة.
   }
-  // إذا لم يكن أدمن نعيد توجيهه إلى صفحة تسجيل دخول الأدمن
 
   const supabase = supabaseServer();
-  // إنشاء عميل Supabase
+  // ينشئ عميل Supabase الآمن من جهة السيرفر.
 
   const { data, error } = await supabase
     .from("contact_messages")
@@ -56,17 +70,18 @@ export default async function AdminContactMessagesPage() {
       "id, full_name, phone, email, message, status, admin_note, is_deleted, created_at, updated_at"
     )
     .order("created_at", { ascending: false })
-    .limit(200);
-  // جلب آخر 200 رسالة بترتيب الأحدث أولًا
+    .limit(300);
+  // يجلب أحدث 300 رسالة مع الحقول التي تحتاجها لوحة Inbox.
 
   if (error) {
+    // إذا فشل الجلب لا نكسر صفحة الأدمن.
     console.error("Admin contact-messages fetch error:", error.message);
+    // نسجل الخطأ في الطرفية للمراجعة.
   }
-  // طباعة الخطأ في الطرفية إذا فشل الجلب، بدون إسقاط الصفحة
 
   const initialMessages: ContactMessageAdminRow[] = (data ?? []) as ContactMessageAdminRow[];
-  // تجهيز البيانات لتمريرها إلى مكوّن العميل
+  // يحول البيانات القادمة من Supabase إلى النوع الذي تتوقعه واجهة العميل.
 
   return <ContactMessagesClient initialMessages={initialMessages} />;
-  // تمرير الرسائل الأولية إلى المكوّن العميل
+  // يعرض واجهة إدارة الرسائل ويمرر لها الرسائل الأولية.
 }

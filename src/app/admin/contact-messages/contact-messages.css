@@ -1,344 +1,605 @@
+:root {
+  --contact-admin-bg: #eef2f7; /* خلفية عامة هادئة للوحة الرسائل. */
+  --contact-admin-card: #ffffff; /* لون البطاقات الأساسي. */
+  --contact-admin-soft: #f8fafc; /* لون خلفية ثانوي داخل البطاقات. */
+  --contact-admin-border: #dbe3ef; /* لون الحدود الخفيفة. */
+  --contact-admin-border-strong: #c9d4e5; /* لون حدود أوضح للحقول. */
+  --contact-admin-text: #111827; /* لون النص الرئيسي. */
+  --contact-admin-muted: #64748b; /* لون النص الثانوي. */
+  --contact-admin-blue: #2556c7; /* لون أزرق الهوية للأزرار. */
+  --contact-admin-blue-dark: #1d45a8; /* لون أزرق داكن عند التفاعل. */
+  --contact-admin-green: #15803d; /* لون الحالات الإيجابية. */
+  --contact-admin-red: #b42318; /* لون الحذف والخطر. */
+  --contact-admin-purple: #6d28d9; /* لون حالة replied. */
+  --contact-admin-shadow: 0 18px 55px rgba(15, 23, 42, 0.08); /* ظل رئيسي للبطاقات. */
+  --contact-admin-radius: 28px; /* نصف قطر كبير لعناصر SaaS. */
+  --contact-admin-radius-sm: 18px; /* نصف قطر أصغر للكروت الداخلية. */
+}
+
 .admin-contact-messages {
-  min-height: 100vh;
-  background: #f7f9fc;
-  color: #111827;
-  padding: 32px;
+  min-height: 100vh; /* يجعل الصفحة تغطي كامل ارتفاع الشاشة. */
+  background:
+    radial-gradient(circle at top left, rgba(37, 86, 199, 0.12), transparent 34%),
+    var(--contact-admin-bg); /* خلفية احترافية غير مسطحة. */
+  color: var(--contact-admin-text); /* تطبيق لون النص الأساسي. */
+  padding: clamp(18px, 2vw, 34px); /* حشو مرن حسب حجم الشاشة. */
 }
 
-.admin-contact-messages__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 24px;
+.admin-contact-messages * {
+  box-sizing: border-box; /* يمنع مشاكل القياسات داخل اللوحة. */
 }
 
-.admin-contact-messages__header h1 {
-  margin: 0 0 8px;
-  font-size: 32px;
-  font-weight: 800;
+.admin-contact-messages__hero {
+  display: flex; /* يضع النص والأزرار في صف واحد. */
+  align-items: flex-start; /* يحاذي العناصر من الأعلى. */
+  justify-content: space-between; /* يوزع النص والأزرار على الطرفين. */
+  gap: 22px; /* مسافة بين النص والأزرار. */
+  padding: clamp(24px, 3vw, 42px); /* حشو داخلي فاخر. */
+  margin-bottom: 22px; /* مسافة أسفل الهيرو. */
+  border: 1px solid rgba(148, 163, 184, 0.35); /* حد ناعم. */
+  border-radius: var(--contact-admin-radius); /* زوايا كبيرة. */
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.86)); /* خلفية بيضاء ناعمة. */
+  box-shadow: var(--contact-admin-shadow); /* ظل احترافي. */
 }
 
-.admin-contact-messages__header p {
-  margin: 0;
-  color: #6b7280;
-  line-height: 1.7;
+.admin-contact-messages__kicker {
+  margin: 0 0 10px; /* مسافة أسفل الوسم. */
+  color: var(--contact-admin-blue); /* لون أزرق للوسم. */
+  font-size: 12px; /* حجم صغير. */
+  font-weight: 900; /* سماكة عالية. */
+  letter-spacing: 0.14em; /* تباعد حروف مؤسسي. */
+  text-transform: uppercase; /* أحرف كبيرة للإنجليزي. */
+}
+
+.admin-contact-messages__hero h1 {
+  margin: 0 0 12px; /* تصفير الهوامش مع مسافة تحت العنوان. */
+  font-size: clamp(34px, 4vw, 58px); /* عنوان كبير مرن. */
+  line-height: 1.05; /* ارتفاع سطر مضغوط. */
+  font-weight: 950; /* وزن قوي. */
+  letter-spacing: -0.05em; /* شكل حديث للعناوين. */
+}
+
+.admin-contact-messages__hero p:not(.admin-contact-messages__kicker) {
+  margin: 0; /* تصفير الهوامش. */
+  max-width: 820px; /* يمنع تمدد الوصف. */
+  color: var(--contact-admin-muted); /* لون ثانوي. */
+  line-height: 1.8; /* قراءة مريحة. */
+  font-size: 15px; /* حجم مناسب. */
+}
+
+.admin-contact-messages__heroActions {
+  display: flex; /* ترتيب أزرار الهيرو. */
+  align-items: center; /* توسيط عمودي. */
+  gap: 12px; /* مسافة بين الأزرار. */
+  flex-wrap: wrap; /* يسمح بالالتفاف. */
+  justify-content: flex-end; /* يحاذي الأزرار للطرف. */
+  flex-shrink: 0; /* يمنع ضغط الأزرار. */
+}
+
+.admin-contact-messages__lang {
+  display: inline-flex; /* يجعل AR/EN في كبسولة. */
+  padding: 5px; /* حشو داخلي. */
+  gap: 4px; /* مسافة صغيرة بين الأزرار. */
+  border-radius: 999px; /* كبسولة كاملة. */
+  background: rgba(15, 23, 42, 0.06); /* خلفية رمادية شفافة. */
+  border: 1px solid rgba(148, 163, 184, 0.22); /* حد ناعم. */
+}
+
+.admin-contact-messages__lang button {
+  border: 0; /* إزالة حدود الزر الافتراضية. */
+  border-radius: 999px; /* زر دائري الحواف. */
+  background: transparent; /* خلفية شفافة. */
+  color: #475569; /* لون غير نشط. */
+  padding: 10px 14px; /* حشو مريح. */
+  font: inherit; /* استخدام نفس الخط. */
+  font-weight: 900; /* خط قوي. */
+  cursor: pointer; /* مؤشر يد. */
+}
+
+.admin-contact-messages__lang button.is-active {
+  background: var(--contact-admin-blue); /* خلفية زرقاء للغة النشطة. */
+  color: #ffffff; /* نص أبيض. */
+  box-shadow: 0 10px 24px rgba(37, 86, 199, 0.24); /* ظل أزرق خفيف. */
 }
 
 .admin-contact-messages__refreshBtn,
 .admin-contact-messages__applyBtn,
 .admin-secondaryBtn,
 .admin-dangerBtn {
-  border: none;
-  border-radius: 12px;
-  padding: 12px 16px;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.25s ease;
+  min-height: 46px; /* ارتفاع موحد للأزرار. */
+  border: none; /* إزالة الحدود الافتراضية. */
+  border-radius: 999px; /* شكل كبسولة. */
+  padding: 0 18px; /* حشو أفقي. */
+  display: inline-flex; /* توسيط النص. */
+  align-items: center; /* توسيط عمودي. */
+  justify-content: center; /* توسيط أفقي. */
+  font: inherit; /* نفس الخط. */
+  font-size: 14px; /* حجم مقروء. */
+  font-weight: 900; /* وزن واضح. */
+  line-height: 1; /* يمنع ارتفاع السطر من إزاحة النص. */
+  cursor: pointer; /* مؤشر تفاعل. */
+  text-decoration: none; /* إزالة خط الرابط من a. */
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease, background 0.18s ease; /* حركة ناعمة. */
 }
 
 .admin-contact-messages__refreshBtn,
 .admin-contact-messages__applyBtn,
 .admin-secondaryBtn {
-  background: #2563eb;
-  color: #ffffff;
+  background: var(--contact-admin-blue); /* لون أزرق للأزرار الرئيسية والثانوية. */
+  color: #ffffff; /* نص أبيض. */
+  box-shadow: 0 12px 28px rgba(37, 86, 199, 0.20); /* ظل أزرق. */
+}
+
+.admin-dangerBtn {
+  background: var(--contact-admin-red); /* لون أحمر للخطر. */
+  color: #ffffff; /* نص أبيض. */
+  box-shadow: 0 12px 28px rgba(180, 35, 24, 0.16); /* ظل أحمر خفيف. */
 }
 
 .admin-contact-messages__refreshBtn:hover,
 .admin-contact-messages__applyBtn:hover,
-.admin-secondaryBtn:hover {
-  opacity: 0.92;
-}
-
-.admin-dangerBtn {
-  background: #b42318;
-  color: #ffffff;
-}
-
+.admin-secondaryBtn:hover,
 .admin-dangerBtn:hover {
-  opacity: 0.92;
+  transform: translateY(-1px); /* رفع خفيف عند المرور. */
+  opacity: 0.96; /* تفاعل بصري خفيف. */
+}
+
+.admin-contact-messages__refreshBtn:disabled,
+.admin-contact-messages__applyBtn:disabled,
+.admin-secondaryBtn:disabled,
+.admin-dangerBtn:disabled {
+  opacity: 0.55; /* إظهار حالة التعطيل. */
+  cursor: not-allowed; /* مؤشر غير مسموح. */
+  transform: none; /* منع الحركة عند التعطيل. */
 }
 
 .admin-contact-messages__stats {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 14px;
-  margin-bottom: 24px;
+  display: grid; /* شبكة إحصائيات. */
+  grid-template-columns: repeat(6, minmax(0, 1fr)); /* ست بطاقات على الديسكتوب. */
+  gap: 14px; /* مسافة بين البطاقات. */
+  margin-bottom: 20px; /* مسافة أسفل الإحصائيات. */
 }
 
 .admin-statCard {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 18px;
-  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.05);
+  background: rgba(255, 255, 255, 0.92); /* خلفية بيضاء شفافة. */
+  border: 1px solid rgba(148, 163, 184, 0.28); /* حد خفيف. */
+  border-radius: 22px; /* زوايا واضحة. */
+  padding: 18px; /* حشو داخلي. */
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.045); /* ظل خفيف. */
 }
 
 .admin-statCard span {
-  display: block;
-  color: #6b7280;
-  margin-bottom: 6px;
-  font-size: 14px;
+  display: block; /* يجعل العنوان في سطر مستقل. */
+  color: var(--contact-admin-muted); /* لون ثانوي. */
+  margin-bottom: 8px; /* مسافة تحت العنوان. */
+  font-size: 13px; /* حجم صغير. */
+  font-weight: 800; /* وزن قوي. */
 }
 
 .admin-statCard strong {
-  font-size: 28px;
-  font-weight: 800;
+  display: block; /* يجعل الرقم في سطر مستقل. */
+  font-size: 34px; /* رقم كبير. */
+  line-height: 1; /* ارتفاع سطر مضبوط. */
+  font-weight: 950; /* وزن عريض. */
+}
+
+.admin-statCard small {
+  display: block; /* يظهر الوصف في سطر مستقل. */
+  margin-top: 8px; /* مسافة فوق الوصف. */
+  color: var(--contact-admin-muted); /* لون ثانوي. */
+  font-size: 12px; /* حجم صغير. */
 }
 
 .admin-contact-messages__filters {
-  display: flex;
-  align-items: end;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 18px;
+  display: flex; /* صف مرن للفلاتر. */
+  align-items: end; /* يحاذي الحقول من الأسفل. */
+  gap: 14px; /* مسافة بين الفلاتر. */
+  flex-wrap: wrap; /* يسمح بالالتفاف. */
+  margin-bottom: 20px; /* مسافة أسفل الفلاتر. */
+  background: rgba(255, 255, 255, 0.92); /* خلفية بيضاء. */
+  border: 1px solid rgba(148, 163, 184, 0.30); /* حد ناعم. */
+  border-radius: 24px; /* زوايا كبيرة. */
+  padding: 18px; /* حشو داخلي. */
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.045); /* ظل خفيف. */
 }
 
 .admin-filterGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: flex; /* ترتيب label والحقل عموديًا. */
+  flex-direction: column; /* عمودي. */
+  gap: 8px; /* مسافة بين label والحقل. */
 }
 
 .admin-filterGroup--grow {
-  flex: 1;
-  min-width: 260px;
+  flex: 1; /* يأخذ المساحة المتبقية. */
+  min-width: 280px; /* عرض أدنى للبحث. */
 }
 
 .admin-filterGroup label,
 .admin-checkbox span {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 13px; /* حجم label. */
+  font-weight: 900; /* وزن قوي. */
+  color: var(--contact-admin-text); /* لون أساسي. */
 }
 
 .admin-filterGroup input,
 .admin-filterGroup select,
 .admin-detailCard__textarea {
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
-  padding: 12px 14px;
-  font: inherit;
-  background: #ffffff;
-  outline: none;
-  transition: 0.2s ease;
+  min-height: 46px; /* ارتفاع مريح. */
+  border: 1px solid var(--contact-admin-border-strong); /* حد واضح. */
+  border-radius: 16px; /* زوايا ناعمة. */
+  padding: 11px 14px; /* حشو داخلي. */
+  font: inherit; /* نفس الخط. */
+  background: #ffffff; /* خلفية بيضاء. */
+  color: var(--contact-admin-text); /* لون نص. */
+  outline: none; /* إزالة outline الافتراضي. */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* حركة focus. */
 }
 
 .admin-filterGroup input:focus,
 .admin-filterGroup select:focus,
 .admin-detailCard__textarea:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  border-color: var(--contact-admin-blue); /* حد أزرق عند التركيز. */
+  box-shadow: 0 0 0 4px rgba(37, 86, 199, 0.12); /* حلقة focus. */
 }
 
 .admin-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-bottom: 10px;
+  display: inline-flex; /* ترتيب checkbox والنص. */
+  align-items: center; /* توسيط عمودي. */
+  gap: 8px; /* مسافة بين الصندوق والنص. */
+  min-height: 46px; /* نفس ارتفاع الحقول. */
+  padding: 0 8px; /* حشو بسيط. */
+}
+
+.admin-checkbox input {
+  width: 16px; /* عرض checkbox. */
+  height: 16px; /* ارتفاع checkbox. */
+  accent-color: var(--contact-admin-blue); /* لون checkbox. */
 }
 
 .admin-contact-messages__notice {
-  margin-bottom: 18px;
-  background: #eef4ff;
-  color: #1d4ed8;
-  border: 1px solid #bfdbfe;
-  padding: 14px 16px;
-  border-radius: 14px;
-  font-weight: 700;
+  margin-bottom: 18px; /* مسافة أسفل التنبيه. */
+  background: #eef4ff; /* خلفية زرقاء فاتحة. */
+  color: #1d4ed8; /* نص أزرق. */
+  border: 1px solid #bfdbfe; /* حد أزرق فاتح. */
+  padding: 14px 16px; /* حشو داخلي. */
+  border-radius: 16px; /* زوايا ناعمة. */
+  font-weight: 800; /* وزن واضح. */
 }
 
-.admin-contact-messages__layout {
-  display: grid;
-  grid-template-columns: 420px 1fr;
-  gap: 20px;
+.admin-contact-messages__workspace {
+  display: grid; /* شبكة العمل الرئيسية. */
+  grid-template-columns: minmax(340px, 430px) minmax(0, 1fr); /* قائمة يسار وتفاصيل يمين. */
+  gap: 20px; /* مسافة بين اللوحتين. */
+  align-items: start; /* يبدأ المحتوى من الأعلى. */
 }
 
-.admin-contact-messages__list,
-.admin-contact-messages__detail {
-  min-height: 600px;
+.admin-contact-messages__listPanel,
+.admin-contact-messages__detailPanel {
+  min-width: 0; /* يمنع تمدد grid بسبب النصوص الطويلة. */
+  background: rgba(255, 255, 255, 0.86); /* خلفية بيضاء شبه شفافة. */
+  border: 1px solid rgba(148, 163, 184, 0.30); /* حد ناعم. */
+  border-radius: var(--contact-admin-radius); /* زوايا كبيرة. */
+  box-shadow: var(--contact-admin-shadow); /* ظل رئيسي. */
+  overflow: hidden; /* يمنع خروج المحتوى من الحواف. */
+}
+
+.admin-contact-messages__listPanel {
+  position: sticky; /* يبقي قائمة الرسائل مرئية أثناء التمرير. */
+  top: 18px; /* مسافة من أعلى الشاشة. */
+  max-height: calc(100vh - 36px); /* ارتفاع أقصى حسب الشاشة. */
+}
+
+.admin-contact-messages__detailPanel {
+  position: sticky; /* يبقي تفاصيل الرسالة ثابتة. */
+  top: 18px; /* مسافة من أعلى الشاشة. */
+  max-height: calc(100vh - 36px); /* ارتفاع أقصى. */
+  overflow-y: auto; /* تمرير داخلي للتفاصيل. */
+}
+
+.admin-contact-messages__panelHead {
+  display: flex; /* يضع العنوان والرقم في صف. */
+  align-items: center; /* توسيط عمودي. */
+  justify-content: space-between; /* توزيع طرفي. */
+  gap: 12px; /* مسافة. */
+  padding: 18px 20px; /* حشو داخلي. */
+  border-bottom: 1px solid rgba(148, 163, 184, 0.24); /* خط فصل. */
+  background: linear-gradient(135deg, #ffffff, #f8fbff); /* خلفية رأس اللوحة. */
+}
+
+.admin-contact-messages__panelHead p {
+  margin: 0; /* تصفير الهوامش. */
+  font-size: 13px; /* حجم صغير. */
+  font-weight: 950; /* وزن عريض. */
+  color: var(--contact-admin-blue); /* لون أزرق. */
+  letter-spacing: 0.10em; /* تباعد حروف. */
+  text-transform: uppercase; /* أحرف كبيرة. */
+}
+
+.admin-contact-messages__panelHead strong {
+  min-width: 34px; /* عرض أدنى للدائرة. */
+  height: 34px; /* ارتفاع الدائرة. */
+  border-radius: 999px; /* دائرة. */
+  display: inline-flex; /* توسيط الرقم. */
+  align-items: center; /* توسيط عمودي. */
+  justify-content: center; /* توسيط أفقي. */
+  color: #ffffff; /* نص أبيض. */
+  background: var(--contact-admin-blue); /* خلفية زرقاء. */
 }
 
 .admin-contact-messages__list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  max-height: calc(100vh - 112px); /* ارتفاع القائمة داخل اللوحة. */
+  overflow-y: auto; /* تمرير داخلي. */
+  padding: 14px; /* حشو داخلي. */
+  display: grid; /* يجعل الصفوف تحت بعض. */
+  gap: 12px; /* مسافة بين الرسائل. */
 }
 
 .admin-messageRow {
-  text-align: start;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 16px;
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.04);
-  transition: 0.2s ease;
+  width: 100%; /* يأخذ كامل عرض اللوحة. */
+  text-align: start; /* يتبع اتجاه اللغة. */
+  border: 1px solid rgba(148, 163, 184, 0.30); /* حد ناعم. */
+  background: #ffffff; /* خلفية بيضاء. */
+  border-radius: 20px; /* زوايا. */
+  padding: 16px; /* حشو. */
+  cursor: pointer; /* مؤشر تفاعل. */
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04); /* ظل خفيف. */
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease; /* حركة ناعمة. */
 }
 
 .admin-messageRow:hover {
-  border-color: #93c5fd;
+  transform: translateY(-1px); /* رفع خفيف. */
+  border-color: #93c5fd; /* حد أزرق فاتح. */
 }
 
 .admin-messageRow.is-active {
-  border-color: #2563eb;
-  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.15);
+  border-color: var(--contact-admin-blue); /* حد أزرق للرسالة المحددة. */
+  box-shadow: 0 12px 30px rgba(37, 86, 199, 0.18); /* ظل أزرق. */
 }
 
 .admin-messageRow.is-deleted {
-  opacity: 0.75;
-  background: #fafafa;
+  opacity: 0.66; /* يخفف الرسالة المحذوفة. */
+  background: #f8fafc; /* خلفية رمادية فاتحة. */
 }
 
 .admin-messageRow__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 8px;
+  display: flex; /* ترتيب الاسم والشارة. */
+  align-items: center; /* توسيط عمودي. */
+  justify-content: space-between; /* توزيع طرفي. */
+  gap: 10px; /* مسافة. */
+  margin-bottom: 10px; /* مسافة تحت الرأس. */
+}
+
+.admin-messageRow__head strong {
+  min-width: 0; /* يسمح بالاختصار. */
+  overflow: hidden; /* يخفي الزيادة. */
+  text-overflow: ellipsis; /* نقاط عند طول الاسم. */
+  white-space: nowrap; /* يمنع كسر الاسم. */
+  font-size: 15px; /* حجم الاسم. */
 }
 
 .admin-messageRow__meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  color: #6b7280;
-  font-size: 13px;
-  margin-bottom: 10px;
+  display: flex; /* عرض البريد والهاتف. */
+  flex-direction: column; /* عمودي. */
+  gap: 4px; /* مسافة صغيرة. */
+  color: var(--contact-admin-muted); /* لون ثانوي. */
+  font-size: 13px; /* حجم صغير. */
+  margin-bottom: 10px; /* مسافة أسفل البيانات. */
 }
 
 .admin-messageRow__snippet {
-  margin: 0 0 10px;
-  color: #374151;
-  line-height: 1.7;
+  margin: 0 0 10px; /* هامش أسفل المقتطف. */
+  color: #374151; /* لون نص المقتطف. */
+  line-height: 1.7; /* قراءة مريحة. */
+  font-size: 14px; /* حجم مقروء. */
 }
 
 .admin-messageRow__date {
-  font-size: 12px;
-  color: #9ca3af;
+  font-size: 12px; /* حجم تاريخ صغير. */
+  color: #94a3b8; /* لون رمادي. */
 }
 
 .admin-statusBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
+  display: inline-flex; /* توسيط الشارة. */
+  align-items: center; /* توسيط عمودي. */
+  justify-content: center; /* توسيط أفقي. */
+  min-height: 28px; /* ارتفاع أدنى. */
+  padding: 0 10px; /* حشو أفقي. */
+  border-radius: 999px; /* كبسولة. */
+  font-size: 12px; /* حجم صغير. */
+  font-weight: 900; /* وزن واضح. */
+  white-space: nowrap; /* منع كسر الشارة. */
 }
 
 .status-new {
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: #eff6ff; /* خلفية حالة جديد. */
+  color: #1d4ed8; /* نص أزرق. */
+  border: 1px solid #bfdbfe; /* حد أزرق فاتح. */
 }
 
 .status-reviewed {
-  background: #ecfdf3;
-  color: #15803d;
+  background: #ecfdf3; /* خلفية أخضر فاتح. */
+  color: var(--contact-admin-green); /* نص أخضر. */
+  border: 1px solid #bbf7d0; /* حد أخضر فاتح. */
 }
 
 .status-replied {
-  background: #f5f3ff;
-  color: #7c3aed;
+  background: #f5f3ff; /* خلفية بنفسجية فاتحة. */
+  color: var(--contact-admin-purple); /* نص بنفسجي. */
+  border: 1px solid #ddd6fe; /* حد بنفسجي فاتح. */
 }
 
 .status-archived {
-  background: #f3f4f6;
-  color: #4b5563;
+  background: #f3f4f6; /* خلفية رمادية. */
+  color: #4b5563; /* نص رمادي. */
+  border: 1px solid #d1d5db; /* حد رمادي. */
 }
 
 .admin-detailCard,
 .admin-emptyState {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 10px 28px rgba(17, 24, 39, 0.04);
+  background: transparent; /* يترك خلفية اللوحة الأساسية. */
+  padding: 22px; /* حشو داخلي. */
 }
 
 .admin-emptyState {
-  color: #6b7280;
+  color: var(--contact-admin-muted); /* لون نص فارغ. */
+  font-weight: 800; /* وزن واضح. */
 }
 
 .admin-detailCard__header {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 18px;
+  display: flex; /* ترتيب الرأس. */
+  align-items: flex-start; /* محاذاة من الأعلى. */
+  justify-content: space-between; /* توزيع طرفي. */
+  gap: 16px; /* مسافة. */
+  margin-bottom: 18px; /* مسافة أسفل الرأس. */
 }
 
 .admin-detailCard__header h2 {
-  margin: 0 0 8px;
-  font-size: 24px;
-  font-weight: 800;
+  margin: 0 0 8px; /* مسافة أسفل الاسم. */
+  font-size: clamp(26px, 3vw, 40px); /* اسم كبير مرن. */
+  line-height: 1.1; /* ارتفاع سطر. */
+  font-weight: 950; /* وزن كبير. */
+  letter-spacing: -0.04em; /* شكل حديث. */
 }
 
 .admin-detailCard__header p {
-  margin: 0 0 4px;
-  color: #6b7280;
+  margin: 0 0 4px; /* مسافة بين الأسطر. */
+  color: var(--contact-admin-muted); /* لون ثانوي. */
+}
+
+.admin-detailCard__quickActions {
+  display: flex; /* ترتيب أزرار التواصل. */
+  flex-wrap: wrap; /* التفاف عند الضيق. */
+  gap: 10px; /* مسافة بين الأزرار. */
+  margin-bottom: 20px; /* مسافة تحت الأزرار. */
 }
 
 .admin-detailCard__block {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #e5e7eb;
+  margin-top: 18px; /* مسافة أعلى كل بلوك. */
+  padding-top: 18px; /* حشو أعلى. */
+  border-top: 1px solid rgba(148, 163, 184, 0.26); /* خط فصل. */
 }
 
 .admin-detailCard__block h3 {
-  margin: 0 0 12px;
-  font-size: 16px;
-  font-weight: 800;
+  margin: 0 0 12px; /* مسافة أسفل العنوان. */
+  font-size: 16px; /* حجم عنوان البلوك. */
+  font-weight: 950; /* وزن عريض. */
 }
 
 .admin-detailCard__block p {
-  margin: 0;
-  line-height: 1.8;
-  color: #374151;
+  margin: 0; /* تصفير الهوامش. */
+  line-height: 1.85; /* قراءة مريحة للرسالة. */
+  color: #374151; /* لون نص الرسالة. */
+  white-space: pre-wrap; /* يحافظ على الأسطر من الرسالة. */
 }
 
 .admin-detailCard__textarea {
-  width: 100%;
-  min-height: 140px;
-  resize: vertical;
-  margin-bottom: 12px;
+  width: 100%; /* يأخذ كامل العرض. */
+  min-height: 150px; /* ارتفاع مناسب. */
+  resize: vertical; /* يسمح بتغيير الارتفاع. */
+  margin-bottom: 12px; /* مسافة أسفل. */
 }
 
 .admin-detailCard__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: flex; /* ترتيب أزرار الإجراءات. */
+  flex-wrap: wrap; /* التفاف عند الضيق. */
+  gap: 10px; /* مسافة. */
 }
 
 .admin-detailCard__meta p + p {
-  margin-top: 8px;
+  margin-top: 8px; /* مسافة بين بيانات metadata. */
+}
+
+.admin-contact-messages[dir="rtl"] .admin-contact-messages__hero,
+.admin-contact-messages[dir="rtl"] .admin-contact-messages__filters,
+.admin-contact-messages[dir="rtl"] .admin-detailCard {
+  direction: rtl; /* يطبق RTL على الكتل النصية. */
+}
+
+.admin-contact-messages[dir="ltr"] .admin-contact-messages__hero,
+.admin-contact-messages[dir="ltr"] .admin-contact-messages__filters,
+.admin-contact-messages[dir="ltr"] .admin-detailCard {
+  direction: ltr; /* يطبق LTR على الكتل الإنجليزية. */
+}
+
+.admin-contact-messages__list::-webkit-scrollbar,
+.admin-contact-messages__detailPanel::-webkit-scrollbar {
+  width: 8px; /* عرض scrollbar. */
+}
+
+.admin-contact-messages__list::-webkit-scrollbar-thumb,
+.admin-contact-messages__detailPanel::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.32); /* لون المقبض. */
+  border-radius: 999px; /* حواف دائرية. */
 }
 
 @media (max-width: 1180px) {
   .admin-contact-messages__stats {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* ثلاث بطاقات على التابلت. */
   }
 
-  .admin-contact-messages__layout {
-    grid-template-columns: 1fr;
+  .admin-contact-messages__workspace {
+    grid-template-columns: 1fr; /* عمود واحد للتابلت. */
+  }
+
+  .admin-contact-messages__listPanel,
+  .admin-contact-messages__detailPanel {
+    position: relative; /* إلغاء sticky في الشاشات الأضيق. */
+    top: auto; /* إلغاء المسافة العلوية. */
+    max-height: none; /* السماح بالارتفاع الطبيعي. */
+  }
+
+  .admin-contact-messages__list {
+    max-height: 620px; /* ارتفاع محدود للقائمة. */
   }
 }
 
 @media (max-width: 760px) {
   .admin-contact-messages {
-    padding: 18px;
+    padding: 16px; /* تقليل حشو الصفحة. */
   }
 
-  .admin-contact-messages__header {
-    flex-direction: column;
+  .admin-contact-messages__hero {
+    flex-direction: column; /* ترتيب عمودي في الجوال. */
+  }
+
+  .admin-contact-messages__heroActions {
+    width: 100%; /* الأزرار تأخذ العرض. */
+    justify-content: flex-start; /* تبدأ من اليسار/اليمين حسب الاتجاه. */
   }
 
   .admin-contact-messages__stats {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* بطاقتان في الصف. */
+  }
+
+  .admin-contact-messages__filters {
+    align-items: stretch; /* تمديد عناصر الفلاتر. */
+  }
+
+  .admin-filterGroup,
+  .admin-filterGroup--grow,
+  .admin-contact-messages__applyBtn,
+  .admin-contact-messages__refreshBtn {
+    width: 100%; /* عرض كامل للعناصر المهمة. */
+  }
+
+  .admin-detailCard__actions,
+  .admin-detailCard__quickActions {
+    flex-direction: column; /* أزرار عمودية. */
+  }
+
+  .admin-secondaryBtn,
+  .admin-dangerBtn {
+    width: 100%; /* أزرار بعرض كامل. */
+  }
+}
+
+@media (max-width: 520px) {
+  .admin-contact-messages__stats {
+    grid-template-columns: 1fr; /* بطاقة واحدة في الهواتف الصغيرة. */
+  }
+
+  .admin-contact-messages__hero h1 {
+    font-size: 34px; /* تقليل العنوان. */
   }
 }
