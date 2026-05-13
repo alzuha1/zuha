@@ -13,6 +13,135 @@ type Device = "desktop" | "tablet" | "mobile";
 type Dict = Record<string, string>;
 // يمثل قاموس نصوص الصفحة الرئيسية حسب اللغة.
 
+
+type AdvancedSectionStyle = {
+  // إعدادات تصميم خاصة بقسم كامل مثل hero أو services.
+  background: string;
+  // لون خلفية القسم المحدد.
+  textColor: string;
+  // لون النص الافتراضي داخل القسم.
+  padding: number;
+  // المسافة الداخلية للقسم في المعاينة.
+  radius: number;
+  // تدوير زوايا حاوية القسم.
+  shadow: number;
+  // قوة ظل حاوية القسم.
+};
+// نهاية نوع تصميم القسم.
+
+type AdvancedElementStyle = {
+  // إعدادات تصميم خاصة بعنصر داخل القسم مثل العنوان أو الصورة أو الكرت.
+  color: string;
+  // لون النص أو الأيقونة.
+  background: string;
+  // خلفية العنصر إن كان كرتًا أو زرًا أو أيقونة.
+  size: number;
+  // حجم الخط أو حجم العنصر حسب نوعه.
+  weight: number;
+  // سماكة الخط للعناصر النصية.
+  radius: number;
+  // تدوير الزوايا للعنصر.
+  shadow: number;
+  // قوة الظل للعنصر.
+  borderWidth: number;
+  // سماكة الحد.
+  borderColor: string;
+  // لون الحد.
+  opacity: number;
+  // شفافية العنصر.
+  scale: number;
+  // تكبير العنصر بصريًا في المعاينة.
+  padding: number;
+  // المسافة الداخلية للكروت والأزرار.
+  align: "start" | "center" | "end";
+  // محاذاة النص داخل العنصر.
+};
+// نهاية نوع تصميم العنصر.
+
+type AdvancedDesignSettings = {
+  // نظام التصميم المتقدم: اختيار قسم ثم عنصر ثم تعديل خصائصه.
+  activeSection: string;
+  // القسم المحدد داخل لوحة التصميم.
+  activeElement: string;
+  // العنصر المحدد داخل القسم.
+  sections: Record<string, AdvancedSectionStyle>;
+  // إعدادات كل قسم على حدة.
+  elements: Record<string, AdvancedElementStyle>;
+  // إعدادات كل عنصر على حدة.
+};
+// نهاية نوع التصميم المتقدم.
+
+type DesignSettings = {
+  // يجمع إعدادات التصميم القابلة للتحكم من لوحة الهوم.
+  colors: {
+    // مجموعة ألوان الهوية والخلفيات والأزرار.
+    primary: string;
+    // اللون الأساسي للأزرار والمساحات المهمة.
+    secondary: string;
+    // اللون الثانوي مثل الذهبي أو لون التمييز.
+    pageBg: string;
+    // لون خلفية الصفحة أو الخلفية العامة.
+    sectionBg: string;
+    // لون خلفية الكروت والأقسام الفاتحة.
+    text: string;
+    // لون النص الأساسي.
+    mutedText: string;
+    // لون النصوص الثانوية والوصف.
+    buttonBg: string;
+    // لون خلفية الأزرار.
+    buttonText: string;
+    // لون نص الأزرار.
+  };
+  typography: {
+    // إعدادات الخطوط والأحجام.
+    heroTitleSize: number;
+    // حجم عنوان الهيرو بالبكسل.
+    sectionTitleSize: number;
+    // حجم عناوين الأقسام بالبكسل.
+    bodySize: number;
+    // حجم النصوص العامة بالبكسل.
+    buttonSize: number;
+    // حجم نص الأزرار بالبكسل.
+    fontWeight: number;
+    // سماكة الخط العامة للعناوين المهمة.
+    lineHeight: number;
+    // ارتفاع السطر للنصوص.
+  };
+  images: {
+    // إعدادات عرض الصور بدون تعديل ملف الصورة الأصلي.
+    radius: number;
+    // تدوير زوايا الصور بالبكسل.
+    shadow: number;
+    // قوة ظل الصور.
+    borderWidth: number;
+    // سماكة إطار الصورة.
+    borderColor: string;
+    // لون إطار الصورة.
+    brightness: number;
+    // سطوع الصورة.
+    contrast: number;
+    // تباين الصورة.
+    saturation: number;
+    // تشبع ألوان الصورة.
+    scale: number;
+    // تكبير الصورة داخل الإطار.
+  };
+  backgrounds: {
+    // إعدادات الخلفيات والتدرجات.
+    heroOverlay: number;
+    // شفافية الطبقة الداكنة فوق صور الهيرو.
+    gradientEnabled: boolean;
+    // تفعيل أو تعطيل التدرج.
+    gradientFrom: string;
+    // بداية لون التدرج.
+    gradientTo: string;
+    // نهاية لون التدرج.
+  };
+  advanced: AdvancedDesignSettings;
+  // إعدادات التصميم المتقدم لكل قسم ولكل عنصر داخل الصفحة.
+};
+// نهاية تعريف إعدادات التصميم.
+
 type HomeSections = {
   // يمثل بنية sections_json المخزنة لسجل home داخل جدول pages.
   dict: {
@@ -53,6 +182,8 @@ type HomeSections = {
     brand_wall_image: string;
     // صورة الفوتر/العرض النهائي في الهوم.
   };
+  design: DesignSettings;
+  // إعدادات التصميم الخاصة بالهوم.
 };
 // نهاية تعريف بنية HomeSections.
 
@@ -101,8 +232,10 @@ type SectionKey =
   // قسم الأسئلة الشائعة.
   | "contact"
   // قسم التواصل والفوتر.
-  | "images";
+  | "images"
   // قسم الصور والبيانات العامة.
+  | "design";
+  // قسم التحكم بالتصميم.
 
 type UiCopy = {
   // قاموس ترجمة واجهة الأدمن نفسها وليس محتوى الموقع.
@@ -128,6 +261,37 @@ type UiCopy = {
   faq: string;
   contact: string;
   images: string;
+  design: string;
+  designColors: string;
+  designTypography: string;
+  designImages: string;
+  designBackgrounds: string;
+  primaryColor: string;
+  secondaryColor: string;
+  pageBg: string;
+  sectionBg: string;
+  textColor: string;
+  mutedTextColor: string;
+  buttonBg: string;
+  buttonText: string;
+  heroTitleSize: string;
+  sectionTitleSize: string;
+  bodySize: string;
+  buttonSize: string;
+  fontWeight: string;
+  lineHeight: string;
+  imageRadius: string;
+  imageShadow: string;
+  imageBorderWidth: string;
+  imageBorderColor: string;
+  imageBrightness: string;
+  imageContrast: string;
+  imageSaturation: string;
+  imageScale: string;
+  heroOverlay: string;
+  gradientEnabled: string;
+  gradientFrom: string;
+  gradientTo: string;
   ready: string;
   saved: string;
   loading: string;
@@ -247,6 +411,68 @@ const ui: Record<Lang, UiCopy> = {
     // اسم قسم التواصل.
     images: "الصور والبيانات",
     // اسم قسم الصور.
+    design: "التصميم",
+    // اسم قسم التحكم بالتصميم.
+    designColors: "الألوان",
+    // عنوان مجموعة الألوان.
+    designTypography: "الخطوط والأحجام",
+    // عنوان مجموعة الخطوط.
+    designImages: "الصور والإطارات والظل",
+    // عنوان مجموعة الصور.
+    designBackgrounds: "الخلفيات والتدرجات",
+    // عنوان مجموعة الخلفيات.
+    primaryColor: "اللون الأساسي",
+    // Label اللون الأساسي.
+    secondaryColor: "اللون الثانوي",
+    // Label اللون الثانوي.
+    pageBg: "خلفية الصفحة",
+    // Label خلفية الصفحة.
+    sectionBg: "خلفية الأقسام",
+    // Label خلفية الأقسام.
+    textColor: "لون النص",
+    // Label لون النص.
+    mutedTextColor: "لون النص الثانوي",
+    // Label النص الثانوي.
+    buttonBg: "لون الزر",
+    // Label لون الزر.
+    buttonText: "لون نص الزر",
+    // Label لون نص الزر.
+    heroTitleSize: "حجم عنوان الهيرو",
+    // Label حجم عنوان الهيرو.
+    sectionTitleSize: "حجم عناوين الأقسام",
+    // Label حجم عناوين الأقسام.
+    bodySize: "حجم النص العام",
+    // Label حجم النص العام.
+    buttonSize: "حجم نص الزر",
+    // Label حجم نص الزر.
+    fontWeight: "سماكة الخط",
+    // Label سماكة الخط.
+    lineHeight: "ارتفاع السطر",
+    // Label ارتفاع السطر.
+    imageRadius: "تدوير زوايا الصور",
+    // Label radius الصور.
+    imageShadow: "قوة ظل الصور",
+    // Label shadow الصور.
+    imageBorderWidth: "سماكة الإطار",
+    // Label إطار الصورة.
+    imageBorderColor: "لون الإطار",
+    // Label لون الإطار.
+    imageBrightness: "سطوع الصورة",
+    // Label السطوع.
+    imageContrast: "تباين الصورة",
+    // Label التباين.
+    imageSaturation: "تشبع الألوان",
+    // Label التشبع.
+    imageScale: "تكبير الصورة",
+    // Label التكبير.
+    heroOverlay: "شفافية التظليل",
+    // Label overlay.
+    gradientEnabled: "تفعيل التدرج",
+    // Label تفعيل التدرج.
+    gradientFrom: "بداية التدرج",
+    // Label بداية التدرج.
+    gradientTo: "نهاية التدرج",
+    // Label نهاية التدرج.
     ready: "جاهز للتعديل.",
     // رسالة الحالة الافتراضية.
     saved: "تم حفظ الصفحة الرئيسية بنجاح.",
@@ -430,6 +656,68 @@ const ui: Record<Lang, UiCopy> = {
     // Contact section label.
     images: "Images & Data",
     // Images section label.
+    design: "Design",
+    // Design controls section label.
+    designColors: "Colors",
+    // Colors group label.
+    designTypography: "Typography & Sizes",
+    // Typography group label.
+    designImages: "Images, Borders & Shadow",
+    // Images group label.
+    designBackgrounds: "Backgrounds & Gradients",
+    // Background group label.
+    primaryColor: "Primary Color",
+    // Primary color label.
+    secondaryColor: "Secondary Color",
+    // Secondary color label.
+    pageBg: "Page Background",
+    // Page background label.
+    sectionBg: "Section Background",
+    // Section background label.
+    textColor: "Text Color",
+    // Text color label.
+    mutedTextColor: "Muted Text Color",
+    // Muted text label.
+    buttonBg: "Button Color",
+    // Button background label.
+    buttonText: "Button Text Color",
+    // Button text label.
+    heroTitleSize: "Hero Title Size",
+    // Hero title size label.
+    sectionTitleSize: "Section Title Size",
+    // Section title size label.
+    bodySize: "Body Font Size",
+    // Body font size label.
+    buttonSize: "Button Font Size",
+    // Button font size label.
+    fontWeight: "Font Weight",
+    // Font weight label.
+    lineHeight: "Line Height",
+    // Line height label.
+    imageRadius: "Image Radius",
+    // Image radius label.
+    imageShadow: "Image Shadow",
+    // Image shadow label.
+    imageBorderWidth: "Border Width",
+    // Image border width label.
+    imageBorderColor: "Border Color",
+    // Image border color label.
+    imageBrightness: "Brightness",
+    // Brightness label.
+    imageContrast: "Contrast",
+    // Contrast label.
+    imageSaturation: "Saturation",
+    // Saturation label.
+    imageScale: "Image Scale",
+    // Scale label.
+    heroOverlay: "Overlay Opacity",
+    // Overlay label.
+    gradientEnabled: "Enable Gradient",
+    // Gradient toggle label.
+    gradientFrom: "Gradient From",
+    // Gradient start label.
+    gradientTo: "Gradient To",
+    // Gradient end label.
     ready: "Ready to edit.",
     // Default status text.
     saved: "Home page saved successfully.",
@@ -596,8 +884,304 @@ const sectionOrder: SectionKey[] = [
   // قسم التواصل.
   "images",
   // قسم الصور.
+  "design",
+  // قسم التصميم.
 ];
 // نهاية ترتيب الأقسام.
+
+type DesignElementKind = "text" | "image" | "card" | "button" | "icon";
+// يحدد نوع العنصر داخل لوحة التصميم المتقدم حتى نعرض له حقولًا مناسبة.
+
+type DesignSectionOption = { key: string; label: string };
+// يمثل خيار قسم داخل قائمة اختيار القسم المراد تصميمه.
+
+type DesignElementOption = { key: string; label: string; kind: DesignElementKind };
+// يمثل خيار عنصر داخل القسم المختار مع نوعه التصميمي.
+
+const designSectionOptions: DesignSectionOption[] = [
+  // قائمة الأقسام التي يمكن تعديل تصميمها بشكل مستقل داخل المعاينة.
+  { key: "hero", label: "Hero / الهيرو" },
+  // قسم الهيرو.
+  { key: "trust", label: "Trust / الثقة" },
+  // قسم الثقة والمؤشرات.
+  { key: "services", label: "Services / الخدمات" },
+  // قسم الخدمات المختصرة.
+  { key: "stats", label: "Stats / الأرقام" },
+  // قسم الإحصائيات.
+  { key: "projects", label: "Projects / المشاريع" },
+  // قسم المشاريع.
+  { key: "team", label: "Team / الفريق" },
+  // قسم الفريق.
+  { key: "faq", label: "FAQ / الأسئلة" },
+  // قسم الأسئلة الشائعة.
+  { key: "contact", label: "Contact / التواصل" },
+  // قسم التواصل والفوتر.
+];
+// نهاية قائمة أقسام التصميم المتقدم.
+
+const designElementOptions: Record<string, DesignElementOption[]> = {
+  // خريطة العناصر القابلة للتصميم داخل كل قسم.
+  hero: [
+    // عناصر قسم الهيرو.
+    { key: "hero.eyebrow", label: "Hero Eyebrow / النص التمهيدي", kind: "text" },
+    // النص التمهيدي للهيرو.
+    { key: "hero.title", label: "Hero Title / عنوان الهيرو", kind: "text" },
+    // عنوان الهيرو.
+    { key: "hero.desc", label: "Hero Description / وصف الهيرو", kind: "text" },
+    // وصف الهيرو.
+    { key: "hero.image", label: "Hero Image / صورة الهيرو", kind: "image" },
+    // صورة الهيرو.
+    { key: "button.primary", label: "Primary Button / الزر الرئيسي", kind: "button" },
+    // الزر الرئيسي.
+  ],
+  trust: [
+    // عناصر قسم الثقة.
+    { key: "trust.title", label: "Trust Title / عنوان الثقة", kind: "text" },
+    // عنوان الثقة.
+    { key: "trust.card", label: "Trust Cards / بطاقات الثقة", kind: "card" },
+    // بطاقات الثقة.
+  ],
+  services: [
+    // عناصر قسم الخدمات.
+    { key: "services.title", label: "Services Title / عنوان الخدمات", kind: "text" },
+    // عنوان الخدمات.
+    { key: "services.card", label: "Service Cards / كروت الخدمات", kind: "card" },
+    // كروت الخدمات.
+    { key: "services.icon", label: "Service Icons / أيقونات الخدمات", kind: "icon" },
+    // أيقونات الخدمات.
+  ],
+  stats: [
+    // عناصر قسم الإحصائيات.
+    { key: "stats.value", label: "Stats Value / الرقم", kind: "text" },
+    // الرقم الرئيسي.
+    { key: "stats.card", label: "Stats Card / كرت الأرقام", kind: "card" },
+    // كرت الأرقام.
+  ],
+  projects: [
+    // عناصر قسم المشاريع.
+    { key: "projects.title", label: "Projects Title / عنوان المشاريع", kind: "text" },
+    // عنوان المشاريع.
+    { key: "projects.image", label: "Project Images / صور المشاريع", kind: "image" },
+    // صور المشاريع.
+  ],
+  team: [
+    // عناصر قسم الفريق.
+    { key: "team.title", label: "Team Title / عنوان الفريق", kind: "text" },
+    // عنوان الفريق.
+    { key: "team.card", label: "Team Cards / كروت الفريق", kind: "card" },
+    // كروت الفريق.
+  ],
+  faq: [
+    // عناصر قسم الأسئلة.
+    { key: "faq.title", label: "FAQ Title / عنوان الأسئلة", kind: "text" },
+    // عنوان الأسئلة.
+    { key: "faq.card", label: "FAQ Cards / كروت الأسئلة", kind: "card" },
+    // كروت الأسئلة.
+  ],
+  contact: [
+    // عناصر قسم التواصل.
+    { key: "contact.title", label: "Contact Title / عنوان التواصل", kind: "text" },
+    // عنوان التواصل.
+    { key: "contact.card", label: "Contact Cards / كروت التواصل", kind: "card" },
+    // كروت التواصل.
+  ],
+};
+// نهاية خريطة عناصر التصميم المتقدم.
+
+
+function defaultAdvancedSection(background = "#ffffff", textColor = "#111827"): AdvancedSectionStyle {
+  // يرجع إعدادات افتراضية آمنة لقسم واحد داخل التصميم المتقدم.
+  return {
+    // بداية إعدادات القسم.
+    background,
+    // خلفية القسم.
+    textColor,
+    // لون النص داخل القسم.
+    padding: 22,
+    // المسافة الداخلية الافتراضية.
+    radius: 26,
+    // تدوير الزوايا الافتراضي.
+    shadow: 18,
+    // قوة الظل الافتراضية.
+  };
+  // نهاية return.
+}
+// نهاية defaultAdvancedSection.
+
+function defaultAdvancedElement(color = "#111827", background = "#ffffff", size = 18): AdvancedElementStyle {
+  // يرجع إعدادات افتراضية آمنة لعنصر واحد داخل التصميم المتقدم.
+  return {
+    // بداية إعدادات العنصر.
+    color,
+    // لون النص أو الأيقونة.
+    background,
+    // خلفية العنصر.
+    size,
+    // حجم الخط أو العنصر.
+    weight: 800,
+    // سماكة الخط.
+    radius: 18,
+    // تدوير الزوايا.
+    shadow: 12,
+    // قوة الظل.
+    borderWidth: 1,
+    // سماكة الحد.
+    borderColor: "#e5e7eb",
+    // لون الحد.
+    opacity: 1,
+    // شفافية كاملة افتراضيًا.
+    scale: 1,
+    // لا يوجد تكبير افتراضي.
+    padding: 14,
+    // حشو داخلي مناسب.
+    align: "start",
+    // المحاذاة الافتراضية.
+  };
+  // نهاية return.
+}
+// نهاية defaultAdvancedElement.
+
+function defaultAdvancedDesign(): AdvancedDesignSettings {
+  // يرجع خريطة إعدادات متقدمة جاهزة لكل قسم وعنصر مهم داخل الهوم.
+  return {
+    // بداية إعدادات التصميم المتقدم.
+    activeSection: "hero",
+    // القسم الافتراضي المحدد عند فتح لوحة التصميم.
+    activeElement: "hero.title",
+    // العنصر الافتراضي المحدد عند فتح لوحة التصميم.
+    sections: {
+      // إعدادات الأقسام الرئيسية.
+      hero: defaultAdvancedSection("#2148a3", "#ffffff"),
+      // قسم الهيرو.
+      trust: defaultAdvancedSection("#ffffff", "#111827"),
+      // قسم الثقة.
+      services: defaultAdvancedSection("#ffffff", "#111827"),
+      // قسم الخدمات.
+      stats: defaultAdvancedSection("#f8fafc", "#111827"),
+      // قسم الأرقام.
+      projects: defaultAdvancedSection("#ffffff", "#111827"),
+      // قسم المشاريع.
+      quote: defaultAdvancedSection("#f8fafc", "#111827"),
+      // قسم الاقتباس.
+      newsletter: defaultAdvancedSection("#ffffff", "#111827"),
+      // قسم النشرة.
+      team: defaultAdvancedSection("#ffffff", "#111827"),
+      // قسم الفريق.
+      faq: defaultAdvancedSection("#f8fafc", "#111827"),
+      // قسم الأسئلة.
+      contact: defaultAdvancedSection("#050505", "#ffffff"),
+      // قسم التواصل والفوتر.
+    },
+    // نهاية sections.
+    elements: {
+      // إعدادات العناصر داخل الأقسام.
+      "hero.title": defaultAdvancedElement("#ffffff", "transparent", 42),
+      // عنوان الهيرو.
+      "hero.desc": defaultAdvancedElement("#e5e7eb", "transparent", 16),
+      // وصف الهيرو.
+      "hero.eyebrow": defaultAdvancedElement("#dbeafe", "transparent", 14),
+      // النص التمهيدي للهيرو.
+      "hero.image": defaultAdvancedElement("#111827", "#ffffff", 18),
+      // صورة الهيرو.
+      "services.title": defaultAdvancedElement("#111827", "transparent", 30),
+      // عنوان الخدمات.
+      "services.card": defaultAdvancedElement("#111827", "#ffffff", 16),
+      // كروت الخدمات.
+      "services.icon": defaultAdvancedElement("#2148a3", "#eef4ff", 22),
+      // أيقونات الخدمات.
+      "stats.value": defaultAdvancedElement("#2148a3", "transparent", 34),
+      // رقم الإحصائية.
+      "projects.image": defaultAdvancedElement("#111827", "#ffffff", 18),
+      // صور المشاريع.
+      "team.card": defaultAdvancedElement("#111827", "#ffffff", 16),
+      // كروت الفريق.
+      "faq.card": defaultAdvancedElement("#111827", "#ffffff", 16),
+      // كروت الأسئلة.
+      "contact.card": defaultAdvancedElement("#ffffff", "#111111", 16),
+      // كروت التواصل.
+      "button.primary": defaultAdvancedElement("#ffffff", "#2148a3", 16),
+      // الزر الرئيسي.
+    },
+    // نهاية elements.
+  };
+  // نهاية return.
+}
+// نهاية defaultAdvancedDesign.
+
+function defaultDesign(): DesignSettings {
+  // يرجع القيم الافتراضية الآمنة للتصميم حتى لا تنكسر الواجهة عند غياب design من قاعدة البيانات.
+  return {
+    // بداية إعدادات التصميم.
+    colors: {
+      // ألوان الهوية والخلفيات.
+      primary: "#2148a3",
+      // اللون الأساسي.
+      secondary: "#d4af37",
+      // اللون الثانوي الذهبي.
+      pageBg: "#326bf6",
+      // خلفية الصفحة الزرقاء الحالية.
+      sectionBg: "#ffffff",
+      // خلفية الكروت والأقسام.
+      text: "#111827",
+      // لون النص الأساسي.
+      mutedText: "#64748b",
+      // لون النصوص الثانوية.
+      buttonBg: "#2148a3",
+      // لون الأزرار.
+      buttonText: "#ffffff",
+      // لون نص الأزرار.
+    },
+    typography: {
+      // أحجام الخطوط.
+      heroTitleSize: 56,
+      // حجم عنوان الهيرو الافتراضي.
+      sectionTitleSize: 34,
+      // حجم عنوان القسم.
+      bodySize: 16,
+      // حجم النص العام.
+      buttonSize: 16,
+      // حجم نص الزر.
+      fontWeight: 800,
+      // سماكة العناوين.
+      lineHeight: 1.35,
+      // ارتفاع السطر.
+    },
+    images: {
+      // إعدادات الصور.
+      radius: 28,
+      // تدوير الزوايا.
+      shadow: 28,
+      // قوة الظل.
+      borderWidth: 0,
+      // سماكة الإطار.
+      borderColor: "#d4af37",
+      // لون الإطار.
+      brightness: 1,
+      // السطوع.
+      contrast: 1,
+      // التباين.
+      saturation: 1,
+      // التشبع.
+      scale: 1,
+      // التكبير.
+    },
+    backgrounds: {
+      // الخلفيات.
+      heroOverlay: 0.18,
+      // شفافية التظليل.
+      gradientEnabled: true,
+      // تفعيل التدرج.
+      gradientFrom: "#2148a3",
+      // بداية التدرج.
+      gradientTo: "#326bf6",
+      // نهاية التدرج.
+    },
+    advanced: defaultAdvancedDesign(),
+    // إعدادات التصميم المتقدم لكل قسم وعنصر.
+  };
+  // نهاية return.
+}
+// نهاية defaultDesign.
 
 function emptyRecord(): HomeRecord {
   // ينشئ سجلًا افتراضيًا حتى لا تظهر الواجهة فارغة أثناء تحميل API.
@@ -653,6 +1237,8 @@ function emptyRecord(): HomeRecord {
         // صورة الفوتر.
       },
       // نهاية بيانات الموقع الافتراضية.
+      design: defaultDesign(),
+      // إعدادات التصميم الافتراضية.
     },
     // نهاية sections_json.
   };
@@ -725,6 +1311,48 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
 }
 // نهاية Toggle.
 
+function ColorInput({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  // حقل لون موحد يجمع color picker مع input نصي للقيمة hex.
+  return (
+    // بداية حقل اللون.
+    <label className="admin-home-field admin-home-color-field">
+      {/* عنوان حقل اللون. */}
+      <span>{label}</span>
+      {/* صف اللون. */}
+      <div className="admin-home-color-row">
+        {/* Color picker سريع. */}
+        <input type="color" value={value || "#000000"} onChange={(event) => onChange(event.target.value)} />
+        {/* Input نصي يسمح بلصق HEX يدويًا. */}
+        <input className="admin-home-input" value={value} dir="ltr" onChange={(event) => onChange(event.target.value)} />
+      </div>
+    </label>
+    // نهاية label.
+  );
+  // نهاية return.
+}
+// نهاية ColorInput.
+
+function RangeInput({ label, value, min, max, step = 1, onChange }: { label: string; value: number; min: number; max: number; step?: number; onChange: (value: number) => void }) {
+  // حقل Range للأحجام والفلاتر مع إظهار الرقم الحالي.
+  return (
+    // بداية حقل range.
+    <label className="admin-home-field admin-home-range-field">
+      {/* رأس الحقل: الاسم والقيمة الحالية. */}
+      <span className="admin-home-range-field__head">
+        {/* اسم الحقل. */}
+        <span>{label}</span>
+        {/* القيمة الرقمية الحالية. */}
+        <strong>{value}</strong>
+      </span>
+      {/* شريط التحكم. */}
+      <input type="range" min={min} max={max} step={step} value={value} onChange={(event) => onChange(Number(event.target.value))} />
+    </label>
+    // نهاية label.
+  );
+  // نهاية return.
+}
+// نهاية RangeInput.
+
 const previewFallbacks: Record<Lang, Dict> = {
   // قاموس احتياطي خاص بالمعاينة حتى لا تظهر مفاتيح مثل hero.title داخل لوحة الأدمن.
   ar: {
@@ -778,6 +1406,130 @@ function Preview({ item, lang, device }: { item: HomeRecord; lang: Lang; device:
   // اختيار القاموس الاحتياطي حسب لغة المعاينة.
   const site = item.sections_json.site;
   // اختصار بيانات الصور والتواصل.
+  const design = item.sections_json.design || defaultDesign();
+  // إعدادات التصميم الحالية أو الافتراضية.
+  const advanced = design.advanced || defaultAdvancedDesign();
+  // إعدادات التصميم المتقدم أو الافتراضية إذا كان السجل قديمًا.
+  const sectionStyle = (key: string) => advanced.sections?.[key] || defaultAdvancedSection();
+  // قراءة تصميم قسم محدد بشكل آمن.
+  const elementStyle = (key: string) => advanced.elements?.[key] || defaultAdvancedElement();
+  // قراءة تصميم عنصر محدد بشكل آمن.
+  const sectionPreviewStyle = (key: string): React.CSSProperties => {
+    // تحويل تصميم القسم إلى CSS مباشر للمعاينة.
+    const entry = sectionStyle(key);
+    // قراءة إعدادات القسم.
+    return {
+      // بداية CSS section.
+      background: entry.background,
+      // خلفية القسم.
+      color: entry.textColor,
+      // لون النص داخل القسم.
+      padding: `${entry.padding}px`,
+      // الحشو الداخلي.
+      borderRadius: `${entry.radius}px`,
+      // تدوير الزوايا.
+      boxShadow: `0 18px ${entry.shadow}px rgba(15, 23, 42, 0.18)`,
+      // ظل القسم.
+    };
+    // نهاية return.
+  };
+  // نهاية sectionPreviewStyle.
+  const textPreviewStyle = (key: string, fallbackSize: number): React.CSSProperties => {
+    // تحويل تصميم النص إلى CSS مباشر للمعاينة.
+    const entry = elementStyle(key);
+    // قراءة إعدادات العنصر.
+    return {
+      // بداية CSS text.
+      color: entry.color,
+      // لون النص.
+      fontSize: `${entry.size || fallbackSize}px`,
+      // حجم الخط.
+      fontWeight: entry.weight,
+      // سماكة الخط.
+      textAlign: entry.align as React.CSSProperties["textAlign"],
+      // المحاذاة.
+      opacity: entry.opacity,
+      // الشفافية.
+    };
+    // نهاية return.
+  };
+  // نهاية textPreviewStyle.
+  const boxPreviewStyle = (key: string): React.CSSProperties => {
+    // تحويل تصميم الكرت أو الأيقونة إلى CSS مباشر.
+    const entry = elementStyle(key);
+    // قراءة إعدادات العنصر.
+    return {
+      // بداية CSS box.
+      color: entry.color,
+      // لون النص.
+      background: entry.background,
+      // خلفية الكرت أو الأيقونة.
+      borderRadius: `${entry.radius}px`,
+      // تدوير الزوايا.
+      boxShadow: `0 16px ${entry.shadow}px rgba(15, 23, 42, 0.16)`,
+      // الظل.
+      border: `${entry.borderWidth}px solid ${entry.borderColor}`,
+      // الحد.
+      padding: `${entry.padding}px`,
+      // الحشو الداخلي.
+      transform: `scale(${entry.scale})`,
+      // التكبير.
+      opacity: entry.opacity,
+      // الشفافية.
+    };
+    // نهاية return.
+  };
+  // نهاية boxPreviewStyle.
+  const imageStyle = {
+    // نمط موحد للصور داخل المعاينة.
+    borderRadius: `${design.images.radius}px`,
+    // تدوير زوايا الصور.
+    border: `${design.images.borderWidth}px solid ${design.images.borderColor}`,
+    // إطار الصورة.
+    boxShadow: `0 18px ${design.images.shadow}px rgba(15, 23, 42, 0.28)`,
+    // ظل الصورة.
+    filter: `brightness(${design.images.brightness}) contrast(${design.images.contrast}) saturate(${design.images.saturation})`,
+    // فلاتر الصورة.
+    transform: `scale(${design.images.scale})`,
+    // تكبير الصورة.
+  };
+  // نهاية imageStyle.
+  const advancedImageStyle = (key: string): React.CSSProperties => {
+    // دمج إعدادات الصور العامة مع إعدادات الصورة المحددة داخل التصميم المتقدم.
+    const entry = elementStyle(key);
+    // قراءة إعدادات العنصر.
+    return {
+      // بداية CSS image.
+      ...imageStyle,
+      // تطبيق إعدادات الصور العامة أولًا.
+      borderRadius: `${entry.radius || design.images.radius}px`,
+      // تدوير خاص بالصورة المحددة أو العام.
+      border: `${entry.borderWidth}px solid ${entry.borderColor}`,
+      // حد الصورة المحددة.
+      boxShadow: `0 18px ${entry.shadow}px rgba(15, 23, 42, 0.28)`,
+      // ظل الصورة المحددة.
+      transform: `scale(${entry.scale || design.images.scale})`,
+      // تكبير الصورة المحددة.
+      opacity: entry.opacity,
+      // شفافية الصورة.
+    };
+    // نهاية return.
+  };
+  // نهاية advancedImageStyle.
+  const stageStyle = {
+    // متغيرات CSS داخل المعاينة.
+    background: design.backgrounds.gradientEnabled
+      ? `linear-gradient(135deg, ${design.backgrounds.gradientFrom}, ${design.backgrounds.gradientTo})`
+      : design.colors.pageBg,
+    // خلفية المعاينة من التدرج أو لون الصفحة.
+    color: design.colors.text,
+    // لون النص.
+    fontSize: `${design.typography.bodySize}px`,
+    // حجم النص العام.
+    lineHeight: design.typography.lineHeight,
+    // ارتفاع السطر.
+  } as React.CSSProperties;
+  // نهاية stageStyle.
   const t = (key: string, fallback = "") => {
     // دالة قراءة النص داخل المعاينة مع منع ظهور مفاتيح التخزين الخام للمستخدم.
     const value = dict?.[key];
@@ -804,43 +1556,43 @@ function Preview({ item, lang, device }: { item: HomeRecord; lang: Lang; device:
       </div>
       {/* نهاية شريط المعاينة. */}
 
-      <div className="admin-home-preview__stage" data-device={device} dir={lang === "ar" ? "rtl" : "ltr"}>
-        {/* منطقة عرض المعاينة مع اتجاه مناسب للغة. */}
-        <div className="home-preview-card home-preview-card--blue">
-          {/* كرت الهيرو داخل المعاينة. */}
-          <img src={site.hero_image} alt="Hero" />
-          {/* صورة الهيرو. */}
-          <p>{t("hero.eyebrow")}</p>
+      <div className="admin-home-preview__stage" data-device={device} dir={lang === "ar" ? "rtl" : "ltr"} style={stageStyle}>
+        {/* منطقة عرض المعاينة مع اتجاه مناسب للغة وتصميم حي. */}
+        <div className="home-preview-card home-preview-card--blue" style={sectionPreviewStyle("hero")}>
+          {/* كرت الهيرو داخل المعاينة بتصميم خاص بالقسم. */}
+          <img src={site.hero_image} alt="Hero" style={advancedImageStyle("hero.image")} />
+          {/* صورة الهيرو بتصميم خاص. */}
+          <p style={textPreviewStyle("hero.eyebrow", 14)}>{t("hero.eyebrow")}</p>
           {/* النص التمهيدي للهيرو. */}
-          <h2>{t("hero.title")}</h2>
+          <h2 style={textPreviewStyle("hero.title", design.typography.heroTitleSize)}>{t("hero.title")}</h2>
           {/* عنوان الهيرو. */}
-          <span>{t("hero.desc")}</span>
+          <span style={textPreviewStyle("hero.desc", design.typography.bodySize)}>{t("hero.desc")}</span>
           {/* وصف الهيرو. */}
         </div>
         {/* نهاية كرت الهيرو. */}
 
-        <div className="home-preview-card">
-          {/* كرت الخدمات المختصرة. */}
-          <p>{t("services.eyebrow")}</p>
+        <div className="home-preview-card" style={sectionPreviewStyle("services")}>
+          {/* كرت الخدمات المختصرة بتصميم خاص بالقسم. */}
+          <p style={textPreviewStyle("services.eyebrow", 14)}>{t("services.eyebrow")}</p>
           {/* النص التمهيدي للخدمات. */}
-          <h3>{t("services.title")}</h3>
+          <h3 style={textPreviewStyle("services.title", design.typography.sectionTitleSize)}>{t("services.title")}</h3>
           {/* عنوان الخدمات. */}
           <div className="home-preview-grid">
             {/* شبكة عناوين الخدمات. */}
-            <span>{t("services.item1.title")}</span>
+            <span style={boxPreviewStyle("services.card")}>{t("services.item1.title")}</span>
             {/* عنوان الخدمة الأولى. */}
-            <span>{t("services.item2.title")}</span>
+            <span style={boxPreviewStyle("services.card")}>{t("services.item2.title")}</span>
             {/* عنوان الخدمة الثانية. */}
-            <span>{t("services.item3.title")}</span>
+            <span style={boxPreviewStyle("services.card")}>{t("services.item3.title")}</span>
             {/* عنوان الخدمة الثالثة. */}
           </div>
           {/* نهاية شبكة الخدمات. */}
         </div>
         {/* نهاية كرت الخدمات. */}
 
-        <div className="home-preview-card">
-          {/* كرت بيانات الإحصائيات والتواصل. */}
-          <h3>${site.statsValue}</h3>
+        <div className="home-preview-card" style={sectionPreviewStyle("stats")}>
+          {/* كرت بيانات الإحصائيات والتواصل بتصميم خاص. */}
+          <h3 style={textPreviewStyle("stats.value", 34)}>${site.statsValue}</h3>
           {/* القيمة الرقمية. */}
           <p>{lang === "ar" ? site.location_ar : site.location_en}</p>
           {/* الموقع حسب اللغة. */}
@@ -851,11 +1603,11 @@ function Preview({ item, lang, device }: { item: HomeRecord; lang: Lang; device:
 
         <div className="home-preview-images">
           {/* صور المشاريع المختصرة. */}
-          <img src={site.project_image_1} alt="Project 1" />
-          {/* صورة المشروع الأولى. */}
-          <img src={site.project_image_2} alt="Project 2" />
-          {/* صورة المشروع الثانية. */}
-          <img src={site.project_image_3} alt="Project 3" />
+          <img src={site.project_image_1} alt="Project 1" style={advancedImageStyle("projects.image")} />
+          {/* صورة المشروع الأولى بتصميم خاص. */}
+          <img src={site.project_image_2} alt="Project 2" style={advancedImageStyle("projects.image")} />
+          {/* صورة المشروع الثانية بتصميم خاص. */}
+          <img src={site.project_image_3} alt="Project 3" style={advancedImageStyle("projects.image")} />
           {/* صورة المشروع الثالثة. */}
         </div>
         {/* نهاية صور المشاريع. */}
@@ -897,6 +1649,11 @@ export default function HomePageEditor() {
   // قاموس محتوى الهوم حسب اللغة.
   const site = item.sections_json.site;
   // بيانات الصور والتواصل.
+  const design = item.sections_json.design || defaultDesign();
+  // إعدادات التصميم الحالية لهذا السجل.
+
+  const advanced = design.advanced || defaultAdvancedDesign();
+  // إعدادات التصميم المتقدم المستخدمة داخل محرر قسم التصميم حتى لا يظهر خطأ advanced is not defined.
 
   const stats = useMemo(() => {
     // حساب بطاقات الإحصائيات أعلى الصفحة.
@@ -991,6 +1748,37 @@ export default function HomePageEditor() {
   }
   // نهاية setSite.
 
+  function setDesign(path: Array<string>, value: string | number | boolean) {
+    // تحديث قيمة داخل إعدادات التصميم حسب مسار مثل colors.primary أو images.radius.
+    setItem((prev) => {
+      // تحديث آمن اعتمادًا على الحالة السابقة.
+      const next = clone(prev);
+      // نسخ عميق للسجل.
+      const currentDesign: any = next.sections_json.design || defaultDesign();
+      // ضمان وجود design حتى لو كان السجل قديمًا.
+      let cursor = currentDesign;
+      // مؤشر يتحرك داخل object.
+      for (let index = 0; index < path.length - 1; index += 1) {
+        // المرور حتى نصل إلى الحاوية قبل المفتاح الأخير.
+        const segment = path[index];
+        // المقطع الحالي من المسار.
+        if (!cursor[segment]) cursor[segment] = {};
+        // إنشاء object فرعي إذا كان ناقصًا.
+        cursor = cursor[segment];
+        // النزول إلى المستوى التالي.
+      }
+      // نهاية الحلقة.
+      cursor[path[path.length - 1]] = value;
+      // تعيين القيمة الجديدة.
+      next.sections_json.design = currentDesign;
+      // إعادة design إلى sections_json.
+      return next;
+      // إرجاع السجل المحدث.
+    });
+    // نهاية setItem.
+  }
+  // نهاية setDesign.
+
   async function save() {
     // حفظ جميع تغييرات الصفحة الرئيسية عبر API.
     try {
@@ -1076,6 +1864,237 @@ export default function HomePageEditor() {
     }
     // نهاية شرط meta.
 
+    if (active === "design") {
+      // إذا كان القسم المختار هو التحكم بالتصميم.
+      return (
+        // بداية كرت التحكم بالتصميم.
+        <div className="admin-home-card">
+          {/* عنوان قسم التصميم. */}
+          <h2>{copy.design}</h2>
+          {/* عنوان قسم التصميم. */}
+
+          <section className="admin-home-design-group admin-home-design-group--advanced">
+            {/* مجموعة التصميم المتقدم حسب القسم والعنصر. */}
+            <h3>{lang === "ar" ? "تصميم كل قسم وعنصر" : "Section & Element Design"}</h3>
+            {/* عنوان المجموعة المتقدمة. */}
+            <p className="admin-home-design-note">
+              {lang === "ar"
+                ? "اختر القسم ثم العنصر المطلوب، وبعدها عدّل ألوانه وحجمه وحدوده وظله دون التأثير على بقية الصفحة."
+                : "Choose a section, then choose an element, and control its colors, size, borders, and shadow without affecting the rest of the page."}
+            </p>
+            {/* شرح مختصر لطريقة العمل. */}
+
+            <div className="admin-home-grid admin-home-grid--2">
+              {/* شبكة اختيار القسم والعنصر. */}
+              <label className="admin-home-field">
+                {/* حقل اختيار القسم. */}
+                <span>{lang === "ar" ? "القسم المراد تعديله" : "Target section"}</span>
+                {/* عنوان الحقل. */}
+                <select
+                  className="admin-home-input"
+                  value={advanced.activeSection || "hero"}
+                  onChange={(event) => {
+                    const nextSection = event.target.value;
+                    const firstElement = designElementOptions[nextSection]?.[0]?.key || "hero.title";
+                    setDesign(["advanced", "activeSection"], nextSection);
+                    setDesign(["advanced", "activeElement"], firstElement);
+                  }}
+                >
+                  {/* قائمة الأقسام. */}
+                  {designSectionOptions.map((entry) => (
+                    <option key={entry.key} value={entry.key}>{entry.label}</option>
+                  ))}
+                  {/* نهاية خيارات الأقسام. */}
+                </select>
+                {/* نهاية select القسم. */}
+              </label>
+              {/* نهاية اختيار القسم. */}
+
+              <label className="admin-home-field">
+                {/* حقل اختيار العنصر. */}
+                <span>{lang === "ar" ? "العنصر داخل القسم" : "Element inside section"}</span>
+                {/* عنوان الحقل. */}
+                <select
+                  className="admin-home-input"
+                  value={advanced.activeElement || designElementOptions[advanced.activeSection || "hero"]?.[0]?.key || "hero.title"}
+                  onChange={(event) => setDesign(["advanced", "activeElement"], event.target.value)}
+                >
+                  {/* قائمة عناصر القسم المحدد. */}
+                  {(designElementOptions[advanced.activeSection || "hero"] || designElementOptions.hero).map((entry) => (
+                    <option key={entry.key} value={entry.key}>{entry.label}</option>
+                  ))}
+                  {/* نهاية خيارات العناصر. */}
+                </select>
+                {/* نهاية select العنصر. */}
+              </label>
+              {/* نهاية اختيار العنصر. */}
+            </div>
+            {/* نهاية شبكة الاختيار. */}
+
+            {(() => {
+              const selectedSection = advanced.activeSection || "hero";
+              const selectedElement = advanced.activeElement || "hero.title";
+              const sectionSettings = advanced.sections?.[selectedSection] || defaultAdvancedSection();
+              const elementSettings = advanced.elements?.[selectedElement] || defaultAdvancedElement();
+              const elementKind = (designElementOptions[selectedSection] || []).find((entry) => entry.key === selectedElement)?.kind || "text";
+
+              return (
+                <>
+                  <div className="admin-home-design-subtitle">
+                    {lang === "ar" ? "إعدادات القسم المحدد" : "Selected section settings"}
+                  </div>
+                  {/* عنوان إعدادات القسم. */}
+                  <div className="admin-home-grid admin-home-grid--2">
+                    {/* شبكة إعدادات القسم. */}
+                    <ColorInput label={lang === "ar" ? "خلفية القسم" : "Section background"} value={sectionSettings.background} onChange={(v) => setDesign(["advanced", "sections", selectedSection, "background"], v)} />
+                    {/* لون خلفية القسم. */}
+                    <ColorInput label={lang === "ar" ? "لون نص القسم" : "Section text color"} value={sectionSettings.textColor} onChange={(v) => setDesign(["advanced", "sections", selectedSection, "textColor"], v)} />
+                    {/* لون النص داخل القسم. */}
+                    <RangeInput label={lang === "ar" ? "حشو القسم" : "Section padding"} value={sectionSettings.padding} min={0} max={80} onChange={(v) => setDesign(["advanced", "sections", selectedSection, "padding"], v)} />
+                    {/* الحشو الداخلي للقسم. */}
+                    <RangeInput label={lang === "ar" ? "تدوير القسم" : "Section radius"} value={sectionSettings.radius} min={0} max={60} onChange={(v) => setDesign(["advanced", "sections", selectedSection, "radius"], v)} />
+                    {/* تدوير زوايا القسم. */}
+                    <RangeInput label={lang === "ar" ? "ظل القسم" : "Section shadow"} value={sectionSettings.shadow} min={0} max={80} onChange={(v) => setDesign(["advanced", "sections", selectedSection, "shadow"], v)} />
+                    {/* قوة ظل القسم. */}
+                  </div>
+                  {/* نهاية إعدادات القسم. */}
+
+                  <div className="admin-home-design-subtitle">
+                    {lang === "ar" ? "إعدادات العنصر المحدد" : "Selected element settings"}
+                  </div>
+                  {/* عنوان إعدادات العنصر. */}
+                  <div className="admin-home-grid admin-home-grid--2">
+                    {/* شبكة إعدادات العنصر. */}
+                    <ColorInput label={lang === "ar" ? "لون العنصر" : "Element color"} value={elementSettings.color} onChange={(v) => setDesign(["advanced", "elements", selectedElement, "color"], v)} />
+                    {/* لون العنصر. */}
+                    <ColorInput label={lang === "ar" ? "خلفية العنصر" : "Element background"} value={elementSettings.background} onChange={(v) => setDesign(["advanced", "elements", selectedElement, "background"], v)} />
+                    {/* خلفية العنصر. */}
+                    <RangeInput label={elementKind === "image" ? (lang === "ar" ? "حجم الصورة" : "Image scale") : (lang === "ar" ? "حجم الخط / العنصر" : "Font / element size")} value={elementSettings.size} min={8} max={90} onChange={(v) => setDesign(["advanced", "elements", selectedElement, "size"], v)} />
+                    {/* حجم العنصر. */}
+                    <RangeInput label={lang === "ar" ? "سماكة الخط" : "Font weight"} value={elementSettings.weight} min={300} max={950} step={50} onChange={(v) => setDesign(["advanced", "elements", selectedElement, "weight"], v)} />
+                    {/* سماكة الخط. */}
+                    <RangeInput label={lang === "ar" ? "تدوير الزوايا" : "Radius"} value={elementSettings.radius} min={0} max={80} onChange={(v) => setDesign(["advanced", "elements", selectedElement, "radius"], v)} />
+                    {/* تدوير العنصر. */}
+                    <RangeInput label={lang === "ar" ? "الظل" : "Shadow"} value={elementSettings.shadow} min={0} max={90} onChange={(v) => setDesign(["advanced", "elements", selectedElement, "shadow"], v)} />
+                    {/* ظل العنصر. */}
+                    <RangeInput label={lang === "ar" ? "سماكة الحد" : "Border width"} value={elementSettings.borderWidth} min={0} max={10} onChange={(v) => setDesign(["advanced", "elements", selectedElement, "borderWidth"], v)} />
+                    {/* سماكة الحد. */}
+                    <ColorInput label={lang === "ar" ? "لون الحد" : "Border color"} value={elementSettings.borderColor} onChange={(v) => setDesign(["advanced", "elements", selectedElement, "borderColor"], v)} />
+                    {/* لون الحد. */}
+                    <RangeInput label={lang === "ar" ? "الشفافية" : "Opacity"} value={elementSettings.opacity} min={0.2} max={1} step={0.01} onChange={(v) => setDesign(["advanced", "elements", selectedElement, "opacity"], v)} />
+                    {/* شفافية العنصر. */}
+                    <RangeInput label={lang === "ar" ? "تكبير العنصر" : "Element scale"} value={elementSettings.scale} min={0.85} max={1.3} step={0.01} onChange={(v) => setDesign(["advanced", "elements", selectedElement, "scale"], v)} />
+                    {/* تكبير العنصر. */}
+                    <RangeInput label={lang === "ar" ? "الحشو الداخلي" : "Inner padding"} value={elementSettings.padding} min={0} max={50} onChange={(v) => setDesign(["advanced", "elements", selectedElement, "padding"], v)} />
+                    {/* الحشو الداخلي. */}
+                  </div>
+                  {/* نهاية إعدادات العنصر. */}
+                </>
+              );
+            })()}
+            {/* نهاية إعدادات القسم والعنصر المحدد. */}
+          </section>
+          {/* نهاية التصميم المتقدم. */}
+
+          {/* مجموعة الألوان. */}
+          <section className="admin-home-design-group">
+            {/* عنوان مجموعة الألوان. */}
+            <h3>{copy.designColors}</h3>
+            {/* شبكة حقول الألوان. */}
+            <div className="admin-home-grid admin-home-grid--2">
+              <ColorInput label={copy.primaryColor} value={design.colors.primary} onChange={(v) => setDesign(["colors", "primary"], v)} />
+              {/* اللون الأساسي. */}
+              <ColorInput label={copy.secondaryColor} value={design.colors.secondary} onChange={(v) => setDesign(["colors", "secondary"], v)} />
+              {/* اللون الثانوي. */}
+              <ColorInput label={copy.pageBg} value={design.colors.pageBg} onChange={(v) => setDesign(["colors", "pageBg"], v)} />
+              {/* خلفية الصفحة. */}
+              <ColorInput label={copy.sectionBg} value={design.colors.sectionBg} onChange={(v) => setDesign(["colors", "sectionBg"], v)} />
+              {/* خلفية الأقسام. */}
+              <ColorInput label={copy.textColor} value={design.colors.text} onChange={(v) => setDesign(["colors", "text"], v)} />
+              {/* لون النص. */}
+              <ColorInput label={copy.mutedTextColor} value={design.colors.mutedText} onChange={(v) => setDesign(["colors", "mutedText"], v)} />
+              {/* لون النص الثانوي. */}
+              <ColorInput label={copy.buttonBg} value={design.colors.buttonBg} onChange={(v) => setDesign(["colors", "buttonBg"], v)} />
+              {/* لون الزر. */}
+              <ColorInput label={copy.buttonText} value={design.colors.buttonText} onChange={(v) => setDesign(["colors", "buttonText"], v)} />
+              {/* لون نص الزر. */}
+            </div>
+            {/* نهاية شبكة الألوان. */}
+          </section>
+          {/* نهاية مجموعة الألوان. */}
+          <section className="admin-home-design-group">
+            {/* مجموعة الخطوط والأحجام. */}
+            <h3>{copy.designTypography}</h3>
+            {/* عنوان مجموعة الخطوط. */}
+            <div className="admin-home-grid admin-home-grid--2">
+              {/* شبكة حقول الأحجام. */}
+              <RangeInput label={copy.heroTitleSize} value={design.typography.heroTitleSize} min={32} max={86} onChange={(v) => setDesign(["typography", "heroTitleSize"], v)} />
+              {/* حجم عنوان الهيرو. */}
+              <RangeInput label={copy.sectionTitleSize} value={design.typography.sectionTitleSize} min={24} max={64} onChange={(v) => setDesign(["typography", "sectionTitleSize"], v)} />
+              {/* حجم عناوين الأقسام. */}
+              <RangeInput label={copy.bodySize} value={design.typography.bodySize} min={14} max={24} onChange={(v) => setDesign(["typography", "bodySize"], v)} />
+              {/* حجم النص العام. */}
+              <RangeInput label={copy.buttonSize} value={design.typography.buttonSize} min={12} max={24} onChange={(v) => setDesign(["typography", "buttonSize"], v)} />
+              {/* حجم نص الزر. */}
+              <RangeInput label={copy.fontWeight} value={design.typography.fontWeight} min={400} max={950} step={50} onChange={(v) => setDesign(["typography", "fontWeight"], v)} />
+              {/* سماكة الخط. */}
+              <RangeInput label={copy.lineHeight} value={design.typography.lineHeight} min={1} max={2} step={0.05} onChange={(v) => setDesign(["typography", "lineHeight"], v)} />
+              {/* ارتفاع السطر. */}
+            </div>
+            {/* نهاية شبكة الخطوط. */}
+          </section>
+          {/* نهاية مجموعة الخطوط. */}
+          <section className="admin-home-design-group">
+            {/* مجموعة الصور. */}
+            <h3>{copy.designImages}</h3>
+            {/* عنوان مجموعة الصور. */}
+            <div className="admin-home-grid admin-home-grid--2">
+              {/* شبكة تحكم الصور. */}
+              <RangeInput label={copy.imageRadius} value={design.images.radius} min={0} max={60} onChange={(v) => setDesign(["images", "radius"], v)} />
+              {/* تدوير الصورة. */}
+              <RangeInput label={copy.imageShadow} value={design.images.shadow} min={0} max={80} onChange={(v) => setDesign(["images", "shadow"], v)} />
+              {/* قوة الظل. */}
+              <RangeInput label={copy.imageBorderWidth} value={design.images.borderWidth} min={0} max={8} onChange={(v) => setDesign(["images", "borderWidth"], v)} />
+              {/* سماكة الإطار. */}
+              <ColorInput label={copy.imageBorderColor} value={design.images.borderColor} onChange={(v) => setDesign(["images", "borderColor"], v)} />
+              {/* لون الإطار. */}
+              <RangeInput label={copy.imageBrightness} value={design.images.brightness} min={0.75} max={1.25} step={0.01} onChange={(v) => setDesign(["images", "brightness"], v)} />
+              {/* سطوع الصورة. */}
+              <RangeInput label={copy.imageContrast} value={design.images.contrast} min={0.8} max={1.4} step={0.01} onChange={(v) => setDesign(["images", "contrast"], v)} />
+              {/* تباين الصورة. */}
+              <RangeInput label={copy.imageSaturation} value={design.images.saturation} min={0.6} max={1.6} step={0.01} onChange={(v) => setDesign(["images", "saturation"], v)} />
+              {/* تشبع الصورة. */}
+              <RangeInput label={copy.imageScale} value={design.images.scale} min={1} max={1.25} step={0.01} onChange={(v) => setDesign(["images", "scale"], v)} />
+              {/* تكبير الصورة. */}
+            </div>
+            {/* نهاية شبكة الصور. */}
+          </section>
+          {/* نهاية مجموعة الصور. */}
+          <section className="admin-home-design-group">
+            {/* مجموعة الخلفيات. */}
+            <h3>{copy.designBackgrounds}</h3>
+            {/* عنوان مجموعة الخلفيات. */}
+            <div className="admin-home-grid admin-home-grid--2">
+              {/* شبكة الخلفيات. */}
+              <Toggle label={copy.gradientEnabled} checked={design.backgrounds.gradientEnabled} onChange={(v) => setDesign(["backgrounds", "gradientEnabled"], v)} />
+              {/* تفعيل التدرج. */}
+              <RangeInput label={copy.heroOverlay} value={design.backgrounds.heroOverlay} min={0} max={0.75} step={0.01} onChange={(v) => setDesign(["backgrounds", "heroOverlay"], v)} />
+              {/* شفافية التظليل. */}
+              <ColorInput label={copy.gradientFrom} value={design.backgrounds.gradientFrom} onChange={(v) => setDesign(["backgrounds", "gradientFrom"], v)} />
+              {/* بداية التدرج. */}
+              <ColorInput label={copy.gradientTo} value={design.backgrounds.gradientTo} onChange={(v) => setDesign(["backgrounds", "gradientTo"], v)} />
+              {/* نهاية التدرج. */}
+            </div>
+            {/* نهاية شبكة الخلفيات. */}
+          </section>
+          {/* نهاية مجموعة الخلفيات. */}
+        </div>
+        // نهاية كرت التصميم.
+      );
+      // نهاية return.
+    }
+    // نهاية شرط design.
+
     if (active === "images") {
       // إذا كان القسم المختار هو الصور والبيانات.
       return (
@@ -1123,7 +2142,7 @@ export default function HomePageEditor() {
     }
     // نهاية شرط images.
 
-    const map: Record<Exclude<SectionKey, "meta" | "images">, Array<{ key: string; label: string; type?: "text" | "area" }>> = {
+    const map: Record<Exclude<SectionKey, "meta" | "images" | "design">, Array<{ key: string; label: string; type?: "text" | "area" }>> = {
       // خريطة الحقول لكل قسم، وكل label فيها مترجم من copy.
       hero: [
         // حقول الهيرو.
@@ -1286,7 +2305,7 @@ export default function HomePageEditor() {
         {/* عنوان القسم مترجم بالكامل. */}
         <div className="admin-home-grid admin-home-grid--2">
           {/* شبكة الحقول. */}
-          {map[active as Exclude<SectionKey, "meta" | "images">].map((field) => {
+          {map[active as Exclude<SectionKey, "meta" | "images" | "design">].map((field) => {
             // المرور على حقول القسم الحالي.
             const value = clean(dict[field.key]);
             // قراءة القيمة الحالية من قاموس اللغة.

@@ -448,3 +448,248 @@
     flex: 1 1 auto;
   }
 }
+
+
+
+
+
+/* ========================================================================== */
+/* HOME BUILDER DESIGN CONTROLS                                               */
+/* هذه القواعد تخص حقول التحكم بالتصميم داخل لوحة Home Builder فقط.              */
+/* ========================================================================== */
+
+.admin-home-design-group {
+  /* يجعل كل مجموعة تصميم داخل كرت مستقل بصريًا. */
+  margin-top: 22px;
+  /* يضيف مسافة مريحة بين مجموعات التصميم. */
+  padding: 20px;
+  /* يعطي المجموعة مساحة داخلية واضحة. */
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  /* حد خفيف حتى تظهر المجموعة كقسم مستقل. */
+  border-radius: 24px;
+  /* تدوير زوايا المجموعة لتطابق أسلوب لوحة الأدمن. */
+  background: rgba(248, 250, 252, 0.72);
+  /* خلفية فاتحة تفصل المجموعة عن الكرت الرئيسي. */
+}
+
+.admin-home-design-group h3 {
+  /* عنوان مجموعة التصميم مثل الألوان والخطوط. */
+  margin: 0 0 16px;
+  /* إزالة الهامش الافتراضي وإضافة مسافة أسفل العنوان. */
+  font-size: 18px;
+  /* حجم مناسب لعنوان فرعي داخل الأدمن. */
+  font-weight: 900;
+  /* جعل العنوان واضحًا. */
+  color: #0f172a;
+  /* لون نص داكن واحترافي. */
+}
+
+.admin-home-color-field {
+  /* حقل اللون يحتاج صفًا داخليًا خاصًا. */
+  min-width: 0;
+  /* يمنع الحقل من كسر الشبكة عند النصوص الطويلة. */
+}
+
+.admin-home-color-row {
+  /* صف يحتوي color picker مع input النصي. */
+  display: grid;
+  /* استخدام grid لضبط حجم color picker وباقي المساحة. */
+  grid-template-columns: 54px minmax(0, 1fr);
+  /* العمود الأول للون والثاني للقيمة النصية. */
+  gap: 10px;
+  /* مسافة بين اللون والنص. */
+  align-items: center;
+  /* محاذاة عمودية وسطية. */
+}
+
+.admin-home-color-row input[type="color"] {
+  /* شكل color picker. */
+  width: 54px;
+  /* عرض ثابت للون. */
+  height: 48px;
+  /* ارتفاع مطابق تقريبًا للمدخلات. */
+  padding: 4px;
+  /* حشو بسيط حتى لا يلتصق اللون بالحافة. */
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  /* حد خفيف حول picker. */
+  border-radius: 14px;
+  /* تدوير زوايا picker. */
+  background: #ffffff;
+  /* خلفية بيضاء. */
+  cursor: pointer;
+  /* يوضح أنه قابل للنقر. */
+}
+
+.admin-home-range-field {
+  /* حقل range كامل. */
+  gap: 12px;
+  /* مسافة بين العنوان والسلايدر. */
+}
+
+.admin-home-range-field__head {
+  /* رأس حقل range. */
+  display: flex;
+  /* ترتيب الاسم والقيمة في صف واحد. */
+  justify-content: space-between;
+  /* الاسم في جهة والقيمة في جهة. */
+  align-items: center;
+  /* محاذاة عمودية. */
+  gap: 12px;
+  /* مسافة حماية بين النص والرقم. */
+}
+
+.admin-home-range-field__head strong {
+  /* الرقم الحالي للسلايدر. */
+  min-width: 54px;
+  /* عرض ثابت حتى لا تهتز الواجهة عند تغير الرقم. */
+  text-align: center;
+  /* توسيط الرقم. */
+  padding: 6px 10px;
+  /* حشو داخلي للرقم. */
+  border-radius: 999px;
+  /* شكل كبسولة. */
+  background: rgba(37, 99, 235, 0.10);
+  /* خلفية زرقاء خفيفة. */
+  color: #1d4ed8;
+  /* لون أزرق واضح. */
+  font-size: 12px;
+  /* حجم صغير مناسب. */
+  font-weight: 900;
+  /* رقم واضح. */
+}
+
+.admin-home-range-field input[type="range"] {
+  /* سلايدر التحكم. */
+  width: 100%;
+  /* يأخذ عرض الحقل كاملًا. */
+  accent-color: #2563eb;
+  /* لون المقبض والمسار في المتصفحات الداعمة. */
+  cursor: pointer;
+  /* يوضح أنه قابل للسحب. */
+}
+
+.admin-home-preview__stage {
+  /* نضمن أن تغيير الخلفية من التصميم يظهر بسلاسة. */
+  transition: background 0.2s ease, color 0.2s ease;
+  /* حركة خفيفة عند تغيير الألوان. */
+}
+
+.home-preview-card img,
+.home-preview-images img {
+  /* الصور داخل المعاينة تتأثر بسلاسة عند تغيير radius/filter. */
+  transition: border-radius 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+  /* انتقال ناعم لتعديلات الصور. */
+  transform-origin: center center;
+  /* التكبير يتم من مركز الصورة. */
+}
+
+
+
+
+
+
+/* ==========================================================================
+   HOME BUILDER - ADVANCED SECTION / ELEMENT DESIGN CONTROLS
+   هذا البلوك يضيف تنسيقًا لواجهة اختيار القسم والعنصر داخل Home Builder.
+   يوضع في آخر: src/app/admin/home-page/home-page.css
+   ========================================================================== */
+
+.admin-home-design-group--advanced {
+  /* يميز مجموعة التصميم المتقدم عن التصميم العام. */
+  border: 1px solid rgba(37, 99, 235, 0.20);
+  /* حد أزرق هادئ لتوضيح أن المجموعة خاصة بالتحكم المتقدم. */
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.06), rgba(212, 175, 55, 0.08));
+  /* خلفية خفيفة تربط بين اللون الأزرق والذهبي. */
+}
+
+.admin-home-design-note {
+  /* شرح صغير فوق أدوات اختيار القسم والعنصر. */
+  margin: 0 0 18px;
+  /* إزالة الهامش الافتراضي وإضافة مسافة سفلية. */
+  color: #64748b;
+  /* لون رمادي واضح لكنه غير مزعج. */
+  font-size: 14px;
+  /* حجم مناسب للنص التوضيحي. */
+  line-height: 1.8;
+  /* ارتفاع سطر مريح للقراءة. */
+  font-weight: 700;
+  /* سماكة كافية حتى لا يبدو الشرح ضعيفًا. */
+}
+
+.admin-home-field select.admin-home-input {
+  /* يجعل select بنفس شكل حقول الإدخال في لوحة الهوم. */
+  width: 100%;
+  /* يملأ عرض الحقل. */
+  min-height: 48px;
+  /* ارتفاع مريح. */
+  border-radius: 16px;
+  /* زوايا ناعمة. */
+  border: 1px solid rgba(148, 163, 184, 0.42);
+  /* حد رمادي هادئ. */
+  background: #ffffff;
+  /* خلفية بيضاء. */
+  color: #0f172a;
+  /* لون نص داكن. */
+  padding: 0 14px;
+  /* حشو أفقي. */
+  font: inherit;
+  /* يرث خط لوحة الأدمن. */
+  font-weight: 800;
+  /* يجعل الاختيار واضحًا. */
+  outline: none;
+  /* إزالة الإطار الافتراضي. */
+}
+
+.admin-home-field select.admin-home-input:focus {
+  /* حالة التركيز على select. */
+  border-color: #2563eb;
+  /* حد أزرق عند التركيز. */
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.13);
+  /* حلقة تركيز واضحة. */
+}
+
+.admin-home-design-subtitle {
+  /* عنوان فرعي داخل التصميم المتقدم. */
+  margin: 22px 0 12px;
+  /* مسافة قبل وبعد العنوان. */
+  padding: 10px 14px;
+  /* حشو داخلي. */
+  border-radius: 999px;
+  /* شكل كبسولة. */
+  display: inline-flex;
+  /* يجعل العرض على قدر النص. */
+  align-items: center;
+  /* توسيط عمودي. */
+  background: rgba(15, 23, 42, 0.06);
+  /* خلفية رمادية ناعمة. */
+  color: #0f172a;
+  /* لون نص داكن. */
+  font-size: 13px;
+  /* حجم صغير. */
+  font-weight: 950;
+  /* سماكة عالية كعنوان فرعي. */
+}
+
+.admin-home-card .admin-home-design-group--advanced .admin-home-grid {
+  /* يمنع تلاصق حقول التصميم المتقدم. */
+  gap: 16px;
+  /* مسافة متوازنة بين الحقول. */
+}
+
+.admin-home-card .admin-home-design-group--advanced input[type="range"] {
+  /* تحسين مظهر range داخل التصميم المتقدم. */
+  accent-color: #2563eb;
+  /* لون أزرق للشريط. */
+}
+
+@media (max-width: 820px) {
+  /* تحسين واجهة التصميم المتقدم على الشاشات الصغيرة. */
+  .admin-home-design-subtitle {
+    /* جعل العنوان الفرعي واضحًا على الموبايل. */
+    width: 100%;
+    /* يملأ العرض. */
+    justify-content: center;
+    /* توسيط النص. */
+  }
+}
+
