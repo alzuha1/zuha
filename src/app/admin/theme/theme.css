@@ -1,0 +1,72 @@
+.theme-admin {
+  min-height: 100vh;
+  padding: 28px;
+  background: #f5f7fb;
+  color: #0f172a;
+}
+
+.theme-admin * { box-sizing: border-box; }
+
+.theme-admin__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 24px;
+  border-radius: 28px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, .07);
+  margin-bottom: 20px;
+}
+
+.theme-admin__header p { margin: 0 0 8px; color: #2563eb; font-weight: 900; }
+.theme-admin__header h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 42px); font-weight: 950; }
+.theme-admin__header span { color: #64748b; line-height: 1.8; }
+
+.theme-admin__actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.theme-admin__lang { display: inline-flex; background: #eef2ff; border-radius: 999px; padding: 4px; }
+.theme-admin__lang button { border: 0; border-radius: 999px; padding: 9px 14px; background: transparent; cursor: pointer; font-weight: 900; }
+.theme-admin__lang button.is-active { background: #2563eb; color: #fff; }
+
+.theme-admin__ghost,
+.theme-admin__primary { min-height: 44px; border-radius: 999px; padding: 0 18px; border: 0; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; font-weight: 900; cursor: pointer; }
+.theme-admin__ghost { background: #eef2ff; color: #1d4ed8; }
+.theme-admin__primary { background: #2563eb; color: #fff; box-shadow: 0 14px 30px rgba(37,99,235,.24); }
+
+.theme-admin__notice { padding: 14px 16px; border-radius: 18px; margin-bottom: 16px; font-weight: 900; }
+.theme-admin__notice--ok { background: #ecfdf5; color: #166534; border: 1px solid #bbf7d0; }
+.theme-admin__notice--err { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+.theme-admin__grid { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; align-items: start; }
+.theme-admin__editor { display: grid; gap: 18px; }
+.theme-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 26px; padding: 22px; box-shadow: 0 12px 34px rgba(15,23,42,.055); }
+.theme-card h2 { margin: 0 0 16px; font-size: 24px; font-weight: 950; }
+.theme-grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+
+.theme-field { display: grid; gap: 8px; font-weight: 900; }
+.theme-field > span { color: #0f172a; display: flex; justify-content: space-between; gap: 10px; }
+.theme-field input { min-height: 44px; border: 1px solid #d1d5db; border-radius: 14px; padding: 0 12px; font: inherit; }
+.theme-color-row { display: grid; grid-template-columns: 54px 1fr; gap: 8px; }
+.theme-color-row input[type="color"] { padding: 3px; width: 54px; }
+.theme-field--range input[type="range"] { width: 100%; accent-color: #2563eb; }
+
+.theme-preview { position: sticky; top: 110px; border-radius: 28px; overflow: hidden; border: 1px solid #e5e7eb; box-shadow: 0 20px 60px rgba(15,23,42,.12); min-height: 520px; }
+.theme-preview__header { height: var(--zuha-header-height); background: var(--zuha-header-bg); color: var(--zuha-header-text); display: flex; align-items: center; justify-content: space-between; padding: 0 22px; box-shadow: var(--zuha-header-shadow); }
+.theme-preview__logo { width: var(--zuha-logo-width); height: var(--zuha-logo-height); border-radius: var(--zuha-logo-radius); background: var(--zuha-logo-bg); border: 2px solid var(--zuha-logo-border); display: flex; align-items: center; justify-content: center; transform: scale(var(--zuha-logo-scale)); font-weight: 950; color: #111827; }
+.theme-preview__header nav { display: flex; gap: var(--zuha-nav-gap); font-size: var(--zuha-nav-font-size); font-weight: var(--zuha-nav-font-weight); color: var(--zuha-header-link); }
+.theme-preview__header nav span:first-child { color: var(--zuha-header-active); }
+.theme-preview__body { padding: 34px; }
+.theme-preview__body p { color: #64748b; font-weight: 900; }
+.theme-preview__body h2 { font-size: 34px; margin: 0 0 20px; }
+.theme-preview__body button { min-height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: var(--zuha-header-bg); color: #fff; font-weight: 900; }
+
+@media (max-width: 1180px) {
+  .theme-admin__grid { grid-template-columns: 1fr; }
+  .theme-preview { position: relative; top: auto; }
+}
+
+@media (max-width: 720px) {
+  .theme-admin { padding: 14px; }
+  .theme-admin__header { flex-direction: column; }
+  .theme-grid2 { grid-template-columns: 1fr; }
+}
