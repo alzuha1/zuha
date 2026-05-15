@@ -339,7 +339,23 @@ export default function ThemeEditor({ initialItem }: { initialItem: ThemeAdminRe
 
         <aside className="theme-preview" style={previewVars}>
           <div className="theme-preview__header">
-            <div className="theme-preview__logo">ALZUHA</div>
+            <div
+  className="theme-preview-logoShell"
+  style={{
+    width: `${theme.header.logoWidth}px`,
+    height: `${theme.header.logoHeight}px`,
+    borderRadius: `${theme.header.logoRadius}px`,
+  }}
+>
+  <img
+    src="/images/alzuha-logo.png"
+    alt="ALZUHA Logo"
+    className="theme-preview-logoImg"
+    style={{
+      transform: `scale(${theme.header.logoScale})`,
+    }}
+  />
+</div>
             <nav>
               <span>About</span>
               <span>Services</span>
