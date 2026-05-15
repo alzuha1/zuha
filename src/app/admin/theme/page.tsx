@@ -5,44 +5,75 @@ import { cookies } from "next/headers";
 // يستورد cookies لقراءة كوكي تسجيل دخول الأدمن من السيرفر.
 
 import { redirect } from "next/navigation";
-// يستورد redirect لإعادة غير المصرح له إلى صفحة تسجيل الدخول.
+// يستورد redirect لإعادة المستخدم غير المصرح له إلى صفحة تسجيل الدخول.
 
 import { supabaseServer } from "@/lib/supabase-server";
-// يستورد Supabase server client المستخدم في المشروع.
+// يستورد Supabase server client المستخدم داخل المشروع.
 
 import ThemeEditor from "./theme-editor";
-// يستورد محرر الثيم فقط، بدون استيراد دوال أو أنواع من Client Component.
+// يستورد محرر الثيم فقط، بدون استدعاء أي دالة من Client Component.
 
 export const dynamic = "force-dynamic";
-// يجعل الصفحة ديناميكية دائمًا حتى لا تُعرض نسخة كاش قديمة من إعدادات الثيم.
+// يجعل صفحة الثيم ديناميكية دائمًا حتى لا تعتمد على كاش قديم.
 
 type ThemeSettings = {
-  // نوع إعدادات الثيم المخزنة داخل sections_json.
+  // نوع إعدادات الثيم داخل sections_json.
   colors: {
     // مجموعة ألوان الموقع العامة.
-    siteBg: string;
+    primary: string;
+    // اللون الأساسي العام.
+    secondary: string;
+    // اللون الثانوي العام.
+    pageBg: string;
     // لون خلفية الموقع العامة.
     text: string;
-    // لون النص العام.
+    // لون النص الأساسي.
+    muted: string;
+    // لون النص الهادئ أو الثانوي.
+    buttonBg: string;
+    // لون خلفية الأزرار.
+    buttonText: string;
+    // لون نص الأزرار.
     headerBg: string;
     // لون خلفية الهيدر.
     headerText: string;
-    // لون روابط ونصوص الهيدر.
+    // لون النص العام داخل الهيدر.
+    headerLink: string;
+    // لون روابط الهيدر.
     headerActive: string;
-    // لون الرابط النشط داخل الهيدر.
-    buttonBg: string;
-    // لون خلفية الأزرار العامة.
-    buttonText: string;
-    // لون نص الأزرار العامة.
+    // لون الرابط النشط في الهيدر.
+    mobileMenuBg: string;
+    // لون خلفية قائمة الموبايل.
+    mobileMenuText: string;
+    // لون نص قائمة الموبايل.
   };
+  // نهاية colors.
+  typography: {
+    // إعدادات الخطوط والأحجام.
+    baseFontSize: number;
+    // حجم الخط العام.
+    navFontSize: number;
+    // حجم خط روابط الهيدر.
+    navWeight: number;
+    // سماكة خط روابط الهيدر.
+    buttonFontSize: number;
+    // حجم خط الأزرار.
+    lineHeight: number;
+    // ارتفاع السطر العام.
+  };
+  // نهاية typography.
   header: {
-    // إعدادات الهيدر على الديسكتوب.
+    // إعدادات الهيدر والشعار.
     height: number;
     // ارتفاع الهيدر.
     paddingX: number;
     // المسافة الجانبية داخل الهيدر.
-    gap: number;
-    // المسافة بين عناصر الهيدر.
+    navGap: number;
+    // المسافة بين روابط الهيدر.
+    shadow: number;
+    // قوة ظل الهيدر.
+    borderOpacity: number;
+    // شفافية حد الهيدر السفلي.
     logoWidth: number;
     // عرض الشعار.
     logoHeight: number;
@@ -51,33 +82,29 @@ type ThemeSettings = {
     // تدوير زوايا إطار الشعار.
     logoScale: number;
     // تكبير صورة الشعار داخل الإطار.
-    navFontSize: number;
-    // حجم خط روابط الهيدر.
-    navFontWeight: number;
-    // سماكة خط روابط الهيدر.
-    navGap: number;
-    // المسافة بين روابط الهيدر.
+    logoBg: string;
+    // خلفية إطار الشعار.
+    logoBorderColor: string;
+    // لون حد الشعار.
+    logoShadow: number;
+    // قوة ظل الشعار.
+  };
+  // نهاية header.
+  buttons: {
+    // إعدادات الأزرار العامة.
+    radius: number;
+    // تدوير زوايا الأزرار.
     shadow: number;
-    // قوة ظل الهيدر.
+    // قوة ظل الأزرار.
   };
-  mobile: {
-    // إعدادات الهيدر في الموبايل.
-    headerHeight: number;
-    // ارتفاع الهيدر في الموبايل.
-    logoWidth: number;
-    // عرض الشعار في الموبايل.
-    logoHeight: number;
-    // ارتفاع الشعار في الموبايل.
-    logoRadius: number;
-    // تدوير زوايا الشعار في الموبايل.
-  };
+  // نهاية buttons.
 };
-// نهاية نوع ThemeSettings.
+// نهاية ThemeSettings.
 
 type ThemeAdminRecord = {
   // نوع سجل الثيم القادم من جدول pages.
   slug: string;
-  // slug الخاص بالسجل، ويجب أن يكون theme.
+  // slug السجل ويجب أن يكون theme.
   title_ar: string;
   // عنوان السجل بالعربية.
   title_en: string;
@@ -93,107 +120,131 @@ type ThemeAdminRecord = {
   sections_json: ThemeSettings;
   // إعدادات الثيم الفعلية.
 };
-// نهاية نوع ThemeAdminRecord.
+// نهاية ThemeAdminRecord.
 
 async function isAdminAuthorized() {
   // يتحقق من وجود كوكي الأدمن بنفس نمط صفحات الأدمن الحالية.
   const cookieStore: any = await Promise.resolve(cookies() as any);
-  // يقرأ الكوكيز بطريقة متوافقة مع نسخ Next المختلفة.
+  // يقرأ الكوكيز من السيرفر بطريقة متوافقة مع نسخ Next المختلفة.
 
   const adminCookieName = process.env.ADMIN_COOKIE || "zuha_admin";
-  // يحدد اسم كوكي الأدمن من متغيرات البيئة أو يستخدم الاسم الافتراضي.
+  // يحدد اسم كوكي الأدمن من ملف البيئة أو يستخدم الاسم الافتراضي.
 
   const adminCookie = cookieStore?.get?.(adminCookieName)?.value;
   // يقرأ قيمة كوكي الأدمن إن كانت موجودة.
 
   return Boolean(adminCookie);
-  // يرجع true إذا كان الكوكي موجودًا، وإلا false.
+  // يرجع true إذا كان الكوكي موجودًا.
 }
 // نهاية isAdminAuthorized.
 
 function fallbackThemeSettings(): ThemeSettings {
-  // يرجع إعدادات ثيم افتراضية إذا لم يوجد سجل theme في قاعدة البيانات.
+  // يرجع إعدادات ثيم افتراضية كاملة متوافقة مع theme-editor.tsx.
   return {
-    // بداية إعدادات الثيم.
+    // بداية كائن إعدادات الثيم.
     colors: {
-      // بداية ألوان الموقع.
-      siteBg: "#ffffff",
+      // بداية إعدادات الألوان.
+      primary: "#244fca",
+      // اللون الأساسي الافتراضي.
+      secondary: "#d7b85a",
+      // اللون الثانوي الذهبي الافتراضي.
+      pageBg: "#ffffff",
       // خلفية الموقع الافتراضية.
       text: "#171717",
-      // لون النص الافتراضي.
-      headerBg: "#244fca",
-      // لون الهيدر الافتراضي.
-      headerText: "#d7d7d7",
-      // لون روابط الهيدر الافتراضي.
-      headerActive: "#ffffff",
-      // لون الرابط النشط في الهيدر.
+      // لون النص الأساسي.
+      muted: "#64748b",
+      // لون النص الهادئ.
       buttonBg: "#244fca",
-      // لون الأزرار الافتراضي.
+      // خلفية الأزرار.
       buttonText: "#ffffff",
-      // لون نص الأزرار الافتراضي.
+      // لون نص الأزرار.
+      headerBg: "#244fca",
+      // خلفية الهيدر.
+      headerText: "#ffffff",
+      // نص الهيدر.
+      headerLink: "rgba(230,230,230,0.86)",
+      // لون روابط الهيدر.
+      headerActive: "#ffffff",
+      // لون الرابط النشط.
+      mobileMenuBg: "#ffffff",
+      // خلفية قائمة الموبايل.
+      mobileMenuText: "#111827",
+      // نص قائمة الموبايل.
     },
-    // نهاية ألوان الموقع.
-    header: {
-      // بداية إعدادات الهيدر للديسكتوب.
-      height: 92,
-      // ارتفاع الهيدر الافتراضي.
-      paddingX: 90,
-      // المسافة الجانبية الافتراضية.
-      gap: 24,
-      // المسافة بين عناصر الهيدر.
-      logoWidth: 156,
-      // عرض الشعار الافتراضي.
-      logoHeight: 74,
-      // ارتفاع الشعار الافتراضي.
-      logoRadius: 28,
-      // تدوير زوايا الشعار الافتراضي.
-      logoScale: 1.18,
-      // تكبير صورة الشعار داخل الإطار.
+    // نهاية colors.
+    typography: {
+      // بداية إعدادات الخطوط.
+      baseFontSize: 16,
+      // حجم الخط العام.
       navFontSize: 15,
       // حجم خط روابط الهيدر.
-      navFontWeight: 850,
-      // سماكة خط روابط الهيدر.
+      navWeight: 850,
+      // سماكة روابط الهيدر.
+      buttonFontSize: 16,
+      // حجم خط الأزرار.
+      lineHeight: 1.5,
+      // ارتفاع السطر.
+    },
+    // نهاية typography.
+    header: {
+      // بداية إعدادات الهيدر.
+      height: 92,
+      // ارتفاع الهيدر.
+      paddingX: 90,
+      // المسافة الجانبية.
       navGap: 34,
-      // المسافة بين روابط الهيدر.
+      // المسافة بين الروابط.
       shadow: 0,
-      // ظل الهيدر الافتراضي.
+      // ظل الهيدر.
+      borderOpacity: 0.1,
+      // شفافية حد الهيدر.
+      logoWidth: 156,
+      // عرض الشعار.
+      logoHeight: 74,
+      // ارتفاع الشعار.
+      logoRadius: 28,
+      // تدوير الشعار.
+      logoScale: 1.18,
+      // تكبير صورة الشعار.
+      logoBg: "#cfcfcf",
+      // خلفية إطار الشعار.
+      logoBorderColor: "#d7b85a",
+      // لون حد الشعار.
+      logoShadow: 22,
+      // ظل الشعار.
     },
-    // نهاية إعدادات الهيدر.
-    mobile: {
-      // بداية إعدادات الموبايل.
-      headerHeight: 78,
-      // ارتفاع الهيدر في الموبايل.
-      logoWidth: 126,
-      // عرض الشعار في الموبايل.
-      logoHeight: 62,
-      // ارتفاع الشعار في الموبايل.
-      logoRadius: 22,
-      // تدوير زوايا الشعار في الموبايل.
+    // نهاية header.
+    buttons: {
+      // بداية إعدادات الأزرار.
+      radius: 999,
+      // تدوير الأزرار.
+      shadow: 18,
+      // ظل الأزرار.
     },
-    // نهاية إعدادات الموبايل.
+    // نهاية buttons.
   };
   // نهاية return.
 }
 // نهاية fallbackThemeSettings.
 
 function fallbackRecord(): ThemeAdminRecord {
-  // ينشئ سجلًا افتراضيًا كاملًا إذا لم يوجد سجل theme داخل جدول pages.
+  // ينشئ سجلًا افتراضيًا إذا لم يوجد سجل theme داخل قاعدة البيانات.
   return {
     // بداية السجل الافتراضي.
     slug: "theme",
     // slug الثيم.
     title_ar: "ثيم الموقع",
-    // عنوان السجل بالعربية.
+    // العنوان العربي.
     title_en: "Site Theme",
-    // عنوان السجل بالإنجليزية.
+    // العنوان الإنجليزي.
     content_ar: "إعدادات التصميم العام للموقع.",
-    // وصف السجل بالعربية.
+    // الوصف العربي.
     content_en: "Global design settings for the website.",
-    // وصف السجل بالإنجليزية.
+    // الوصف الإنجليزي.
     is_published: true,
-    // جعل السجل منشورًا افتراضيًا.
+    // جعل السجل منشورًا.
     page_type: "theme",
-    // نوع الصفحة داخل جدول pages.
+    // نوع الصفحة.
     sections_json: fallbackThemeSettings(),
     // إعدادات الثيم الافتراضية.
   };
@@ -202,45 +253,53 @@ function fallbackRecord(): ThemeAdminRecord {
 // نهاية fallbackRecord.
 
 function normalizeThemeRecord(value: any): ThemeAdminRecord {
-  // يدمج السجل القادم من قاعدة البيانات مع fallback لتجنب نقص المفاتيح القديمة.
+  // يدمج بيانات قاعدة البيانات مع القيم الافتراضية حتى لا تنقص أي مفاتيح.
   const fallback = fallbackRecord();
-  // يحضر السجل الافتراضي.
+  // يحضر السجل الافتراضي الكامل.
 
   const incomingSettings = value?.sections_json || {};
-  // يقرأ sections_json القادم من قاعدة البيانات إن وجد.
+  // يقرأ sections_json القادم من قاعدة البيانات أو يستخدم كائنًا فارغًا.
 
   return {
-    // إرجاع سجل مضبوط.
+    // بداية السجل النهائي.
     ...fallback,
-    // وضع القيم الافتراضية أولًا.
+    // يضع القيم الافتراضية أولًا.
     ...(value || {}),
-    // دمج بيانات قاعدة البيانات فوق القيم الافتراضية.
+    // يضع بيانات قاعدة البيانات فوقها إن وجدت.
     sections_json: {
-      // دمج إعدادات الثيم.
+      // بداية دمج إعدادات الثيم.
       colors: {
-        // دمج الألوان.
+        // بداية دمج الألوان.
         ...fallback.sections_json.colors,
         // ألوان افتراضية.
         ...(incomingSettings.colors || {}),
-        // ألوان محفوظة في قاعدة البيانات.
+        // ألوان محفوظة.
       },
       // نهاية colors.
+      typography: {
+        // بداية دمج الخطوط.
+        ...fallback.sections_json.typography,
+        // إعدادات خطوط افتراضية.
+        ...(incomingSettings.typography || {}),
+        // إعدادات خطوط محفوظة.
+      },
+      // نهاية typography.
       header: {
-        // دمج إعدادات الهيدر.
+        // بداية دمج الهيدر.
         ...fallback.sections_json.header,
         // إعدادات هيدر افتراضية.
         ...(incomingSettings.header || {}),
         // إعدادات هيدر محفوظة.
       },
       // نهاية header.
-      mobile: {
-        // دمج إعدادات الموبايل.
-        ...fallback.sections_json.mobile,
-        // إعدادات موبايل افتراضية.
-        ...(incomingSettings.mobile || {}),
-        // إعدادات موبايل محفوظة.
+      buttons: {
+        // بداية دمج الأزرار.
+        ...fallback.sections_json.buttons,
+        // إعدادات أزرار افتراضية.
+        ...(incomingSettings.buttons || {}),
+        // إعدادات أزرار محفوظة.
       },
-      // نهاية mobile.
+      // نهاية buttons.
     },
     // نهاية sections_json.
   };
@@ -254,13 +313,13 @@ export default async function AdminThemePage() {
   // يتحقق من صلاحية الأدمن.
 
   if (!authorized) {
-    // إذا لا يوجد كوكي أدمن.
+    // إذا لم يكن المستخدم مسجل دخول كأدمن.
     redirect("/admin/login?next=/admin/theme");
-    // يعيد المستخدم إلى صفحة تسجيل الدخول مع حفظ وجهته التالية.
+    // يعيده إلى تسجيل الدخول مع رابط الرجوع.
   }
 
   const supabase = supabaseServer();
-  // ينشئ عميل Supabase السيرفري.
+  // ينشئ Supabase server client.
 
   const { data, error } = await supabase
     // يبدأ استعلام Supabase.
@@ -269,20 +328,20 @@ export default async function AdminThemePage() {
     .select("slug,title_ar,title_en,content_ar,content_en,is_published,page_type,sections_json")
     // يحدد الأعمدة المطلوبة فقط.
     .eq("slug", "theme")
-    // يبحث عن سجل الثيم فقط.
+    // يبحث عن سجل theme.
     .maybeSingle();
-  // يرجع سجلًا واحدًا أو null إذا غير موجود.
+  // يرجع سجلًا واحدًا أو null.
 
   if (error) {
-    // إذا فشل الجلب.
+    // إذا حدث خطأ في القراءة.
     console.error("Admin theme fetch error:", error.message);
-    // يطبع الخطأ في الطرفية بدون إسقاط الصفحة.
+    // يسجل الخطأ في الطرفية ولا يكسر الصفحة.
   }
 
   const initialItem = normalizeThemeRecord(data);
-  // يجهز السجل النهائي للمحرر مع fallback آمن.
+  // يجهز السجل النهائي المتوافق مع ThemeEditor.
 
   return <ThemeEditor initialItem={initialItem} />;
-  // يمرر السجل إلى Client Component المسؤول عن التحرير.
+  // يمرر السجل إلى محرر الثيم.
 }
 // نهاية AdminThemePage.

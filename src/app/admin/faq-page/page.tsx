@@ -82,5 +82,5 @@ export default async function AdminFaqPage() { // مكوّن صفحة إدارة
   } // نهاية شرط الحماية.
 
   const initialItem = await getFaqPage(); // جلب السجل الأولي للصفحة.
-  return <FaqPageEditor initialItem={initialItem} />; // تمرير السجل إلى محرر العميل.
+  return <FaqPageEditor initialItem={initialItem as any} />;  // تمرير السجل إلى محرر العميل.
 } // نهاية صفحة AdminFaqPage.
