@@ -1,257 +1,364 @@
 @import "tailwindcss";
+/* استيراد Tailwind CSS ليبقى نظام التصميم الأساسي للمشروع فعالًا. */
 
 :root {
+  /* تعريف متغيرات الألوان الافتراضية للموقع. */
   --background: #ffffff;
+  /* خلفية الموقع الافتراضية. */
   --foreground: #171717;
+  /* لون النص الافتراضي. */
 }
 
 @theme inline {
+  /* ربط متغيرات Tailwind بمتغيرات CSS الخاصة بالموقع. */
   --color-background: var(--background);
+  /* لون الخلفية داخل Tailwind. */
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* لون النص داخل Tailwind. */
+  --font-sans: Arial, "Segoe UI", Tahoma, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  /* خط sans يعتمد على خطوط النظام بدل Google Fonts. */
+  --font-mono: Consolas, "Courier New", monospace;
+  /* خط mono آمن بدون تحميل خارجي. */
 }
 
 /* نثبت ألوان الموقع ولا نترك المتصفح يغيرها حسب وضع الجهاز */
 @media (prefers-color-scheme: dark) {
+  /* منع الوضع الداكن التلقائي من تغيير ألوان الموقع. */
   :root {
+    /* إعادة تثبيت الألوان في الوضع الداكن. */
     --background: #ffffff;
+    /* خلفية بيضاء ثابتة. */
     --foreground: #171717;
+    /* نص داكن ثابت. */
   }
 }
 
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* ضبط خط النظام العام للموقع. */
+  font-family:
+    Arial,
+    "Segoe UI",
+    Tahoma,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif !important;
+  /* استخدام خطوط النظام لمنع فشل البناء بسبب Google Fonts. */
 }
+
+body {
+  /* تنسيق جسم الصفحة. */
+  background: var(--background);
+  /* تطبيق الخلفية الافتراضية. */
+  color: var(--foreground);
+  /* تطبيق لون النص الافتراضي. */
+}
+
 /* =========================================================
    ALZUHA SHARED LOGO SYSTEM
    شعار موحد لكل الصفحات
 ========================================================= */
-/*
-.site-logo-shell {
-  width: 96px !important;
-  height: 96px !important;
-  border-radius: 50% !important;
-  overflow: hidden !important;
-  flex-shrink: 0 !important;
-  position: relative !important;
-  background: radial-gradient(circle at 35% 25%, #ffffff 0%, #fff8e8 45%, #ead18e 100%) !important;
-  border: 3px solid rgba(212, 175, 55, 0.95) !important;
-  box-shadow:
-    0 5px 14px rgba(0, 0, 0, 0.16),
-    inset 0 0 0 2px rgba(255, 255, 255, 0.85) !important;
-}
-
-.site-logo-img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-  object-position: center !important;
-  transform: scale(1.85) !important;
-  transform-origin: center center !important;
-  filter: contrast(1.25) saturate(1.35) brightness(1.08) !important;
-  mix-blend-mode: normal !important;
-}
-*/
 
 @media (max-width: 1024px) {
+  /* ضبط أحجام الشعار في التابلت. */
   .site-logo-shell {
+    /* إطار الشعار العام. */
     width: 84px !important;
+    /* عرض الشعار على التابلت. */
     height: 84px !important;
+    /* ارتفاع الشعار على التابلت. */
   }
 
   .site-logo-img {
+    /* صورة الشعار العامة. */
     transform: scale(1.82) !important;
+    /* تكبير صورة الشعار داخل الإطار. */
   }
 }
 
 @media (max-width: 768px) {
+  /* ضبط أحجام الشعار في الموبايل. */
   .site-logo-shell {
+    /* إطار الشعار العام. */
     width: 76px !important;
+    /* عرض الشعار على الموبايل. */
     height: 76px !important;
+    /* ارتفاع الشعار على الموبايل. */
   }
 
   .site-logo-img {
+    /* صورة الشعار العامة. */
     transform: scale(1.78) !important;
+    /* تكبير صورة الشعار داخل الإطار. */
   }
 }
 
 @media (max-width: 520px) {
+  /* ضبط أحجام الشعار في الشاشات الصغيرة. */
   .site-logo-shell {
+    /* إطار الشعار العام. */
     width: 70px !important;
+    /* عرض الشعار للشاشات الصغيرة. */
     height: 70px !important;
+    /* ارتفاع الشعار للشاشات الصغيرة. */
   }
 
   .site-logo-img {
+    /* صورة الشعار العامة. */
     transform: scale(1.72) !important;
+    /* تكبير أخف للشعار. */
   }
 }
-
-
 
 /* =========================================================
    ALZUHA UNIFIED HEADER SYSTEM
    هيدر موحد لكل الصفحات:
    Home / About / Services / Portfolio / FAQ / Contact
-   بدون زر Request Consultation داخل الهيدر.
 ========================================================= */
 
 .site-header {
+  /* الحاوية العامة للهيدر. */
   width: 100% !important;
+  /* جعل الهيدر بعرض الصفحة كاملًا. */
   height: 92px !important;
+  /* ارتفاع الهيدر على الديسكتوب. */
   min-height: 92px !important;
+  /* أقل ارتفاع للهيدر. */
   padding: 0 clamp(28px, 5vw, 90px) !important;
+  /* حواف أفقية مرنة حسب عرض الشاشة. */
   background: #244fca !important;
+  /* لون خلفية الهيدر. */
   color: #d7d7d7 !important;
+  /* لون النص الافتراضي داخل الهيدر. */
   display: flex !important;
+  /* استخدام flex لترتيب عناصر الهيدر. */
   align-items: center !important;
+  /* توسيط العناصر عموديًا. */
   justify-content: space-between !important;
+  /* توزيع العناصر بين الأطراف. */
   gap: 24px !important;
+  /* مسافة بين عناصر الهيدر. */
   position: sticky !important;
+  /* تثبيت الهيدر أثناء التمرير. */
   top: 0 !important;
+  /* تثبيت الهيدر أعلى الصفحة. */
   z-index: 9999 !important;
+  /* جعل الهيدر فوق أغلب العناصر. */
   box-sizing: border-box !important;
+  /* احتساب الحواف ضمن الحجم. */
   overflow: visible !important;
+  /* السماح بظهور عناصر مثل القائمة دون قص. */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  /* حد سفلي خفيف للهيدر. */
 }
 
-/* جهة الشعار */
 .site-header__logo-side {
+  /* جهة الشعار داخل الهيدر. */
   height: 100% !important;
+  /* جعلها بارتفاع الهيدر. */
   display: flex !important;
+  /* استخدام flex. */
   align-items: center !important;
+  /* توسيط الشعار عموديًا. */
   justify-content: flex-start !important;
+  /* وضع الشعار باتجاه البداية. */
   flex: 0 0 auto !important;
+  /* منع تمدد جهة الشعار. */
   overflow: visible !important;
+  /* منع قص الشعار. */
 }
 
-/* رابط الشعار */
 .site-header__logo-link {
+  /* رابط الشعار. */
   width: 156px !important;
+  /* عرض رابط الشعار. */
   height: 74px !important;
+  /* ارتفاع رابط الشعار. */
   display: flex !important;
+  /* استخدام flex داخل الرابط. */
   align-items: center !important;
+  /* توسيط الشعار عموديًا. */
   justify-content: center !important;
+  /* توسيط الشعار أفقيًا. */
   text-decoration: none !important;
+  /* إزالة خط الرابط. */
   flex-shrink: 0 !important;
+  /* منع تصغير الشعار. */
   overflow: visible !important;
+  /* السماح بظهور الإطار كاملًا. */
 }
 
-/* إطار الشعار الموحد */
 .site-header__logo-shell {
+  /* إطار الشعار الموحد. */
   width: 156px !important;
+  /* عرض الإطار. */
   height: 74px !important;
+  /* ارتفاع الإطار. */
   border-radius: 28px !important;
+  /* تدوير زوايا الإطار. */
   overflow: hidden !important;
+  /* قص الصورة داخل الإطار فقط. */
   flex-shrink: 0 !important;
+  /* منع تصغير الإطار. */
   position: relative !important;
+  /* تجهيز الإطار لأي عناصر داخلية. */
   display: flex !important;
+  /* استخدام flex داخل الإطار. */
   align-items: center !important;
+  /* توسيط الصورة عموديًا. */
   justify-content: center !important;
+  /* توسيط الصورة أفقيًا. */
   box-sizing: border-box !important;
-
+  /* احتساب الحد ضمن الحجم. */
   background:
     linear-gradient(#cfcfcf, #cfcfcf) padding-box,
     linear-gradient(135deg, #7a5a12, #d7b85a, #fff2a8, #b88922, #6f4d0d) border-box !important;
-
+  /* خلفية فضية وحد ذهبي متدرج. */
   border: 2px solid transparent !important;
-
+  /* حد شفاف يسمح بظهور التدرج. */
   box-shadow:
     0 0 0 1px rgba(255, 232, 150, 0.28),
     0 8px 22px rgba(0, 0, 0, 0.2),
     inset 0 0 18px rgba(255, 238, 170, 0.16) !important;
+  /* ظلال خارجية وداخلية للشعار. */
 }
 
-/* صورة الشعار داخل الإطار */
 .site-header__logo-img {
+  /* صورة الشعار داخل الإطار. */
   width: 100% !important;
+  /* ملء عرض الإطار. */
   height: 100% !important;
+  /* ملء ارتفاع الإطار. */
   max-width: 100% !important;
+  /* منع تجاوز العرض. */
   max-height: 100% !important;
+  /* منع تجاوز الارتفاع. */
   display: block !important;
+  /* إزالة الفراغات السفلية للصورة. */
   object-fit: contain !important;
+  /* عرض الشعار كاملًا دون قص. */
   object-position: center center !important;
+  /* توسيط الشعار داخل الإطار. */
   padding: 5px 0 !important;
+  /* مساحة داخلية رأسية للصورة. */
   transform: scale(1.18) !important;
+  /* تكبير الشعار داخل الإطار. */
   transform-origin: center center !important;
+  /* تكبير من مركز الصورة. */
   box-sizing: border-box !important;
+  /* احتساب padding ضمن الحجم. */
   position: static !important;
+  /* منع أي تموضع قديم. */
   inset: auto !important;
+  /* إلغاء أي inset قديم. */
   filter: contrast(1.14) saturate(1.16) brightness(1.04) !important;
+  /* تحسين وضوح الشعار. */
   mix-blend-mode: normal !important;
+  /* منع مزج غير مطلوب للصورة. */
 }
 
-/* روابط الديسكتوب */
 .site-header__nav {
+  /* روابط الديسكتوب. */
   height: 100% !important;
+  /* ارتفاع كامل داخل الهيدر. */
   display: flex !important;
+  /* عرض الروابط أفقياً. */
   align-items: center !important;
+  /* توسيط الروابط عموديًا. */
   justify-content: center !important;
+  /* توسيط الروابط أفقيًا. */
   gap: clamp(18px, 2.4vw, 34px) !important;
+  /* مسافات مرنة بين الروابط. */
   flex: 1 1 auto !important;
+  /* السماح للروابط بأخذ المساحة الوسطية. */
   min-width: 0 !important;
+  /* منع تمدد غير محسوب. */
   overflow: visible !important;
+  /* منع قص الروابط. */
 }
 
-/* الرابط الواحد */
 .site-header__nav-link {
+  /* الرابط الواحد في الهيدر. */
   color: rgba(230, 230, 230, 0.86) !important;
+  /* لون الرابط الافتراضي. */
   font-size: 15px !important;
+  /* حجم خط الرابط. */
   font-weight: 850 !important;
+  /* سماكة الرابط. */
   line-height: 1 !important;
+  /* ارتفاع سطر الرابط. */
   text-decoration: none !important;
+  /* إزالة خط الرابط. */
   white-space: nowrap !important;
+  /* منع التفاف الرابط. */
   padding: 10px 0 !important;
+  /* مساحة رأسية للرابط. */
   border-bottom: 2px solid transparent !important;
+  /* حد سفلي شفاف للتحريك. */
   transition:
     color 0.18s ease,
     border-color 0.18s ease,
     opacity 0.18s ease !important;
+  /* انتقالات ناعمة. */
 }
 
-/* مرور الماوس على الرابط */
 .site-header__nav-link:hover {
+  /* حالة مرور الماوس على الرابط. */
   color: #ffffff !important;
+  /* تحويل اللون إلى أبيض. */
   border-bottom-color: rgba(255, 255, 255, 0.45) !important;
+  /* إظهار حد سفلي خفيف. */
 }
 
-/* الرابط النشط */
 .site-header__nav-link.is-active {
+  /* الرابط النشط. */
   color: #ffffff !important;
+  /* لون الرابط النشط. */
   border-bottom-color: #ffffff !important;
+  /* حد الرابط النشط. */
 }
 
-/* جهة اللغة والقائمة */
 .site-header__tools {
+  /* جهة اللغة وزر القائمة. */
   height: 100% !important;
+  /* ارتفاع كامل داخل الهيدر. */
   display: flex !important;
+  /* ترتيب الأدوات بجانب بعضها. */
   align-items: center !important;
+  /* توسيط الأدوات عموديًا. */
   justify-content: flex-end !important;
+  /* دفع الأدوات إلى النهاية. */
   gap: 12px !important;
+  /* مسافة بين الأدوات. */
   flex: 0 0 auto !important;
+  /* منع تمدد الأدوات. */
   overflow: visible !important;
+  /* منع قص زر القائمة. */
 }
 
-/* حماية: أي صورة داخل الهيدر لا تتحول إلى صورة ضخمة */
 .site-header img {
+  /* حماية عامة لأي صورة داخل الهيدر. */
   max-width: 100% !important;
+  /* منع تضخم الصور. */
   height: auto;
+  /* الحفاظ على نسبة الصورة. */
 }
 
-/* حماية خاصة لصورة الشعار */
 .site-header .site-header__logo-img {
+  /* حماية خاصة لصورة الشعار. */
   height: 100% !important;
+  /* إجبار صورة الشعار على ملء ارتفاع الإطار. */
 }
 
-/* ضبط مبدّل اللغة مهما كانت كلاساته الداخلية */
 .site-header .lang,
 .site-header [class*="language"],
 .site-header [class*="Language"],
 .site-header [class*="switch"],
 .site-header [class*="Switch"] {
+  /* ضبط مبدّل اللغة مهما كان اسم الكلاس الداخلي. */
   flex-shrink: 0 !important;
+  /* منع ضغط مبدّل اللغة. */
 }
 
 /* =========================================================
@@ -259,29 +366,44 @@ body {
 ========================================================= */
 
 @media (max-width: 1024px) {
+  /* إعدادات التابلت والآيباد. */
   .site-header {
+    /* الهيدر في التابلت. */
     height: 84px !important;
+    /* ارتفاع أقل من الديسكتوب. */
     min-height: 84px !important;
+    /* أقل ارتفاع. */
     padding: 0 24px !important;
+    /* حواف جانبية مناسبة. */
   }
 
   .site-header__logo-link,
   .site-header__logo-shell {
+    /* الشعار في التابلت. */
     width: 140px !important;
+    /* عرض الشعار. */
     height: 68px !important;
+    /* ارتفاع الشعار. */
     border-radius: 24px !important;
+    /* تدوير زوايا الشعار. */
   }
 
   .site-header__logo-img {
+    /* صورة الشعار في التابلت. */
     transform: scale(1.15) !important;
+    /* تكبير مناسب. */
   }
 
   .site-header__nav {
+    /* إخفاء روابط الديسكتوب في التابلت. */
     display: none !important;
+    /* الإخفاء لا يمس قائمة الموبايل لأنها ليست site-header__nav. */
   }
 
   .site-header__tools {
+    /* أدوات الهيدر. */
     margin-inline-start: auto !important;
+    /* دفع الأدوات للطرف. */
   }
 }
 
@@ -290,23 +412,145 @@ body {
 ========================================================= */
 
 @media (max-width: 768px) {
+  /* إعدادات الموبايل. */
+  .site-header,
+  .site-header * {
+    /* كل عناصر الهيدر. */
+    box-sizing: border-box !important;
+    /* منع مشاكل حساب العرض. */
+  }
+
   .site-header {
+    /* الهيدر في الموبايل. */
     height: 78px !important;
+    /* ارتفاع ثابت مناسب. */
     min-height: 78px !important;
+    /* أقل ارتفاع ثابت. */
     padding: 0 16px !important;
+    /* حواف جانبية. */
     gap: 12px !important;
+    /* مسافة بين العناصر. */
+    overflow: visible !important;
+    /* منع قص زر القائمة. */
   }
 
   .site-header__logo-link,
   .site-header__logo-shell {
+    /* الشعار في الموبايل. */
     width: 126px !important;
+    /* عرض الشعار. */
     height: 62px !important;
+    /* ارتفاع الشعار. */
+    min-width: 126px !important;
+    /* منع ضغط الشعار. */
+    max-width: 126px !important;
+    /* منع تمدد الشعار. */
     border-radius: 22px !important;
+    /* تدوير زوايا الشعار. */
+    flex: 0 0 auto !important;
+    /* منع تمدد أو انكماش الشعار. */
   }
 
   .site-header__logo-img {
+    /* صورة الشعار في الموبايل. */
     transform: scale(1.1) !important;
+    /* تكبير خفيف. */
     padding: 4px 0 !important;
+    /* مساحة رأسية خفيفة. */
+  }
+
+  .site-header__nav {
+    /* إخفاء روابط الديسكتوب فقط. */
+    display: none !important;
+    /* لا نخفي site-header nav حتى لا نخفي القائمة الجانبية. */
+  }
+
+  .site-header__tools {
+    /* أدوات اللغة والقائمة في الموبايل. */
+    margin-inline-start: auto !important;
+    /* دفع الأدوات للطرف المناسب. */
+    flex: 0 0 auto !important;
+    /* منع تمدد الأدوات. */
+    gap: 10px !important;
+    /* مسافة أقل بين اللغة والقائمة. */
+  }
+
+  .site-header__lang,
+  .site-header__language,
+  .site-header__lang-switch,
+  .site-header__language-switch {
+    /* مبدّل اللغة في الموبايل. */
+    flex: 0 0 auto !important;
+    /* منع ضغط مبدّل اللغة. */
+    max-width: 132px !important;
+    /* حد أقصى للعرض. */
+    overflow: visible !important;
+    /* منع القص. */
+  }
+
+  .site-header__menu-button,
+  .site-header__mobile-button,
+  .site-header__burger,
+  .site-header__toggle,
+  .site-header__hamburger,
+  button[aria-label*="menu"],
+  button[aria-label*="Menu"],
+  button[aria-label*="القائمة"] {
+    /* زر القائمة في الموبايل. */
+    position: relative !important;
+    /* تموضع طبيعي. */
+    inset: auto !important;
+    /* إلغاء أي inset قديم. */
+    left: auto !important;
+    /* إلغاء left قديم. */
+    right: auto !important;
+    /* إلغاء right قديم. */
+    top: auto !important;
+    /* إلغاء top قديم. */
+    bottom: auto !important;
+    /* إلغاء bottom قديم. */
+    width: 52px !important;
+    /* عرض واضح للزر. */
+    height: 52px !important;
+    /* ارتفاع واضح للزر. */
+    min-width: 52px !important;
+    /* منع ضغط الزر. */
+    min-height: 52px !important;
+    /* منع ضغط الارتفاع. */
+    max-width: 52px !important;
+    /* منع تمدد الزر. */
+    max-height: 52px !important;
+    /* منع تمدد الارتفاع. */
+    flex: 0 0 52px !important;
+    /* تثبيت مساحة الزر. */
+    display: inline-flex !important;
+    /* عرض محتوى الزر بمرونة. */
+    align-items: center !important;
+    /* توسيط الخطوط عموديًا. */
+    justify-content: center !important;
+    /* توسيط الخطوط أفقيًا. */
+    border-radius: 18px !important;
+    /* تدوير الزر. */
+    overflow: visible !important;
+    /* منع قص الخطوط. */
+    z-index: 50 !important;
+    /* رفعه فوق العناصر القريبة. */
+    margin: 0 !important;
+    /* إزالة أي هامش قديم. */
+    transform: none !important;
+    /* إلغاء أي تحويل قديم. */
+  }
+
+  .site-header__menu-button span,
+  .site-header__mobile-button span,
+  .site-header__burger span,
+  .site-header__toggle span,
+  .site-header__hamburger span {
+    /* خطوط زر القائمة إذا كانت span. */
+    display: block !important;
+    /* عرض الخط كعنصر مستقل. */
+    max-width: 28px !important;
+    /* منع تمدد الخط. */
   }
 }
 
@@ -315,31 +559,62 @@ body {
 ========================================================= */
 
 @media (max-width: 420px) {
+  /* إعدادات الشاشات الصغيرة مثل بعض أجهزة Redmi. */
   .site-header {
+    /* الهيدر في الشاشات الضيقة. */
     height: 72px !important;
+    /* ارتفاع أقل. */
     min-height: 72px !important;
-    padding: 0 12px !important;
+    /* أقل ارتفاع. */
+    padding: 0 10px !important;
+    /* حواف أقل حتى لا ينقص زر القائمة. */
   }
 
   .site-header__logo-link,
   .site-header__logo-shell {
+    /* الشعار في الشاشات الضيقة. */
     width: 112px !important;
+    /* عرض الشعار. */
     height: 56px !important;
+    /* ارتفاع الشعار. */
+    min-width: 112px !important;
+    /* منع ضغط الشعار. */
+    max-width: 112px !important;
+    /* منع تمدده. */
     border-radius: 20px !important;
+    /* تدوير الزوايا. */
   }
 
   .site-header__logo-img {
+    /* صورة الشعار في الشاشات الضيقة. */
     transform: scale(1.06) !important;
+    /* تكبير خفيف جدًا. */
+  }
+
+  .site-header__menu-button,
+  .site-header__mobile-button,
+  .site-header__burger,
+  .site-header__toggle,
+  .site-header__hamburger,
+  button[aria-label*="menu"],
+  button[aria-label*="Menu"],
+  button[aria-label*="القائمة"] {
+    /* زر القائمة في الشاشات الضيقة. */
+    width: 48px !important;
+    /* عرض أقل مناسب. */
+    height: 48px !important;
+    /* ارتفاع أقل مناسب. */
+    min-width: 48px !important;
+    /* منع ضغط الزر. */
+    min-height: 48px !important;
+    /* منع ضغط الارتفاع. */
+    flex-basis: 48px !important;
+    /* تثبيت مساحة الزر. */
   }
 }
 
-
-
-
 /* =========================================================
    ALZUHA REMOVE LEGACY INNER HEADERS
-   بعد اعتماد SiteHeader من layout.tsx، نمنع ظهور الهيدرات القديمة داخل الصفحات.
-   هذا لا يمس الهيدر الرسمي الجديد .site-header.
 ========================================================= */
 
 .contact-topbar,
@@ -348,10 +623,11 @@ body {
 .services-topbar,
 .service-detail-topbar,
 main .topbar {
+  /* إخفاء الهيدرات القديمة داخل الصفحات. */
   display: none !important;
+  /* منع تكرار الهيدر بعد اعتماد SiteHeader العام. */
 }
 
-/* إخفاء طبقات وقوائم الموبايل القديمة التابعة للهيدرات القديمة فقط */
 .contact-sidepanel,
 .contact-sidepanelOverlay,
 .faq-sidepanel,
@@ -364,242 +640,113 @@ main .topbar {
 .service-detail-sidepanelOverlay,
 .side-menu,
 .side-menu__overlay {
+  /* إخفاء قوائم الموبايل القديمة التابعة للهيدرات القديمة. */
   display: none !important;
+  /* منع تعارضها مع القائمة الجديدة. */
 }
 
-
-/* إخفاء شعار ALZUHA الكبير داخل محتوى الصفحة فقط، وليس داخل الهيدر */
 main img[src*="alzuha-logo"]:not(.site-header__logo-img):not(.home-mobile-panel__logo) {
+  /* إخفاء شعار ALZUHA الكبير داخل محتوى الصفحات فقط. */
   display: none !important;
+  /* لا يمس شعار الهيدر ولا شعار لوحة الموبايل. */
 }
 
-
-/* ==========================================================================
+/* =========================================================
    ALZUHA GLOBAL THEME VARIABLES PATCH
-   يضاف في آخر src/app/globals.css حتى يتغلب على القيم القديمة بـ !important.
-   ========================================================================== */
+========================================================= */
 
 body {
+  /* تطبيق متغيرات الثيم العامة. */
   background: var(--zuha-page-bg, var(--background)) !important;
+  /* خلفية الصفحة من الثيم. */
   color: var(--zuha-text, var(--foreground)) !important;
+  /* لون النص من الثيم. */
   font-size: var(--zuha-base-font-size, 16px) !important;
+  /* حجم الخط الأساسي من الثيم. */
   line-height: var(--zuha-line-height, 1.5) !important;
+  /* ارتفاع السطر من الثيم. */
 }
 
 .site-header {
+  /* تطبيق متغيرات الثيم على الهيدر. */
   height: var(--zuha-header-height, 92px) !important;
+  /* ارتفاع الهيدر من الثيم. */
   min-height: var(--zuha-header-height, 92px) !important;
+  /* أقل ارتفاع للهيدر من الثيم. */
   padding-inline: var(--zuha-header-padding-x, clamp(28px, 5vw, 90px)) !important;
+  /* الحواف الأفقية من الثيم. */
   background: var(--zuha-header-bg, #244fca) !important;
+  /* خلفية الهيدر من الثيم. */
   color: var(--zuha-header-text, #ffffff) !important;
+  /* لون نص الهيدر من الثيم. */
   box-shadow: var(--zuha-header-shadow, none) !important;
+  /* ظل الهيدر من الثيم. */
   border-bottom-color: var(--zuha-header-border, rgba(255,255,255,.1)) !important;
+  /* حد الهيدر من الثيم. */
 }
 
 .site-header__logo-link,
 .site-header__logo-shell {
+  /* تطبيق متغيرات الثيم على الشعار. */
   width: var(--zuha-logo-width, 156px) !important;
+  /* عرض الشعار من الثيم. */
   height: var(--zuha-logo-height, 74px) !important;
+  /* ارتفاع الشعار من الثيم. */
   border-radius: var(--zuha-logo-radius, 28px) !important;
+  /* تدوير الشعار من الثيم. */
 }
 
 .site-header__logo-shell {
+  /* تطبيق خلفية وحد وظل الشعار من الثيم. */
   background:
     linear-gradient(var(--zuha-logo-bg, #cfcfcf), var(--zuha-logo-bg, #cfcfcf)) padding-box,
     linear-gradient(135deg, #7a5a12, var(--zuha-logo-border, #d7b85a), #fff2a8, #b88922, #6f4d0d) border-box !important;
+  /* خلفية وحد الشعار. */
   box-shadow:
     0 0 0 1px rgba(255, 232, 150, 0.28),
     0 8px var(--zuha-logo-shadow, 22px) rgba(0, 0, 0, 0.2),
     inset 0 0 18px rgba(255, 238, 170, 0.16) !important;
+  /* ظل الشعار من الثيم. */
 }
 
 .site-header__logo-img {
+  /* تطبيق تكبير الشعار من الثيم. */
   transform: scale(var(--zuha-logo-scale, 1.18)) !important;
+  /* تكبير الشعار. */
 }
 
 .site-header__nav {
+  /* تطبيق المسافة بين روابط الهيدر من الثيم. */
   gap: var(--zuha-nav-gap, clamp(18px, 2.4vw, 34px)) !important;
+  /* المسافة بين الروابط. */
 }
 
 .site-header__nav-link {
+  /* تطبيق خط ولون روابط الهيدر من الثيم. */
   color: var(--zuha-header-link, rgba(230,230,230,.86)) !important;
+  /* لون الرابط. */
   font-size: var(--zuha-nav-font-size, 15px) !important;
+  /* حجم خط الرابط. */
   font-weight: var(--zuha-nav-font-weight, 850) !important;
+  /* سماكة خط الرابط. */
 }
 
 .site-header__nav-link:hover,
 .site-header__nav-link.is-active {
+  /* حالة الرابط عند المرور أو النشاط. */
   color: var(--zuha-header-active, #ffffff) !important;
+  /* لون الرابط النشط. */
   border-bottom-color: var(--zuha-header-active, #ffffff) !important;
+  /* لون الحد السفلي. */
 }
-
-
-
 
 /* =========================================================
-   MOBILE HEADER HARD FIX
-   إصلاح الهيدر في الموبايل ومنع قص زر القائمة
+   HOME SERVICES NUMBERS VISIBILITY
+   إخفاء أرقام بطاقات الخدمات 01 / 02 / 03
 ========================================================= */
 
-@media (max-width: 768px) {
-  /* يجعل حساب العرض والارتفاع ثابتًا لكل عناصر الهيدر */
-  .site-header,
-  .site-header * {
-    box-sizing: border-box !important;
-  }
-
-  /* يمنع قص زر القائمة أو الشعار داخل الهيدر */
-  .site-header {
-    overflow: visible !important;
-    min-height: 92px !important;
-    height: auto !important;
-    padding: 10px 14px !important;
-  }
-
-  /* ينظّم الحاوية الداخلية للهيدر في الموبايل */
-  .site-header__inner,
-  .site-header__bar,
-  .site-header__content,
-  .site-header__row {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 10px !important;
-    overflow: visible !important;
-  }
-
-  /* تصغير إطار الشعار حتى لا يضغط على زر القائمة */
-  .site-header__logo-shell {
-    width: 136px !important;
-    height: 74px !important;
-    min-width: 136px !important;
-    max-width: 136px !important;
-    flex: 0 0 auto !important;
-    border-radius: 24px !important;
-    overflow: hidden !important;
-  }
-
-  /* ضبط صورة الشعار داخل الإطار */
-  .site-header__logo-img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain !important;
-    object-position: center !important;
-    transform: scale(1.08) !important;
-  }
-
-  /* إخفاء روابط الديسكتوب في الموبايل حتى لا تزاحم زر القائمة */
-  .site-header__nav,
-  .site-header nav {
-    display: none !important;
-  }
-
-  /* ضبط زر اللغة حتى لا يضغط على زر القائمة */
-  .site-header__lang,
-  .site-header__language,
-  .site-header__lang-switch,
-  .site-header__language-switch {
-    flex: 0 0 auto !important;
-    max-width: 132px !important;
-    overflow: visible !important;
-  }
-
-  /* إصلاح زر الثلاث خطوط ومنع قصه في أجهزة Redmi وغيرها */
-  .site-header__menu-button,
-  .site-header__mobile-button,
-  .site-header__burger,
-  .site-header__toggle,
-  .site-header__hamburger,
-  button[aria-label*="menu"],
-  button[aria-label*="Menu"],
-  button[aria-label*="القائمة"] {
-    position: relative !important;
-    inset: auto !important;
-    left: auto !important;
-    right: auto !important;
-    top: auto !important;
-    bottom: auto !important;
-    width: 52px !important;
-    height: 52px !important;
-    min-width: 52px !important;
-    min-height: 52px !important;
-    max-width: 52px !important;
-    max-height: 52px !important;
-    flex: 0 0 52px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border-radius: 18px !important;
-    overflow: visible !important;
-    z-index: 50 !important;
-    margin: 0 !important;
-    transform: none !important;
-  }
-
-  /* ضبط الخطوط الداخلية لزر القائمة إن كانت مرسومة عبر span */
-  .site-header__menu-button span,
-  .site-header__mobile-button span,
-  .site-header__burger span,
-  .site-header__toggle span,
-  .site-header__hamburger span {
-    display: block !important;
-    max-width: 28px !important;
-  }
+.servicesLite .feature__icon {
+  /* أرقام بطاقات الخدمات في الصفحة الرئيسية. */
+  display: none !important;
+  /* إخفاء الأرقام بدون التأثير على عناوين ووصف الخدمات. */
 }
-
-/* إصلاح إضافي للشاشات الضيقة مثل بعض أجهزة Redmi */
-@media (max-width: 420px) {
-  /* تقليل الحواف الجانبية حتى لا ينقص زر القائمة */
-  .site-header {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-  }
-
-  /* تقليل الشعار قليلًا في الشاشات الضيقة */
-  .site-header__logo-shell {
-    width: 126px !important;
-    height: 68px !important;
-    min-width: 126px !important;
-    max-width: 126px !important;
-  }
-
-  /* تقليل زر القائمة قليلًا مع إبقائه واضحًا */
-  .site-header__menu-button,
-  .site-header__mobile-button,
-  .site-header__burger,
-  .site-header__toggle,
-  .site-header__hamburger,
-  button[aria-label*="menu"],
-  button[aria-label*="Menu"],
-  button[aria-label*="القائمة"] {
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
-    min-height: 48px !important;
-    flex-basis: 48px !important;
-  }
-}
-
-
-/* =========================================================
-   SYSTEM FONT FALLBACK
-   منع فشل البناء بسبب Google Fonts
-========================================================= */
-
-html,
-body {
-  font-family:
-    Arial,
-    "Segoe UI",
-    Tahoma,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif !important;
-}
-
-
-
