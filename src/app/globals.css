@@ -435,3 +435,171 @@ body {
 
 
 
+
+/* =========================================================
+   MOBILE HEADER HARD FIX
+   إصلاح الهيدر في الموبايل ومنع قص زر القائمة
+========================================================= */
+
+@media (max-width: 768px) {
+  /* يجعل حساب العرض والارتفاع ثابتًا لكل عناصر الهيدر */
+  .site-header,
+  .site-header * {
+    box-sizing: border-box !important;
+  }
+
+  /* يمنع قص زر القائمة أو الشعار داخل الهيدر */
+  .site-header {
+    overflow: visible !important;
+    min-height: 92px !important;
+    height: auto !important;
+    padding: 10px 14px !important;
+  }
+
+  /* ينظّم الحاوية الداخلية للهيدر في الموبايل */
+  .site-header__inner,
+  .site-header__bar,
+  .site-header__content,
+  .site-header__row {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    overflow: visible !important;
+  }
+
+  /* تصغير إطار الشعار حتى لا يضغط على زر القائمة */
+  .site-header__logo-shell {
+    width: 136px !important;
+    height: 74px !important;
+    min-width: 136px !important;
+    max-width: 136px !important;
+    flex: 0 0 auto !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+  }
+
+  /* ضبط صورة الشعار داخل الإطار */
+  .site-header__logo-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    transform: scale(1.08) !important;
+  }
+
+  /* إخفاء روابط الديسكتوب في الموبايل حتى لا تزاحم زر القائمة */
+  .site-header__nav,
+  .site-header nav {
+    display: none !important;
+  }
+
+  /* ضبط زر اللغة حتى لا يضغط على زر القائمة */
+  .site-header__lang,
+  .site-header__language,
+  .site-header__lang-switch,
+  .site-header__language-switch {
+    flex: 0 0 auto !important;
+    max-width: 132px !important;
+    overflow: visible !important;
+  }
+
+  /* إصلاح زر الثلاث خطوط ومنع قصه في أجهزة Redmi وغيرها */
+  .site-header__menu-button,
+  .site-header__mobile-button,
+  .site-header__burger,
+  .site-header__toggle,
+  .site-header__hamburger,
+  button[aria-label*="menu"],
+  button[aria-label*="Menu"],
+  button[aria-label*="القائمة"] {
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    max-width: 52px !important;
+    max-height: 52px !important;
+    flex: 0 0 52px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 18px !important;
+    overflow: visible !important;
+    z-index: 50 !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  /* ضبط الخطوط الداخلية لزر القائمة إن كانت مرسومة عبر span */
+  .site-header__menu-button span,
+  .site-header__mobile-button span,
+  .site-header__burger span,
+  .site-header__toggle span,
+  .site-header__hamburger span {
+    display: block !important;
+    max-width: 28px !important;
+  }
+}
+
+/* إصلاح إضافي للشاشات الضيقة مثل بعض أجهزة Redmi */
+@media (max-width: 420px) {
+  /* تقليل الحواف الجانبية حتى لا ينقص زر القائمة */
+  .site-header {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  /* تقليل الشعار قليلًا في الشاشات الضيقة */
+  .site-header__logo-shell {
+    width: 126px !important;
+    height: 68px !important;
+    min-width: 126px !important;
+    max-width: 126px !important;
+  }
+
+  /* تقليل زر القائمة قليلًا مع إبقائه واضحًا */
+  .site-header__menu-button,
+  .site-header__mobile-button,
+  .site-header__burger,
+  .site-header__toggle,
+  .site-header__hamburger,
+  button[aria-label*="menu"],
+  button[aria-label*="Menu"],
+  button[aria-label*="القائمة"] {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    flex-basis: 48px !important;
+  }
+}
+
+
+/* =========================================================
+   SYSTEM FONT FALLBACK
+   منع فشل البناء بسبب Google Fonts
+========================================================= */
+
+html,
+body {
+  font-family:
+    Arial,
+    "Segoe UI",
+    Tahoma,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif !important;
+}
+
+
+

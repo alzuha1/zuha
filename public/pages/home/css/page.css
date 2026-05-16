@@ -1677,3 +1677,90 @@ main[dir="rtl"] .home-mobile-panel .home-mobile-panel__subnav > a { /* رواب�
 } /* نهاية قواعد الهاتف */
 
 
+
+/* =========================================================
+   HIDE IMAGE NUMBER BADGES
+   إخفاء أرقام الصور والكروت من واجهة الهوم
+========================================================= */
+
+/* إخفاء شارات الترقيم العامة داخل صور وكروت الهوم */
+.home-page [class*="number"],
+.home-page [class*="Number"],
+.home-page [class*="index"],
+.home-page [class*="Index"],
+.home-page [class*="badge"],
+.home-page [class*="Badge"],
+.home [class*="number"],
+.home [class*="Number"],
+.home [class*="index"],
+.home [class*="Index"],
+.home [class*="badge"],
+.home [class*="Badge"] {
+  display: none !important;
+}
+
+/* إخفاء الشارات الرقمية الموضوعة مباشرة فوق الصور */
+.home-page figure > span,
+.home-page figure > strong,
+.home-page picture + span,
+.home-page picture + strong,
+.home-page img + span,
+.home-page img + strong {
+  display: none !important;
+}
+
+
+/* =========================================================
+   FORCE HIDE HOME IMAGE NUMBERS
+   إخفاء أرقام الصور مثل 07 / 09 / 10 / 11 من كل شاشات الهوم
+========================================================= */
+
+/* يستهدف شارات الترقيم داخل أقسام الفريق والمعرض والعملاء */
+section [class*="number"],
+section [class*="Number"],
+section [class*="index"],
+section [class*="Index"],
+section [class*="serial"],
+section [class*="Serial"],
+section [class*="counter"],
+section [class*="Counter"],
+section [class*="badge"],
+section [class*="Badge"] {
+  display: none !important;
+}
+
+/* يستهدف العناصر الدائرية الصغيرة التي تظهر فوق الصور غالبًا */
+section figure > span,
+section figure > strong,
+section figure > em,
+section picture + span,
+section picture + strong,
+section img + span,
+section img + strong,
+section img ~ span,
+section img ~ strong {
+  display: none !important;
+}
+
+/* استهداف أقوى لكروت الفريق/القيادة/المعرض */
+[class*="team"] [class*="number"],
+[class*="team"] [class*="index"],
+[class*="team"] [class*="badge"],
+[class*="Team"] [class*="number"],
+[class*="Team"] [class*="index"],
+[class*="Team"] [class*="badge"],
+[class*="leader"] [class*="number"],
+[class*="leader"] [class*="index"],
+[class*="leader"] [class*="badge"],
+[class*="Leader"] [class*="number"],
+[class*="Leader"] [class*="index"],
+[class*="Leader"] [class*="badge"],
+[class*="gallery"] [class*="number"],
+[class*="gallery"] [class*="index"],
+[class*="gallery"] [class*="badge"],
+[class*="Gallery"] [class*="number"],
+[class*="Gallery"] [class*="index"],
+[class*="Gallery"] [class*="badge"] {
+  display: none !important;
+}
+
