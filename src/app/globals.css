@@ -776,3 +776,36 @@ main svg {
   -webkit-user-select: none !important;
   pointer-events: auto !important;
 }
+/* =========================================================
+   MOBILE CONTENT PROTECTION HARDENING
+   تقوية منع قائمة الضغط المطول على الصور في الجوال
+========================================================= */
+
+body:not(:has([class*="admin"])) img,
+body:not(:has([class*="admin"])) picture,
+body:not(:has([class*="admin"])) video,
+body:not(:has([class*="admin"])) canvas,
+body:not(:has([class*="admin"])) svg {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+  user-drag: none !important;
+  touch-action: pan-y !important;
+}
+
+body:not(:has([class*="admin"])) main {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+body:not(:has([class*="admin"])) input,
+body:not(:has([class*="admin"])) textarea,
+body:not(:has([class*="admin"])) select,
+body:not(:has([class*="admin"])) [contenteditable="true"] {
+  -webkit-touch-callout: default !important;
+  -webkit-user-select: text !important;
+  user-select: text !important;
+}
+

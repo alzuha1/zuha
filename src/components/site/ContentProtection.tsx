@@ -1,23 +1,23 @@
 "use client";
-// هذا الملف يعمل على المتصفح فقط لأنه يحتاج مراقبة أحداث المستخدم.
+// هذا المكوّن يعمل في المتصفح فقط لأنه يتعامل مع أحداث المستخدم.
 
 import { useEffect } from "react";
 // استيراد useEffect لتفعيل الحماية بعد تحميل الصفحة.
 
 import { usePathname } from "next/navigation";
-// استيراد usePathname لمعرفة الصفحة الحالية وعدم تعطيل لوحة الأدمن.
+// استيراد usePathname لمعرفة المسار الحالي واستثناء لوحة الأدمن.
 
 function isEditableElement(target: EventTarget | null) {
-  // دالة تفحص هل العنصر حقل كتابة أو عنصر قابل للتحرير.
+  // دالة تتحقق هل العنصر قابلًا للكتابة أو التحرير.
 
   if (!(target instanceof HTMLElement)) {
-    // إذا لم يكن العنصر HTML حقيقيًا.
+    // إذا لم يكن الهدف عنصر HTML.
     return false;
     // نرجع false.
   }
 
   const tagName = target.tagName.toLowerCase();
-  // قراءة اسم العنصر مثل input أو textarea.
+  // قراءة اسم العنصر بصيغة صغيرة مثل input أو textarea.
 
   return (
     tagName === "input" ||
@@ -25,14 +25,14 @@ function isEditableElement(target: EventTarget | null) {
     tagName === "select" ||
     target.isContentEditable
   );
-  // السماح بالنسخ واللصق داخل الحقول حتى لا نخرب النماذج.
+  // السماح بالنسخ واللصق والتحديد داخل الحقول فقط.
 }
 
 function isProtectedMedia(target: EventTarget | null) {
-  // دالة تفحص هل العنصر صورة أو عنصر بصري محمي.
+  // دالة تتحقق هل العنصر صورة أو ميديا محمية.
 
   if (!(target instanceof HTMLElement)) {
-    // إذا لم يكن العنصر HTML.
+    // إذا لم يكن الهدف عنصر HTML.
     return false;
     // نرجع false.
   }
@@ -45,115 +45,134 @@ function isProtectedMedia(target: EventTarget | null) {
       target.closest("svg") ||
       target.closest("[data-protect-media='true']")
   );
-  // حماية الصور والفيديو والكانفاس وأي عنصر نضع عليه data-protect-media.
+  // نعتبر الصور والفيديو والـ canvas والـ svg عناصر محمية.
 }
 
 export default function ContentProtection() {
   // مكوّن حماية المحتوى العام.
 
   const pathname = usePathname();
-  // قراءة مسار الصفحة الحالية.
+  // قراءة مسار الصفحة الحالي.
 
   useEffect(() => {
     // تفعيل الحماية بعد تحميل الصفحة.
 
     if (pathname?.startsWith("/admin")) {
-      // إذا كنا داخل لوحة الأدمن.
+      // إذا كان المستخدم داخل لوحة الأدمن.
       return;
-      // لا نفعل الحماية حتى لا نزعج الإدارة أثناء التحرير.
+      // لا نفعّل الحماية داخل الأدمن حتى لا نكسر التحرير والنسخ.
     }
 
     const blockContextMenu = (event: MouseEvent) => {
-      // منع قائمة كليك يمين على الصور والمحتوى المحمي.
+      // منع قائمة كليك يمين أو قائمة الضغط المطول عندما تتحول إلى contextmenu.
 
       if (isEditableElement(event.target)) {
-        // إذا كان المستخدم داخل حقل إدخال.
+        // إذا كان المستخدم داخل حقل كتابة.
         return;
         // نسمح بالقائمة الطبيعية.
       }
 
-      if (isProtectedMedia(event.target) || event.target instanceof HTMLElement) {
-        // إذا كان العنصر صورة أو من محتوى الموقع العام.
-        event.preventDefault();
-        // منع ظهور قائمة النسخ/الحفظ.
-      }
+      event.preventDefault();
+      // منع قائمة النسخ والحفظ في الواجهة العامة.
     };
 
     const blockDrag = (event: DragEvent) => {
-      // منع سحب الصور إلى سطح المكتب أو تبويب آخر.
+      // منع سحب الصور من الموقع.
 
       if (isProtectedMedia(event.target)) {
-        // إذا كان العنصر صورة أو ميديا.
+        // إذا كان الهدف صورة أو ميديا.
         event.preventDefault();
         // منع السحب.
       }
     };
 
     const blockSelectStart = (event: Event) => {
-      // منع تحديد المحتوى في الموقع العام مع السماح للحقول.
+      // منع تحديد النصوص والصور خارج الحقول.
 
       if (isEditableElement(event.target)) {
-        // إذا كان المستخدم داخل input أو textarea.
+        // إذا كان الهدف حقل إدخال.
         return;
-        // نسمح بالتحديد.
+        // نسمح بالتحديد داخل الحقول.
       }
 
-      if (isProtectedMedia(event.target)) {
-        // إذا كان المستخدم يحاول تحديد صورة أو عنصر بصري.
-        event.preventDefault();
-        // منع التحديد.
-      }
+      event.preventDefault();
+      // منع التحديد في الواجهة العامة.
     };
 
     const blockCopyCut = (event: ClipboardEvent) => {
       // منع النسخ والقص خارج الحقول.
 
       if (isEditableElement(event.target)) {
-        // إذا كان المستخدم داخل حقل.
+        // إذا كان الهدف حقل إدخال.
         return;
-        // نسمح بالنسخ والقص.
+        // نسمح بالنسخ والقص داخل الحقول.
       }
 
       event.preventDefault();
-      // منع النسخ أو القص من محتوى الموقع العام.
+      // منع النسخ والقص من محتوى الموقع العام.
     };
 
-    document.addEventListener("contextmenu", blockContextMenu);
-    // منع قائمة كليك يمين.
+    const blockMobileLongPress = (event: TouchEvent) => {
+      // منع قائمة الضغط المطول في الجوال على الصور والميديا.
 
-    document.addEventListener("dragstart", blockDrag);
+      if (isEditableElement(event.target)) {
+        // إذا كان الهدف حقل إدخال.
+        return;
+        // نسمح بالسلوك الطبيعي داخل الحقول.
+      }
+
+      if (isProtectedMedia(event.target)) {
+        // إذا كان الضغط على صورة أو ميديا.
+        event.preventDefault();
+        // منع Touch Callout في iOS وAndroid قدر الإمكان.
+      }
+    };
+
+    document.addEventListener("contextmenu", blockContextMenu, true);
+    // منع قائمة السياق بنمط capture حتى نمسك الحدث مبكرًا.
+
+    document.addEventListener("dragstart", blockDrag, true);
     // منع سحب الصور.
 
-    document.addEventListener("selectstart", blockSelectStart);
-    // منع تحديد الصور والميديا.
+    document.addEventListener("selectstart", blockSelectStart, true);
+    // منع التحديد.
 
-    document.addEventListener("copy", blockCopyCut);
+    document.addEventListener("copy", blockCopyCut, true);
     // منع النسخ.
 
-    document.addEventListener("cut", blockCopyCut);
+    document.addEventListener("cut", blockCopyCut, true);
     // منع القص.
+
+    document.addEventListener("touchstart", blockMobileLongPress, {
+      capture: true,
+      passive: false,
+    });
+    // منع الضغط المطول على الصور في الجوال، ويجب أن يكون passive:false حتى يعمل preventDefault.
 
     return () => {
       // تنظيف الأحداث عند مغادرة الصفحة.
 
-      document.removeEventListener("contextmenu", blockContextMenu);
-      // إزالة منع كليك يمين.
+      document.removeEventListener("contextmenu", blockContextMenu, true);
+      // إزالة منع قائمة السياق.
 
-      document.removeEventListener("dragstart", blockDrag);
+      document.removeEventListener("dragstart", blockDrag, true);
       // إزالة منع السحب.
 
-      document.removeEventListener("selectstart", blockSelectStart);
+      document.removeEventListener("selectstart", blockSelectStart, true);
       // إزالة منع التحديد.
 
-      document.removeEventListener("copy", blockCopyCut);
+      document.removeEventListener("copy", blockCopyCut, true);
       // إزالة منع النسخ.
 
-      document.removeEventListener("cut", blockCopyCut);
+      document.removeEventListener("cut", blockCopyCut, true);
       // إزالة منع القص.
+
+      document.removeEventListener("touchstart", blockMobileLongPress, true);
+      // إزالة منع الضغط المطول.
     };
   }, [pathname]);
-  // إعادة تفعيل الحماية عند تغيّر المسار.
+  // إعادة ضبط الحماية عند تغير المسار.
 
   return null;
-  // المكوّن لا يعرض شيئًا، فقط يفعّل الحماية.
+  // المكوّن لا يرسم شيئًا في الصفحة.
 }
