@@ -750,3 +750,29 @@ body {
   display: none !important;
   /* إخفاء الأرقام بدون التأثير على عناوين ووصف الخدمات. */
 }
+
+
+/* =========================================================
+   ALZUHA CONTENT PROTECTION
+   حماية الصور والمحتوى من النسخ والسحب في الواجهة العامة
+========================================================= */
+
+body:not(:has(.admin-home-editor)):not(:has(.admin-theme-editor)) img,
+body:not(:has(.admin-home-editor)):not(:has(.admin-theme-editor)) picture,
+body:not(:has(.admin-home-editor)):not(:has(.admin-theme-editor)) video,
+body:not(:has(.admin-home-editor)):not(:has(.admin-theme-editor)) canvas,
+body:not(:has(.admin-home-editor)):not(:has(.admin-theme-editor)) svg {
+  -webkit-user-drag: none !important;
+  user-drag: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+main img,
+main picture,
+main video,
+main canvas,
+main svg {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  pointer-events: auto !important;
+}

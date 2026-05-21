@@ -13,6 +13,8 @@ import SiteHeader from "@/components/site/SiteHeader";
 import { supabaseServer } from "@/lib/supabase-server";
 // استيراد عميل Supabase السيرفري لجلب إعدادات الثيم العامة.
 
+import ContentProtection from "@/components/site/ContentProtection";
+
 export const metadata: Metadata = {
   // تعريف بيانات الموقع العامة.
   title: "ALZUHA",
@@ -225,6 +227,8 @@ export default async function RootLayout({
 
       <body className="antialiased" style={themeVars}>
         {/* جسم الموقع بدون next/font/google حتى لا يفشل البناء عند تعذر الوصول إلى Google Fonts. */}
+
+        <ContentProtection />
 
         <SiteHeader lang={lang} />
         {/* عرض الهيدر العام للموقع مرة واحدة في كل الصفحات. */}
