@@ -809,3 +809,74 @@ body:not(:has([class*="admin"])) [contenteditable="true"] {
   user-select: text !important;
 }
 
+/* =========================================================
+   ALZUHA MOBILE IMAGE TOUCH SHIELD
+   طبقة حماية شفافة فوق الصور لمنع قائمة الحفظ في الموبايل
+========================================================= */
+
+/* نجعل حاويات الصور المهمة قابلة لاستقبال طبقة حماية */
+body:not(:has([class*="admin"])) main figure,
+body:not(:has([class*="admin"])) main .shot,
+body:not(:has([class*="admin"])) main .tile,
+body:not(:has([class*="admin"])) main .quoteCard__media,
+body:not(:has([class*="admin"])) main .member,
+body:not(:has([class*="admin"])) main .homeContactShowcase__media,
+body:not(:has([class*="admin"])) main .portfolio-card,
+body:not(:has([class*="admin"])) main .service-card,
+body:not(:has([class*="admin"])) main .about-card {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* منع الصورة نفسها من استقبال اللمس أو الضغط الطويل */
+body:not(:has([class*="admin"])) main figure > img,
+body:not(:has([class*="admin"])) main .shot > img,
+body:not(:has([class*="admin"])) main .tile > img,
+body:not(:has([class*="admin"])) main .quoteCard__media > img,
+body:not(:has([class*="admin"])) main .member > img,
+body:not(:has([class*="admin"])) main .homeContactShowcase__media > img,
+body:not(:has([class*="admin"])) main .portfolio-card img,
+body:not(:has([class*="admin"])) main .service-card img,
+body:not(:has([class*="admin"])) main .about-card img {
+  pointer-events: none !important;
+  -webkit-user-drag: none !important;
+  user-drag: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+/* طبقة شفافة فوق الصور تمنع وصول الضغط المطول للصورة نفسها */
+body:not(:has([class*="admin"])) main figure::after,
+body:not(:has([class*="admin"])) main .shot::after,
+body:not(:has([class*="admin"])) main .tile::after,
+body:not(:has([class*="admin"])) main .quoteCard__media::after,
+body:not(:has([class*="admin"])) main .member::after,
+body:not(:has([class*="admin"])) main .homeContactShowcase__media::after,
+body:not(:has([class*="admin"])) main .portfolio-card::after,
+body:not(:has([class*="admin"])) main .service-card::after,
+body:not(:has([class*="admin"])) main .about-card::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 9 !important;
+  display: block !important;
+  background: transparent !important;
+  pointer-events: auto !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  touch-action: pan-y !important;
+}
+
+/* السماح للنصوص والأزرار داخل الكروت بالبقاء فوق طبقة الحماية إن وجدت */
+body:not(:has([class*="admin"])) main figure figcaption,
+body:not(:has([class*="admin"])) main .member figcaption,
+body:not(:has([class*="admin"])) main .quoteCard__body,
+body:not(:has([class*="admin"])) main .portfolio-card a,
+body:not(:has([class*="admin"])) main .service-card a,
+body:not(:has([class*="admin"])) main .about-card a {
+  position: relative !important;
+  z-index: 12 !important;
+}
+
